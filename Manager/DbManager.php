@@ -10,6 +10,15 @@ use wpdb;
  */
 class DbManager
 {
+    /** @const string */
+    const TYPE_DECIMAL = '%d';
+
+    /** @const string */
+    const TYPE_FLOAT = '%f';
+
+    /** @const string */
+    const TYPE_STRING = '%s';
+
     /** @var wpdb */
     protected $db;
 
@@ -218,5 +227,25 @@ class DbManager
         if (!in_array($outputFormat, $availableOutputFormats)) {
             throw new DbException('Output format should be one of ARRAY_A, ARRAY_N, OBJECT, OBJECT_K.');
         }
+    }
+
+    /**
+     * Get auto increment
+     *
+     * @param string $tableName table name
+     *
+     * @return int
+     *
+     * @throws DbException
+     */
+    public function getAutoIncrement($tableName)
+    {
+        $tableStatus = $this->getRow('SHOW TABLE STATUS LIKE "' . $tableName . '"', ARRAY_A);
+        if (!isset($tableStatus['Auto_increment'])) {
+            throw new DbException(sprintf('AUTO_INCREMENT in table "%s" is not defined.', $tableName));
+        }
+        $autoIncrement = (integer) $tableStatus['Auto_increment'];
+
+        return $autoIncrement;
     }
 }

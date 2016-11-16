@@ -30,7 +30,6 @@ class PositionsController extends BasicController
                 if (isset($_GET['id'])) {
                     $this->deleteAction($_GET['id']);
                 }
-                break;
 
             case 'list':
             default:
@@ -46,18 +45,35 @@ class PositionsController extends BasicController
      */
     public function formAction($id)
     {
-        $position = $this->get('repository.position')
-            ->getOneBy([
+        $positionRepository = $this->get('repository.position');
+        $position = $id > 0 ? $positionRepository->getOneByOr404(array(
                 'id' => $id,
-            ]);
-        if (!isset($position)) {
-            return; // @TODO: 404
+            )) : null;
+
+        $td = $this->loader->getName();
+        $messageManager = $this->get('manager.message');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!isset($position)) {
+                $position = new Position();
+            }
+            $position->setNameMale($_POST['nameMale'])
+                ->setNameFemale($_POST['nameFemale'])
+                ->setLeader((bool) $_POST['leader']);
+            try {
+                $positionRepository->save($position);
+                $messageManager->addSuccess(__('Position was successfully saved.', $td));
+            } catch (Exception $e) {
+                unlink($e);
+                $messageManager->addError(__('An error occured during position saving.', $td));
+            }
         }
 
-        $this->getView('Admin/Positions/Form', [
+        $this->getView('Admin/Positions/Form', array(
+            'messages' => $messageManager->getMessages(),
             'position' => $position,
             'td' => $this->loader->getName(),
-        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+        ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
 
@@ -68,10 +84,21 @@ class PositionsController extends BasicController
      */
     public function deleteAction($id)
     {
-        $this->getView('Admin/Positions/Delete', [
-            'td' => $this->loader->getName(),
-        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
-            ->render();
+        $positionRepository = $this->get('repository.position');
+        $position = $positionRepository->getOneByOr404(array(
+            'id' => $id,
+        ));
+
+        $td = $this->loader->getName();
+        $messageManager = $this->get('manager.message');
+        
+        try {
+            $positionRepository->delete($position);
+            $messageManager->addSuccess(__('Position was successfully deleted.', $td));
+        } catch (Exception $e) {
+            unset($e);
+            $messageManager->addError(__('An error occured during position removing.', $td));
+        }
     }
 
     /**
@@ -81,10 +108,15 @@ class PositionsController extends BasicController
     {
         $orderby = isset($_GET['orderby']) ? $_GET['orderby'] : 'list';
         $order = isset($_GET['order']) && $_GET['order'] == 'asc' ? 'ASC' : 'DESC';
+        $positions = $this->get('repository.position')
+            ->getBy(array());
 
-        $this->getView('Admin/Positions/List', [
+        $this->getView('Admin/Positions/List', array(
+            'messages' => $this->get('manager.message')
+                ->getMessages(),
+            'positions' => $positions,
             'td' => $this->loader->getName(),
-        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+        ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
 }

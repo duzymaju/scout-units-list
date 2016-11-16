@@ -1,9 +1,9 @@
 <?php
 
-namespace ScoutUnitsList;
+namespace ScoutUnitsList\System;
 
 /**
- * Loader
+ * System loader
  */
 final class Loader
 {
@@ -36,10 +36,11 @@ final class Loader
      */
     private function __construct()
     {
-        $this->mainPath = dirname(__FILE__);
+        $this->mainPath = dirname(dirname(__FILE__));
         $this->dirName = basename($this->mainPath);
         $this->absUrl = get_bloginfo('wpurl') . '/wp-content/plugins/' . $this->dirName;
-        $this->prefix = __NAMESPACE__ . '\\';
+        $namespaceParts = explode('\\', __NAMESPACE__);
+        $this->prefix = array_shift($namespaceParts) . '\\';
 
         spl_autoload_register([
             $this,

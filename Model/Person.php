@@ -5,7 +5,7 @@ namespace ScoutUnitsList\Model;
 /**
  * Person model
  */
-class Person
+class Person implements ModelInterface
 {
     /** @var int */
     protected $id;

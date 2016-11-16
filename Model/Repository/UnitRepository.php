@@ -2,6 +2,7 @@
 
 namespace ScoutUnitsList\Model\Repository;
 
+use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Model\Unit;
 
 /**
@@ -30,33 +31,27 @@ class UnitRepository extends BasicRepository
     }
 
     /**
-     * Get map
-     *
-     * @return array
+     * Define structure
      */
-    protected static function getMap()
+    protected function defineStructure()
     {
-        $map = [
-            'id' => 'id',
-            'status' => 'status',
-            'type' => 'type',
-            'subtype' => 'subtype',
-            'sort' => 'sort',
-            'parent_id' => 'parentId',
-            'slug' => 'slug',
-            'name' => 'name',
-            'name_full' => 'nameFull',
-            'hero' => 'hero',
-            'hero_full' => 'heroFull',
-            'url' => 'url',
-            'mail' => 'mail',
-            'address' => 'address',
-            'meetings_time' => 'meetingsTime',
-            'localization_lat' => 'localizationLat',
-            'localization_lng' => 'localizationLng',
-        ];
-
-        return $map;
+        $this->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
+            ->setStructureElement('status', DbManager::TYPE_STRING)
+            ->setStructureElement('type', DbManager::TYPE_STRING)
+            ->setStructureElement('subtype', DbManager::TYPE_STRING)
+            ->setStructureElement('sort', DbManager::TYPE_DECIMAL)
+            ->setStructureElement('parentId', DbManager::TYPE_DECIMAL, 'parent_id')
+            ->setStructureElement('slug', DbManager::TYPE_STRING)
+            ->setStructureElement('name', DbManager::TYPE_STRING)
+            ->setStructureElement('nameFull', DbManager::TYPE_STRING, 'name_full')
+            ->setStructureElement('hero', DbManager::TYPE_STRING)
+            ->setStructureElement('heroFull', DbManager::TYPE_STRING, 'hero_full')
+            ->setStructureElement('url', DbManager::TYPE_STRING)
+            ->setStructureElement('mail', DbManager::TYPE_STRING)
+            ->setStructureElement('address', DbManager::TYPE_STRING)
+            ->setStructureElement('meetingsTime', DbManager::TYPE_STRING, 'meetings_time')
+            ->setStructureElement('localizationLat', DbManager::TYPE_FLOAT, 'localization_lat')
+            ->setStructureElement('localizationLng', DbManager::TYPE_FLOAT, 'localization_lng');
     }
 
     /**

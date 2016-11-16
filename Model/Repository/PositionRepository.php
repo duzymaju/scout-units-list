@@ -2,6 +2,7 @@
 
 namespace ScoutUnitsList\Model\Repository;
 
+use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Model\Position;
 
 /**
@@ -30,20 +31,14 @@ class PositionRepository extends BasicRepository
     }
 
     /**
-     * Get map
-     *
-     * @return array
+     * Define structure
      */
-    protected static function getMap()
+    protected function defineStructure()
     {
-        $map = [
-            'id' => 'id',
-            'name_male' => 'nameMale',
-            'name_female' => 'nameFemale',
-            'leader' => 'leader',
-        ];
-
-        return $map;
+        $this->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
+            ->setStructureElement('nameMale', DbManager::TYPE_STRING, 'name_male')
+            ->setStructureElement('nameFemale', DbManager::TYPE_STRING, 'name_female')
+            ->setStructureElement('leader', DbManager::TYPE_DECIMAL);
     }
 
     /**

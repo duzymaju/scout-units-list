@@ -2,6 +2,7 @@
 
 namespace ScoutUnitsList\Model\Repository;
 
+use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Model\Person;
 use ScoutUnitsList\Model\Repository\PositionRepository;
 
@@ -31,19 +32,13 @@ class PersonRepository extends BasicRepository
     }
 
     /**
-     * Get map
-     *
-     * @return array
+     * Define structure
      */
-    protected static function getMap()
+    protected function defineStructure()
     {
-        $map = [
-            'id' => 'id',
-            'user_id' => 'userId',
-            'position_id' => 'positionId',
-        ];
-
-        return $map;
+        $this->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
+            ->setStructureElement('userId', DbManager::TYPE_DECIMAL, 'user_id')
+            ->setStructureElement('positionId', DbManager::TYPE_DECIMAL, 'position_id');
     }
 
     /**

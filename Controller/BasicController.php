@@ -2,8 +2,9 @@
 
 namespace ScoutUnitsList\Controller;
 
-use ScoutUnitsList\Loader;
 use ScoutUnitsList\Manager\ViewManager;
+use ScoutUnitsList\System\Loader;
+use ScoutUnitsList\System\Request;
 
 /**
  * Basic controller
@@ -13,14 +14,19 @@ abstract class BasicController
     /** @var Loader */
     protected $loader;
 
+    /** @var Request */
+    protected $request;
+
     /**
      * Constructor
      *
-     * @param Loader $loader loader
+     * @param Loader  $loader  loader
+     * @param Request $request request
      */
-    public function __construct($loader)
+    public function __construct(Loader $loader, Request $request)
     {
         $this->loader = $loader;
+        $this->request = $request;
     }
 
     /**
@@ -49,5 +55,15 @@ abstract class BasicController
         $viewManager = new ViewManager($viewFileName, $params);
 
         return $viewManager;
+    }
+
+    /**
+     * Respond with 404
+     */
+    public function respondWith404()
+    {
+        $this->getView('Admin/Error404', [
+            'td' => $this->loader->getName(),
+        ])->render();
     }
 }

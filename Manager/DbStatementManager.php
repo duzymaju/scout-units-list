@@ -3,7 +3,6 @@
 namespace ScoutUnitsList\Manager;
 
 use ScoutUnitsList\Exception\DbException;
-use ScoutUnitsList\Manager\DbManager;
 use wpdb;
 
 /**
@@ -32,15 +31,6 @@ class DbStatementManager
     /** @const string */
     const OPTION_VALUE = 'value';
 
-    /** @const string */
-    const TYPE_DECIMAL = '%d';
-
-    /** @const string */
-    const TYPE_FLOAT = '%f';
-
-    /** @const string */
-    const TYPE_STRING = '%s';
-
     /** @var wpdb */
     protected $db;
 
@@ -54,10 +44,10 @@ class DbStatementManager
     protected $queryOrTable;
 
     /** @var array */
-    protected $params = [];
+    protected $params = array();
 
     /** @var array */
-    protected $conditions = [];
+    protected $conditions = array();
 
     /**
      * Constructor
@@ -84,12 +74,12 @@ class DbStatementManager
      *
      * @return self
      */
-    public function setParam($key, $value, $type = self::TYPE_STRING)
+    public function setParam($key, $value, $type = DbManager::TYPE_STRING)
     {
-        $this->params[$key] = [
+        $this->params[$key] = array(
             self::OPTION_TYPE => $type,
             self::OPTION_VALUE => $value,
-        ];
+        );
 
         return $this;
     }
@@ -103,12 +93,12 @@ class DbStatementManager
      *
      * @return self
      */
-    public function setCondition($key, $value, $type = self::TYPE_STRING)
+    public function setCondition($key, $value, $type = DbManager::TYPE_STRING)
     {
-        $this->params[$key] = [
+        $this->conditions[$key] = array(
             self::OPTION_TYPE => $type,
             self::OPTION_VALUE => $value,
-        ];
+        );
 
         return $this;
     }
@@ -126,7 +116,7 @@ class DbStatementManager
             throw new DbException('This method works only for "prepare" method.');
         }
 
-        $arguments = [];
+        $arguments = array();
         $names = array_keys($this->params);
         $pattern = '#:(' . implode('|', $names) . ')#';
 
@@ -147,11 +137,15 @@ class DbStatementManager
             return $replacement;
         }, $this->queryOrTable);
 
-        array_unshift($arguments, $normalizedQuery);
-        $preparedQuery = call_user_func_array([
-            $this->db,
-            'prepare',
-        ], $arguments);
+        if (count($arguments) > 0) {
+            array_unshift($arguments, $normalizedQuery);
+            $preparedQuery = call_user_func_array(array(
+                $this->db,
+                'prepare',
+            ), $arguments);
+        } else {
+            $preparedQuery = $normalizedQuery;
+        }
 
         return $preparedQuery;
     }
@@ -197,15 +191,15 @@ class DbStatementManager
      */
     private function executeOthers($method, $table)
     {
-        $params = [];
-        $paramsFormat = [];
+        $params = array();
+        $paramsFormat = array();
         foreach ($this->params as $name => $options) {
             $params[$name] = $options[self::OPTION_VALUE];
             $paramsFormat[] = $options[self::OPTION_TYPE];
         }
 
-        $conditions = [];
-        $conditionsFormat = [];
+        $conditions = array();
+        $conditionsFormat = array();
         foreach ($this->conditions as $name => $options) {
             $conditions[$name] = $options[self::OPTION_VALUE];
             $conditionsFormat[] = $options[self::OPTION_TYPE];
@@ -222,7 +216,7 @@ class DbStatementManager
                 break;
 
             case self::METHOD_UPDATE:
-                $result = $this->db->$method($table, $params, $paramsFormat, $conditions, $conditionsFormat);
+                $result = $this->db->$method($table, $params, $conditions, $paramsFormat, $conditionsFormat);
                 break;
 
             default:

@@ -5,7 +5,7 @@ namespace ScoutUnitsList\Model;
 /**
  * Position model
  */
-class Position
+class Position implements ModelInterface
 {
     /** @var int */
     protected $id;

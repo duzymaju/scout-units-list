@@ -5,7 +5,7 @@ namespace ScoutUnitsList\Model;
 /**
  * Unit model
  */
-class Unit
+class Unit implements ModelInterface
 {
     /** @const string */
     const STATUS_ACTIVE = 'a';
@@ -108,6 +108,21 @@ class Unit
     }
 
     /**
+     * Get statuses
+     *
+     * @return array
+     */
+    public static function getStatuses()
+    {
+        $statuses = [
+            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_HIDDEN => 'Hidden',
+        ];
+
+        return $statuses;
+    }
+
+    /**
      * Get status
      *
      * @return string
@@ -132,6 +147,23 @@ class Unit
     }
 
     /**
+     * Get types
+     *
+     * @return array
+     */
+    public static function getTypes()
+    {
+        $types = [
+            self::TYPE_GROUP => 'Group',
+            self::TYPE_TROOP => 'Troop',
+            self::TYPE_PATROL => 'Patrol',
+            self::TYPE_CLUB => 'Club',
+        ];
+
+        return $types;
+    }
+
+    /**
      * Get type
      *
      * @return string
@@ -153,6 +185,26 @@ class Unit
         $this->type = $type;
 
         return $this;
+    }
+
+    /**
+     * Get subtypes
+     *
+     * @return array
+     */
+    public static function getSubtypes()
+    {
+        $subtypes = [
+            self::SUBTYPE_CUBSCOUTS => 'Cubscouts',
+            self::SUBTYPE_SCOUTS => 'Scouts',
+            self::SUBTYPE_SENIORS_COUTS => 'Senior scouts',
+            self::SUBTYPE_ROVERS => 'Rovers',
+            self::SUBTYPE_MULTI_LEVEL => 'Multi level',
+            self::SUBTYPE_GROUP => 'Group',
+            self::SUBTYPE_UNION_OF_GROUPS => 'Union of troops',
+        ];
+
+        return $subtypes;
     }
 
     /**
@@ -402,7 +454,7 @@ class Unit
      */
     public function getAddress()
     {
-        return $this->status;
+        return $this->address;
     }
 
     /**
@@ -474,7 +526,7 @@ class Unit
      */
     public function getLocalizationLng()
     {
-        return $this->status;
+        return $this->localizationLng;
     }
 
     /**
