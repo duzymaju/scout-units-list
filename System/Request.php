@@ -64,10 +64,9 @@ class Request
         $this->files = new ParamPack($_FILES);
         $this->cookies = new ParamPack($_COOKIE);
 
-        $this->params = new ParamPack(array(), array(
-            $this->request,
-            $this->query,
-        ));
+        $this->params = new ParamPack();
+        $this->params->addParentPack($this->request)
+            ->addParentPack($this->query);
         if ($this->cookies->has(self::SESSION_INDEX)) {
             $_COOKIE[self::SESSION_INDEX] = $this->cookies->get(self::SESSION_INDEX);
         }
@@ -349,46 +348,6 @@ class Request
         }
 
         return $this->ip;
-    }
-
-    /**
-     * Strip slashes
-     *
-     * @param mixed $value value
-     *
-     * @return mixed
-     */
-    public function stripSlashes($value)
-    {
-        if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
-            if (is_array($value)) {
-                $value = $this->stripSlashesRecursively($value);
-            } elseif (is_string($value)) {
-                $value = stripslashes($value);
-            }
-        }
-
-        return $value;
-    }
-
-    /**
-     * Strip slashes recursively
-     *
-     * @param array $array array
-     *
-     * @return array
-     */
-    protected function stripSlashesRecursively($array)
-    {
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $array[$key] = $this->stripSlashesRecursively($value);
-            } elseif (is_string($value)) {
-                $array[$key] = stripslashes($value);
-            }
-        }
-
-        return $array;
     }
 
     /**

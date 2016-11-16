@@ -6,6 +6,7 @@ use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\BasicController;
 use ScoutUnitsList\Exception\NotFoundException;
 use ScoutUnitsList\Model\Unit;
+use ScoutUnitsList\System\Request;
 
 /**
  * Admin units controller
@@ -20,18 +21,20 @@ class UnitsController extends BasicController
      */
     public function routes()
     {
-        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+        $request = $this->request;
+        $action = $request->query->getString('action', 'list');
 
         try {
+            $id = $request->query->getInt('id');
+
             switch ($action) {
                 case 'form':
-                    $id = isset($_GET['id']) ? $_GET['id'] : null;
-                    $this->formAction($id);
+                    $this->formAction($request, $id);
                     break;
 
                 case 'delete':
-                    if (isset($_GET['id'])) {
-                        $this->deleteAction($_GET['id']);
+                    if (isset($id)) {
+                        $this->deleteAction($id);
                     }
 
                 case 'list':
@@ -47,9 +50,10 @@ class UnitsController extends BasicController
     /**
      * Form action
      *
-     * @param int|null $id ID
+     * @param Request  $request request
+     * @param int|null $id      ID
      */
-    public function formAction($id = null)
+    public function formAction(Request $request, $id = null)
     {
         $unitRepository = $this->get('repository.unit');
         $unit = $id > 0 ? $unitRepository->getOneByOr404(array(
@@ -59,25 +63,25 @@ class UnitsController extends BasicController
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($request->isPost()) {
             if (!isset($unit)) {
                 $unit = new Unit();
             }
-            $unit->setStatus($_POST['status'])
-                ->setType($_POST['type'])
-                ->setSubtype(empty($_POST['subtype']) ? null : $_POST['subtype'])
-                ->setSort($_POST['sort'])
-                ->setParentId(empty($_POST['parentId']) ? null : $_POST['parentId'])
-                ->setName($_POST['name'])
-                ->setNameFull(empty($_POST['nameFull']) ? null : $_POST['nameFull'])
-                ->setHero(empty($_POST['hero']) ? null : $_POST['hero'])
-                ->setHeroFull(empty($_POST['heroFull']) ? null : $_POST['heroFull'])
-                ->setUrl(empty($_POST['url']) ? null : $_POST['url'])
-                ->setMail(empty($_POST['mail']) ? null : $_POST['mail'])
-                ->setAddress(empty($_POST['address']) ? null : $_POST['address'])
-                ->setMeetingsTime(empty($_POST['meetingsTime']) ? null : $_POST['meetingsTime'])
-                ->setLocalizationLat(empty($_POST['localizationLat']) ? null : $_POST['localizationLat'])
-                ->setLocalizationLng(empty($_POST['localizationLng']) ? null : $_POST['localizationLng']);
+            $unit->setStatus($request->request->getString('status'))
+                ->setType($request->request->getString('type'))
+                ->setSubtype($request->request->getString('subtype'))
+                ->setSort($request->request->getString('sort'))
+                ->setParentId($request->request->getInt('parentId'))
+                ->setName($request->request->getString('name'))
+                ->setNameFull($request->request->getString('nameFull'))
+                ->setHero($request->request->getString('hero'))
+                ->setHeroFull($request->request->getString('heroFull'))
+                ->setUrl($request->request->getString('url'))
+                ->setMail($request->request->getString('mail'))
+                ->setAddress($request->request->getString('address'))
+                ->setMeetingsTime($request->request->getString('meetingsTime'))
+                ->setLocalizationLat($request->request->getFloat('localizationLat'))
+                ->setLocalizationLng($request->request->getFloat('localizationLng'));
             try {
                 $unitRepository->save($unit);
                 $messageManager->addSuccess(__('Unit was successfully saved.', $td));

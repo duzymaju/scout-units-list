@@ -15,16 +15,26 @@ class ParamPack
 
     /**
      * Constructor
+     *
+     * @param array $params params
      */
-    public function __construct(array $params, array $parentPacks = array())
+    public function __construct(array $params = array())
     {
         $this->params = $params;
+    }
 
-        foreach ($parentPacks as $parentPack) {
-            if ($parentPack instanceof self) {
-                $this->parentPacks[] = $parentPack;
-            }
-        }
+    /**
+     * Add parent pack
+     *
+     * @param self $parentPack parent pack
+     *
+     * @return self
+     */
+    public function addParentPack(self $parentPack)
+    {
+        $this->parentPacks[] = $parentPack;
+
+        return $this;
     }
 
     /**
@@ -38,7 +48,7 @@ class ParamPack
     public function get($name, $defaultValue = null)
     {
         if (array_key_exists($name, $this->params)) {
-            $param = $this->params[$name];
+            $param = $this->stripSlashes($this->params[$name]);
         } else {
             foreach ($this->parentPacks as $parentPack) {
                 $param = $parentPack->get($name);
@@ -213,5 +223,45 @@ class ParamPack
         $param = $this->get($name);
 
         return isset($param);
+    }
+
+    /**
+     * Strip slashes
+     *
+     * @param mixed $value value
+     *
+     * @return mixed
+     */
+    protected function stripSlashes($value)
+    {
+        if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+            if (is_array($value)) {
+                $value = $this->stripSlashesRecursively($value);
+            } elseif (is_string($value)) {
+                $value = stripslashes($value);
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Strip slashes recursively
+     *
+     * @param array $array array
+     *
+     * @return array
+     */
+    protected function stripSlashesRecursively($array)
+    {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $array[$key] = $this->stripSlashesRecursively($value);
+            } elseif (is_string($value)) {
+                $array[$key] = stripslashes($value);
+            }
+        }
+
+        return $array;
     }
 }

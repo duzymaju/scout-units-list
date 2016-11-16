@@ -4,6 +4,7 @@ namespace ScoutUnitsList\Controller\Admin;
 
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\BasicController;
+use ScoutUnitsList\System\Request;
 
 /**
  * Admin positions controller
@@ -18,32 +19,39 @@ class PositionsController extends BasicController
      */
     public function routes()
     {
-        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+        $request = $this->request;
+        $action = $request->query->getString('action', 'list');
 
-        switch ($action) {
-            case 'form':
-                $id = isset($_GET['id']) ? $_GET['id'] : null;
-                $this->formAction($id);
-                break;
+        try {
+            $id = $request->query->getInt('id');
 
-            case 'delete':
-                if (isset($_GET['id'])) {
-                    $this->deleteAction($_GET['id']);
-                }
+            switch ($action) {
+                case 'form':
+                    $this->formAction($request, $id);
+                    break;
 
-            case 'list':
-            default:
-                $this->listAction();
-                break;
+                case 'delete':
+                    if (isset($id)) {
+                        $this->deleteAction($id);
+                    }
+
+                case 'list':
+                default:
+                    $this->listAction();
+                    break;
+            }
+        } catch (NotFoundException $e) {
+            $this->respondWith404($e);
         }
     }
 
     /**
      * Form action
      *
-     * @param int|null $id ID
+     * @param Request  $request request
+     * @param int|null $id      ID
      */
-    public function formAction($id)
+    public function formAction(Request $request, $id)
     {
         $positionRepository = $this->get('repository.position');
         $position = $id > 0 ? $positionRepository->getOneByOr404(array(
@@ -53,13 +61,13 @@ class PositionsController extends BasicController
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($request->isPost()) {
             if (!isset($position)) {
                 $position = new Position();
             }
-            $position->setNameMale($_POST['nameMale'])
-                ->setNameFemale($_POST['nameFemale'])
-                ->setLeader((bool) $_POST['leader']);
+            $position->setNameMale($request->request->getString('nameMale'))
+                ->setNameFemale($request->request->getString('nameFemale'))
+                ->setLeader($request->request->getBool('leader'));
             try {
                 $positionRepository->save($position);
                 $messageManager->addSuccess(__('Position was successfully saved.', $td));
@@ -106,8 +114,6 @@ class PositionsController extends BasicController
      */
     public function listAction()
     {
-        $orderby = isset($_GET['orderby']) ? $_GET['orderby'] : 'list';
-        $order = isset($_GET['order']) && $_GET['order'] == 'asc' ? 'ASC' : 'DESC';
         $positions = $this->get('repository.position')
             ->getBy(array());
 

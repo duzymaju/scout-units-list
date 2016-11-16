@@ -21,9 +21,9 @@ class AdminController extends BasicController
     {
         $textDomain = $this->loader->getName();
 
-        $unitsController = new UnitsController($this->request, $this->loader);
-        $positionsController = new PositionsController($this->request, $this->loader);
-        $configController = new ConfigController($this->request, $this->loader);
+        $unitsController = new UnitsController($this->loader, $this->request);
+        $positionsController = new PositionsController($this->loader, $this->request);
+        $configController = new ConfigController($this->loader, $this->request);
 
         add_menu_page(__('Scout units list', $textDomain), __('Scout units', $textDomain), 'manage_categories', $unitsController::PAGE_NAME, [
             $unitsController,
