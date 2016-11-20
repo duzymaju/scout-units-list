@@ -17,6 +17,8 @@ class UnitValidator extends BasicValidator
     {
         $this->getField('sort')
             ->addCondition(new MoreThanOrEqualsCondition(0));
+        $this->getField('orderNo')
+            ->addCondition(new StringLengthCondition(50));
         $this->getField('name')
             ->addCondition(new StringLengthCondition(50));
         $this->getField('nameFull')

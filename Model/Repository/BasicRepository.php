@@ -256,8 +256,10 @@ abstract class BasicRepository
 
         $where = [];
         foreach ($conditions as $key => $value) {
-            $key = $this->escape($key);
-            $where[] = is_array($value) ? $key . ' IN (:' . $key . ')' : $key . '=:' . $key;
+            if (array_key_exists($key, $this->structure)) {
+                $key = $this->escape($this->structure[$key]['dbKey']);
+                $where[] = is_array($value) ? $key . ' IN (:' . $key . ')' : $key . '=:' . $key;
+            }
         }
         if (count($where) > 0) {
             $query .= ' WHERE ' . implode(' AND ', $where);
@@ -280,9 +282,11 @@ abstract class BasicRepository
 
         $statement = $this->db->prepare($query);
         foreach ($conditions as $key => $value) {
-            $type = is_int($value) ? DbManager::TYPE_DECIMAL :
-                (is_float($value) ? DbManager::TYPE_FLOAT : DbManager::TYPE_STRING);
-            $statement->setParam($key, $value, $type);
+            if (array_key_exists($key, $this->structure)) {
+                $type = is_int($value) ? DbManager::TYPE_DECIMAL :
+                    (is_float($value) ? DbManager::TYPE_FLOAT : DbManager::TYPE_STRING);
+                $statement->setParam($this->structure[$key]['dbKey'], $value, $type);
+            }
         }
         $results = $this->db->getResults($statement->getQuery(), ARRAY_A);
 

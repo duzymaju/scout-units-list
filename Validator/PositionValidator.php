@@ -18,7 +18,7 @@ class PositionValidator extends BasicValidator
             ->addCondition(new StringLengthCondition(50));
         $this->getField('nameFemale')
             ->addCondition(new StringLengthCondition(50));
-        $this->getField('leader')
+        $this->getField('description')
             ->addCondition(new StringLengthCondition(100));
     }
 }

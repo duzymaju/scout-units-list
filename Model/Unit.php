@@ -69,6 +69,9 @@ class Unit implements ModelInterface
     protected $parentId;
 
     /** @var string */
+    protected $orderNo;
+
+    /** @var string */
     protected $slug;
 
     /** @var string */
@@ -230,6 +233,30 @@ class Unit implements ModelInterface
         if ($this->parentId < 1) {
             $this->parentId = null;
         }
+
+        return $this;
+    }
+
+    /**
+     * Get order no
+     *
+     * @return string
+     */
+    public function getOrderNo()
+    {
+        return $this->orderNo;
+    }
+
+    /**
+     * Set order no
+     *
+     * @param string $orderNo order no
+     *
+     * @return self
+     */
+    public function setOrderNo($orderNo)
+    {
+        $this->orderNo = $orderNo;
 
         return $this;
     }

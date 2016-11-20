@@ -41,6 +41,7 @@ class UnitRepository extends BasicRepository
             ->setStructureElement('subtype', DbManager::TYPE_STRING)
             ->setStructureElement('sort', DbManager::TYPE_DECIMAL)
             ->setStructureElement('parentId', DbManager::TYPE_DECIMAL, 'parent_id')
+            ->setStructureElement('orderNo', DbManager::TYPE_STRING, 'order_no')
             ->setStructureElement('slug', DbManager::TYPE_STRING)
             ->setStructureElement('name', DbManager::TYPE_STRING)
             ->setStructureElement('nameFull', DbManager::TYPE_STRING, 'name_full')
@@ -69,6 +70,7 @@ class UnitRepository extends BasicRepository
                 `subtype` char(1) COLLATE utf8_polish_ci DEFAULT NULL,
                 `sort` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
                 `parent_id` int(10) UNSIGNED DEFAULT NULL,
+                `order_no` varchar(50) COLLATE utf8_polish_ci NOT NULL,
                 `slug` varchar(50) COLLATE utf8_polish_ci NOT NULL,
                 `name` varchar(50) COLLATE utf8_polish_ci NOT NULL,
                 `name_full` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,

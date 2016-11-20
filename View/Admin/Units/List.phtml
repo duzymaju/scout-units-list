@@ -1,1 +1,38 @@
-Units list
+<div class="wrap">
+    <?php foreach ($this->messages as $message): ?>
+        <p class="message <?php echo $message->type; ?>"><?php echo $this->escape($message->text); ?></p>
+    <?php endforeach; ?>
+    <h1>
+        <?php _e('Units list', $this->td); ?>
+        <a href="<?php $this->link(['action' => 'admin-form']); ?>" class="page-title-action">
+            <?php _e('Add new', $this->td); ?>
+        </a>
+    </h1>
+
+    <ul>
+        <?php foreach ($this->units as $unit): ?>
+            <li>
+                <a href="<?php echo $this->link([
+                    'action' => 'admin-form',
+                    'id' => $unit->getId(),
+                ]); ?>"><?php echo $this->escape($unit->getName()); ?></a>
+                | <a href="<?php echo $this->link([
+                    'action' => 'admin-form',
+                    'id' => $unit->getId(),
+                ]); ?>">edytuj</a>
+                | <a href="<?php echo $this->link([
+                    'action' => 'leader-form',
+                    'id' => $unit->getId(),
+                ]); ?>">konfiguruj</a>
+                | <a href="<?php echo $this->link([
+                    'action' => 'person-manage',
+                    'id' => $unit->getId(),
+                ]); ?>">zarządzaj funkcyjnymi</a>
+                | <a href="<?php echo $this->link([
+                    'action' => 'delete',
+                    'id' => $unit->getId(),
+                ]); ?>">usuń</a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>

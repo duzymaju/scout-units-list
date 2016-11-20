@@ -31,8 +31,8 @@ class BooleanType extends BasicType
     public function widget()
     {
         echo '<select name="' . $this->escape($this->getName()) . '">';
-        echo '<option value="1"' . ($this->getValue() ? ' selected' : 'wpcore') . '>' . __('Yes', '') . '</option>';
-        echo '<option value="0"' . (!$this->getValue() ? ' selected' : 'wpcore') . '>' . __('No', '') . '</option>';
+        echo '<option value="1"' . ($this->getValue() ? ' selected' : '') . '>' . __('Yes', 'wpcore') . '</option>';
+        echo '<option value="0"' . (!$this->getValue() ? ' selected' : '') . '>' . __('No', 'wpcore') . '</option>';
         echo '</select>';
     }
 }

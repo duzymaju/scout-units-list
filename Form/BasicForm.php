@@ -133,14 +133,35 @@ abstract class BasicForm
             }
         } else {
             foreach ($this->fields as $name => $field) {
-                $method = 'get' . ucfirst($name);
-                if (method_exists($this->model, $method)) {
-                    $field->setValue($this->model->$method());
+                $ucName = ucfirst($name);
+                $methodGet = 'get' . $ucName;
+                $methodIs = 'is' . $ucName;
+                $methodHas = 'has' . $ucName;
+                if (method_exists($this->model, $methodGet)) {
+                    $field->setValue($this->model->$methodGet());
+                } elseif (method_exists($this->model, $methodIs)) {
+                    $field->setValue($this->model->$methodIs());
+                } elseif (method_exists($this->model, $methodHas)) {
+                    $field->setValue($this->model->$methodHas());
                 }
             }
         }
 
         return $isValid;
+    }
+
+    /**
+     * Clear
+     *
+     * @return self
+     */
+    public function clear()
+    {
+        foreach ($this->fields as $field) {
+            $field->clear();
+        }
+
+        return $this;
     }
 
     /**

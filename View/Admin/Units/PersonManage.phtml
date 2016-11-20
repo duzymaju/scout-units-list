@@ -1,0 +1,28 @@
+<div class="wrap">
+    <?php foreach ($this->messages as $message): ?>
+        <p class="message <?php echo $message->type; ?>"><?php echo $this->escape($message->text); ?></p>
+    <?php endforeach; ?>
+    <h1>
+        <?php printf(__('Manage persons in unit "%d"', $this->td), $this->unit->getName()); ?>
+    </h1>
+    <ul>
+        <?php foreach ($this->persons as $person): ?>
+            <li>
+                user/position ID: <?php echo $this->escape($person->getUserId()); ?>/<?php echo $this->escape($person->getPositionId()); ?>
+                <a href="<?php echo $this->link([
+                    'action' => 'person-manage',
+                    'deletedId' => $person->getId(),
+                    'id' => $this->unit->getId(),
+                ]); ?>">usuń</a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php if (isset($this->form)): $form = $this->form; $form->start(); ?>
+        <dl>
+            <?php $form->row('userId'); ?>
+            <?php $form->row('positionId'); ?>
+            <?php $form->row('orderNo'); ?>
+            <?php $form->row('submit'); ?>
+        </dl>
+    <?php $form->end(); endif; ?>
+</div>

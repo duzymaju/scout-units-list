@@ -181,6 +181,19 @@ abstract class BasicType
     }
 
     /**
+     * Clear
+     *
+     * @return self
+     */
+    public function clear()
+    {
+        $this->value = null;
+        $this->errors = [];
+
+        return $this;
+    }
+
+    /**
      * Render row
      *
      * @TODO: move to partial

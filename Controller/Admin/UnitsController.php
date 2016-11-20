@@ -5,8 +5,10 @@ namespace ScoutUnitsList\Controller\Admin;
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\BasicController;
 use ScoutUnitsList\Exception\NotFoundException;
+use ScoutUnitsList\Form\PersonForm;
 use ScoutUnitsList\Form\UnitAdminForm;
 use ScoutUnitsList\Form\UnitLeaderForm;
+use ScoutUnitsList\Model\Person;
 use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\System\Request;
 
@@ -30,12 +32,16 @@ class UnitsController extends BasicController
             $id = $request->query->getInt('id');
 
             switch ($action) {
-                case 'admin_form':
+                case 'admin-form':
                     $this->adminFormAction($request, $id);
                     break;
 
-                case 'leader_form':
+                case 'leader-form':
                     $this->leaderFormAction($request, $id);
+                    break;
+
+                case 'person-manage':
+                    $this->personManageAction($request, $id);
                     break;
 
                 case 'delete':
@@ -123,6 +129,83 @@ class UnitsController extends BasicController
             'td' => $this->loader->getName(),
             'unit' => $unit,
         ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+            ->render();
+    }
+
+    /**
+     * Person manage action
+     *
+     * @param Request $request request
+     * @param int     $id      ID
+     */
+    public function personManageAction(Request $request, $id)
+    {
+        $unitRepository = $this->get('repository.unit');
+        $unit = $unitRepository->getOneByOr404([
+            'id' => $id,
+        ]);
+
+        $td = $this->loader->getName();
+        $messageManager = $this->get('manager.message');
+
+        $positionList = [];
+        $positions = $this->get('repository.position')
+            ->getBy([
+                'type' => $unit->getType(),
+            ]);
+        foreach ($positions as $position) {
+            $positionList[$position->getId()] = $position->getNameMale() . '/' . $position->getNameFemale();
+        }
+
+        if (count($positionList) > 0) {
+            $person = new Person();
+            $form = new PersonForm($request, $person, $positionList, [
+                'action' => $request->getCurrentUrl([], [
+                    'deletedId',
+                ])
+            ]);
+        } else {
+            $messageManager->addWarning(__('Add at least one position for this unit type to be able to manage persons.',
+                $td));
+            $form = null;
+        }
+
+        $personRepository = $this->get('repository.person');
+        $deletedId = $request->query->getInt('deletedId');
+        if (isset($deletedId)) {
+            $person = $personRepository->getOneBy([
+                'id' => $deletedId,
+            ]);
+            if (isset($person)) {
+                try {
+                    $personRepository->delete($person);
+                    $messageManager->addSuccess(__('Person was successfully deleted.', $td));
+                } catch (Exception $e) {
+                    unlink($e);
+                    $messageManager->addError(__('An error occured during person removing.', $td));
+                }
+            }
+        } elseif (isset($form) && $form->isValid()) {
+            try {
+                $person->setUnitId($id);
+                $personRepository->save($person);
+                $messageManager->addSuccess(__('Person was successfully saved.', $td));
+                $form->clear();
+            } catch (Exception $e) {
+                unlink($e);
+                $messageManager->addError(__('An error occured during person saving.', $td));
+            }
+        }
+
+        $this->getView('Admin/Units/PersonManage', [
+            'form' => $form,
+            'messages' => $messageManager->getMessages(),
+            'persons' => $personRepository->getBy([
+                'unitId' => $id,
+            ]),
+            'td' => $this->loader->getName(),
+            'unit' => $unit,
+        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
 

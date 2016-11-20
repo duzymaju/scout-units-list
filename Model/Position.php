@@ -11,10 +11,16 @@ class Position implements ModelInterface
     protected $id;
 
     /** @var string */
+    protected $type;
+
+    /** @var string */
     protected $nameMale;
 
     /** @var string */
     protected $nameFemale;
+
+    /** @var string */
+    protected $description;
 
     /** @var bool */
     protected $leader;
@@ -27,6 +33,30 @@ class Position implements ModelInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type type
+     *
+     * @return self
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -73,6 +103,30 @@ class Position implements ModelInterface
     public function setNameFemale($nameFemale)
     {
         $this->nameFemale = $nameFemale;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description description
+     *
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
         return $this;
     }

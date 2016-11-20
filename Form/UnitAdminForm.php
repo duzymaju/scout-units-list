@@ -15,6 +15,39 @@ use ScoutUnitsList\Validator\UnitValidator;
 class UnitAdminForm extends BasicForm
 {
     /**
+     * Get types
+     *
+     * @return array
+     */
+    public function getTypes()
+    {
+        return [
+            Unit::TYPE_GROUP => __('Group', 'wpcore'),
+            Unit::TYPE_TROOP => __('Troop', 'wpcore'),
+            Unit::TYPE_PATROL => __('Patrol', 'wpcore'),
+            Unit::TYPE_CLUB => __('Club', 'wpcore'),
+        ];
+    }
+
+    /**
+     * Get subtypes
+     *
+     * @return array
+     */
+    private function getSubtypes()
+    {
+        return [
+            Unit::SUBTYPE_CUBSCOUTS => __('Cubscouts', 'wpcore'),
+            Unit::SUBTYPE_SCOUTS => __('Scouts', 'wpcore'),
+            Unit::SUBTYPE_SENIORS_COUTS => __('Senior scouts', 'wpcore'),
+            Unit::SUBTYPE_ROVERS => __('Rovers', 'wpcore'),
+            Unit::SUBTYPE_MULTI_LEVEL => __('Multi level', 'wpcore'),
+            Unit::SUBTYPE_GROUP => __('Group', 'wpcore'),
+            Unit::SUBTYPE_UNION_OF_GROUPS => __('Union of troops', 'wpcore'),
+        ];
+    }
+
+    /**
      * Set fields
      */
     protected function setFields()
@@ -30,31 +63,22 @@ class UnitAdminForm extends BasicForm
             ))
             ->addField('type', SelectType::class, array(
                 'label' => __('Type', 'wpcore'),
-                'options' => array(
-                    Unit::TYPE_GROUP => __('Group', 'wpcore'),
-                    Unit::TYPE_TROOP => __('Troop', 'wpcore'),
-                    Unit::TYPE_PATROL => __('Patrol', 'wpcore'),
-                    Unit::TYPE_CLUB => __('Club', 'wpcore'),
-                ),
+                'options' => self::getTypes(),
                 'required' => true,
             ))
             ->addField('subtype', SelectType::class, array(
                 'label' => __('Subtype', 'wpcore'),
-                'options' => array(
-                    Unit::SUBTYPE_CUBSCOUTS => __('Cubscouts', 'wpcore'),
-                    Unit::SUBTYPE_SCOUTS => __('Scouts', 'wpcore'),
-                    Unit::SUBTYPE_SENIORS_COUTS => __('Senior scouts', 'wpcore'),
-                    Unit::SUBTYPE_ROVERS => __('Rovers', 'wpcore'),
-                    Unit::SUBTYPE_MULTI_LEVEL => __('Multi level', 'wpcore'),
-                    Unit::SUBTYPE_GROUP => __('Group', 'wpcore'),
-                    Unit::SUBTYPE_UNION_OF_GROUPS => __('Union of troops', 'wpcore'),
-                ),
+                'options' => self::getSubtypes(),
             ))
             ->addField('sort', IntegerType::class, array(
                 'label' => __('Sort', 'wpcore'),
             ))
             ->addField('parentId', IntegerType::class, array(
                 'label' => __('Parent', 'wpcore'),
+            ))
+            ->addField('orderNo', StringType::class, array(
+                'label' => __('Order number', 'wpcore'),
+                'required' => true,
             ))
             ->addField('name', StringType::class, array(
                 'label' => __('Name short', 'wpcore'),
