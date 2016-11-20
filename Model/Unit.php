@@ -59,13 +59,13 @@ class Unit implements ModelInterface
     /** @var string */
     protected $type;
 
-    /** @var string */
+    /** @var string|null */
     protected $subtype;
 
     /** @var int */
     protected $sort = 0;
 
-    /** @var int */
+    /** @var int|null */
     protected $parentId;
 
     /** @var string */
@@ -74,31 +74,31 @@ class Unit implements ModelInterface
     /** @var string */
     protected $name;
 
-    /** @var string */
+    /** @var string|null */
     protected $nameFull;
 
-    /** @var string */
+    /** @var string|null */
     protected $hero;
 
-    /** @var string */
+    /** @var string|null */
     protected $heroFull;
 
-    /** @var string */
+    /** @var string|null */
     protected $url;
 
-    /** @var string */
+    /** @var string|null */
     protected $mail;
 
-    /** @var string */
+    /** @var string|null */
     protected $address;
 
-    /** @var string */
+    /** @var string|null */
     protected $meetingsTime;
 
-    /** @var float */
+    /** @var float|null */
     protected $localizationLat;
 
-    /** @var float */
+    /** @var float|null */
     protected $localizationLng;
 
     /**
@@ -162,7 +162,7 @@ class Unit implements ModelInterface
     /**
      * Get subtype
      *
-     * @return string
+     * @return string|null
      */
     public function getSubtype()
     {
@@ -172,7 +172,7 @@ class Unit implements ModelInterface
     /**
      * Set subtype
      *
-     * @param string $subtype subtype
+     * @param string|null $subtype subtype
      *
      * @return self
      */
@@ -210,7 +210,7 @@ class Unit implements ModelInterface
     /**
      * Get parent ID
      *
-     * @return int
+     * @return int|null
      */
     public function getParentId()
     {
@@ -220,13 +220,16 @@ class Unit implements ModelInterface
     /**
      * Set parent ID
      *
-     * @param int $parentId parent ID
+     * @param int|null $parentId parent ID
      *
      * @return self
      */
     public function setParentId($parentId)
     {
         $this->parentId = (int) $parentId;
+        if ($this->parentId < 1) {
+            $this->parentId = null;
+        }
 
         return $this;
     }
@@ -286,7 +289,7 @@ class Unit implements ModelInterface
     /**
      * Get full name
      *
-     * @return string
+     * @return string|null
      */
     public function getNameFull()
     {
@@ -296,7 +299,7 @@ class Unit implements ModelInterface
     /**
      * Set full name
      *
-     * @param string $nameFull full name
+     * @param string|null $nameFull full name
      *
      * @return self
      */
@@ -310,7 +313,7 @@ class Unit implements ModelInterface
     /**
      * Get hero
      *
-     * @return string
+     * @return string|null
      */
     public function getHero()
     {
@@ -320,7 +323,7 @@ class Unit implements ModelInterface
     /**
      * Set hero
      *
-     * @param string $hero hero
+     * @param string|null $hero hero
      *
      * @return self
      */
@@ -334,7 +337,7 @@ class Unit implements ModelInterface
     /**
      * Get full hero
      *
-     * @return string
+     * @return string|null
      */
     public function getHeroFull()
     {
@@ -344,7 +347,7 @@ class Unit implements ModelInterface
     /**
      * Set full hero
      *
-     * @param string $heroFull full hero
+     * @param string|null $heroFull full hero
      *
      * @return self
      */
@@ -358,7 +361,7 @@ class Unit implements ModelInterface
     /**
      * Get URL
      *
-     * @return string
+     * @return string|null
      */
     public function getUrl()
     {
@@ -368,7 +371,7 @@ class Unit implements ModelInterface
     /**
      * Set URL
      *
-     * @param string $url URL
+     * @param string|null $url URL
      *
      * @return self
      */
@@ -382,7 +385,7 @@ class Unit implements ModelInterface
     /**
      * Get mail
      *
-     * @return string
+     * @return string|null
      */
     public function getMail()
     {
@@ -392,7 +395,7 @@ class Unit implements ModelInterface
     /**
      * Set mail
      *
-     * @param string $mail mail
+     * @param string|null $mail mail
      *
      * @return self
      */
@@ -406,7 +409,7 @@ class Unit implements ModelInterface
     /**
      * Get address
      *
-     * @return string
+     * @return string|null
      */
     public function getAddress()
     {
@@ -416,7 +419,7 @@ class Unit implements ModelInterface
     /**
      * Set address
      *
-     * @param string $address address
+     * @param string|null $address address
      *
      * @return self
      */
@@ -430,7 +433,7 @@ class Unit implements ModelInterface
     /**
      * Get meetings time
      *
-     * @return string
+     * @return string|null
      */
     public function getMeetingsTime()
     {
@@ -440,7 +443,7 @@ class Unit implements ModelInterface
     /**
      * Set meetings time
      *
-     * @param string $meetingsTime meetings time
+     * @param string|null $meetingsTime meetings time
      *
      * @return self
      */
@@ -454,7 +457,7 @@ class Unit implements ModelInterface
     /**
      * Get localization latitude
      *
-     * @return float
+     * @return float|null
      */
     public function getLocalizationLat()
     {
@@ -464,13 +467,13 @@ class Unit implements ModelInterface
     /**
      * Set localization latitude
      *
-     * @param float $localizationLat localization latitude
+     * @param float|null $localizationLat localization latitude
      *
      * @return self
      */
     public function setLocalizationLat($localizationLat)
     {
-        $this->localizationLat = (float) $localizationLat;
+        $this->localizationLat = isset($localizationLat) ? (float) $localizationLat : null;
 
         return $this;
     }
@@ -478,7 +481,7 @@ class Unit implements ModelInterface
     /**
      * Get localization longitude
      *
-     * @return float
+     * @return float|null
      */
     public function getLocalizationLng()
     {
@@ -488,13 +491,13 @@ class Unit implements ModelInterface
     /**
      * Set localization longitude
      *
-     * @param float $localizationLng localization longitude
+     * @param float|null $localizationLng localization longitude
      *
      * @return self
      */
     public function setLocalizationLng($localizationLng)
     {
-        $this->localizationLng = (float) $localizationLng;
+        $this->localizationLng = isset($localizationLng) ? (float) $localizationLng : null;
 
         return $this;
     }

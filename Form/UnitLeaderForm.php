@@ -2,9 +2,11 @@
 
 namespace ScoutUnitsList\Form;
 
+use ScoutUnitsList\Form\Field\EmailType;
 use ScoutUnitsList\Form\Field\FloatHiddenType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
+use ScoutUnitsList\Form\Field\UrlType;
 use ScoutUnitsList\Validator\UnitValidator;
 
 /**
@@ -18,10 +20,10 @@ class UnitLeaderForm extends BasicForm
     protected function setFields()
     {
         $this
-            ->addField('url', StringType::class, array(
+            ->addField('url', UrlType::class, array(
                 'label' => __('URL', 'wpcore'),
             ))
-            ->addField('mail', StringType::class, array(
+            ->addField('mail', EmailType::class, array(
                 'label' => __('E-mail', 'wpcore'),
             ))
             ->addField('address', StringType::class, array(

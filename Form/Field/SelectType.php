@@ -24,7 +24,7 @@ class SelectType extends BasicType
             $this->options = $settings['options'];
             if (!$settings['required']) {
                 $options = array(
-                    0 => '',
+                    '' => '',
                 );
                 $this->options = array_merge($options, $this->options);
             }
@@ -50,6 +50,8 @@ class SelectType extends BasicType
             if (!in_array($this->value, $values) && in_array($numericValue, $values)) {
                 $this->value = $numericValue;
             }
+        } elseif (empty($this->value)) {
+            $this->value = null;
         }
 
         return $this;

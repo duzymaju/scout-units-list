@@ -77,7 +77,7 @@ class DbStatementManager
     public function setParam($key, $value, $type = DbManager::TYPE_STRING)
     {
         $this->params[$key] = array(
-            self::OPTION_TYPE => $type,
+            self::OPTION_TYPE => isset($value) ? $type : null,
             self::OPTION_VALUE => $value,
         );
 
@@ -96,7 +96,7 @@ class DbStatementManager
     public function setCondition($key, $value, $type = DbManager::TYPE_STRING)
     {
         $this->conditions[$key] = array(
-            self::OPTION_TYPE => $type,
+            self::OPTION_TYPE => isset($value) ? $type : null,
             self::OPTION_VALUE => $value,
         );
 
