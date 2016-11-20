@@ -38,6 +38,7 @@ class PositionRepository extends BasicRepository
         $this->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
             ->setStructureElement('nameMale', DbManager::TYPE_STRING, 'name_male')
             ->setStructureElement('nameFemale', DbManager::TYPE_STRING, 'name_female')
+            ->setStructureElement('description', DbManager::TYPE_STRING)
             ->setStructureElement('leader', DbManager::TYPE_DECIMAL);
     }
 
@@ -53,6 +54,7 @@ class PositionRepository extends BasicRepository
                 `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                 `name_male` varchar(50) COLLATE utf8_polish_ci NOT NULL,
                 `name_female` varchar(50) COLLATE utf8_polish_ci NOT NULL,
+                `description` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
                 `leader` bool NOT NULL DEFAULT 0,
                 PRIMARY KEY (`id`),
                 INDEX `' . $this->getIndexName(1) . '` (`leader`)

@@ -3,12 +3,19 @@
 namespace ScoutUnitsList\Manager;
 
 use Exception;
+use ScoutUnitsList\System\Request;
+use ScoutUnitsList\System\Tools\HelpersTrait;
 
 /**
  * View manager
  */
 class ViewManager
 {
+    use HelpersTrait;
+
+    /** @var Request */
+    protected $request;
+
     /** @var string */
     protected $fileName;
 
@@ -21,15 +28,16 @@ class ViewManager
     /** @var array */
     protected $linkParams = [];
 
-
     /**
      * Constructor
      *
-     * @param string $fileName file name
-     * @param array  $params   parameters
+     * @param Request $request  request
+     * @param string  $fileName file name
+     * @param array   $params   parameters
      */
-    public function __construct($fileName, array $params = [])
+    public function __construct(Request $request, $fileName, array $params = [])
     {
+        $this->request = $request;
         $this->fileName = $fileName;
         $this->params = $params;
     }
@@ -60,8 +68,13 @@ class ViewManager
      */
     public function getParam($name, $defaultValue = null, $toString = false)
     {
-        $param = isset($this->params[$name]) ? ($toString ? (is_array($this->params[$name]) ?
-            implode('', $this->params[$name]) : (string) $this->params[$name]) : $this->params[$name]) : $defaultValue;
+        if ($name == 'request') {
+            $param = $this->request;
+        } else {
+            $param = isset($this->params[$name]) ? ($toString ? (is_array($this->params[$name]) ?
+                implode('', $this->params[$name]) : (string) $this->params[$name]) : $this->params[$name]) :
+                $defaultValue;
+        }
 
         return $param;
     }
@@ -137,19 +150,6 @@ class ViewManager
     }
 
     /**
-     * Escape
-     *
-     * @param string $text  text
-     * @param string $flags flags
-     * 
-     * @return string
-     */
-    public function escape($text, $flags = ENT_QUOTES)
-    {
-        return htmlspecialchars($text, $flags);
-    }
-
-    /**
      * Get link
      *
      * @param array       $params     params
@@ -163,69 +163,21 @@ class ViewManager
             $scriptName = $this->scriptName;
             $params = array_merge($this->linkParams, $params);
         }
-        $link = $scriptName . $this->getQueryString($params);
+        $link = $this->request->getUrl($scriptName, $params);
 
         return $link;
     }
 
     /**
-     * Print link
+     * Link
      *
      * @param array       $params     params
      * @param string|null $scriptName script name
      */
-    public function printLink(array $params = [], $scriptName = null)
+    public function link(array $params = [], $scriptName = null)
     {
         $link = $this->getLink($params, $scriptName);
 
         echo $link;
-    }
-
-    /**
-     * Get query string
-     *
-     * @param array $params params
-     *
-     * @return string
-     */
-    protected function getQueryString(array $params)
-    {
-        foreach ($params as $key => $value) {
-            if (isset($value) && !is_object($value)) {
-                $params[$key] = $this->getQueryStringParam($key, $value);
-            } else {
-                unset($params[$key]);
-            }
-        }
-        $queryString = count($params) > 0 ? '?' . implode('&amp;', $params) : '';
-
-        return $queryString;
-    }
-
-    /**
-     * Get query string param
-     *
-     * @param string $key   key
-     * @param mixed  $value value
-     * @param int    $level level
-     *
-     * @return string
-     */
-    private function getQueryStringParam($key, $value, $level = 1)
-    {
-        if ($level == 1) {
-            $key = urlencode($key);
-        }
-        if (is_array($value)) {
-            $subValues = [];
-            foreach ($value as $subKey => $subValue) {
-                $subValues[] = $this->getQueryStringParam($key . '[' . urlencode($subKey) . ']', $subValue, $level + 1);
-            }
-            $queryStringParam = implode('&amp;', $subValues);
-        } else {
-            $queryStringParam = $key . '=' . urlencode($value);
-        }
-
-        return $queryStringParam;
     }
 }

@@ -4,6 +4,8 @@ namespace ScoutUnitsList\Controller\Admin;
 
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\BasicController;
+use ScoutUnitsList\Form\PositionForm;
+use ScoutUnitsList\Model\Position;
 use ScoutUnitsList\System\Request;
 
 /**
@@ -56,19 +58,15 @@ class PositionsController extends BasicController
         $positionRepository = $this->get('repository.position');
         $position = $id > 0 ? $positionRepository->getOneByOr404(array(
                 'id' => $id,
-            )) : null;
+            )) : new Position();
 
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
-        if ($request->isPost()) {
-            if (!isset($position)) {
-                $position = new Position();
-            }
-            $position->setNameMale($request->request->getString('nameMale'))
-                ->setNameFemale($request->request->getString('nameFemale'))
-                ->setLeader($request->request->getBool('leader'));
+        $form = new PositionForm($request, $position);
+        if ($form->isValid()) {
             try {
+                // @TODO: set proper slug here instead of inside model - check if there is no duplication
                 $positionRepository->save($position);
                 $messageManager->addSuccess(__('Position was successfully saved.', $td));
             } catch (Exception $e) {
@@ -78,6 +76,7 @@ class PositionsController extends BasicController
         }
 
         $this->getView('Admin/Positions/Form', array(
+            'form' => $form,
             'messages' => $messageManager->getMessages(),
             'position' => $position,
             'td' => $this->loader->getName(),

@@ -69,7 +69,7 @@ class UnitRepository extends BasicRepository
                 `subtype` char(1) COLLATE utf8_polish_ci DEFAULT NULL,
                 `sort` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
                 `parent_id` int(10) UNSIGNED DEFAULT NULL,
-                `slug` varchar(30) COLLATE utf8_polish_ci NOT NULL,
+                `slug` varchar(50) COLLATE utf8_polish_ci NOT NULL,
                 `name` varchar(50) COLLATE utf8_polish_ci NOT NULL,
                 `name_full` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
                 `hero` varchar(50) COLLATE utf8_polish_ci DEFAULT NULL,

@@ -49,17 +49,27 @@ final class Loader
     }
 
     /**
-     * Run
+     * Get instance
      *
      * @return self
      */
-    public static function run()
+    public static function getInstance()
     {
         if (!isset(self::$instance)) {
             self::$instance = new self();
         }
 
         return self::$instance;
+    }
+
+    /**
+     * Run
+     *
+     * @return self
+     */
+    public static function run()
+    {
+        return self::getInstance();
     }
 
     /**

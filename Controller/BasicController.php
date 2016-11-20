@@ -52,7 +52,7 @@ abstract class BasicController
     public function getView($name, array $params = [])
     {
         $viewFileName = $this->loader->getPath('View/' . $name . '.phtml');
-        $viewManager = new ViewManager($viewFileName, $params);
+        $viewManager = new ViewManager($this->request, $viewFileName, $params);
 
         return $viewManager;
     }

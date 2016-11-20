@@ -5,6 +5,8 @@ namespace ScoutUnitsList\Controller\Admin;
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\BasicController;
 use ScoutUnitsList\Exception\NotFoundException;
+use ScoutUnitsList\Form\UnitAdminForm;
+use ScoutUnitsList\Form\UnitLeaderForm;
 use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\System\Request;
 
@@ -28,8 +30,12 @@ class UnitsController extends BasicController
             $id = $request->query->getInt('id');
 
             switch ($action) {
-                case 'form':
-                    $this->formAction($request, $id);
+                case 'admin_form':
+                    $this->adminFormAction($request, $id);
+                    break;
+
+                case 'leader_form':
+                    $this->leaderFormAction($request, $id);
                     break;
 
                 case 'delete':
@@ -48,40 +54,60 @@ class UnitsController extends BasicController
     }
 
     /**
-     * Form action
+     * Admin form action
      *
      * @param Request  $request request
      * @param int|null $id      ID
      */
-    public function formAction(Request $request, $id = null)
+    public function adminFormAction(Request $request, $id = null)
     {
         $unitRepository = $this->get('repository.unit');
         $unit = $id > 0 ? $unitRepository->getOneByOr404(array(
                 'id' => $id,
-            )) : null;
+            )) : new Unit();
 
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
-        if ($request->isPost()) {
-            if (!isset($unit)) {
-                $unit = new Unit();
+        $form = new UnitAdminForm($request, $unit);
+        if ($form->isValid()) {
+            try {
+                // @TODO: set proper slug here instead of inside model - check if there is no duplication
+                $unitRepository->save($unit);
+                $messageManager->addSuccess(__('Unit was successfully saved.', $td));
+            } catch (Exception $e) {
+                unlink($e);
+                $messageManager->addError(__('An error occured during unit saving.', $td));
             }
-            $unit->setStatus($request->request->getString('status'))
-                ->setType($request->request->getString('type'))
-                ->setSubtype($request->request->getString('subtype'))
-                ->setSort($request->request->getString('sort'))
-                ->setParentId($request->request->getInt('parentId'))
-                ->setName($request->request->getString('name'))
-                ->setNameFull($request->request->getString('nameFull'))
-                ->setHero($request->request->getString('hero'))
-                ->setHeroFull($request->request->getString('heroFull'))
-                ->setUrl($request->request->getString('url'))
-                ->setMail($request->request->getString('mail'))
-                ->setAddress($request->request->getString('address'))
-                ->setMeetingsTime($request->request->getString('meetingsTime'))
-                ->setLocalizationLat($request->request->getFloat('localizationLat'))
-                ->setLocalizationLng($request->request->getFloat('localizationLng'));
+        }
+
+        $this->getView('Admin/Units/AdminForm', array(
+            'form' => $form,
+            'messages' => $messageManager->getMessages(),
+            'td' => $this->loader->getName(),
+            'unit' => $unit,
+        ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+            ->render();
+    }
+
+    /**
+     * Leader form action
+     *
+     * @param Request $request request
+     * @param int     $id      ID
+     */
+    public function leaderFormAction(Request $request, $id)
+    {
+        $unitRepository = $this->get('repository.unit');
+        $unit = $unitRepository->getOneByOr404(array(
+            'id' => $id,
+        ));
+
+        $td = $this->loader->getName();
+        $messageManager = $this->get('manager.message');
+
+        $form = new UnitLeaderForm($request, $unit);
+        if ($form->isValid()) {
             try {
                 $unitRepository->save($unit);
                 $messageManager->addSuccess(__('Unit was successfully saved.', $td));
@@ -91,12 +117,10 @@ class UnitsController extends BasicController
             }
         }
 
-        $this->getView('Admin/Units/Form', array(
+        $this->getView('Admin/Units/LeaderForm', array(
+            'form' => $form,
             'messages' => $messageManager->getMessages(),
-            'statuses' => Unit::getStatuses(),
-            'subtypes' => Unit::getSubtypes(),
             'td' => $this->loader->getName(),
-            'types' => Unit::getTypes(),
             'unit' => $unit,
         ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();

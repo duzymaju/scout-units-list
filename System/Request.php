@@ -16,6 +16,9 @@ class Request
     const METHOD_POST = 'post';
 
     /** @const string */
+    const METHOD_PUT = 'put';
+
+    /** @const string */
     const PROTOCOL_HTTP = 'http';
 
     /** @const string */
@@ -120,6 +123,16 @@ class Request
     }
 
     /**
+     * Is GET
+     *
+     * @return bool
+     */
+    public function isGet()
+    {
+        return $this->method == self::METHOD_GET;
+    }
+
+    /**
      * Is POST
      *
      * @return bool
@@ -130,13 +143,13 @@ class Request
     }
 
     /**
-     * Is GET
+     * Is PUT
      *
      * @return bool
      */
-    public function isGet()
+    public function isPut()
     {
-        return $this->method == self::METHOD_GET;
+        return $this->method == self::METHOD_PUT;
     }
 
     /**
