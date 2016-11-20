@@ -15,7 +15,7 @@ trait HiddenTypeTrait
     public function widget()
     {
         echo '<input type="hidden" name="' . $this->escape($this->getName()) . '" value="' .
-            $this->escape($this->getValue()) . '">';
+            $this->escape($this->getValue()) . '"' . $this->getAttr() . '>';
     }
 
     /**

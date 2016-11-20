@@ -41,6 +41,6 @@ class FloatType extends BasicType
     {
         echo '<input type="text" name="' . $this->escape($this->getName()) . '" value="' .
             $this->escape($this->getValue()) . '" pattern="^-?[0-9]+(\.[0-9]+)?$"' .
-            ($this->isRequired() ? ' required' : '') . '>';
+            ($this->isRequired() ? ' required' : '') . $this->getAttr() . '>';
     }
 }

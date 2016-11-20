@@ -15,6 +15,6 @@ class UrlType extends StringType
     public function widget()
     {
         echo '<input type="url" name="' . $this->escape($this->getName()) . '" value="' .
-            $this->escape($this->getValue()) . '"' . ($this->isRequired() ? ' required' : '') . '>';
+            $this->escape($this->getValue()) . '"' . ($this->isRequired() ? ' required' : '') . $this->getAttr() . '>';
     }
 }

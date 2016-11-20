@@ -20,6 +20,9 @@ abstract class BasicType
     /** @var string */
     protected $label;
 
+    /** @var array */
+    protected $attr;
+
     /** @var mixed */
     protected $value;
 
@@ -27,10 +30,10 @@ abstract class BasicType
     protected $isRequired;
 
     /** @var array */
-    private $conditions = array();
+    private $conditions = [];
 
     /** @var array */
-    private $errors = array();
+    private $errors = [];
 
     /**
      * Constructor
@@ -38,10 +41,11 @@ abstract class BasicType
      * @param string $name     name
      * @param array  $settings settings
      */
-    public function __construct($name, array $settings = array())
+    public function __construct($name, array $settings = [])
     {
         $this->name = $name;
         $this->label = array_key_exists('label', $settings) ? $settings['label'] : $name;
+        $this->attr = array_key_exists('attr', $settings) && is_array($settings['attr']) ? $settings['attr'] : [];
 
         if (!array_key_exists('required', $settings) || !is_bool($settings['required'])) {
             $settings['required'] = false;
@@ -110,7 +114,7 @@ abstract class BasicType
      */
     public function validate()
     {
-        $this->errors = array();
+        $this->errors = [];
         foreach ($this->conditions as $condition) {
             $this->errors = array_merge($this->errors, $condition->check($this->value));
         }
@@ -191,6 +195,24 @@ abstract class BasicType
         $this->errors = [];
 
         return $this;
+    }
+
+    /**
+     * Get attributes as string
+     * 
+     * @return string
+     */
+    public function getAttr()
+    {
+        $list = [];
+        foreach ($this->attr as $key => $value) {
+            if (isset($value)) {
+                $list[] = $this->escape($key) . '="' . $this->escape($value) . '"';
+            }
+        }
+        $string = count($list) > 0 ? ' ' . implode(' ', $list) : '';
+
+        return $string;
     }
 
     /**

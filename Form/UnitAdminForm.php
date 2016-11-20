@@ -6,6 +6,7 @@ use ScoutUnitsList\Form\Field\IntegerType;
 use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
+use ScoutUnitsList\Model\Config;
 use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\Validator\UnitValidator;
 
@@ -49,53 +50,62 @@ class UnitAdminForm extends BasicForm
 
     /**
      * Set fields
+     *
+     * @param array $settings settings
      */
-    protected function setFields()
+    protected function setFields(array $settings)
     {
+        /** @var Config $config */
+        $config = $settings['config'];
+
         $this
-            ->addField('status', SelectType::class, array(
+            ->addField('status', SelectType::class, [
                 'label' => __('Status', 'wpcore'),
-                'options' => array(
+                'options' => [
                     Unit::STATUS_ACTIVE => __('Active', 'wpcore'),
                     Unit::STATUS_HIDDEN => __('Hidden', 'wpcore'),
-                ),
+                ],
                 'required' => true,
-            ))
-            ->addField('type', SelectType::class, array(
+            ])
+            ->addField('type', SelectType::class, [
                 'label' => __('Type', 'wpcore'),
                 'options' => self::getTypes(),
                 'required' => true,
-            ))
-            ->addField('subtype', SelectType::class, array(
+            ])
+            ->addField('subtype', SelectType::class, [
                 'label' => __('Subtype', 'wpcore'),
                 'options' => self::getSubtypes(),
-            ))
-            ->addField('sort', IntegerType::class, array(
+            ])
+            ->addField('sort', IntegerType::class, [
                 'label' => __('Sort', 'wpcore'),
-            ))
-            ->addField('parentId', IntegerType::class, array(
+            ])
+            ->addField('parentId', IntegerType::class, [
                 'label' => __('Parent', 'wpcore'),
-            ))
-            ->addField('orderNo', StringType::class, array(
+            ])
+            ->addField('orderNo', StringType::class, [
+                'attr' => [
+                    'pattern' => $config->getOrderNoFormat(),
+                    'placeholder' => $config->getOrderNoPlaceholder(),
+                ],
                 'label' => __('Order number', 'wpcore'),
                 'required' => true,
-            ))
-            ->addField('name', StringType::class, array(
+            ])
+            ->addField('name', StringType::class, [
                 'label' => __('Name short', 'wpcore'),
                 'required' => true,
-            ))
-            ->addField('nameFull', StringType::class, array(
+            ])
+            ->addField('nameFull', StringType::class, [
                 'label' => __('Name full', 'wpcore'),
-            ))
-            ->addField('hero', StringType::class, array(
+            ])
+            ->addField('hero', StringType::class, [
                 'label' => __('Hero short', 'wpcore'),
-            ))
-            ->addField('heroFull', StringType::class, array(
+            ])
+            ->addField('heroFull', StringType::class, [
                 'label' => __('Hero full', 'wpcore'),
-            ))
-            ->addField('submit', SubmitType::class, array(
+            ])
+            ->addField('submit', SubmitType::class, [
                 'label' => __('Save', 'wpcore'),
-            ))
+            ])
         ;
     }
 

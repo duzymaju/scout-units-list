@@ -40,6 +40,6 @@ class IntegerType extends BasicType
     public function widget()
     {
         echo '<input type="number" name="' . $this->escape($this->getName()) . '" value="' .
-            $this->escape($this->getValue()) . '"' . ($this->isRequired() ? ' required' : '') . '>';
+            $this->escape($this->getValue()) . '"' . ($this->isRequired() ? ' required' : '') . $this->getAttr() . '>';
     }
 }

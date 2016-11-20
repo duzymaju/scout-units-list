@@ -7,10 +7,4 @@ namespace ScoutUnitsList\Model;
  */
 interface ModelInterface
 {
-    /**
-     * Get ID
-     *
-     * @return int
-     */
-    public function getId();
 }

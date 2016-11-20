@@ -15,9 +15,13 @@ class PositionForm extends BasicForm
 {
     /**
      * Set fields
+     *
+     * @param array $settings settings
      */
-    protected function setFields()
+    protected function setFields(array $settings)
     {
+        unset($settings);
+
         $this
             ->addField('type', SelectType::class, array(
                 'label' => __('Type', 'wpcore'),

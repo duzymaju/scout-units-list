@@ -64,7 +64,7 @@ class SelectType extends BasicType
      */
     public function widget()
     {
-        echo '<select name="' . $this->escape($this->name) . '">';
+        echo '<select name="' . $this->escape($this->name) . '"' . $this->getAttr() . '>';
         foreach ($this->options as $key => $value) {
             echo '<option value="' . $this->escape($key) . '"' . ($key == $this->value ? ' selected' : '') . '>' .
                 $this->escape($value) . '</option>';

@@ -30,7 +30,7 @@ class BooleanType extends BasicType
      */
     public function widget()
     {
-        echo '<select name="' . $this->escape($this->getName()) . '">';
+        echo '<select name="' . $this->escape($this->getName()) . '"' . $this->getAttr() . '>';
         echo '<option value="1"' . ($this->getValue() ? ' selected' : '') . '>' . __('Yes', 'wpcore') . '</option>';
         echo '<option value="0"' . (!$this->getValue() ? ' selected' : '') . '>' . __('No', 'wpcore') . '</option>';
         echo '</select>';

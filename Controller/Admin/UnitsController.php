@@ -75,7 +75,10 @@ class UnitsController extends BasicController
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
-        $form = new UnitAdminForm($request, $unit);
+        $form = new UnitAdminForm($request, $unit, [
+            'config' => $this->get('manager.config')
+                ->get(),
+        ]);
         if ($form->isValid()) {
             try {
                 // @TODO: set proper slug here instead of inside model - check if there is no duplication
@@ -159,10 +162,13 @@ class UnitsController extends BasicController
 
         if (count($positionList) > 0) {
             $person = new Person();
-            $form = new PersonForm($request, $person, $positionList, [
+            $form = new PersonForm($request, $person, [
                 'action' => $request->getCurrentUrl([], [
                     'deletedId',
-                ])
+                ]),
+                'config' => $this->get('manager.config')
+                    ->get(),
+                'positions' => $positionList,
             ]);
         } else {
             $messageManager->addWarning(__('Add at least one position for this unit type to be able to manage persons.',

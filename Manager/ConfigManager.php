@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Manager;
 
 use ScoutUnitsList\Exception\ConfigException;
+use ScoutUnitsList\Model\Config as Model;
 
 /**
  * Configuration manager
@@ -12,8 +13,8 @@ class ConfigManager
     /** @var string */
     protected $name;
 
-    /** @var array */
-    protected $options = [];
+    /** @var Model */
+    protected $model;
 
     /**
      * Constructor
@@ -23,6 +24,7 @@ class ConfigManager
     public function __construct($name)
     {
         $this->name = $name;
+        $this->model = new Model();
         $this->reload();
     }
 
@@ -33,65 +35,19 @@ class ConfigManager
      */
     public function reload()
     {
-        $this->options = get_option($this->name, $this->options);
+        $this->model->setStructure(get_option($this->name, $this->model->getStructure()));
 
         return $this;
     }
 
     /**
-     * Get option
+     * Get options
      *
-     * @param string $name         name
-     * @param mixed  $defaultValue default value
-     *
-     * @return mixed
+     * @return Model
      */
-    public function get($name, $defaultValue = null)
+    public function get()
     {
-        $option = array_key_exists($name, $this->options) ? $this->options[$name] : $defaultValue;
-
-        return $option;
-    }
-
-    /**
-     * Get all
-     * 
-     * @return array
-     */
-    public function getAll()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Set option
-     *
-     * @param string $name  name
-     * @param mixed  $value value
-     *
-     * @return self
-     */
-    public function set($name, $value)
-    {
-        $this->options[$name] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Delete option
-     *
-     * @param string $name name
-     *
-     * @return self
-     */
-    public function delete($name)
-    {
-        if (array_key_exists($name, $this->options)) {
-            unset($this->options[$name]);
-        }
-
-        return $this;
+        return $this->model;
     }
 
     /**
@@ -103,7 +59,7 @@ class ConfigManager
      */
     public function save()
     {
-        update_option($this->name, $this->options);
+        update_option($this->name, $this->model->getStructure());
 
         return $this;
     }

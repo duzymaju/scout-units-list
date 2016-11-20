@@ -16,9 +16,13 @@ class UnitLeaderForm extends BasicForm
 {
     /**
      * Set fields
+     *
+     * @param array $settings settings
      */
-    protected function setFields()
+    protected function setFields(array $settings)
     {
+        unset($settings);
+
         $this
             ->addField('url', UrlType::class, array(
                 'label' => __('URL', 'wpcore'),

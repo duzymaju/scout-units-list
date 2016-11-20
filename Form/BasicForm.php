@@ -57,7 +57,7 @@ abstract class BasicForm
         $this->request = $request;
         $this->model = $model;
 
-        $this->setFields();
+        $this->setFields($settings);
 
         $validatorClass = $this->getValidatorClass();
         $this->validator = new $validatorClass($this->fields);
@@ -65,8 +65,10 @@ abstract class BasicForm
 
     /**
      * Set fields
+     *
+     * @param array $settings settings
      */
-    abstract protected function setFields();
+    abstract protected function setFields(array $settings);
 
     /**
      * Add field

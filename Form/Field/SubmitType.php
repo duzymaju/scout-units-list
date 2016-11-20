@@ -15,7 +15,7 @@ class SubmitType extends BasicType
     public function widget()
     {
         echo '<input type="submit" name="' . $this->escape($this->getName()) . '" value="' .
-            $this->escape($this->getLabel()) . '">';
+            $this->escape($this->getLabel()) . '"' . $this->getAttr() . '>';
     }
 
     /**

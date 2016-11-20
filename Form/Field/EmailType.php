@@ -15,6 +15,6 @@ class EmailType extends StringType
     public function widget()
     {
         echo '<input type="email" name="' . $this->escape($this->getName()) . '" value="' .
-            $this->escape($this->getValue()) . '"' . ($this->isRequired() ? ' required' : '') . '>';
+            $this->escape($this->getValue()) . '"' . ($this->isRequired() ? ' required' : '') . $this->getAttr() . '>';
     }
 }
