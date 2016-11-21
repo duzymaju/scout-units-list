@@ -121,6 +121,20 @@ final class Loader
     }
 
     /**
+     * Get file URL
+     *
+     * @param string $filePath file path
+     *
+     * @return string
+     */
+    public function getFileUrl($filePath)
+    {
+        $fileUrl = $this->absUrl . '/' . ltrim($filePath);
+
+        return $fileUrl;
+    }
+
+    /**
      * Load class
      *
      * @param string $className class name

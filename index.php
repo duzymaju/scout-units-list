@@ -35,7 +35,8 @@ $loader->setName('scout-units-list')
 $request = new Request();
 
 $dbManager = new DbManager($wpdb);
-$loader->set('manager.config', new ConfigManager($loader->getName() . '_config'))
+$loader->set('manager.db', $dbManager)
+    ->set('manager.config', new ConfigManager($loader->getName() . '_config'))
     ->set('repository.person', new PersonRepository($dbManager))
     ->set('repository.position', new PositionRepository($dbManager))
     ->set('repository.unit', new UnitRepository($dbManager))
@@ -46,6 +47,17 @@ add_action('init', [
     $loader,
     'init',
 ]);
+add_action('init', function () use ($loader) {
+    if (is_admin()) {
+        wp_enqueue_script('sul_admin_js', $loader->getFileUrl('admin.js'), [
+            'jquery-core',
+            'jquery-ui-autocomplete',
+        ], $loader->getVersion());
+        wp_localize_script('sul_admin_js', 'sul', [
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+        ]);
+    }
+});
 
 // Installation
 $installController = new InstallController($loader, $request);

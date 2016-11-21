@@ -26,6 +26,9 @@ class PersonForm extends BasicForm
 
         $this
             ->addField('userId', IntegerType::class, [
+                'attr' => [
+                    'data-sul-autocomplete-action' => 'sul_users',
+                ],
                 'label' => __('User ID', 'wpcore'),
                 'required' => true,
             ])
