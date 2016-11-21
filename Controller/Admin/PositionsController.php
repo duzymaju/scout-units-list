@@ -56,9 +56,9 @@ class PositionsController extends BasicController
     public function formAction(Request $request, $id)
     {
         $positionRepository = $this->get('repository.position');
-        $position = $id > 0 ? $positionRepository->getOneByOr404(array(
+        $position = $id > 0 ? $positionRepository->getOneByOr404([
                 'id' => $id,
-            )) : new Position();
+            ]) : new Position();
 
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
@@ -75,12 +75,12 @@ class PositionsController extends BasicController
             }
         }
 
-        $this->getView('Admin/Positions/Form', array(
+        $this->getView('Admin/Positions/Form', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
             'position' => $position,
             'td' => $this->loader->getName(),
-        ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
 
@@ -92,9 +92,9 @@ class PositionsController extends BasicController
     public function deleteAction($id)
     {
         $positionRepository = $this->get('repository.position');
-        $position = $positionRepository->getOneByOr404(array(
+        $position = $positionRepository->getOneByOr404([
             'id' => $id,
-        ));
+        ]);
 
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
@@ -114,14 +114,14 @@ class PositionsController extends BasicController
     public function listAction()
     {
         $positions = $this->get('repository.position')
-            ->getBy(array());
+            ->getBy([]);
 
-        $this->getView('Admin/Positions/List', array(
+        $this->getView('Admin/Positions/List', [
             'messages' => $this->get('manager.message')
                 ->getMessages(),
             'positions' => $positions,
             'td' => $this->loader->getName(),
-        ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
 }

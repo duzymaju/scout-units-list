@@ -29,7 +29,7 @@ class RegExpCondition implements ConditionInterface
      */
     public function check($value)
     {
-        $errors = array();
+        $errors = [];
 
         if (!preg_match($this->regExp, $value)) {
             $errors[] = __('This value has incorrect format.', 'wpcore');

@@ -161,10 +161,10 @@ class Request
      */
     public function isValidProtocol($protocol)
     {
-        return in_array($protocol, array(
+        return in_array($protocol, [
             self::PROTOCOL_HTTP,
             self::PROTOCOL_HTTPS,
-        ));
+        ]);
     }
 
     /**
@@ -208,7 +208,7 @@ class Request
      *
      * @return string
      */
-    public function getUrl($path = '/', array $params = array(), $absolutePath = false)
+    public function getUrl($path = '/', array $params = [], $absolutePath = false)
     {
         if (!isset($path)) {
             $path = '';
@@ -271,7 +271,7 @@ class Request
      *
      * @return string
      */
-    public function getCurrentUrl(array $paramsToAdd = array(), array $namesToRemove = null, $absolutePath = false)
+    public function getCurrentUrl(array $paramsToAdd = [], array $namesToRemove = null, $absolutePath = false)
     {
         $params = $namesToRemove === true ? $paramsToAdd : array_merge($this->query->getPack(), $paramsToAdd);
         if (is_array($namesToRemove)) {
@@ -294,9 +294,9 @@ class Request
      * 
      * @return string
      */
-    public function getCurrentUrlWithOnly(array $namesToKeep, array $paramsToAdd = array(), $absolutePath = false)
+    public function getCurrentUrlWithOnly(array $namesToKeep, array $paramsToAdd = [], $absolutePath = false)
     {
-        $params = array();
+        $params = [];
         foreach ($namesToKeep as $nameToKeep) {
             $param = $this->query->get($nameToKeep);
             if (isset($param)) {
@@ -318,7 +318,7 @@ class Request
      *
      * @return string
      */
-    public function getUrlWithCurrentParams($path = '/', array $params = array(), array $paramNames = array(),
+    public function getUrlWithCurrentParams($path = '/', array $params = [], array $paramNames = [],
         $overwriteParams = true, $absolutePath = false)
     {
         foreach ($paramNames as $paramName) {

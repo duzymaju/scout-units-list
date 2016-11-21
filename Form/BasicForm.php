@@ -22,13 +22,13 @@ abstract class BasicForm
     protected $method;
 
     /** @var array */
-    protected $allowedMethods = array(
+    protected $allowedMethods = [
         Request::METHOD_POST,
         Request::METHOD_PUT,
-    );
+    ];
 
     /** @var Field[] */
-    protected $fields = array();
+    protected $fields = [];
 
     /** @var Request */
     protected $request;
@@ -46,7 +46,7 @@ abstract class BasicForm
      * @param ModelInterface $model    model
      * @param array          $settings settings
      */
-    public function __construct(Request $request, ModelInterface $model, array $settings = array())
+    public function __construct(Request $request, ModelInterface $model, array $settings = [])
     {
         $this->method = array_key_exists('method', $settings) ? strtolower($settings['method']) : Request::METHOD_POST;
         if (!in_array($this->method, $this->allowedMethods)) {
@@ -75,7 +75,7 @@ abstract class BasicForm
      *
      * @return self
      */
-    protected function addField($name, $type, array $settings = array())
+    protected function addField($name, $type, array $settings = [])
     {
         $field = new $type($name, $settings);
         if ($field instanceof BasicType) {
@@ -118,7 +118,7 @@ abstract class BasicForm
         if (($this->method == Request::METHOD_POST && $this->request->isPost()) ||
             ($this->method == Request::METHOD_PUT && $this->request->isPut()))
         {
-            $data = array();
+            $data = [];
             foreach ($this->fields as $name => $field) {
                 $field->setValueFromParamPack($this->request->request);
             }

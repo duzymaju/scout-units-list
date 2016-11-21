@@ -11,7 +11,7 @@ class NumericCompareCondition implements ConditionInterface
     protected $methodName;
 
     /** @var array */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * Constructor
@@ -49,10 +49,10 @@ class NumericCompareCondition implements ConditionInterface
         $params = $this->params;
         array_unshift($params, $value);
 
-        $errors = call_user_func_array(array(
+        $errors = call_user_func_array([
             $this,
             $this->methodName,
-        ), $params);
+        ], $params);
         
         return $errors;
     }
@@ -68,7 +68,7 @@ class NumericCompareCondition implements ConditionInterface
      */
     private function isBetween($value, $lowerLimit, $upperLimit)
     {
-        $errors = array();
+        $errors = [];
 
         if ($value <= $lowerLimit || $value >= $upperLimit) {
             $errors[] = $this->sprintf(__('This value should be greater than %n and lower than %n.', 'wpcore'),
@@ -89,7 +89,7 @@ class NumericCompareCondition implements ConditionInterface
      */
     private function isBetweenOrEquals($value, $lowerLimit, $upperLimit)
     {
-        $errors = array();
+        $errors = [];
 
         if ($value < $lowerLimit || $value > $upperLimit) {
             $errors[] = $this->sprintf(__('This value should be between %n and %n.', 'wpcore'), $lowerLimit,
@@ -109,7 +109,7 @@ class NumericCompareCondition implements ConditionInterface
      */
     private function isMoreThan($value, $limit)
     {
-        $errors = array();
+        $errors = [];
 
         if ($value <= $limit) {
             $errors[] = $this->sprintf(__('This value should be greater than %n.', 'wpcore'), $limit);
@@ -128,7 +128,7 @@ class NumericCompareCondition implements ConditionInterface
      */
     private function isMoreThanOrEquals($value, $limit)
     {
-        $errors = array();
+        $errors = [];
 
         if ($value < $limit) {
             $errors[] = $this->sprintf(__('This value should be greater than or equal %n.', 'wpcore'), $limit);
@@ -147,7 +147,7 @@ class NumericCompareCondition implements ConditionInterface
      */
     private function isLessThan($value, $limit)
     {
-        $errors = array();
+        $errors = [];
 
         if ($value >= $limit) {
             $errors[] = $this->sprintf(__('This value should be lower than %n.', 'wpcore'), $limit);
@@ -166,7 +166,7 @@ class NumericCompareCondition implements ConditionInterface
      */
     private function isLessThanOrEquals($value, $limit)
     {
-        $errors = array();
+        $errors = [];
 
         if ($value > $limit) {
             $errors[] = $this->sprintf(__('This value should be lower than or equal %n.', 'wpcore'), $limit);
@@ -182,7 +182,7 @@ class NumericCompareCondition implements ConditionInterface
      */
     private function isTrue()
     {
-        $errors = array();
+        $errors = [];
 
         return $errors;
     }

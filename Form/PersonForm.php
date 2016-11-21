@@ -25,26 +25,26 @@ class PersonForm extends BasicForm
         $config = $settings['config'];
 
         $this
-            ->addField('userId', IntegerType::class, array(
+            ->addField('userId', IntegerType::class, [
                 'label' => __('User ID', 'wpcore'),
                 'required' => true,
-            ))
-            ->addField('positionId', SelectType::class, array(
+            ])
+            ->addField('positionId', SelectType::class, [
                 'label' => __('Position', 'wpcore'),
                 'options' => $settings['positions'],
                 'required' => true,
-            ))
-            ->addField('orderNo', StringType::class, array(
+            ])
+            ->addField('orderNo', StringType::class, [
                 'attr' => [
                     'pattern' => $config->getOrderNoFormat(),
                     'placeholder' => $config->getOrderNoPlaceholder(),
                 ],
                 'label' => __('Order number', 'wpcore'),
                 'required' => true,
-            ))
-            ->addField('submit', SubmitType::class, array(
+            ])
+            ->addField('submit', SubmitType::class, [
                 'label' => __('Save', 'wpcore'),
-            ))
+            ])
         ;
     }
 

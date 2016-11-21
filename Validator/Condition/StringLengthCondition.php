@@ -34,7 +34,7 @@ class StringLengthCondition implements ConditionInterface
      */
     public function check($value)
     {
-        $errors = array();
+        $errors = [];
 
         $length = mb_strlen($value);
         if (isset($this->minLength) && $length < $this->minLength) {

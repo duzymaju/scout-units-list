@@ -3,7 +3,7 @@
         <p class="message <?php echo $message->type; ?>"><?php echo $this->escape($message->text); ?></p>
     <?php endforeach; ?>
     <h1>
-        <?php printf(__('Manage persons in unit "%d"', $this->td), $this->unit->getName()); ?>
+        <?php printf(__('Manage persons in unit "%s"', $this->td), $this->unit->getName()); ?>
     </h1>
     <ul>
         <?php foreach ($this->persons as $person): ?>

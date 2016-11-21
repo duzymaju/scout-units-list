@@ -23,28 +23,28 @@ class PositionForm extends BasicForm
         unset($settings);
 
         $this
-            ->addField('type', SelectType::class, array(
+            ->addField('type', SelectType::class, [
                 'label' => __('Type', 'wpcore'),
                 'options' => UnitAdminForm::getTypes(),
                 'required' => true,
-            ))
-            ->addField('nameMale', StringType::class, array(
+            ])
+            ->addField('nameMale', StringType::class, [
                 'label' => __('Name male', 'wpcore'),
                 'required' => true,
-            ))
-            ->addField('nameFemale', StringType::class, array(
+            ])
+            ->addField('nameFemale', StringType::class, [
                 'label' => __('Name female', 'wpcore'),
                 'required' => true,
-            ))
-            ->addField('description', StringType::class, array(
+            ])
+            ->addField('description', StringType::class, [
                 'label' => __('Description', 'wpcore'),
-            ))
-            ->addField('leader', BooleanType::class, array(
+            ])
+            ->addField('leader', BooleanType::class, [
                 'label' => __('Is unit leader', 'wpcore'),
-            ))
-            ->addField('submit', SubmitType::class, array(
+            ])
+            ->addField('submit', SubmitType::class, [
                 'label' => __('Save', 'wpcore'),
-            ))
+            ])
         ;
     }
 

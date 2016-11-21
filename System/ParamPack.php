@@ -11,14 +11,14 @@ class ParamPack
     protected $params;
 
     /** @var array */
-    protected $parentPacks = array();
+    protected $parentPacks = [];
 
     /**
      * Constructor
      *
      * @param array $params params
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         $this->params = $params;
     }
@@ -138,7 +138,7 @@ class ParamPack
     {
         $param = $this->get($name);
         if (isset($param)) {
-            $param = !in_array($this->params[$name], array('false', 'null', '', '0')) || false;
+            $param = !in_array($this->params[$name], ['false', 'null', '', '0']) || false;
         } else {
             $param = $defaultValue;
         }

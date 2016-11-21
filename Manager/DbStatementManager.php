@@ -44,10 +44,10 @@ class DbStatementManager
     protected $queryOrTable;
 
     /** @var array */
-    protected $params = array();
+    protected $params = [];
 
     /** @var array */
-    protected $conditions = array();
+    protected $conditions = [];
 
     /**
      * Constructor
@@ -76,10 +76,10 @@ class DbStatementManager
      */
     public function setParam($key, $value, $type = DbManager::TYPE_STRING)
     {
-        $this->params[$key] = array(
+        $this->params[$key] = [
             self::OPTION_TYPE => isset($value) ? $type : null,
             self::OPTION_VALUE => $value,
-        );
+        ];
 
         return $this;
     }
@@ -95,10 +95,10 @@ class DbStatementManager
      */
     public function setCondition($key, $value, $type = DbManager::TYPE_STRING)
     {
-        $this->conditions[$key] = array(
+        $this->conditions[$key] = [
             self::OPTION_TYPE => isset($value) ? $type : null,
             self::OPTION_VALUE => $value,
-        );
+        ];
 
         return $this;
     }
@@ -116,7 +116,7 @@ class DbStatementManager
             throw new DbException('This method works only for "prepare" method.');
         }
 
-        $arguments = array();
+        $arguments = [];
         $names = array_keys($this->params);
         $pattern = '#:(' . implode('|', $names) . ')#';
 
@@ -139,10 +139,10 @@ class DbStatementManager
 
         if (count($arguments) > 0) {
             array_unshift($arguments, $normalizedQuery);
-            $preparedQuery = call_user_func_array(array(
+            $preparedQuery = call_user_func_array([
                 $this->db,
                 'prepare',
-            ), $arguments);
+            ], $arguments);
         } else {
             $preparedQuery = $normalizedQuery;
         }
@@ -191,15 +191,15 @@ class DbStatementManager
      */
     private function executeOthers($method, $table)
     {
-        $params = array();
-        $paramsFormat = array();
+        $params = [];
+        $paramsFormat = [];
         foreach ($this->params as $name => $options) {
             $params[$name] = $options[self::OPTION_VALUE];
             $paramsFormat[] = $options[self::OPTION_TYPE];
         }
 
-        $conditions = array();
-        $conditionsFormat = array();
+        $conditions = [];
+        $conditionsFormat = [];
         foreach ($this->conditions as $name => $options) {
             $conditions[$name] = $options[self::OPTION_VALUE];
             $conditionsFormat[] = $options[self::OPTION_TYPE];

@@ -5,9 +5,9 @@
     <h1>
         <?php if ($this->unit->getId() != null): ?>
             <?php _e('Edit unit', $this->td); ?>
-            <a href="<?php $this->link(array(
+            <a href="<?php $this->link([
                 'action' => 'admin-form',
-            )); ?>" class="page-title-action">
+            ]); ?>" class="page-title-action">
                 <?php _e('Add new', $this->td); ?>
             </a>
         <?php else: ?>

@@ -11,7 +11,7 @@ use ScoutUnitsList\Form\Field\StringType;
 abstract class BasicValidator
 {
     /** @var Field[] */
-    private $fields = array();
+    private $fields = [];
 
     /**
      * Constructor

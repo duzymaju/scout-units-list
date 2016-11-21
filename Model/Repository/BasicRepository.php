@@ -16,7 +16,7 @@ abstract class BasicRepository
     protected $db;
 
     /** @var array */
-    protected $structure = array();
+    protected $structure = [];
 
     /**
      * Constructor
@@ -115,11 +115,11 @@ abstract class BasicRepository
      */
     protected function setStructureElement($key, $type, $dbKey = null, $isId = false)
     {
-        $this->structure[$key] = array(
+        $this->structure[$key] = [
             'dbKey' => empty($dbKey) ? $key : $dbKey,
             'isId' => $isId,
             'type' => $type,
-        );
+        ];
 
         return $this;
     }
@@ -134,7 +134,7 @@ abstract class BasicRepository
      */
     protected function getMap($idIncluded = true, $fullInfo = false)
     {
-        $map = array();
+        $map = [];
         foreach ($this->structure as $key => $element) {
             if ($idIncluded || !$element['isId']) {
                 $map[$key] = $fullInfo ? $element : $element['dbKey'];

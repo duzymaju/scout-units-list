@@ -23,9 +23,9 @@ class SelectType extends BasicType
         if (array_key_exists('options', $settings)) {
             $this->options = $settings['options'];
             if (!$settings['required']) {
-                $options = array(
+                $options = [
                     '' => '',
-                );
+                ];
                 $this->options = array_merge($options, $this->options);
             }
 

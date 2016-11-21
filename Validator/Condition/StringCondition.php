@@ -16,7 +16,7 @@ class StringCondition implements ConditionInterface
      */
     public function check($value)
     {
-        $errors = array();
+        $errors = [];
 
         if (isset($value) && !is_string($value)) {
             $errors[] = __('This value should be a string.', 'wpcore');

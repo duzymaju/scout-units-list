@@ -68,9 +68,9 @@ class UnitsController extends BasicController
     public function adminFormAction(Request $request, $id = null)
     {
         $unitRepository = $this->get('repository.unit');
-        $unit = $id > 0 ? $unitRepository->getOneByOr404(array(
+        $unit = $id > 0 ? $unitRepository->getOneByOr404([
                 'id' => $id,
-            )) : new Unit();
+            ]) : new Unit();
 
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
@@ -90,12 +90,12 @@ class UnitsController extends BasicController
             }
         }
 
-        $this->getView('Admin/Units/AdminForm', array(
+        $this->getView('Admin/Units/AdminForm', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
             'td' => $this->loader->getName(),
             'unit' => $unit,
-        ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
 
@@ -108,9 +108,9 @@ class UnitsController extends BasicController
     public function leaderFormAction(Request $request, $id)
     {
         $unitRepository = $this->get('repository.unit');
-        $unit = $unitRepository->getOneByOr404(array(
+        $unit = $unitRepository->getOneByOr404([
             'id' => $id,
-        ));
+        ]);
 
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
@@ -126,12 +126,12 @@ class UnitsController extends BasicController
             }
         }
 
-        $this->getView('Admin/Units/LeaderForm', array(
+        $this->getView('Admin/Units/LeaderForm', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
             'td' => $this->loader->getName(),
             'unit' => $unit,
-        ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
 
@@ -223,9 +223,9 @@ class UnitsController extends BasicController
     public function deleteAction($id)
     {
         $unitRepository = $this->get('repository.unit');
-        $unit = $unitRepository->getOneByOr404(array(
+        $unit = $unitRepository->getOneByOr404([
             'id' => $id,
-        ));
+        ]);
 
         $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
@@ -245,14 +245,14 @@ class UnitsController extends BasicController
     public function listAction()
     {
         $units = $this->get('repository.unit')
-            ->getBy(array());
+            ->getBy([]);
 
-        $this->getView('Admin/Units/List', array(
+        $this->getView('Admin/Units/List', [
             'messages' => $this->get('manager.message')
                 ->getMessages(),
             'td' => $this->loader->getName(),
             'units' => $units,
-        ))->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
+        ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
 }

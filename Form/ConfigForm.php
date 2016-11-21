@@ -27,9 +27,9 @@ class ConfigForm extends BasicForm
             ->addField('orderNoPlaceholder', StringType::class, [
                 'label' => __('Order number placeholder', 'wpcore'),
             ])
-            ->addField('submit', SubmitType::class, array(
+            ->addField('submit', SubmitType::class, [
                 'label' => __('Save', 'wpcore'),
-            ))
+            ])
         ;
     }
 

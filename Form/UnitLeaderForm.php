@@ -24,25 +24,25 @@ class UnitLeaderForm extends BasicForm
         unset($settings);
 
         $this
-            ->addField('url', UrlType::class, array(
+            ->addField('url', UrlType::class, [
                 'label' => __('URL', 'wpcore'),
-            ))
-            ->addField('mail', EmailType::class, array(
+            ])
+            ->addField('mail', EmailType::class, [
                 'label' => __('E-mail', 'wpcore'),
-            ))
-            ->addField('address', StringType::class, array(
+            ])
+            ->addField('address', StringType::class, [
                 'label' => __('Address', 'wpcore'),
-            ))
-            ->addField('meetingsTime', StringType::class, array(
+            ])
+            ->addField('meetingsTime', StringType::class, [
                 'label' => __('Meetings time', 'wpcore'),
-            ))
-            ->addField('localizationLat', FloatHiddenType::class, array(
+            ])
+            ->addField('localizationLat', FloatHiddenType::class, [
                 'label' => __('Localization', 'wpcore'),
-            ))
+            ])
             ->addField('localizationLng', FloatHiddenType::class)
-            ->addField('submit', SubmitType::class, array(
+            ->addField('submit', SubmitType::class, [
                 'label' => __('Save', 'wpcore'),
-            ))
+            ])
         ;
     }
 

@@ -16,7 +16,7 @@ class IntegerCondition implements ConditionInterface
      */
     public function check($value)
     {
-        $errors = array();
+        $errors = [];
 
         if (isset($value) && !is_int($value)) {
             $errors[] = __('This value should be an integer.', 'wpcore');

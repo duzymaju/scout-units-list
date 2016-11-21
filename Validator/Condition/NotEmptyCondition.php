@@ -16,7 +16,7 @@ class NotEmptyCondition implements ConditionInterface
      */
     public function check($value)
     {
-        $errors = array();
+        $errors = [];
 
         if (empty($value)) {
             $errors[] = __('This value should not be empty.', 'wpcore');

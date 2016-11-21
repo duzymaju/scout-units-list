@@ -29,7 +29,7 @@ class InSetCondition implements ConditionInterface
      */
     public function check($value)
     {
-        $errors = array();
+        $errors = [];
 
         if (!in_array($value, $this->values)) {
             $errors[] = __('This value isn\'t allowed.', 'wpcore');

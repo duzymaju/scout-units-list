@@ -20,7 +20,7 @@ class MessageManager
     const TYPE_WARNING = 'warning';
 
     /** @var array */
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      * Add info
@@ -80,10 +80,10 @@ class MessageManager
      */
     public function addMessage($text, $type = self::TYPE_INFO)
     {
-        $this->messages[] = (object) array(
+        $this->messages[] = (object) [
             'text' => $text,
             'type' => $type,
-        );
+        ];
 
         return $this;
     }
@@ -99,7 +99,7 @@ class MessageManager
     {
         $messages = $this->messages;
         if ($keepMessages) {
-            $this->messages = array();
+            $this->messages = [];
         }
 
         return $messages;
