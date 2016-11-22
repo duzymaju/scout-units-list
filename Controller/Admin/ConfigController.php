@@ -31,20 +31,18 @@ class ConfigController extends BasicController
         $configManager = $this->loader->get('manager.config');
         $config = $configManager->get();
 
-        $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
         $form = new ConfigForm($request, $config);
         if ($form->isValid()) {
             $configManager->save($config);
-            $messageManager->addSuccess(__('Position was successfully saved.', $td));
+            $messageManager->addSuccess(__('Position was successfully saved.', 'scout-units-list'));
         }
 
         $this->getView('Admin/Config', [
             'config' => $config,
             'form' => $form,
             'messages' => $messageManager->getMessages(),
-            'td' => $td,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }

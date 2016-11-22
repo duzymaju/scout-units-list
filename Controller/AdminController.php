@@ -19,27 +19,29 @@ class AdminController extends BasicController
      */
     public function menu()
     {
-        $textDomain = $this->loader->getName();
-
         $unitsController = new UnitsController($this->loader, $this->request);
         $positionsController = new PositionsController($this->loader, $this->request);
         $configController = new ConfigController($this->loader, $this->request);
 
-        add_menu_page(__('Scout units list', $textDomain), __('Scout units', $textDomain), 'manage_categories', $unitsController::PAGE_NAME, [
-            $unitsController,
-            'routes',
-        ], '', 3);
-        add_submenu_page($unitsController::PAGE_NAME, __('Scout units list', $textDomain), __('Units list', $textDomain), 'manage_categories', $unitsController::PAGE_NAME, [
-            $unitsController,
-            'routes',
-        ]);
-        add_submenu_page($unitsController::PAGE_NAME, __('Scout positions list', $textDomain), __('Positions list', $textDomain), 'manage_categories', $positionsController::PAGE_NAME, [
-            $positionsController,
-            'routes',
-        ]);
-        add_submenu_page($unitsController::PAGE_NAME, __('Scout units configuration', $textDomain), __('Configuration', $textDomain), 'manage_categories', $configController::PAGE_NAME, [
-            $configController,
-            'routes',
-        ]);
+        add_menu_page(__('Scout units list', 'scout-units-list'), __('Scout units', 'scout-units-list'),
+            'manage_categories', $unitsController::PAGE_NAME, [
+                $unitsController,
+                'routes',
+            ], '', 3);
+        add_submenu_page($unitsController::PAGE_NAME, __('Scout units list', 'scout-units-list'),
+            __('Units list', 'scout-units-list'), 'manage_categories', $unitsController::PAGE_NAME, [
+                $unitsController,
+                'routes',
+            ]);
+        add_submenu_page($unitsController::PAGE_NAME, __('Scout positions list', 'scout-units-list'),
+            __('Positions list', 'scout-units-list'), 'manage_categories', $positionsController::PAGE_NAME, [
+                $positionsController,
+                'routes',
+            ]);
+        add_submenu_page($unitsController::PAGE_NAME, __('Scout units configuration', 'scout-units-list'),
+            __('Configuration', 'scout-units-list'), 'manage_categories', $configController::PAGE_NAME, [
+                $configController,
+                'routes',
+            ]);
     }
 }

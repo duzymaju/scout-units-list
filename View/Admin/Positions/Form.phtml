@@ -4,12 +4,12 @@
     <?php endforeach; ?>
     <h1>
         <?php if (isset($this->position)): ?>
-            <?php _e('Edit position', $this->td); ?>
+            <?php _e('Edit position', 'scout-units-list'); ?>
             <a href="<?php $this->link(['action' => 'form']); ?>" class="page-title-action">
-                <?php _e('Add position', $this->td); ?>
+                <?php _e('Add position', 'scout-units-list'); ?>
             </a>
         <?php else: ?>
-            <?php _e('Add position', $this->td); ?>
+            <?php _e('Add position', 'scout-units-list'); ?>
         <?php endif; ?>
     </h1>
     <?php $form = $this->form; $form->start(); ?>

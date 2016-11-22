@@ -72,7 +72,6 @@ class UnitsController extends BasicController
                 'id' => $id,
             ]) : new Unit();
 
-        $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
         $form = new UnitAdminForm($request, $unit, [
@@ -83,17 +82,16 @@ class UnitsController extends BasicController
             try {
                 // @TODO: set proper slug here instead of inside model - check if there is no duplication
                 $unitRepository->save($unit);
-                $messageManager->addSuccess(__('Unit was successfully saved.', $td));
+                $messageManager->addSuccess(__('Unit was successfully saved.', 'scout-units-list'));
             } catch (Exception $e) {
                 unlink($e);
-                $messageManager->addError(__('An error occured during unit saving.', $td));
+                $messageManager->addError(__('An error occured during unit saving.', 'scout-units-list'));
             }
         }
 
         $this->getView('Admin/Units/AdminForm', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
-            'td' => $this->loader->getName(),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
@@ -112,24 +110,22 @@ class UnitsController extends BasicController
             'id' => $id,
         ]);
 
-        $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
         $form = new UnitLeaderForm($request, $unit);
         if ($form->isValid()) {
             try {
                 $unitRepository->save($unit);
-                $messageManager->addSuccess(__('Unit was successfully saved.', $td));
+                $messageManager->addSuccess(__('Unit was successfully saved.', 'scout-units-list'));
             } catch (Exception $e) {
                 unlink($e);
-                $messageManager->addError(__('An error occured during unit saving.', $td));
+                $messageManager->addError(__('An error occured during unit saving.', 'scout-units-list'));
             }
         }
 
         $this->getView('Admin/Units/LeaderForm', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
-            'td' => $this->loader->getName(),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
@@ -148,7 +144,6 @@ class UnitsController extends BasicController
             'id' => $id,
         ]);
 
-        $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
         $positionList = [];
@@ -172,7 +167,7 @@ class UnitsController extends BasicController
             ]);
         } else {
             $messageManager->addWarning(__('Add at least one position for this unit type to be able to manage persons.',
-                $td));
+                'scout-units-list'));
             $form = null;
         }
 
@@ -185,21 +180,21 @@ class UnitsController extends BasicController
             if (isset($person)) {
                 try {
                     $personRepository->delete($person);
-                    $messageManager->addSuccess(__('Person was successfully deleted.', $td));
+                    $messageManager->addSuccess(__('Person was successfully deleted.', 'scout-units-list'));
                 } catch (Exception $e) {
                     unlink($e);
-                    $messageManager->addError(__('An error occured during person removing.', $td));
+                    $messageManager->addError(__('An error occured during person removing.', 'scout-units-list'));
                 }
             }
         } elseif (isset($form) && $form->isValid()) {
             try {
                 $person->setUnitId($id);
                 $personRepository->save($person);
-                $messageManager->addSuccess(__('Person was successfully saved.', $td));
+                $messageManager->addSuccess(__('Person was successfully saved.', 'scout-units-list'));
                 $form->clear();
             } catch (Exception $e) {
                 unlink($e);
-                $messageManager->addError(__('An error occured during person saving.', $td));
+                $messageManager->addError(__('An error occured during person saving.', 'scout-units-list'));
             }
         }
 
@@ -209,7 +204,6 @@ class UnitsController extends BasicController
             'persons' => $personRepository->getBy([
                 'unitId' => $id,
             ]),
-            'td' => $this->loader->getName(),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
@@ -227,15 +221,14 @@ class UnitsController extends BasicController
             'id' => $id,
         ]);
 
-        $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
         try {
             $unitRepository->delete($unit);
-            $messageManager->addSuccess(__('Unit was successfully deleted.', $td));
+            $messageManager->addSuccess(__('Unit was successfully deleted.', 'scout-units-list'));
         } catch (Exception $e) {
             unset($e);
-            $messageManager->addError(__('An error occured during unit removing.', $td));
+            $messageManager->addError(__('An error occured during unit removing.', 'scout-units-list'));
         }
     }
 
@@ -250,7 +243,6 @@ class UnitsController extends BasicController
         $this->getView('Admin/Units/List', [
             'messages' => $this->get('manager.message')
                 ->getMessages(),
-            'td' => $this->loader->getName(),
             'units' => $units,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();

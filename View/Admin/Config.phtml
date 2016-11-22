@@ -3,7 +3,7 @@
         <p class="message <?php echo $message->type; ?>"><?php echo $this->escape($message->text); ?></p>
     <?php endforeach; ?>
     <h1>
-        <?php _e('Configuration', $this->td); ?>
+        <?php _e('Configuration', 'scout-units-list'); ?>
     </h1>
     <?php $form = $this->form; $form->start(); ?>
         <dl>

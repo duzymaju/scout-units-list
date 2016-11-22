@@ -62,8 +62,7 @@ abstract class BasicController
      */
     public function respondWith404()
     {
-        $this->getView('Admin/Error404', [
-            'td' => $this->loader->getName(),
-        ])->render();
+        $this->getView('Admin/Error404')
+            ->render();
     }
 }

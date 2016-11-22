@@ -3,11 +3,11 @@
         <p class="message <?php echo $message->type; ?>"><?php echo $this->escape($message->text); ?></p>
     <?php endforeach; ?>
     <h1>
-        <?php _e('Positions list', $this->td); ?>
+        <?php _e('Positions list', 'scout-units-list'); ?>
         <a href="<?php $this->link([
             'action' => 'form',
         ]); ?>" class="page-title-action">
-            <?php _e('Add new', $this->td); ?>
+            <?php _e('Add new', 'scout-units-list'); ?>
         </a>
     </h1>
 

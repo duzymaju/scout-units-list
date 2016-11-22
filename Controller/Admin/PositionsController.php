@@ -60,7 +60,6 @@ class PositionsController extends BasicController
                 'id' => $id,
             ]) : new Position();
 
-        $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
 
         $form = new PositionForm($request, $position);
@@ -68,10 +67,10 @@ class PositionsController extends BasicController
             try {
                 // @TODO: set proper slug here instead of inside model - check if there is no duplication
                 $positionRepository->save($position);
-                $messageManager->addSuccess(__('Position was successfully saved.', $td));
+                $messageManager->addSuccess(__('Position was successfully saved.', 'scout-units-list'));
             } catch (Exception $e) {
                 unlink($e);
-                $messageManager->addError(__('An error occured during position saving.', $td));
+                $messageManager->addError(__('An error occured during position saving.', 'scout-units-list'));
             }
         }
 
@@ -79,7 +78,6 @@ class PositionsController extends BasicController
             'form' => $form,
             'messages' => $messageManager->getMessages(),
             'position' => $position,
-            'td' => $this->loader->getName(),
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
@@ -96,15 +94,14 @@ class PositionsController extends BasicController
             'id' => $id,
         ]);
 
-        $td = $this->loader->getName();
         $messageManager = $this->get('manager.message');
         
         try {
             $positionRepository->delete($position);
-            $messageManager->addSuccess(__('Position was successfully deleted.', $td));
+            $messageManager->addSuccess(__('Position was successfully deleted.', 'scout-units-list'));
         } catch (Exception $e) {
             unset($e);
-            $messageManager->addError(__('An error occured during position removing.', $td));
+            $messageManager->addError(__('An error occured during position removing.', 'scout-units-list'));
         }
     }
 
@@ -120,7 +117,6 @@ class PositionsController extends BasicController
             'messages' => $this->get('manager.message')
                 ->getMessages(),
             'positions' => $positions,
-            'td' => $this->loader->getName(),
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }

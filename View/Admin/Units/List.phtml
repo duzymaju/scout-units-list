@@ -3,9 +3,9 @@
         <p class="message <?php echo $message->type; ?>"><?php echo $this->escape($message->text); ?></p>
     <?php endforeach; ?>
     <h1>
-        <?php _e('Units list', $this->td); ?>
+        <?php _e('Units list', 'scout-units-list'); ?>
         <a href="<?php $this->link(['action' => 'admin-form']); ?>" class="page-title-action">
-            <?php _e('Add new', $this->td); ?>
+            <?php _e('Add new', 'scout-units-list'); ?>
         </a>
     </h1>
 

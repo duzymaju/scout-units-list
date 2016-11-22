@@ -4,14 +4,14 @@
     <?php endforeach; ?>
     <h1>
         <?php if ($this->unit->getId() != null): ?>
-            <?php _e('Edit unit', $this->td); ?>
+            <?php _e('Edit unit', 'scout-units-list'); ?>
             <a href="<?php $this->link([
                 'action' => 'admin-form',
             ]); ?>" class="page-title-action">
-                <?php _e('Add new', $this->td); ?>
+                <?php _e('Add new', 'scout-units-list'); ?>
             </a>
         <?php else: ?>
-            <?php _e('Add unit', $this->td); ?>
+            <?php _e('Add unit', 'scout-units-list'); ?>
         <?php endif; ?>
     </h1>
     <?php $form = $this->form; $form->start(); ?>
