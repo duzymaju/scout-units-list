@@ -19,13 +19,37 @@ class ApiController extends BasicController
                 'WHERE user_login LIKE "%%:term%%" || user_nicename LIKE "%%:term%%" LIMIT 10')
             ->setParam('term', $term)
             ->getQuery();
-        $users = $dbManager->getResults($query, ARRAY_A);
+        $results = $dbManager->getResults($query, ARRAY_A);
 
         $list = [];
-        foreach ($users as $user) {
+        foreach ($results as $result) {
             $list[] =[
-                'id' => $user['ID'],
-                'value' => $user['user_nicename'] . ' (' . $user['user_login'] . ')',
+                'id' => $result['ID'],
+                'value' => $result['user_nicename'] . ' (' . $result['user_login'] . ')',
+            ];
+        }
+
+        $this->sendResponse($list);
+    }
+
+    /**
+     * Units action
+     *
+     * @TODO: prevent returning back current unit; return only these with proper type/subtype
+     */
+    public function unitsAction()
+    {
+        $term = $this->request->query->getString('term');
+
+        $units = $this->loader->get('repository.unit')
+            ->searchForUnitsByName($term);
+
+        $list = [];
+        foreach ($units as $unit) {
+            $nameFull = $unit->getNameFull();
+            $list[] =[
+                'id' => $unit->getId(),
+                'value' => empty($nameFull) ? $unit->getName() : $nameFull,
             ];
         }
 

@@ -80,6 +80,9 @@ class UnitAdminForm extends BasicForm
                 'label' => __('Sort', 'wpcore'),
             ])
             ->addField('parentId', IntegerType::class, [
+                'attr' => [
+                    'data-sul-autocomplete-action' => 'sul_units',
+                ],
                 'label' => __('Parent', 'wpcore'),
             ])
             ->addField('orderNo', StringType::class, [

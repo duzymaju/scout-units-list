@@ -109,4 +109,28 @@ class UnitRepository extends BasicRepository
 
         return $this;
     }
+
+    /**
+     * Search for units by name
+     *
+     * @param string $name  name
+     * @param int    $limit limit
+     *
+     * @return array
+     */
+    public function searchForUnitsByName($name, $limit = 10)
+    {
+        $query = $this->db->prepare('SELECT * FROM `' . $this->getPluginTableName() . '` ' .
+                'WHERE `name` LIKE "%%:name%%" || `name_full` LIKE "%%:name%%" LIMIT ' . $limit)
+            ->setParam('name', $name)
+            ->getQuery();
+        $results = $this->db->getResults($query, ARRAY_A);
+
+        $items = [];
+        foreach ($results as $result) {
+            $items[] = $this->createObject($result);
+        }
+
+        return $items;
+    }
 }

@@ -151,7 +151,7 @@ abstract class BasicRepository
      *
      * @return object
      */
-    private function createObject(array $tableData)
+    protected function createObject(array $tableData)
     {
         $modelClass = static::getModel();
         $model = new $modelClass();
