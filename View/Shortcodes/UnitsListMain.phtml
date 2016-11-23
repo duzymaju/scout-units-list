@@ -1,0 +1,6 @@
+<div class="sul-units-list">
+    <?php if (isset($this->current)): ?>
+        <span><?php echo $this->escape($this->current->getName()); ?></span>
+    <?php endif; ?>
+    <?php echo $this->dependents; ?>
+</div>

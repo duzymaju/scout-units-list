@@ -130,6 +130,18 @@ class ViewManager
      */
     public function render()
     {
+        echo $this->getRender();
+    }
+
+    /**
+     * Get render
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
+    public function getRender()
+    {
         try {
             if (!empty($this->fileName) && file_exists($this->fileName)) {
                 ob_start();
@@ -146,7 +158,7 @@ class ViewManager
             throw $e;
         }
 
-        echo $view;
+        return $view;
     }
 
     /**

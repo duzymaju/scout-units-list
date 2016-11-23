@@ -88,11 +88,7 @@ foreach (get_class_methods(ApiController::class) as $methodName) {
 
 // Shortcodes
 $shortcodesController = new ShortcodesController($loader, $request);
-add_shortcode('harcinreg-form', [
-    $shortcodesController,
-    'registrationForm',
-]);
-add_shortcode('harcinreg-list', [
+add_shortcode('sul-units-list', [
     $shortcodesController,
     'unitsList',
 ]);
