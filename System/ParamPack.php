@@ -2,6 +2,9 @@
 
 namespace ScoutUnitsList\System;
 
+use stdClass;
+use Traversable;
+
 /**
  * System param pack
  */
@@ -20,7 +23,7 @@ class ParamPack
      */
     public function __construct(array $params = [])
     {
-        $this->params = $params;
+        $this->params = $this->inputFilter($params);
     }
 
     /**
@@ -138,7 +141,7 @@ class ParamPack
     {
         $param = $this->get($name);
         if (isset($param)) {
-            $param = !in_array($this->params[$name], ['false', 'null', '', '0']) || false;
+            $param = !in_array($param, ['false', 'null', '', '0']) || false;
         } else {
             $param = $defaultValue;
         }
@@ -196,7 +199,7 @@ class ParamPack
      */
     public function add($name, $value)
     {
-        $this->params[$name] = $value;
+        $this->params[$name] = $this->inputFilter($value);
 
         return $this;
     }
@@ -263,5 +266,29 @@ class ParamPack
         }
 
         return $array;
+    }
+
+    /**
+     * Input filter
+     *
+     * @param mixed $input input
+     *
+     * @return mixed
+     */
+    protected function inputFilter($input)
+    {
+        if (is_string($input)) {
+            $input = trim(wp_check_invalid_utf8($input, true));
+        } elseif (is_array($input)) {
+            foreach ($input as $key => $value) {
+                $input[$key] = $this->filter($value);
+            }
+        } elseif (is_object($input) && ($input instanceof stdClass || $input instanceof Traversable)) {
+            foreach ($input as $key => $value) {
+                $input->$key = $this->filter($value);
+            }
+        }
+
+        return $input;
     }
 }

@@ -29,8 +29,7 @@ global $wpdb;
 
 require_once(dirname(__FILE__) . '/System/Loader.php');
 $loader = Loader::run();
-$loader->setName('scout-units-list')
-    ->setVersion('0.1.0');
+$loader->setVersion('0.1.0');
 
 $request = new Request();
 

@@ -23,7 +23,7 @@ final class Loader
     private $dirName;
 
     /** @var string */
-    private $absUrl;
+    private $mainUrl;
 
     /** @var string */
     private $prefix;
@@ -36,9 +36,12 @@ final class Loader
      */
     private function __construct()
     {
-        $this->mainPath = dirname(dirname(__FILE__));
+        $this->mainPath = dirname(plugin_dir_path(__FILE__));
+        $this->mainUrl = dirname(plugin_dir_url(__FILE__));
+
         $this->dirName = basename($this->mainPath);
-        $this->absUrl = get_bloginfo('wpurl') . '/wp-content/plugins/' . $this->dirName;
+        $this->name = $this->dirName;
+
         $namespaceParts = explode('\\', __NAMESPACE__);
         $this->prefix = array_shift($namespaceParts) . '\\';
 
@@ -129,7 +132,7 @@ final class Loader
      */
     public function getFileUrl($filePath)
     {
-        $fileUrl = $this->absUrl . '/' . ltrim($filePath);
+        $fileUrl = $this->mainUrl . '/' . ltrim($filePath);
 
         return $fileUrl;
     }
