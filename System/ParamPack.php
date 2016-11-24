@@ -281,11 +281,11 @@ class ParamPack
             $input = trim(wp_check_invalid_utf8($input, true));
         } elseif (is_array($input)) {
             foreach ($input as $key => $value) {
-                $input[$key] = $this->filter($value);
+                $input[$key] = $this->inputFilter($value);
             }
         } elseif (is_object($input) && ($input instanceof stdClass || $input instanceof Traversable)) {
             foreach ($input as $key => $value) {
-                $input->$key = $this->filter($value);
+                $input->$key = $this->inputFilter($value);
             }
         }
 
