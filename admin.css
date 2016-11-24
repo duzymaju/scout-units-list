@@ -1,0 +1,23 @@
+.autocomplete-box {
+    position: relative;
+}
+.autocomplete-value {
+    background: #23282d;
+    border-radius: 6px;
+    color: #eee;
+    display: none;
+    left: 4px;
+    max-width: 100%;
+    padding: 2px 6px;
+    position: absolute;
+    text-overflow: ellipsis;
+    top: 4px;
+    white-space: nowrap;
+}
+.autocomplete-box.autocomplete-filled .autocomplete-value {
+    display: inline-block;
+}
+.autocomplete-clear {
+    cursor: pointer;
+    font-weight: bold;
+}

@@ -55,6 +55,7 @@ add_action('init', function () use ($loader) {
         wp_localize_script('sul_admin_js', 'sul', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
         ]);
+        wp_enqueue_style('sul_admin_css', $loader->getFileUrl('/admin.css'), false, $loader->getVersion());
     }
 });
 

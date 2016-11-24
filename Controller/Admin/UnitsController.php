@@ -77,6 +77,9 @@ class UnitsController extends BasicController
         $form = new UnitAdminForm($request, $unit, [
             'config' => $this->get('manager.config')
                 ->get(),
+            'parentUnit' => $unit->getParentId() > 0 ? $unitRepository->getOneBy([
+                'id' => $unit->getParentId(),
+            ]) : null,
         ]);
         if ($form->isValid()) {
             try {

@@ -2,7 +2,7 @@
 
 namespace ScoutUnitsList\Form;
 
-use ScoutUnitsList\Form\Field\IntegerType;
+use ScoutUnitsList\Form\Field\IntegerAutocompleteType;
 use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
@@ -25,10 +25,8 @@ class PersonForm extends BasicForm
         $config = $settings['config'];
 
         $this
-            ->addField('userId', IntegerType::class, [
-                'attr' => [
-                    'data-sul-autocomplete-action' => 'sul_users',
-                ],
+            ->addField('userId', IntegerAutocompleteType::class, [
+                'action' => 'sul_users',
                 'label' => __('User ID', 'wpcore'),
                 'required' => true,
             ])

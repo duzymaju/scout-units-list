@@ -2,6 +2,7 @@
 
 namespace ScoutUnitsList\Form;
 
+use ScoutUnitsList\Form\Field\IntegerAutocompleteType;
 use ScoutUnitsList\Form\Field\IntegerType;
 use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringType;
@@ -79,11 +80,11 @@ class UnitAdminForm extends BasicForm
             ->addField('sort', IntegerType::class, [
                 'label' => __('Sort', 'wpcore'),
             ])
-            ->addField('parentId', IntegerType::class, [
-                'attr' => [
-                    'data-sul-autocomplete-action' => 'sul_units',
-                ],
+            ->addField('parentId', IntegerAutocompleteType::class, [
+                'action' => 'sul_units',
                 'label' => __('Parent', 'wpcore'),
+                'valueLabel' => is_object($settings['parentUnit']) && $settings['parentUnit'] instanceof Unit ?
+                    $settings['parentUnit']->getName() : null,
             ])
             ->addField('orderNo', StringType::class, [
                 'attr' => [
