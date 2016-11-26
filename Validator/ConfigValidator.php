@@ -7,7 +7,7 @@ use ScoutUnitsList\Validator\Condition\StringLengthCondition;
 /**
  * Configuration validator
  */
-class ConfigValidator extends BasicValidator
+class ConfigValidator extends Validator
 {
     /**
      * Set conditions

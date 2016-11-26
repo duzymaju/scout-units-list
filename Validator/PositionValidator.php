@@ -7,7 +7,7 @@ use ScoutUnitsList\Validator\Condition\StringLengthCondition;
 /**
  * Position validator
  */
-class PositionValidator extends BasicValidator
+class PositionValidator extends Validator
 {
     /**
      * Set conditions

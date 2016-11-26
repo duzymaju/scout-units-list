@@ -8,7 +8,7 @@ use ScoutUnitsList\Form\Field\StringType;
 /**
  * Basic validator
  */
-abstract class BasicValidator
+abstract class Validator
 {
     /** @var Field[] */
     private $fields = [];

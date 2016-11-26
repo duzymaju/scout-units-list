@@ -9,7 +9,7 @@ use ScoutUnitsList\Validator\ConfigValidator;
 /**
  * Configuration form
  */
-class ConfigForm extends BasicForm
+class ConfigForm extends Form
 {
     /**
      * Set fields

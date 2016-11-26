@@ -11,7 +11,7 @@ use ScoutUnitsList\Validator\PositionValidator;
 /**
  * Position form
  */
-class PositionForm extends BasicForm
+class PositionForm extends Form
 {
     /**
      * Set fields

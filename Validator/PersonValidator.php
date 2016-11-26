@@ -8,7 +8,7 @@ use ScoutUnitsList\Validator\Condition\StringLengthCondition;
 /**
  * Person validator
  */
-class PersonValidator extends BasicValidator
+class PersonValidator extends Validator
 {
     /**
      * Set conditions

@@ -12,7 +12,7 @@ use ScoutUnitsList\Validator\PersonValidator;
 /**
  * Person form
  */
-class PersonForm extends BasicForm
+class PersonForm extends Form
 {
     /**
      * Set fields

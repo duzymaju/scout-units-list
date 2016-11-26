@@ -14,7 +14,7 @@ use ScoutUnitsList\Validator\UnitValidator;
 /**
  * Unit admin form
  */
-class UnitAdminForm extends BasicForm
+class UnitAdminForm extends Form
 {
     /**
      * Get types

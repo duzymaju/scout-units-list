@@ -12,7 +12,7 @@ use ScoutUnitsList\Validator\UnitValidator;
 /**
  * Unit leader form
  */
-class UnitLeaderForm extends BasicForm
+class UnitLeaderForm extends Form
 {
     /**
      * Set fields

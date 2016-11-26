@@ -6,12 +6,12 @@ use ScoutUnitsList\Form\Field\BasicType;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\Tools\HelpersTrait;
 use ScoutUnitsList\Model\ModelInterface;
-use ScoutUnitsList\Validator\BasicValidator;
+use ScoutUnitsList\Validator\Validator;
 
 /**
  * Basic form
  */
-abstract class BasicForm
+abstract class Form
 {
     use HelpersTrait;
 
@@ -36,7 +36,7 @@ abstract class BasicForm
     /** @var ModelInterface */
     protected $model;
 
-    /** @var BasicValidator */
+    /** @var Validator */
     protected $validator;
 
     /**
