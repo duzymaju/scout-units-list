@@ -7,6 +7,7 @@ use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
 use ScoutUnitsList\Model\Config;
+use ScoutUnitsList\Model\User;
 use ScoutUnitsList\Validator\PersonValidator;
 
 /**
@@ -27,8 +28,10 @@ class PersonForm extends Form
         $this
             ->addField('userId', IntegerAutocompleteType::class, [
                 'action' => 'sul_users',
-                'label' => __('User ID', 'wpcore'),
+                'label' => __('User', 'wpcore'),
                 'required' => true,
+                'valueLabel' => is_object($settings['user']) && $settings['user'] instanceof User ?
+                    $settings['user']->getNiceName() . ' (' . $settings['user']->getLogin() . ')' : null,
             ])
             ->addField('positionId', SelectType::class, [
                 'label' => __('Position', 'wpcore'),

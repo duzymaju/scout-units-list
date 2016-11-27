@@ -42,17 +42,19 @@ class SelectType extends BasicType
      */
     public function setValueFromParamPack(ParamPack $paramPack)
     {
-        $this->value = $paramPack->getString($this->name);
+        $value = $paramPack->getString($this->name);
 
-        if (is_numeric($this->value)) {
-            $numericValue = +$this->value;
+        if (is_numeric($value)) {
+            $numericValue = +$value;
             $values = array_keys($this->options);
-            if (!in_array($this->value, $values) && in_array($numericValue, $values)) {
-                $this->value = $numericValue;
+            if (!in_array($value, $values) && in_array($numericValue, $values)) {
+                $value = $numericValue;
             }
-        } elseif (empty($this->value)) {
-            $this->value = null;
+        } elseif (empty($value)) {
+            $value = null;
         }
+
+        $this->setValue($value);
 
         return $this;
     }
@@ -66,7 +68,7 @@ class SelectType extends BasicType
     {
         echo '<select name="' . $this->escape($this->name) . '"' . $this->getAttr() . '>';
         foreach ($this->options as $key => $value) {
-            echo '<option value="' . $this->escape($key) . '"' . ($key == $this->value ? ' selected' : '') . '>' .
+            echo '<option value="' . $this->escape($key) . '"' . ($key == $this->getValue() ? ' selected' : '') . '>' .
                 $this->escape($value) . '</option>';
         }
         echo '</select>';

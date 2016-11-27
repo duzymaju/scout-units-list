@@ -74,16 +74,19 @@ class UnitsController extends BasicController
 
         $messageManager = $this->get('manager.message');
 
+        $parentId = $request->request->getInt('parentId', $unit->getParentId());
         $form = new UnitAdminForm($request, $unit, [
             'config' => $this->get('manager.config')
                 ->get(),
-            'parentUnit' => $unit->getParentId() > 0 ? $unitRepository->getOneBy([
-                'id' => $unit->getParentId(),
+            'parentUnit' => $parentId > 0 ? $unitRepository->getOneBy([
+                'id' => $parentId,
             ]) : null,
         ]);
         if ($form->isValid()) {
             try {
-                // @TODO: set proper slug here instead of inside model - check if there is no duplication
+                if (empty($id)) {
+                    $unit->setSlug($unitRepository->getUniqueSlug($unit));
+                }
                 $unitRepository->save($unit);
                 $messageManager->addSuccess(__('Unit was successfully saved.', 'scout-units-list'));
             } catch (Exception $e) {
@@ -158,8 +161,11 @@ class UnitsController extends BasicController
             $positionList[$position->getId()] = $position->getNameMale() . '/' . $position->getNameFemale();
         }
 
+        $personRepository = $this->get('repository.person');
         if (count($positionList) > 0) {
             $person = new Person();
+            $person->setUnitId($id);
+            $userId = $request->request->getInt('userId');
             $form = new PersonForm($request, $person, [
                 'action' => $request->getCurrentUrl([], [
                     'deletedId',
@@ -167,6 +173,13 @@ class UnitsController extends BasicController
                 'config' => $this->get('manager.config')
                     ->get(),
                 'positions' => $positionList,
+                'user' => $userId > 0 ? $this->get('repository.user')
+                    ->getOneBy([
+                        'id' => $userId,
+                    ]) : null,
+                'validator' => [
+                    'repository' => $personRepository,
+                ],
             ]);
         } else {
             $messageManager->addWarning(__('Add at least one position for this unit type to be able to manage persons.',
@@ -174,7 +187,6 @@ class UnitsController extends BasicController
             $form = null;
         }
 
-        $personRepository = $this->get('repository.person');
         $deletedId = $request->query->getInt('deletedId');
         if (isset($deletedId)) {
             $person = $personRepository->getOneBy([
@@ -191,7 +203,6 @@ class UnitsController extends BasicController
             }
         } elseif (isset($form) && $form->isValid()) {
             try {
-                $person->setUnitId($id);
                 $personRepository->save($person);
                 $messageManager->addSuccess(__('Person was successfully saved.', 'scout-units-list'));
                 $form->clear();

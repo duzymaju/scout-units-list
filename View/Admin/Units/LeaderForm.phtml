@@ -6,6 +6,7 @@
         <?php printf(__('Edit unit "%s"', 'scout-units-list'), $this->unit->getName()); ?>
     </h1>
     <?php $form = $this->form; $form->start(); ?>
+        <?php $form->errors(); ?>
         <dl>
             <?php $form->row('url'); ?>
             <?php $form->row('mail'); ?>

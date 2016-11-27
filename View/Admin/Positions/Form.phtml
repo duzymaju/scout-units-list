@@ -13,6 +13,7 @@
         <?php endif; ?>
     </h1>
     <?php $form = $this->form; $form->start(); ?>
+        <?php $form->errors(); ?>
         <dl>
             <?php $form->row('type'); ?>
             <?php $form->row('nameMale'); ?>

@@ -87,6 +87,7 @@ class UnitRepository extends BasicRepository
                 INDEX `' . $this->getIndexName(2) . '` (`type`),
                 INDEX `' . $this->getIndexName(3) . '` (`subtype`),
                 INDEX `' . $this->getIndexName(4) . '` (`parent_id`),
+                UNIQUE `' . $this->getIndexName(5) . '` (`slug`),
                 FOREIGN KEY (parent_id)
                     REFERENCES `' . $this->getPluginTableName() . '` (`id`)
                     ON DELETE CASCADE
@@ -111,18 +112,18 @@ class UnitRepository extends BasicRepository
     }
 
     /**
-     * Search for units by name
+     * Find by name
      *
      * @param string $name  name
      * @param int    $limit limit
      *
      * @return array
      */
-    public function searchForUnitsByName($name, $limit = 10)
+    public function findByName($name, $limit = 10)
     {
         $query = $this->db->prepare('SELECT * FROM `' . $this->getPluginTableName() . '` ' .
-                'WHERE `name` LIKE "%%:name%%" || `name_full` LIKE "%%:name%%" LIMIT ' . $limit)
-            ->setParam('name', $name)
+                'WHERE `name` LIKE :name || `name_full` LIKE :name LIMIT ' . ((int) $limit))
+            ->setParam('name', '%' . $this->escapeLike($name) . '%')
             ->getQuery();
         $results = $this->db->getResults($query, ARRAY_A);
 
@@ -132,5 +133,36 @@ class UnitRepository extends BasicRepository
         }
 
         return $items;
+    }
+
+    /**
+     * Get unique slug
+     * 
+     * @param Unit $unit unit
+     *
+     * @return string
+     */
+    public function getUniqueSlug(Unit $unit)
+    {
+        $slug = $unit->getSlug();
+        $query = $this->db->prepare('SELECT slug FROM `' . $this->getPluginTableName() . '` WHERE `slug` LIKE :slug')
+            ->setParam('slug', $this->escapeLike($slug) . '%')
+            ->getQuery();
+        $results = $this->db->getResults($query, ARRAY_A);
+
+        $slugs = [];
+        foreach ($results as $result) {
+            $slugs[] = $result['slug'];
+        }
+
+        $i = 1;
+        while (in_array($slug, $slugs)) {
+            $i++;
+            $suffix = '-' . $i;
+            $maxlength = 50 - strlen($suffix);
+            $slug = substr($unit->getSlug(), 0, $maxlength) . $suffix;
+        }
+
+        return $slug;
     }
 }

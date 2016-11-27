@@ -11,9 +11,13 @@ class ConfigValidator extends Validator
 {
     /**
      * Set conditions
+     *
+     * @param array $settings settings
      */
-    protected function setConditions()
+    protected function setConditions(array $settings)
     {
+        unset($settings);
+
         $this->getField('orderNoFormat')
             ->addCondition(new StringLengthCondition(300));
         $this->getField('orderNoPlaceholder')

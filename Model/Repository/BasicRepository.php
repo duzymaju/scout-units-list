@@ -343,6 +343,19 @@ abstract class BasicRepository
      */
     protected function escape($text)
     {
-        return esc_sql($text);
+        return $this->db->escape($text);
+    }
+
+    /**
+     * Escape for LIKE statements
+     * Has to be use before escape method
+     *
+     * @param string $text text
+     *
+     * @return string
+     */
+    protected function escapeLike($text)
+    {
+        return $this->db->escapeLike($text);
     }
 }

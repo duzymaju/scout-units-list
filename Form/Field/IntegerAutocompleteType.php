@@ -34,12 +34,12 @@ class IntegerAutocompleteType extends IntegerType
         if (empty($this->action)) {
             parent::widget();
         } else {
-            echo '<div class="autocomplete-box' . (isset($this->valueLabel) ? ' autocomplete-filled' : '') . '">' .
+            $isFilled = isset($this->valueLabel) && $this->getValue() !== null;
+            echo '<div class="autocomplete-box' . ($isFilled ? ' autocomplete-filled' : '') . '">' .
                 '<input type="text"> ' .
                 '<input type="hidden" data-autocomplete-action="' . $this->escape($this->action) . '" name="' .
                 $this->escape($this->getName()) . '" value="' . $this->escape($this->getValue()) . '"> ' .
-                '<span class="autocomplete-value">' .
-                    (isset($this->valueLabel) ? $this->escape($this->valueLabel) : '') . '</span>' .
+                '<span class="autocomplete-value">' . ($isFilled ? $this->escape($this->valueLabel) : '') . '</span>' .
                 '</div>';
         }
     }

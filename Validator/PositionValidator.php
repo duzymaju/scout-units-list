@@ -11,9 +11,13 @@ class PositionValidator extends Validator
 {
     /**
      * Set conditions
+     *
+     * @param array $settings settings
      */
-    protected function setConditions()
+    protected function setConditions(array $settings)
     {
+        unset($settings);
+
         $this->getField('nameMale')
             ->addCondition(new StringLengthCondition(50));
         $this->getField('nameFemale')

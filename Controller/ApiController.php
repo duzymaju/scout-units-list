@@ -14,18 +14,14 @@ class ApiController extends BasicController
     {
         $term = $this->request->query->getString('term');
 
-        $dbManager = $this->loader->get('manager.db');
-        $query = $dbManager->prepare('SELECT ID, user_login, user_nicename FROM wp_users ' .
-                'WHERE user_login LIKE "%%:term%%" || user_nicename LIKE "%%:term%%" LIMIT 10')
-            ->setParam('term', $term)
-            ->getQuery();
-        $results = $dbManager->getResults($query, ARRAY_A);
+        $users = $this->loader->get('repository.user')
+            ->findByName($term);
 
         $list = [];
-        foreach ($results as $result) {
+        foreach ($users as $user) {
             $list[] =[
-                'id' => $result['ID'],
-                'value' => $result['user_nicename'] . ' (' . $result['user_login'] . ')',
+                'id' => $user->getId(),
+                'value' => $user->getNiceName() . ' (' . $user->getLogin() . ')',
             ];
         }
 
@@ -42,7 +38,7 @@ class ApiController extends BasicController
         $term = $this->request->query->getString('term');
 
         $units = $this->loader->get('repository.unit')
-            ->searchForUnitsByName($term);
+            ->findByName($term);
 
         $list = [];
         foreach ($units as $unit) {

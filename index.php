@@ -22,6 +22,7 @@ use ScoutUnitsList\Manager\MessageManager;
 use ScoutUnitsList\Model\Repository\PersonRepository;
 use ScoutUnitsList\Model\Repository\PositionRepository;
 use ScoutUnitsList\Model\Repository\UnitRepository;
+use ScoutUnitsList\Model\Repository\UserRepository;
 use ScoutUnitsList\System\Loader;
 use ScoutUnitsList\System\Request;
 
@@ -39,6 +40,7 @@ $loader->set('manager.db', $dbManager)
     ->set('repository.person', new PersonRepository($dbManager))
     ->set('repository.position', new PositionRepository($dbManager))
     ->set('repository.unit', new UnitRepository($dbManager))
+    ->set('repository.user', new UserRepository($dbManager))
     ->set('manager.message', new MessageManager());
 
 // Initialization

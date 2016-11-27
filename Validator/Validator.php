@@ -4,30 +4,44 @@ namespace ScoutUnitsList\Validator;
 
 use ScoutUnitsList\Form\Field\BasicType as Field;
 use ScoutUnitsList\Form\Field\StringType;
+use ScoutUnitsList\Form\Form;
 
 /**
- * Basic validator
+ * Validator
  */
 abstract class Validator
 {
-    /** @var Field[] */
-    private $fields = [];
+    /** @var Form */
+    private $form;
 
     /**
      * Constructor
      *
-     * @param Field[] $fields fields
+     * @param Form  $form     form
+     * @param array $settings settings
      */
-    public function __construct(array $fields)
+    public function __construct(Form $form, array $settings = [])
     {
-        $this->fields = $fields;
-        $this->setConditions();
+        $this->form = $form;
+        $this->setConditions($settings);
     }
 
     /**
      * Set conditions
+     *
+     * @param array $settings settings
      */
-    abstract protected function setConditions();
+    abstract protected function setConditions(array $settings);
+
+    /**
+     * Get form
+     *
+     * @return Form
+     */
+    protected function getForm()
+    {
+        return $this->form;
+    }
 
     /**
      * Get field
@@ -38,24 +52,26 @@ abstract class Validator
      */
     protected function getField($name)
     {
+        $fields = $this->form->getFields();
         // @TODO: return null if field doesn't exist when YAML validation files will be ready
-        $field = array_key_exists($name, $this->fields) ? $this->fields[$name] : new StringType($name);
+        $field = array_key_exists($name, $fields) ? $fields[$name] : new StringType($name);
 
         return $field;
     }
 
     /**
      * Validate
-     *
-     * @param array $data data
      * 
      * @return bool
      */
-    public function validate(array $data)
+    public function validate()
     {
         $isValid = true;
-        foreach ($this->fields as $name => $field) {
-            if (!$field->validate(array_key_exists($name, $data) ? $data[$name] : null)) {
+        if (!$this->form->validate()) {
+            $isValid = false;
+        }
+        foreach ($this->form->getFields() as $field) {
+            if (!$field->validate()) {
                 $isValid = false;
             }
         }

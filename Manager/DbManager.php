@@ -248,4 +248,29 @@ class DbManager
 
         return $autoIncrement;
     }
+
+    /**
+     * Escape
+     *
+     * @param string $text text
+     *
+     * @return string
+     */
+    public function escape($text)
+    {
+        return esc_sql($text);
+    }
+
+    /**
+     * Escape for LIKE statements
+     * Has to be use before escape method
+     *
+     * @param string $text text
+     *
+     * @return string
+     */
+    public function escapeLike($text)
+    {
+        return $this->db->esc_like($text);
+    }
 }

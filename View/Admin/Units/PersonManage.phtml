@@ -18,6 +18,7 @@
         <?php endforeach; ?>
     </ul>
     <?php if (isset($this->form)): $form = $this->form; $form->start(); ?>
+        <?php $form->errors(); ?>
         <dl>
             <?php $form->row('userId'); ?>
             <?php $form->row('positionId'); ?>

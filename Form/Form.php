@@ -3,18 +3,16 @@
 namespace ScoutUnitsList\Form;
 
 use ScoutUnitsList\Form\Field\BasicType;
+use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
-use ScoutUnitsList\System\Tools\HelpersTrait;
 use ScoutUnitsList\Model\ModelInterface;
 use ScoutUnitsList\Validator\Validator;
 
 /**
- * Basic form
+ * Form
  */
-abstract class Form
+abstract class Form extends FormElement
 {
-    use HelpersTrait;
-
     /** @var string */
     protected $action;
 
@@ -54,13 +52,57 @@ abstract class Form
         }
         $this->action = array_key_exists('action', $settings) ? $settings['action'] : $request->getCurrentUrl();
 
+        $this->setValue($request->request);
         $this->request = $request;
         $this->model = $model;
 
         $this->setFields($settings);
 
         $validatorClass = $this->getValidatorClass();
-        $this->validator = new $validatorClass($this->fields);
+        $this->validator = new $validatorClass($this, array_key_exists('validator', $settings) ?
+            $settings['validator'] : []);
+    }
+
+    /**
+     * Get value
+     *
+     * @return ParamPack
+     */
+    public function getValue()
+    {
+        return parent::getValue();
+    }
+
+    /**
+     * Set value
+     *
+     * @param ParamPack $value value
+     *
+     * @return self
+     */
+    public function setValue(ParamPack $value)
+    {
+        return parent::setValue($value);
+    }
+
+    /**
+     * Get model
+     *
+     * @return ModelInterface
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * Get fields
+     *
+     * @return Field[]
+     */
+    public function getFields()
+    {
+        return $this->fields;
     }
 
     /**
@@ -118,12 +160,11 @@ abstract class Form
         if (($this->method == Request::METHOD_POST && $this->request->isPost()) ||
             ($this->method == Request::METHOD_PUT && $this->request->isPut()))
         {
-            $data = [];
             foreach ($this->fields as $name => $field) {
-                $field->setValueFromParamPack($this->request->request);
+                $field->setValueFromParamPack($this->getValue());
             }
 
-            $isValid = $this->validator->validate($data);
+            $isValid = $this->validator->validate();
 
             if ($isValid) {
                 foreach ($this->fields as $name => $field) {
@@ -159,6 +200,7 @@ abstract class Form
      */
     public function clear()
     {
+        parent::clear();
         foreach ($this->fields as $field) {
             $field->clear();
         }
@@ -179,6 +221,8 @@ abstract class Form
     /**
      * Start rendering
      *
+     * @param string $name name
+     *
      * @TODO: move to partial
      */
     public function row($name)
@@ -191,6 +235,8 @@ abstract class Form
 
     /**
      * Start rendering
+     *
+     * @param string $name name
      *
      * @TODO: move to partial
      */
@@ -205,18 +251,26 @@ abstract class Form
     /**
      * Start rendering
      *
+     * @param string|null $name name
+     *
      * @TODO: move to partial
      */
-    public function errors($name)
+    public function errors($name = null)
     {
-        $field = $this->get($name);
-        if (isset($field)) {
-            $field->errors();
+        if (isset($name)) {
+            $field = $this->get($name);
+            if (isset($field)) {
+                $field->errors();
+            }
+        } else {
+            parent::errors();
         }
     }
 
     /**
      * Start rendering
+     *
+     * @param string $name name
      *
      * @TODO: move to partial
      */

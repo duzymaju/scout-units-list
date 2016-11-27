@@ -27,7 +27,7 @@ class IntegerType extends BasicType
      */
     public function setValueFromParamPack(ParamPack $paramPack)
     {
-        $this->value = $paramPack->getInt($this->name);
+        $this->setValue($paramPack->getInt($this->name));
 
         return $this;
     }

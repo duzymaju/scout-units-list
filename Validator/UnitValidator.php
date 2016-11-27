@@ -12,9 +12,13 @@ class UnitValidator extends Validator
 {
     /**
      * Set conditions
+     *
+     * @param array $settings settings
      */
-    protected function setConditions()
+    protected function setConditions(array $settings)
     {
+        unset($settings);
+
         $this->getField('sort')
             ->addCondition(new MoreThanOrEqualsCondition(0));
         $this->getField('orderNo')
