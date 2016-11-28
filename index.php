@@ -35,8 +35,9 @@ $loader->setVersion('0.1.0');
 $request = new Request();
 
 $dbManager = new DbManager($wpdb);
+$configManager = new ConfigManager($loader->getName() . '_config');
 $loader->set('manager.db', $dbManager)
-    ->set('manager.config', new ConfigManager($loader->getName() . '_config'))
+    ->set('manager.config', $configManager)
     ->set('repository.person', new PersonRepository($dbManager))
     ->set('repository.position', new PositionRepository($dbManager))
     ->set('repository.unit', new UnitRepository($dbManager))
@@ -48,16 +49,26 @@ add_action('init', [
     $loader,
     'init',
 ]);
-add_action('init', function () use ($loader) {
+add_action('init', function () use ($loader, $configManager) {
     if (is_admin()) {
-        wp_enqueue_script('sul_admin_js', $loader->getFileUrl('admin.js'), [
+        $config = $configManager->get();
+        wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?v=3&key=' . $config->getMapKey());
+        wp_enqueue_script('sul-admin-js', $loader->getFileUrl('admin.js'), [
+            'google-maps-api',
             'jquery-core',
             'jquery-ui-autocomplete',
         ], $loader->getVersion());
-        wp_localize_script('sul_admin_js', 'sul', [
+        wp_localize_script('sul-admin-js', 'sul', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
+            'map' => [
+                'defaults' => [
+                    'lat' => $config->getMapDefaultLat(),
+                    'lng' => $config->getMapDefaultLng(),
+                    'zoom' => $config->getMapDefaultZoom(),
+                ],
+            ],
         ]);
-        wp_enqueue_style('sul_admin_css', $loader->getFileUrl('/admin.css'), false, $loader->getVersion());
+        wp_enqueue_style('sul-admin-css', $loader->getFileUrl('/admin.css'), false, $loader->getVersion());
     }
 });
 

@@ -2,6 +2,7 @@
 
 namespace ScoutUnitsList\Form;
 
+use ScoutUnitsList\Form\Field\FloatType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
 use ScoutUnitsList\Validator\ConfigValidator;
@@ -26,6 +27,18 @@ class ConfigForm extends Form
             ])
             ->addField('orderNoPlaceholder', StringType::class, [
                 'label' => __('Order number placeholder', 'wpcore'),
+            ])
+            ->addField('mapKey', StringType::class, [
+                'label' => __('Map key', 'wpcore'),
+            ])
+            ->addField('mapDefaultLat', FloatType::class, [
+                'label' => __('Map default latitude', 'wpcore'),
+            ])
+            ->addField('mapDefaultLng', FloatType::class, [
+                'label' => __('Map default longitude', 'wpcore'),
+            ])
+            ->addField('mapDefaultZoom', FloatType::class, [
+                'label' => __('Map default zoom', 'wpcore'),
             ])
             ->addField('submit', SubmitType::class, [
                 'label' => __('Save', 'wpcore'),

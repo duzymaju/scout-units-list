@@ -21,3 +21,8 @@
     cursor: pointer;
     font-weight: bold;
 }
+
+#sul-localization-map {
+    height: 400px;
+    width: 100%;
+}

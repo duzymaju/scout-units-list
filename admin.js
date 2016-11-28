@@ -1,4 +1,4 @@
-(function (document, $, sul) {
+(function (document, $, google, sul) {
     $(document).ready(function () {
         $('input[data-autocomplete-action]').each(function () {
             var hidden = $(this);
@@ -34,6 +34,8 @@
                 text.enableField();
             });
         });
+
+        $('#sul-localization-map').mapInit();
     });
 
     $.fn.enableField = function () {
@@ -47,5 +49,64 @@
             .prop('readonly', true)
             .prop('disabled', true);
     };
-})(document, jQuery, sul);
+
+    $.fn.mapInit = function () {
+        var box = $(this);
+        if (box.length !== 1) {
+            return;
+        }
+
+        var container = box.parent();
+        var latInput = container.children('input[name="localizationLat"]');
+        var lngInput = container.children('input[name="localizationLng"]');
+
+        var coordsSet = latInput.val() !== '' && lngInput.val() !== '';
+        var lat = coordsSet ? +latInput.val() : sul.map.defaults.lat;
+        var lng = coordsSet ? +lngInput.val() : sul.map.defaults.lng;
+        var coords = {
+            lat: lat,
+            lng: lng
+        };
+
+        var map = new google.maps.Map(box[0], {
+            center: coords,
+            zoom: sul.map.defaults.zoom
+        });
+        map.addListener('click', function (event) {
+            if (!coordsSet) {
+                addMarker(event.latLng);
+                coordsSet = true;
+            } else {
+                marker.setPosition(event.latLng);
+            }
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+            content: ''
+        });
+
+        var marker;
+        function addMarker(coords) {
+            marker = new google.maps.Marker({
+                animation: google.maps.Animation.DROP,
+                draggable: true,
+                map: map,
+                position: coords
+            });
+            marker.addListener('position_changed', function () {
+                var position = marker.getPosition();
+                latInput.val(position.lat());
+                lngInput.val(position.lng());
+                infoWindow.setContent('lat: ' + position.lat() + ', lng: ' + position.lng());
+            });
+            marker.addListener('click', function () {
+                infoWindow.open(map, marker);
+            });
+            infoWindow.setContent('lat: ' + coords.lat + ', lng: ' + coords.lng);
+        }
+        if (coordsSet) {
+            addMarker(coords);
+        }
+    };
+})(document, jQuery, google, sul);
 

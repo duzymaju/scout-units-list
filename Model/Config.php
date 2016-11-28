@@ -13,6 +13,18 @@ class Config implements ModelInterface
     /** @var string|null */
     protected $orderNoPlaceholder;
 
+    /** @var string */
+    protected $mapKey = 'AIzaSyAVv2tyh3rLYN0bQlLPyUWkPgGohVUyixE';
+
+    /** @var float */
+    protected $mapDefaultLat = .0;
+
+    /** @var float */
+    protected $mapDefaultLng = .0;
+
+    /** @var int */
+    protected $mapDefaultZoom = 0;
+
     /**
      * Get order number format
      *
@@ -57,6 +69,102 @@ class Config implements ModelInterface
     public function setOrderNoPlaceholder($orderNoPlaceholder)
     {
         $this->orderNoPlaceholder = empty($orderNoPlaceholder) ? null : $orderNoPlaceholder;
+
+        return $this;
+    }
+
+    /**
+     * Get map key
+     *
+     * @return string
+     */
+    public function getMapKey()
+    {
+        return $this->mapKey;
+    }
+
+    /**
+     * Set map key
+     *
+     * @param string $mapKey map key
+     *
+     * @return self
+     */
+    public function setMapKey($mapKey)
+    {
+        $this->mapKey = $mapKey;
+
+        return $this;
+    }
+
+    /**
+     * Get map default latitude
+     *
+     * @return float
+     */
+    public function getMapDefaultLat()
+    {
+        return $this->mapDefaultLat;
+    }
+
+    /**
+     * Set map default latitude
+     *
+     * @param float $mapDefaultLat map default latitude
+     *
+     * @return self
+     */
+    public function setMapDefaultLat($mapDefaultLat)
+    {
+        $this->mapDefaultLat = (float) $mapDefaultLat;
+
+        return $this;
+    }
+
+    /**
+     * Get map default longitude
+     *
+     * @return float
+     */
+    public function getMapDefaultLng()
+    {
+        return $this->mapDefaultLng;
+    }
+
+    /**
+     * Set map default longitude
+     *
+     * @param float $mapDefaultLng map default longitude
+     *
+     * @return self
+     */
+    public function setMapDefaultLng($mapDefaultLng)
+    {
+        $this->mapDefaultLng = (float) $mapDefaultLng;
+
+        return $this;
+    }
+
+    /**
+     * Get map default zoom
+     *
+     * @return float
+     */
+    public function getMapDefaultZoom()
+    {
+        return $this->mapDefaultZoom;
+    }
+
+    /**
+     * Set map default zoom
+     *
+     * @param float $mapDefaultZoom map default zoom
+     *
+     * @return self
+     */
+    public function setMapDefaultZoom($mapDefaultZoom)
+    {
+        $this->mapDefaultZoom = max(0, (int) $mapDefaultZoom);
 
         return $this;
     }
