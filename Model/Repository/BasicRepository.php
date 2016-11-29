@@ -145,19 +145,19 @@ abstract class BasicRepository
     }
 
     /**
-     * Create object
+     * Create model
      *
      * @param array $tableData table data
      *
      * @return object
      */
-    protected function createObject(array $tableData)
+    protected function createModel(array $tableData)
     {
         $modelClass = static::getModel();
         $model = new $modelClass();
-        foreach ($this->getMap() as $objectKey => $tableKey) {
+        foreach ($this->getMap() as $modelKey => $tableKey) {
             if (array_key_exists($tableKey, $tableData)) {
-                $this->setValue($model, $objectKey, $tableData[$tableKey]);
+                $this->setValue($model, $modelKey, $tableData[$tableKey]);
             }
         }
 
@@ -292,7 +292,7 @@ abstract class BasicRepository
 
         $items = [];
         foreach ($results as $result) {
-            $items[] = $this->createObject($result);
+            $items[] = $this->createModel($result);
         }
 
         return $items;

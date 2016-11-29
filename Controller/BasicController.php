@@ -58,6 +58,15 @@ abstract class BasicController
     }
 
     /**
+     * Respond with 401
+     */
+    public function respondWith401()
+    {
+        $this->getView('Admin/Error401')
+            ->render();
+    }
+
+    /**
      * Respond with 404
      */
     public function respondWith404()

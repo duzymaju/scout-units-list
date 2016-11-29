@@ -190,6 +190,28 @@ class ParamPack
     }
 
     /**
+     * Get option
+     *
+     * @param string $name            name
+     * @param array  $availableValues available values
+     * @param mixed  $defaultValue    default value
+     *
+     * @return mixed
+     */
+    public function getOption($name, array $availableValues, $defaultValue = null)
+    {
+        $param = $this->get($name);
+        $numericParam = is_numeric($param) ? +$param : null;
+        if (in_array($numericParam, $availableValues)) {
+            $param = $numericParam;
+        } elseif (!in_array($param, $availableValues)) {
+            $param = $defaultValue;
+        }
+
+        return $param;
+    }
+
+    /**
      * Add
      *
      * @param string $name  name

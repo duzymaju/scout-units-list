@@ -4,34 +4,41 @@
     <?php endforeach; ?>
     <h1>
         <?php _e('Units list', 'scout-units-list'); ?>
-        <a href="<?php $this->link(['action' => 'admin-form']); ?>" class="page-title-action">
-            <?php _e('Add new', 'scout-units-list'); ?>
-        </a>
+        <?php if (current_user_can('sul_manage_units')): ?>
+            <a href="<?php $this->link(['action' => 'admin-form']); ?>" class="page-title-action">
+                <?php _e('Add new', 'scout-units-list'); ?>
+            </a>
+        <?php endif; ?>
     </h1>
 
     <ul>
         <?php foreach ($this->units as $unit): ?>
             <li>
                 <a href="<?php echo $this->link([
-                    'action' => 'admin-form',
+                    'action' => 'leader-form',
                     'id' => $unit->getId(),
                 ]); ?>"><?php echo $this->escape($unit->getName()); ?></a>
-                | <a href="<?php echo $this->link([
-                    'action' => 'admin-form',
-                    'id' => $unit->getId(),
-                ]); ?>">edytuj</a>
                 | <a href="<?php echo $this->link([
                     'action' => 'leader-form',
                     'id' => $unit->getId(),
                 ]); ?>">konfiguruj</a>
-                | <a href="<?php echo $this->link([
-                    'action' => 'person-manage',
-                    'id' => $unit->getId(),
-                ]); ?>">zarządzaj funkcyjnymi</a>
-                | <a href="<?php echo $this->link([
-                    'action' => 'delete',
-                    'id' => $unit->getId(),
-                ]); ?>">usuń</a>
+                <?php if (current_user_can('sul_manage_persons')): ?>
+                    | <a href="<?php echo $this->link([
+                        'action' => 'person-manage',
+                        'id' => $unit->getId(),
+                    ]); ?>">zarządzaj funkcyjnymi</a>
+                <?php endif; ?>
+                <?php if (current_user_can('sul_manage_units')): ?>
+                    | <a href="<?php echo $this->link([
+                        'action' => 'admin-form',
+                        'id' => $unit->getId(),
+                    ]); ?>">edytuj</a>
+                    | <a href="<?php echo $this->link([
+                        'action' => 'delete',
+                        'id' => $unit->getId(),
+                    ]); ?>">usuń</a>
+                <?php endif; ?>
+
             </li>
         <?php endforeach; ?>
     </ul>

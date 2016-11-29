@@ -129,7 +129,7 @@ class UnitRepository extends BasicRepository
 
         $items = [];
         foreach ($results as $result) {
-            $items[] = $this->createObject($result);
+            $items[] = $this->createModel($result);
         }
 
         return $items;

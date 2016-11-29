@@ -4,6 +4,7 @@ namespace ScoutUnitsList\Controller\Admin;
 
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\BasicController;
+use ScoutUnitsList\Exception\UnauthorizedException;
 use ScoutUnitsList\Form\ConfigForm;
 use ScoutUnitsList\System\Request;
 
@@ -20,7 +21,15 @@ class ConfigController extends BasicController
      */
     public function routes()
     {
-        $this->formAction($this->request);
+        try {
+            if (!current_user_can('sul_manage_config')) {
+                throw new UnauthorizedException();
+            }
+
+            $this->formAction($this->request);
+        } catch (UnauthorizedException $e) {
+            $this->respondWith401($e);
+        }
     }
 
     /**

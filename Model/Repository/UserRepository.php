@@ -2,9 +2,9 @@
 
 namespace ScoutUnitsList\Model\Repository;
 
-use DateTime;
 use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Model\User;
+use WP_User;
 
 /**
  * User repository
@@ -47,6 +47,26 @@ class UserRepository extends NativeRepository
     }
 
     /**
+     * Create model from WP user
+     *
+     * @param WP_User $wpUser WP user
+     *
+     * @return User
+     */
+    protected function createModelFromWpUser(WP_User $wpUser)
+    {
+        $modelClass = static::getModel();
+        $model = new $modelClass();
+        foreach ($this->getMap() as $modelKey => $objectKey) {
+            if (isset($wpUser->$objectKey)) {
+                $this->setValue($model, $modelKey, $wpUser->$objectKey);
+            }
+        }
+
+        return $model;
+    }
+
+    /**
      * Find by name
      * 
      * @param string $name name
@@ -63,9 +83,25 @@ class UserRepository extends NativeRepository
 
         $list = [];
         foreach ($results as $result) {
-            $list[] = $this->createObject($result);
+            $list[] = $this->createModel($result);
         }
 
         return $list;
+    }
+
+    /**
+     * Get current user
+     *
+     * @return User|null
+     */
+    public function getCurrentUser()
+    {
+        $wpUser = wp_get_current_user();
+        if ($wpUser->ID == 0) {
+            return null;
+        }
+        $user = $this->createModelFromWpUser($wpUser);
+
+        return $user;
     }
 }

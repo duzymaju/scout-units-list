@@ -4,6 +4,8 @@ namespace ScoutUnitsList\Controller\Admin;
 
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\BasicController;
+use ScoutUnitsList\Exception\NotFoundException;
+use ScoutUnitsList\Exception\UnauthorizedException;
 use ScoutUnitsList\Form\PositionForm;
 use ScoutUnitsList\Model\Position;
 use ScoutUnitsList\System\Request;
@@ -21,10 +23,13 @@ class PositionsController extends BasicController
      */
     public function routes()
     {
-        $request = $this->request;
-        $action = $request->query->getString('action', 'list');
-
         try {
+            if (!current_user_can('sul_manage_positions')) {
+                throw new UnauthorizedException();
+            }
+            
+            $request = $this->request;
+            $action = $request->query->getString('action', 'list');
             $id = $request->query->getInt('id');
 
             switch ($action) {
@@ -42,6 +47,8 @@ class PositionsController extends BasicController
                     $this->listAction();
                     break;
             }
+        } catch (UnauthorizedException $e) {
+            $this->respondWith401($e);
         } catch (NotFoundException $e) {
             $this->respondWith404($e);
         }

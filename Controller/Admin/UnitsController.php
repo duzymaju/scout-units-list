@@ -5,6 +5,7 @@ namespace ScoutUnitsList\Controller\Admin;
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\BasicController;
 use ScoutUnitsList\Exception\NotFoundException;
+use ScoutUnitsList\Exception\UnauthorizedException;
 use ScoutUnitsList\Form\PersonForm;
 use ScoutUnitsList\Form\UnitAdminForm;
 use ScoutUnitsList\Form\UnitLeaderForm;
@@ -25,10 +26,9 @@ class UnitsController extends BasicController
      */
     public function routes()
     {
-        $request = $this->request;
-        $action = $request->query->getString('action', 'list');
-
         try {
+            $request = $this->request;
+            $action = $request->query->getString('action', 'list');
             $id = $request->query->getInt('id');
 
             switch ($action) {
@@ -54,6 +54,8 @@ class UnitsController extends BasicController
                     $this->listAction();
                     break;
             }
+        } catch (UnauthorizedException $e) {
+            $this->respondWith401($e);
         } catch (NotFoundException $e) {
             $this->respondWith404($e);
         }
@@ -64,9 +66,15 @@ class UnitsController extends BasicController
      *
      * @param Request  $request request
      * @param int|null $id      ID
+     *
+     * @throws UnauthorizedException
      */
     public function adminFormAction(Request $request, $id = null)
     {
+        if (!current_user_can('sul_manage_units')) {
+            throw new UnauthorizedException();
+        }
+
         $unitRepository = $this->get('repository.unit');
         $unit = $id > 0 ? $unitRepository->getOneByOr404([
                 'id' => $id,
@@ -108,6 +116,8 @@ class UnitsController extends BasicController
      *
      * @param Request $request request
      * @param int     $id      ID
+     *
+     * @throws UnauthorizedException
      */
     public function leaderFormAction(Request $request, $id)
     {
@@ -115,6 +125,17 @@ class UnitsController extends BasicController
         $unit = $unitRepository->getOneByOr404([
             'id' => $id,
         ]);
+
+        if (!current_user_can('sul_manage_units')) {
+            if (!current_user_can('sul_modify_own_units')) {
+                throw new UnauthorizedException();
+            }
+            $personRepository = $this->get('repository.person');
+            $userRepository = $this->get('repository.user');
+            if (!$personRepository->isUnitLeader($userRepository->getCurrentUser(), $unit)) {
+                throw new UnauthorizedException();
+            }
+        }
 
         $messageManager = $this->get('manager.message');
 
@@ -142,9 +163,15 @@ class UnitsController extends BasicController
      *
      * @param Request $request request
      * @param int     $id      ID
+     *
+     * @throws UnauthorizedException
      */
     public function personManageAction(Request $request, $id)
     {
+        if (!current_user_can('sul_manage_persons')) {
+            throw new UnauthorizedException();
+        }
+
         $unitRepository = $this->get('repository.unit');
         $unit = $unitRepository->getOneByOr404([
             'id' => $id,
@@ -227,9 +254,15 @@ class UnitsController extends BasicController
      * Delete action
      *
      * @param int $id ID
+     *
+     * @throws UnauthorizedException
      */
     public function deleteAction($id)
     {
+        if (!current_user_can('sul_manage_units')) {
+            throw new UnauthorizedException();
+        }
+
         $unitRepository = $this->get('repository.unit');
         $unit = $unitRepository->getOneByOr404([
             'id' => $id,
@@ -248,11 +281,24 @@ class UnitsController extends BasicController
 
     /**
      * List action
+     *
+     * @throws UnauthorizedException
      */
     public function listAction()
     {
-        $units = $this->get('repository.unit')
-            ->getBy([]);
+        if (!current_user_can('sul_manage_units') && !current_user_can('sul_modify_own_units')) {
+            throw new UnauthorizedException();
+        }
+
+        $conditions = [];
+        if (!current_user_can('sul_manage_units')) {
+            $user = $this->get('repository.user')
+                ->getCurrentUser();
+            $conditions['id'] = $this->get('repository.person')
+                ->getSubordinateUnitIds($user);
+        }
+        $units = !array_key_exists('id', $conditions) || count($conditions['id']) > 0 ? $this->get('repository.unit')
+            ->getBy($conditions) : [];
 
         $this->getView('Admin/Units/List', [
             'messages' => $this->get('manager.message')

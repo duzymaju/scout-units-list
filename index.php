@@ -19,6 +19,7 @@ use ScoutUnitsList\Controller\ShortcodesController;
 use ScoutUnitsList\Manager\ConfigManager;
 use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Manager\MessageManager;
+use ScoutUnitsList\Manager\RoleManager;
 use ScoutUnitsList\Model\Repository\PersonRepository;
 use ScoutUnitsList\Model\Repository\PositionRepository;
 use ScoutUnitsList\Model\Repository\UnitRepository;
@@ -51,6 +52,21 @@ add_action('init', [
 ]);
 add_action('init', function () use ($loader, $configManager) {
     if (is_admin()) {
+        $roleManager = new RoleManager();
+        $roleManager
+            ->addCapabilities('subscriber', [
+                'sul_modify_own_units',
+            ])
+            ->addCapabilities('editor', [
+                'sul_manage_persons',
+                'sul_manage_units',
+            ])
+            ->addCapabilities('administrator', [
+                'sul_manage_config',
+                'sul_manage_positions',
+            ])
+        ;
+
         $config = $configManager->get();
         wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?v=3&key=' . $config->getMapKey());
         wp_enqueue_script('sul-admin-js', $loader->getFileUrl('admin.js'), [

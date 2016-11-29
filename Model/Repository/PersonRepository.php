@@ -4,8 +4,8 @@ namespace ScoutUnitsList\Model\Repository;
 
 use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Model\Person;
-use ScoutUnitsList\Model\Repository\PositionRepository;
-use ScoutUnitsList\Model\Repository\UnitRepository;
+use ScoutUnitsList\Model\Unit;
+use ScoutUnitsList\Model\User;
 
 /**
  * Person repository
@@ -87,5 +87,49 @@ class PersonRepository extends BasicRepository
         ');
 
         return $this;
+    }
+
+    /**
+     * Is unit leader
+     *
+     * @param User $user user
+     * @param Unit $unit unit
+     *
+     * @return bool
+     */
+    public function isUnitLeader(User $user, Unit $unit)
+    {
+        $ids = $this->getSubordinateUnitIds($user);
+        $isLeader = in_array($unit->getId(), $ids);
+
+        return $isLeader;
+    }
+
+    /**
+     * Get subordinate unit IDs
+     *
+     * @param User $user user
+     *
+     * @return array
+     */
+    public function getSubordinateUnitIds(User $user)
+    {
+        $query = $this->db
+            ->prepare('
+                SELECT pe.unit_id
+                    FROM `' . $this->getPluginTableName() . '` pe
+                    INNER JOIN `' . $this->getPluginTableName(PositionRepository::getName()) . '` po
+                    ON pe.position_id = po.id
+                    WHERE pe.user_id = :userId && po.leader = :leader
+            ')
+            ->setParam('userId', $user->getId())
+            ->setParam('leader', 1)
+            ->getQuery();
+        $ids = [];
+        foreach ($this->db->getColumn($query) as $id) {
+            $ids[] = (int) $id;
+        }
+
+        return $ids;
     }
 }
