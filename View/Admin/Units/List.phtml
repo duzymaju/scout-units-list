@@ -1,7 +1,4 @@
 <div class="wrap">
-    <?php foreach ($this->messages as $message): ?>
-        <p class="message <?php echo $message->type; ?>"><?php echo $this->escape($message->text); ?></p>
-    <?php endforeach; ?>
     <h1>
         <?php _e('Units list', 'scout-units-list'); ?>
         <?php if (current_user_can('sul_manage_units')): ?>
@@ -10,7 +7,9 @@
             </a>
         <?php endif; ?>
     </h1>
-
+    <?php echo $this->partial('Partial/Messages', [
+        'messages' => $this->messages,
+    ]); ?>
     <ul>
         <?php foreach ($this->units as $unit): ?>
             <li>

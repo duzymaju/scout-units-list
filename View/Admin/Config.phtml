@@ -1,10 +1,10 @@
 <div class="wrap">
-    <?php foreach ($this->messages as $message): ?>
-        <p class="message <?php echo $message->type; ?>"><?php echo $this->escape($message->text); ?></p>
-    <?php endforeach; ?>
     <h1>
         <?php _e('Configuration', 'scout-units-list'); ?>
     </h1>
+    <?php echo $this->partial('Partial/Messages', [
+        'messages' => $this->messages,
+    ]); ?>
     <?php $form = $this->form; $form->start(); ?>
         <dl>
             <?php $form->row('orderNoFormat'); ?>
