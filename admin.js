@@ -95,14 +95,17 @@
             });
             marker.addListener('position_changed', function () {
                 var position = marker.getPosition();
-                latInput.val(position.lat());
-                lngInput.val(position.lng());
-                infoWindow.setContent('lat: ' + position.lat() + ', lng: ' + position.lng());
+                setCoordinates(position.lat(), position.lng());
             });
             marker.addListener('click', function () {
                 infoWindow.open(map, marker);
             });
-            infoWindow.setContent('lat: ' + coords.lat + ', lng: ' + coords.lng);
+            setCoordinates(coords.lat, coords.lng);
+        }
+        function setCoordinates(lat, lng) {
+            latInput.val(lat);
+            lngInput.val(lng);
+            infoWindow.setContent('lat: ' + lat + ', lng: ' + lng);
         }
         if (coordsSet) {
             addMarker(coords);

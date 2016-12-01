@@ -2,7 +2,7 @@
 
 namespace ScoutUnitsList\Validator\Condition;
 
-use ScoutUnitsList\Model\Repository\BasicRepository;
+use ScoutUnitsList\Model\Repository\Repository;
 use ScoutUnitsList\System\ParamPack;
 
 /**
@@ -10,7 +10,7 @@ use ScoutUnitsList\System\ParamPack;
  */
 class UniqueCondition implements ConditionInterface
 {
-    /** @var BasicRepository */
+    /** @var Repository */
     protected $repository;
 
     /** @var array */
@@ -19,10 +19,10 @@ class UniqueCondition implements ConditionInterface
     /**
      * Constructor
      *
-     * @param BasicRepository $repository repository
-     * @param array           $fieldNames field names
+     * @param Repository $repository repository
+     * @param array      $fieldNames field names
      */
-    public function __construct(BasicRepository $repository, array $fieldNames)
+    public function __construct(Repository $repository, array $fieldNames)
     {
         $this->repository = $repository;
         $this->fieldNames = $fieldNames;

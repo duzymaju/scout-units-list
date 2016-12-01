@@ -10,9 +10,9 @@ use ScoutUnitsList\Model\ModelInterface;
 use ScoutUnitsList\System\Tools\Paginator;
 
 /**
- * Basic repository
+ * Repository
  */
-abstract class BasicRepository
+abstract class Repository
 {
     /** @var DbManager */
     protected $db;
@@ -213,9 +213,16 @@ abstract class BasicRepository
         }
 
         foreach ($this->getMap(false, true) as $key => $element) {
-            $methodName = 'get' . ucfirst($key);
-            if (method_exists($model, $methodName)) {
-                $statement->setParam($element['dbKey'], $model->$methodName(), $element['type']);
+            $ucName = ucfirst($key);
+            $methodGet = 'get' . $ucName;
+            $methodIs = 'is' . $ucName;
+            $methodHas = 'has' . $ucName;
+            if (method_exists($model, $methodGet)) {
+                $statement->setParam($element['dbKey'], $model->$methodGet(), $element['type']);
+            } elseif (method_exists($model, $methodIs)) {
+                $statement->setParam($element['dbKey'], $model->$methodIs(), $element['type']);
+            } elseif (method_exists($model, $methodHas)) {
+                $statement->setParam($element['dbKey'], $model->$methodHas(), $element['type']);
             }
         }
         $statement->execute();

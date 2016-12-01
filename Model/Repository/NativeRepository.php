@@ -5,7 +5,7 @@ namespace ScoutUnitsList\Model\Repository;
 /**
  * Native repository
  */
-abstract class NativeRepository extends BasicRepository
+abstract class NativeRepository extends Repository
 {
     /**
      * Install

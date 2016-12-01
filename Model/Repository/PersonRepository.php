@@ -10,7 +10,7 @@ use ScoutUnitsList\Model\User;
 /**
  * Person repository
  */
-class PersonRepository extends BasicRepository
+class PersonRepository extends Repository
 {
     /**
      * Get name

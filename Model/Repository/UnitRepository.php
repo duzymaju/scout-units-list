@@ -8,7 +8,7 @@ use ScoutUnitsList\Model\Unit;
 /**
  * Unit repository
  */
-class UnitRepository extends BasicRepository
+class UnitRepository extends Repository
 {
     /**
      * Get name

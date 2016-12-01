@@ -8,7 +8,7 @@ use ScoutUnitsList\Model\Position;
 /**
  * Position repository
  */
-class PositionRepository extends BasicRepository
+class PositionRepository extends Repository
 {
     /**
      * Get name
