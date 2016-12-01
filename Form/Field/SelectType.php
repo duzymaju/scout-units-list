@@ -29,7 +29,7 @@ class SelectType extends BasicType
                 $this->options = array_merge($options, $this->options);
             }
 
-            $this->addCondition(new InSetCondition($this->options));
+            $this->addCondition(new InSetCondition(array_keys($this->options)));
         }
     }
 
@@ -67,9 +67,19 @@ class SelectType extends BasicType
     public function widget()
     {
         echo '<select name="' . $this->escape($this->name) . '"' . $this->getAttr() . '>';
-        foreach ($this->options as $key => $value) {
-            echo '<option value="' . $this->escape($key) . '"' . ($key == $this->getValue() ? ' selected' : '') . '>' .
-                $this->escape($value) . '</option>';
+        foreach ($this->options as $optionKey => $optionValue) {
+            $attr = '';
+            if (is_array($optionValue)) {
+                if (array_key_exists('attr', $optionValue)) {
+                    foreach ($optionValue['attr'] as $key => $value) {
+                        $attr .= ' ' . $this->escape($key) . '="' . $this->escape($value) . '"';
+                    }
+                }
+                $optionValue = $optionValue['name'];
+            }
+            echo '<option value="' . $this->escape($optionKey) . '"' .
+                ($optionKey == $this->getValue() ? ' selected' : '') . $attr . '>' . $this->escape($optionValue) .
+                '</option>';
         }
         echo '</select>';
     }

@@ -17,7 +17,11 @@
             </li>
         <?php endforeach; ?>
     </ul>
-    <?php if (isset($this->form)): $form = $this->form; $form->start(); ?>
+    <?php if (isset($this->form)): $form = $this->form; $form->start([
+        'attr' => [
+            'class' => 'sul-form',
+        ],
+    ]); ?>
         <?php $form->errors(); ?>
         <dl>
             <?php $form->row('userId'); ?>

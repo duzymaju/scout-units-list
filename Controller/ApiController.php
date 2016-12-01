@@ -2,11 +2,15 @@
 
 namespace ScoutUnitsList\Controller;
 
+use ScoutUnitsList\System\Tools\TypesDependencyTrait;
+
 /**
  * API controller
  */
 class ApiController extends Controller
 {
+    use TypesDependencyTrait;
+
     /**
      * Users action
      */
@@ -36,9 +40,11 @@ class ApiController extends Controller
     public function unitsAction()
     {
         $term = $this->request->query->getString('term');
+        $childType = $this->request->query->getString('type');
+        $types = empty($childType) ? [] : $this->getPossibleParentTypes($childType);
 
         $units = $this->loader->get('repository.unit')
-            ->findByName($term);
+            ->findByNameAndTypes($term, $types);
 
         $list = [];
         foreach ($units as $unit) {

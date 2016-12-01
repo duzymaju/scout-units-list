@@ -13,11 +13,11 @@ class InSetCondition implements ConditionInterface
     /**
      * Constructor
      *
-     * @param array $set set
+     * @param array $values values
      */
-    public function __construct(array $set)
+    public function __construct(array $values)
     {
-        $this->values = array_keys($set);
+        $this->values = $values;
     }
     
     /**

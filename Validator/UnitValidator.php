@@ -4,6 +4,7 @@ namespace ScoutUnitsList\Validator;
 
 use ScoutUnitsList\Validator\Condition\MoreThanOrEqualsCondition;
 use ScoutUnitsList\Validator\Condition\StringLengthCondition;
+use ScoutUnitsList\Validator\Condition\TypesDependencyCondition;
 
 /**
  * Unit validator
@@ -17,8 +18,8 @@ class UnitValidator extends Validator
      */
     protected function setConditions(array $settings)
     {
-        unset($settings);
-
+        $this->getForm()
+            ->addCondition(new TypesDependencyCondition($settings['repository'], 'type', 'subtype', 'parentId'));
         $this->getField('sort')
             ->addCondition(new MoreThanOrEqualsCondition(0));
         $this->getField('orderNo')

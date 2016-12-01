@@ -9,6 +9,7 @@ use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
 use ScoutUnitsList\Model\Config;
 use ScoutUnitsList\Model\Unit;
+use ScoutUnitsList\System\Tools\TypesDependencyTrait;
 use ScoutUnitsList\Validator\UnitValidator;
 
 /**
@@ -16,6 +17,8 @@ use ScoutUnitsList\Validator\UnitValidator;
  */
 class UnitAdminForm extends Form
 {
+    use TypesDependencyTrait;
+
     /**
      * Get types
      *
@@ -38,7 +41,7 @@ class UnitAdminForm extends Form
      */
     private function getSubtypes()
     {
-        return [
+        $subtypes = [
             Unit::SUBTYPE_CUBSCOUTS => __('Cubscouts', 'wpcore'),
             Unit::SUBTYPE_SCOUTS => __('Scouts', 'wpcore'),
             Unit::SUBTYPE_SENIORS_COUTS => __('Senior scouts', 'wpcore'),
@@ -47,6 +50,16 @@ class UnitAdminForm extends Form
             Unit::SUBTYPE_GROUP => __('Group', 'wpcore'),
             Unit::SUBTYPE_UNION_OF_GROUPS => __('Union of troops', 'wpcore'),
         ];
+        foreach ($subtypes as $subtype => $name) {
+            $subtypes[$subtype] = [
+                'attr' => [
+                    'data-for-type' => $this->getTypeForSubtype($subtype),
+                ],
+                'name' => $name,
+            ];
+        }
+
+        return $subtypes;
     }
 
     /**

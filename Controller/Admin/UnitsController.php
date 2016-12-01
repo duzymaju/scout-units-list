@@ -91,6 +91,9 @@ class UnitsController extends Controller
             'parentUnit' => $parentId > 0 ? $unitRepository->getOneBy([
                 'id' => $parentId,
             ]) : null,
+            'validator' => [
+                'repository' => $unitRepository,
+            ],
         ]);
         if ($form->isValid()) {
             try {

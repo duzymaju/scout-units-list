@@ -2,7 +2,7 @@
 
 namespace ScoutUnitsList\Form;
 
-use ScoutUnitsList\Form\Field\BasicType;
+use ScoutUnitsList\Form\Field\BasicType as Field;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\Model\ModelInterface;
@@ -120,7 +120,7 @@ abstract class Form extends FormElement
     protected function addField($name, $type, array $settings = [])
     {
         $field = new $type($name, $settings);
-        if ($field instanceof BasicType) {
+        if ($field instanceof Field) {
             $this->fields[$name] = $field;
         }
 
@@ -211,11 +211,19 @@ abstract class Form extends FormElement
     /**
      * Start rendering
      *
+     * @param array $params params
+     *
      * @TODO: move to partial
      */
-    public function start()
+    public function start(array $params = [])
     {
-        echo '<form action="' . $this->action . '" method="' . $this->escape($this->method) . '">';
+        $attr = '';
+        if (array_key_exists('attr', $params)) {
+            foreach ($params['attr'] as $key => $value) {
+                $attr .= ' ' . $this->escape($key) . '="' . $this->escape($value) . '"';
+            }
+        }
+        echo '<form action="' . $this->action . '" method="' . $this->escape($this->method) . '"' . $attr . '>';
     }
 
     /**

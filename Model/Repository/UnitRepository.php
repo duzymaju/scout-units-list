@@ -112,19 +112,24 @@ class UnitRepository extends Repository
     }
 
     /**
-     * Find by name
+     * Find by name and types
      *
      * @param string $name  name
+     * @param array  $types types
      * @param int    $limit limit
      *
      * @return array
      */
-    public function findByName($name, $limit = 10)
+    public function findByNameAndTypes($name, array $types = null, $limit = 10)
     {
-        $query = $this->db->prepare('SELECT * FROM `' . $this->getPluginTableName() . '` ' .
-                'WHERE `name` LIKE :name || `name_full` LIKE :name LIMIT ' . ((int) $limit))
-            ->setParam('name', '%' . $this->escapeLike($name) . '%')
-            ->getQuery();
+        $statement = $this->db->prepare('SELECT * FROM `' . $this->getPluginTableName() . '` ' .
+                'WHERE (`name` LIKE :name || `name_full` LIKE :name)' .
+                (isset($types) ? ' && `type` IN (:types)' : '') . ' LIMIT ' . ((int) $limit))
+            ->setParam('name', '%' . $this->escapeLike($name) . '%');
+        if (isset($types)) {
+            $statement->setParam('types', $types);
+        }
+        $query = $statement->getQuery();
         $results = $this->db->getResults($query, ARRAY_A);
 
         $items = [];

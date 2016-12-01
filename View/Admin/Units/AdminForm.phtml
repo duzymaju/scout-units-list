@@ -14,7 +14,11 @@
     <?php echo $this->partial('Partial/Messages', [
         'messages' => $this->messages,
     ]); ?>
-    <?php $form = $this->form; $form->start(); ?>
+    <?php $form = $this->form; $form->start([
+        'attr' => [
+            'class' => 'sul-form',
+        ],
+    ]); ?>
         <?php $form->errors(); ?>
         <dl>
             <?php $form->row('status'); ?>
