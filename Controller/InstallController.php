@@ -7,7 +7,7 @@ use Exception;
 /**
  * Install controller
  */
-class InstallController extends BasicController
+class InstallController extends Controller
 {
     /**
      * Activate

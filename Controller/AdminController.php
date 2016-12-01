@@ -9,7 +9,7 @@ use ScoutUnitsList\Controller\Admin\UnitsController;
 /**
  * Admin controller
  */
-class AdminController extends BasicController
+class AdminController extends Controller
 {
     /** @const string */
     const SCRIPT_NAME = 'admin.php';

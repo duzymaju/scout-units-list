@@ -3,7 +3,7 @@
 namespace ScoutUnitsList\Controller\Admin;
 
 use ScoutUnitsList\Controller\AdminController;
-use ScoutUnitsList\Controller\BasicController;
+use ScoutUnitsList\Controller\Controller;
 use ScoutUnitsList\Exception\NotFoundException;
 use ScoutUnitsList\Exception\UnauthorizedException;
 use ScoutUnitsList\Form\PositionForm;
@@ -14,7 +14,7 @@ use ScoutUnitsList\System\Tools\Paginator;
 /**
  * Admin positions controller
  */
-class PositionsController extends BasicController
+class PositionsController extends Controller
 {
     /** @const string */
     const PAGE_NAME = 'sul-positions';

@@ -7,7 +7,7 @@ use ScoutUnitsList\System\ParamPack;
 /**
  * Shortcodes controller
  */
-class ShortcodesController extends BasicController
+class ShortcodesController extends Controller
 {
     /**
      * Units list

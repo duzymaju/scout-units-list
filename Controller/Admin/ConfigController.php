@@ -3,7 +3,7 @@
 namespace ScoutUnitsList\Controller\Admin;
 
 use ScoutUnitsList\Controller\AdminController;
-use ScoutUnitsList\Controller\BasicController;
+use ScoutUnitsList\Controller\Controller;
 use ScoutUnitsList\Exception\UnauthorizedException;
 use ScoutUnitsList\Form\ConfigForm;
 use ScoutUnitsList\System\Request;
@@ -11,7 +11,7 @@ use ScoutUnitsList\System\Request;
 /**
  * Admin config controller
  */
-class ConfigController extends BasicController
+class ConfigController extends Controller
 {
     /** @const string */
     const PAGE_NAME = 'sul-config';

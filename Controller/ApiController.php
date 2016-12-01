@@ -5,7 +5,7 @@ namespace ScoutUnitsList\Controller;
 /**
  * API controller
  */
-class ApiController extends BasicController
+class ApiController extends Controller
 {
     /**
      * Users action

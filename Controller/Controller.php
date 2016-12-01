@@ -7,9 +7,9 @@ use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\View;
 
 /**
- * Basic controller
+ * Controller
  */
-abstract class BasicController
+abstract class Controller
 {
     /** @var Loader */
     protected $loader;
