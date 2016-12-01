@@ -42,4 +42,12 @@
             </li>
         <?php endforeach; ?>
     </ul>
+    <div class="tablenav bottom">
+        <?php echo $this->partial('Partial/PaginationAdmin', [
+            'packNo' => $this->units->packNo,
+            'packsCount' => $this->units->packsCount,
+            'totalSize' => $this->units->totalSize,
+        ]); ?>
+        <br class="clear">
+    </div>
 </div>

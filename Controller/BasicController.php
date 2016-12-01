@@ -2,9 +2,9 @@
 
 namespace ScoutUnitsList\Controller;
 
-use ScoutUnitsList\Manager\ViewManager;
 use ScoutUnitsList\System\Loader;
 use ScoutUnitsList\System\Request;
+use ScoutUnitsList\System\View;
 
 /**
  * Basic controller
@@ -47,14 +47,14 @@ abstract class BasicController
      * @param string $name   name
      * @param array  $params parameters
      *
-     * @return ViewManager
+     * @return View
      */
     public function getView($name, array $params = [])
     {
-        $viewFileName = $this->loader->getPath('View/' . $name . '.phtml');
-        $viewManager = new ViewManager($this->request, $viewFileName, $params);
+        $path = $this->loader->getPath('View');
+        $view = new View($this->request, $path, $name, $params);
 
-        return $viewManager;
+        return $view;
     }
 
     /**

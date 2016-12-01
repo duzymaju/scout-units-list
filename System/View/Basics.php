@@ -1,44 +1,38 @@
 <?php
 
-namespace ScoutUnitsList\Manager;
+namespace ScoutUnitsList\System\View;
 
 use Exception;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\Tools\HelpersTrait;
 
 /**
- * View manager
+ * System view basics
  */
-class ViewManager
+abstract class Basics
 {
     use HelpersTrait;
 
-    /** @var Request */
-    protected $request;
+    /** @var string */
+    protected $path;
 
     /** @var string */
-    protected $fileName;
+    protected $name;
 
     /** @var array */
     protected $params;
 
-    /** @var string */
-    protected $scriptName;
-
-    /** @var array */
-    protected $linkParams = [];
-
     /**
      * Constructor
      *
-     * @param Request $request  request
-     * @param string  $fileName file name
-     * @param array   $params   parameters
+     * @param string $path   path
+     * @param string $name   file name
+     * @param array  $params parameters
      */
-    public function __construct(Request $request, $fileName, array $params = [])
+    public function __construct($path, $name, array $params = [])
     {
-        $this->request = $request;
-        $this->fileName = $fileName;
+        $this->path = trim($path, '/') . '/';
+        $this->name = str_replace('\\', '/', trim($name, '/'));
         $this->params = $params;
     }
 
@@ -68,33 +62,11 @@ class ViewManager
      */
     public function getParam($name, $defaultValue = null, $toString = false)
     {
-        if ($name == 'request') {
-            $param = $this->request;
-        } else {
-            $param = isset($this->params[$name]) ? ($toString ? (is_array($this->params[$name]) ?
-                implode('', $this->params[$name]) : (string) $this->params[$name]) : $this->params[$name]) :
-                $defaultValue;
-        }
+        $param = isset($this->params[$name]) ? ($toString ? (is_array($this->params[$name]) ?
+            implode('', $this->params[$name]) : (string) $this->params[$name]) : $this->params[$name]) :
+            $defaultValue;
 
         return $param;
-    }
-
-    /**
-     * Set link data
-     *
-     * @param string $scriptName script name
-     * @param string $pageName   page name
-     *
-     * @return self
-     */
-    public function setLinkData($scriptName, $pageName)
-    {
-        $this->scriptName = $scriptName;
-        $this->linkParams = [
-            'page' => $pageName,
-        ];
-
-        return $this;
     }
 
     /**
@@ -124,9 +96,45 @@ class ViewManager
     }
 
     /**
-     * Render
+     * Get request
      *
-     * @throws Exception
+     * @return Request
+     */
+    abstract public function getRequest();
+
+    /**
+     * Partial
+     *
+     * @param string $name   name
+     * @param array  $params params
+     */
+    public function partial($name, array $params = [])
+    {
+        echo $this->getPartial($name, $params);
+    }
+
+    /**
+     * Get partial
+     *
+     * @param string $name   name
+     * @param array  $params params
+     *
+     * @return string
+     */
+    abstract public function getPartial($name, array $params = []);
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    protected function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Render
      */
     public function render()
     {
@@ -143,9 +151,10 @@ class ViewManager
     public function getRender()
     {
         try {
-            if (!empty($this->fileName) && file_exists($this->fileName)) {
+            $fileName = $this->path . $this->name . '.phtml';
+            if (!empty($fileName) && file_exists($fileName)) {
                 ob_start();
-                include($this->fileName);
+                include($fileName);
                 $view = ob_get_contents();
                 ob_end_clean();
             } else {
@@ -162,6 +171,14 @@ class ViewManager
     }
 
     /**
+     * Link
+     *
+     * @param array       $params     params
+     * @param string|null $scriptName script name
+     */
+    abstract public function link(array $params = [], $scriptName = null);
+
+    /**
      * Get link
      *
      * @param array       $params     params
@@ -169,27 +186,5 @@ class ViewManager
      *
      * @return string
      */
-    public function getLink(array $params = [], $scriptName = null)
-    {
-        if (empty($scriptName)) {
-            $scriptName = $this->scriptName;
-            $params = array_merge($this->linkParams, $params);
-        }
-        $link = $this->request->getUrl($scriptName, $params);
-
-        return $link;
-    }
-
-    /**
-     * Link
-     *
-     * @param array       $params     params
-     * @param string|null $scriptName script name
-     */
-    public function link(array $params = [], $scriptName = null)
-    {
-        $link = $this->getLink($params, $scriptName);
-
-        echo $link;
-    }
+    abstract public function getLink(array $params = [], $scriptName = null);
 }

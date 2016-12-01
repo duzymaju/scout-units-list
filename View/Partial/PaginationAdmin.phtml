@@ -1,0 +1,58 @@
+<?php if ($this->packsCount > 1):
+    $this->packsVar = !empty($this->packsVar) ?: 'paged';
+?>
+    <div class="tablenav-pages">
+        <span class="displaying-num"
+            <?php echo sprintf(_n('%s item', '%s items', $this->totalSize), $this->totalSize); ?>
+        </span>
+        <span class="pagination-links">
+            <?php if ($this->packNo > 2): ?>
+                <a class="first-page" href="<?php echo $this->getRequest()->getCurrentUrl([
+                    $this->packsVar => 1,
+                ]); ?>">
+                    <span class="screen-reader-text"><?php _e('First page'); ?></span>
+                    <span aria-hidden="true">«</span>
+                </a>
+            <?php else: ?>
+                <span class="tablenav-pages-navspan" aria-hidden="true">«</span>
+            <?php endif; ?>
+            <?php if ($this->packNo > 1): ?>
+                <a class="prev-page" href="<?php echo $this->getRequest()->getCurrentUrl([
+                    $this->packsVar => $this->packNo - 1,
+                ]); ?>">
+                    <span class="screen-reader-text"><?php _e('Previous page'); ?></span>
+                    <span aria-hidden="true">‹</span>
+                </a>
+            <?php else: ?>
+                <span class="tablenav-pages-navspan" aria-hidden="true">‹</span>
+            <?php endif; ?>
+            <span class="screen-reader-text"><?php _e('Current Page'); ?></span>
+            <span id="table-paging" class="paging-input">
+                <span class="tablenav-paging-text">
+                    <?php echo sprintf(_x('%1$s of %2$s', 'paging'), '' + $this->packNo,
+                        sprintf('<span class="total-pages">%d</span>', $this->packsCount)); ?>
+                </span>
+            </span>
+            <?php if ($this->packNo < $this->packsCount): ?>
+                <a class="next-page" href="<?php echo $this->getRequest()->getCurrentUrl([
+                    $this->packsVar => $this->packNo + 1,
+                ]); ?>">
+                    <span class="screen-reader-text"><?php _e('Next page'); ?></span>
+                    <span aria-hidden="true">›</span>
+                </a>
+            <?php else: ?>
+                <span class="tablenav-pages-navspan" aria-hidden="true">›</span>
+            <?php endif; ?>
+            <?php if ($this->packNo < $this->packsCount - 1): ?>
+                <a class="last-page" href="<?php echo $this->getRequest()->getCurrentUrl([
+                    $this->packsVar => $this->packsCount,
+                ]); ?>">
+                    <span class="screen-reader-text"><?php _e('Last page'); ?></span>
+                    <span aria-hidden="true">»</span>
+                </a>
+            <?php else: ?>
+                <span class="tablenav-pages-navspan" aria-hidden="true">»</span>
+            <?php endif; ?>
+        </span>
+    </div>
+<?php endif;

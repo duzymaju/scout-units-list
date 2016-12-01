@@ -5,7 +5,9 @@ namespace ScoutUnitsList\Model\Repository;
 use ReflectionClass;
 use ScoutUnitsList\Exception\NotFoundException;
 use ScoutUnitsList\Manager\DbManager;
+use ScoutUnitsList\Manager\DbStatementManager;
 use ScoutUnitsList\Model\ModelInterface;
+use ScoutUnitsList\System\Tools\Paginator;
 
 /**
  * Basic repository
@@ -93,7 +95,7 @@ abstract class BasicRepository
      * Get index name
      *
      * @param int $no no
-     * 
+     *
      * @return string
      */
     protected function getIndexName($no)
@@ -241,6 +243,28 @@ abstract class BasicRepository
     }
 
     /**
+     * Count by
+     *
+     * @param array $conditions conditions
+     *
+     * @return array
+     */
+    public function countBy(array $conditions)
+    {
+        $query = 'SELECT COUNT(*) FROM ' . $this->getPluginTableName();
+
+        $where = $this->getConditionsToQuery($conditions);
+        if (count($where) > 0) {
+            $query .= ' WHERE ' . implode(' AND ', $where);
+        }
+
+        $statement = $this->setConditionsToStatement($this->db->prepare($query), $conditions);
+        $count = $this->db->getVariable($statement->getQuery());
+
+        return $count;
+    }
+
+    /**
      * Get by
      *
      * @param array    $conditions conditions
@@ -254,22 +278,17 @@ abstract class BasicRepository
     {
         $query = 'SELECT * FROM ' . $this->getPluginTableName();
 
-        $where = [];
-        foreach ($conditions as $key => $value) {
-            if (array_key_exists($key, $this->structure)) {
-                $key = $this->escape($this->structure[$key]['dbKey']);
-                $where[] = is_array($value) ? $key . ' IN (:' . $key . ')' : $key . '=:' . $key;
-            }
-        }
+        $where = $this->getConditionsToQuery($conditions);
         if (count($where) > 0) {
             $query .= ' WHERE ' . implode(' AND ', $where);
         }
 
         $queryOrder = [];
         foreach ($order as $key => $direction) {
+            $dbKey = $this->getDbKey($key);
             $direction = strtoupper($direction);
-            if ($direction == 'ASC' || $direction == 'DESC') {
-                $queryOrder[] = $this->escape($key) . ' ' . $direction;
+            if (isset($dbKey) && ($direction == 'ASC' || $direction == 'DESC')) {
+                $queryOrder[] = $this->escape($dbKey) . ' ' . $direction;
             }
         }
         if (count($queryOrder) > 0) {
@@ -280,14 +299,7 @@ abstract class BasicRepository
             $query .= ' LIMIT ' . $offset . ', ' . $limit;
         }
 
-        $statement = $this->db->prepare($query);
-        foreach ($conditions as $key => $value) {
-            if (array_key_exists($key, $this->structure)) {
-                $type = is_int($value) ? DbManager::TYPE_DECIMAL :
-                    (is_float($value) ? DbManager::TYPE_FLOAT : DbManager::TYPE_STRING);
-                $statement->setParam($this->structure[$key]['dbKey'], $value, $type);
-            }
-        }
+        $statement = $this->setConditionsToStatement($this->db->prepare($query), $conditions);
         $results = $this->db->getResults($statement->getQuery(), ARRAY_A);
 
         $items = [];
@@ -296,6 +308,28 @@ abstract class BasicRepository
         }
 
         return $items;
+    }
+
+    /**
+     * Get paginator by
+     *
+     * @param array $conditions conditions
+     * @param array $order      order
+     * @param int   $packSize   pack size
+     * @param int   $packNo     pack no
+     *
+     * @return array
+     */
+    public function getPaginatorBy(array $conditions, array $order = [], $packSize = 20, $packNo = 1)
+    {
+        $limit = $packSize;
+        $offset = $packSize * ($packNo - 1);
+        $items = $this->getBy($conditions, $order, $limit, $offset);
+
+        $paginator = new Paginator($items, $packNo, $packSize, $order);
+        $paginator->totalSize = $this->countBy($conditions);
+
+        return $paginator;
     }
 
     /**
@@ -332,6 +366,63 @@ abstract class BasicRepository
         }
 
         return $item;
+    }
+
+    /**
+     * Get conditions to query
+     *
+     * @param array $conditions conditions
+     *
+     * @return array
+     */
+    private function getConditionsToQuery(array $conditions)
+    {
+        $where = [];
+        foreach ($conditions as $key => $value) {
+            $dbKey = $this->getDbKey($key);
+            if (isset($dbKey)) {
+                $key = $this->escape($dbKey);
+                $where[] = is_array($value) ? $key . ' IN (:' . $key . ')' : $key . '=:' . $key;
+            }
+        }
+
+        return $where;
+    }
+
+    /**
+     * Set conditions to statement
+     *
+     * @param DbStatementManager $statement  statement
+     * @param array              $conditions conditions
+     *
+     * @return DbStatementManager
+     */
+    private function setConditionsToStatement(DbStatementManager $statement, array $conditions)
+    {
+        foreach ($conditions as $key => $value) {
+            $dbKey = $this->getDbKey($key);
+            if (isset($dbKey)) {
+                $type = is_int($value) ? DbManager::TYPE_DECIMAL :
+                    (is_float($value) ? DbManager::TYPE_FLOAT : DbManager::TYPE_STRING);
+                $statement->setParam($dbKey, $value, $type);
+            }
+        }
+
+        return $statement;
+    }
+
+    /**
+     * Get DB key
+     *
+     * @param string $key key
+     *
+     * @return string|null
+     */
+    private function getDbKey($key)
+    {
+        $dbKey = array_key_exists($key, $this->structure) ? $this->structure[$key]['dbKey'] : null;
+
+        return $dbKey;
     }
 
     /**

@@ -1,0 +1,44 @@
+<?php if ($this->packsCount > 1):
+    $this->packsVar = !empty($this->packsVar) ?: 'paged';
+    $this->showedAround = isset($this->showedAround) ?: 3;
+?>
+    <div class="pagination">
+        <ul>
+            <?php if ($this->packNo > 1) : ?>
+                <li class="prev first">
+                    <a href="<?php echo $this->getRequest()->getCurrentUrl([
+                        $this->packsVar => $this->packNo > 2 ? $this->packNo - 1 : null,
+                    ]); ?>"><span>&laquo;</span></a>
+                </li>
+            <?php endif; ?>
+            <?php for ($i = 1; $i <= $this->packsCount; $i++): ?>
+                <?php if ($i == $this->packsCount && $this->packNo < $this->packsCount - $this->showedAround - 1): ?>
+                    <li class="dots"><span>...</span></li>
+                <?php endif; ?>
+                <?php if ($i == $this->packNo): ?>
+                    <li class="active<?php echo ($this->packNo == 1 ? ' first' : '') .
+                        ($this->packNo == $this->packsCount ? ' last' : ''); ?>">
+                        <span><?php echo $i; ?></span>
+                    </li>
+                <?php elseif ($i == 1 || ($i >= $this->packNo - $this->showedAround &&
+                    $i <= $this->packNo + $this->showedAround) || $i == $this->packsCount): ?>
+                    <li>
+                        <a href="<?php echo $this->getRequest()->getCurrentUrl([
+                            $this->packsVar => $i > 1 ? $i : null,
+                        ]); ?>"><span><?php echo $i; ?></span></a>
+                    </li>
+                <?php endif; ?>
+                <?php if ($i == 1 && $this->packNo > $this->showedAround + 2): ?>
+                    <li class="dots"><span>...</span></li>
+                <?php endif; ?>
+            <?php endfor; ?>
+            <?php if ($this->packNo < $this->packsCount): ?>
+                <li class="next last">
+                    <a href="<?php echo $this->getRequest()->getCurrentUrl([
+                        $this->packsVar => $this->packNo + 1,
+                    ]); ?>"><span>&raquo;</span></a>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
+<?php endif;

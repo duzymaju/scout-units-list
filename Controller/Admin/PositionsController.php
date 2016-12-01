@@ -9,6 +9,7 @@ use ScoutUnitsList\Exception\UnauthorizedException;
 use ScoutUnitsList\Form\PositionForm;
 use ScoutUnitsList\Model\Position;
 use ScoutUnitsList\System\Request;
+use ScoutUnitsList\System\Tools\Paginator;
 
 /**
  * Admin positions controller
@@ -44,7 +45,7 @@ class PositionsController extends BasicController
 
                 case 'list':
                 default:
-                    $this->listAction();
+                    $this->listAction($request);
                     break;
             }
         } catch (UnauthorizedException $e) {
@@ -114,11 +115,16 @@ class PositionsController extends BasicController
 
     /**
      * List action
+     *
+     * @param Request $request request
      */
-    public function listAction()
+    public function listAction(Request $request)
     {
+        $order = $this->getOrder();
+        $page = max(1, $request->query->getInt('paged', 1));
+
         $positions = $this->get('repository.position')
-            ->getBy([]);
+            ->getPaginatorBy([], $order, 20, $page);
 
         $this->getView('Admin/Positions/List', [
             'messages' => $this->get('manager.message')
@@ -126,5 +132,20 @@ class PositionsController extends BasicController
             'positions' => $positions,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
+    }
+
+    /**
+     * Get order
+     *
+     * @return array
+     */
+    private function getOrder()
+    {
+        $order = [
+            'type' => Paginator::ORDER_DESC,
+            'leader' => Paginator::ORDER_DESC,
+        ];
+
+        return $order;
     }
 }

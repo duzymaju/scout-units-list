@@ -11,7 +11,9 @@ use ScoutUnitsList\Form\UnitAdminForm;
 use ScoutUnitsList\Form\UnitLeaderForm;
 use ScoutUnitsList\Model\Person;
 use ScoutUnitsList\Model\Unit;
+use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
+use ScoutUnitsList\System\Tools\Paginator;
 
 /**
  * Admin units controller
@@ -51,7 +53,7 @@ class UnitsController extends BasicController
 
                 case 'list':
                 default:
-                    $this->listAction();
+                    $this->listAction($request);
                     break;
             }
         } catch (UnauthorizedException $e) {
@@ -282,13 +284,18 @@ class UnitsController extends BasicController
     /**
      * List action
      *
+     * @param Request $request request
+     *
      * @throws UnauthorizedException
      */
-    public function listAction()
+    public function listAction(Request $request)
     {
         if (!current_user_can('sul_manage_units') && !current_user_can('sul_modify_own_units')) {
             throw new UnauthorizedException();
         }
+
+        $order = $this->getOrder($request->query);
+        $page = max(1, $request->query->getInt('paged', 1));
 
         $conditions = [];
         if (!current_user_can('sul_manage_units')) {
@@ -298,7 +305,7 @@ class UnitsController extends BasicController
                 ->getSubordinateUnitIds($user);
         }
         $units = !array_key_exists('id', $conditions) || count($conditions['id']) > 0 ? $this->get('repository.unit')
-            ->getBy($conditions) : [];
+            ->getPaginatorBy($conditions, $order, 20, $page) : [];
 
         $this->getView('Admin/Units/List', [
             'messages' => $this->get('manager.message')
@@ -306,5 +313,38 @@ class UnitsController extends BasicController
             'units' => $units,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
+    }
+    
+    /**
+     * Get order
+     *
+     * @param ParamPack $params params
+     *
+     * @return array
+     */
+    private function getOrder(ParamPack $params)
+    {
+        $orderBy = $params->getOption('orderby', [
+            'address',
+            'mail',
+            'name',
+            'subtype',
+            'type',
+            'url',
+        ], 'default');
+        $orderDirection = $params->getString('order') == Paginator::ORDER_DESC ?: Paginator::ORDER_ASC;
+
+        if ($orderBy == 'default') {
+            $order = [
+                'parentId' => $orderDirection,
+                'sort' => $orderDirection,
+            ];
+        } else {
+            $order = [
+                $orderBy => $orderDirection,
+            ];
+        }
+
+        return $order;
     }
 }
