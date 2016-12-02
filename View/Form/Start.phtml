@@ -1,0 +1,8 @@
+<?php
+$attr = '';
+if (isset($this->attr)):
+    foreach ($this->attr as $key => $value):
+        $attr .= ' ' . $this->escape($key) . '="' . $this->escape($value) . '"';
+    endforeach;
+endif;
+?><form action="<?php echo $this->action; ?>" method="<?php echo $this->escape($this->method); ?>"<?php echo $attr; ?>>

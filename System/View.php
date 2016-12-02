@@ -10,7 +10,7 @@ use ScoutUnitsList\System\View\Partial;
  */
 class View extends Basics
 {
-    /** @var Request */
+    /** @var Request|null */
     protected $request;
 
     /** @var string */
@@ -20,23 +20,23 @@ class View extends Basics
     protected $linkParams = [];
 
     /**
-     * Constructor
+     * Set request
      *
      * @param Request $request request
-     * @param string  $path    path
-     * @param string  $name    name
-     * @param array   $params  parameters
+     *
+     * @return self
      */
-    public function __construct(Request $request, $path, $name, array $params = [])
+    public function setRequest(Request $request)
     {
-        parent::__construct($path, $name, $params);
         $this->request = $request;
+
+        return $this;
     }
 
     /**
      * Get request
      *
-     * @return Request
+     * @return Request|null
      */
     public function getRequest()
     {
@@ -53,7 +53,8 @@ class View extends Basics
      */
     public function getPartial($name, array $params = [])
     {
-        $partial = new Partial($this, $this->getPath(), $name, $params);
+        $partial = new Partial($this->getPath(), $name, $params);
+        $partial->setView($this);
 
         return $partial->getRender();
     }
@@ -86,11 +87,15 @@ class View extends Basics
      */
     public function getLink(array $params = [], $scriptName = null)
     {
-        if (empty($scriptName)) {
-            $scriptName = $this->scriptName;
-            $params = array_merge($this->linkParams, $params);
+        if (isset($this->request)) {
+            if (empty($scriptName)) {
+                $scriptName = $this->scriptName;
+                $params = array_merge($this->linkParams, $params);
+            }
+            $link = $this->request->getUrl($scriptName, $params);
+        } else {
+            $link = '';
         }
-        $link = $this->request->getUrl($scriptName, $params);
 
         return $link;
     }

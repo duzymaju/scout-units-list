@@ -42,7 +42,7 @@ class ConfigController extends Controller
 
         $messageManager = $this->get('manager.message');
 
-        $form = new ConfigForm($request, $config);
+        $form = $this->createForm(ConfigForm::class, $config);
         if ($form->isValid()) {
             $configManager->save($config);
             $messageManager->addSuccess(__('Position was successfully saved.', 'scout-units-list'));

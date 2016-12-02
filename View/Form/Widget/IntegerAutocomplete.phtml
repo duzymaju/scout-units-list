@@ -1,0 +1,6 @@
+<div class="autocomplete-box<?php echo $this->filled ? ' autocomplete-filled' : ''; ?>">
+    <input type="text">
+    <input type="hidden" data-autocomplete-action="<?php echo $this->escape($this->action); ?>"
+        name="<?php echo $this->escape($this->name); ?>" value="<?php echo $this->escape($this->value); ?>">
+    <span class="autocomplete-value"><?php echo $this->filled ? $this->escape($this->valueLabel) : ''; ?></span>
+</div>

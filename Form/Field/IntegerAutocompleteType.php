@@ -2,6 +2,8 @@
 
 namespace ScoutUnitsList\Form\Field;
 
+use ScoutUnitsList\System\View\Partial;
+
 /**
  * Form autocomplete integer field
  */
@@ -27,20 +29,21 @@ class IntegerAutocompleteType extends IntegerType
     /**
      * Render widget
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function widget()
+    public function widget($partialName = 'Form/Widget/IntegerAutocomplete')
     {
         if (empty($this->action)) {
             parent::widget();
         } else {
-            $isFilled = isset($this->valueLabel) && $this->getValue() !== null;
-            echo '<div class="autocomplete-box' . ($isFilled ? ' autocomplete-filled' : '') . '">' .
-                '<input type="text"> ' .
-                '<input type="hidden" data-autocomplete-action="' . $this->escape($this->action) . '" name="' .
-                $this->escape($this->getName()) . '" value="' . $this->escape($this->getValue()) . '"> ' .
-                '<span class="autocomplete-value">' . ($isFilled ? $this->escape($this->valueLabel) : '') . '</span>' .
-                '</div>';
+            $partial = new Partial($this->getViewPath(), $partialName, [
+                'action' => $this->action,
+                'filled' => isset($this->valueLabel) && $this->getValue() !== null,
+                'name' => $this->getName(),
+                'value' => $this->getValue(),
+                'valueLabel' => $this->valueLabel,
+            ]);
+            $partial->render();
         }
     }
 }

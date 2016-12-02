@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Form\Field;
 
 use ScoutUnitsList\System\ParamPack;
+use ScoutUnitsList\System\View\Partial;
 use ScoutUnitsList\Validator\Condition\FloatCondition;
 
 /**
@@ -35,12 +36,16 @@ class FloatType extends BasicType
     /**
      * Render widget
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function widget()
+    public function widget($partialName = 'Form/Widget/Float')
     {
-        echo '<input type="text" name="' . $this->escape($this->getName()) . '" value="' .
-            $this->escape($this->getValue()) . '" pattern="^-?[0-9]+(\.[0-9]+)?$"' .
-            ($this->isRequired() ? ' required' : '') . $this->getAttr() . '>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'attr' => $this->getAttr(),
+            'name' => $this->getName(),
+            'required' => $this->isRequired(),
+            'value' => $this->getValue(),
+        ]);
+        $partial->render();
     }
 }

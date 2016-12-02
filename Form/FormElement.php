@@ -15,6 +15,9 @@ abstract class FormElement
     /** @var mixed */
     private $value;
 
+    /** @var string|null */
+    private $viewPath;
+
     /** @var array */
     private $conditions = [];
 
@@ -55,6 +58,30 @@ abstract class FormElement
     public function setValue($value)
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get view path
+     *
+     * @return string|null
+     */
+    protected function getViewPath()
+    {
+        return $this->viewPath;
+    }
+
+    /**
+     * Set view path
+     *
+     * @param string $viewPath view path
+     *
+     * @return self
+     */
+    protected function setViewPath($viewPath)
+    {
+        $this->viewPath = $viewPath;
 
         return $this;
     }

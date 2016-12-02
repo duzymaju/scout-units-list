@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Form\Field;
 
 use ScoutUnitsList\System\ParamPack;
+use ScoutUnitsList\System\View\Partial;
 
 /**
  * Form boolean field
@@ -26,13 +27,15 @@ class BooleanType extends BasicType
     /**
      * Render widget
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function widget()
+    public function widget($partialName = 'Form/Widget/Boolean')
     {
-        echo '<select name="' . $this->escape($this->getName()) . '"' . $this->getAttr() . '>';
-        echo '<option value="1"' . ($this->getValue() ? ' selected' : '') . '>' . __('Yes', 'wpcore') . '</option>';
-        echo '<option value="0"' . (!$this->getValue() ? ' selected' : '') . '>' . __('No', 'wpcore') . '</option>';
-        echo '</select>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'attr' => $this->getAttr(),
+            'name' => $this->getName(),
+            'value' => $this->getValue(),
+        ]);
+        $partial->render();
     }
 }

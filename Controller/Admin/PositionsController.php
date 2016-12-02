@@ -70,7 +70,7 @@ class PositionsController extends Controller
 
         $messageManager = $this->get('manager.message');
 
-        $form = new PositionForm($request, $position);
+        $form = $this->createForm(PositionForm::class, $position);
         if ($form->isValid()) {
             try {
                 // @TODO: set proper slug here instead of inside model - check if there is no duplication

@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Form\Field;
 
 use ScoutUnitsList\System\ParamPack;
+use ScoutUnitsList\System\View\Partial;
 use ScoutUnitsList\Validator\Condition\InSetCondition;
 
 /**
@@ -62,25 +63,16 @@ class SelectType extends BasicType
     /**
      * Render widget
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function widget()
+    public function widget($partialName = 'Form/Widget/Select')
     {
-        echo '<select name="' . $this->escape($this->name) . '"' . $this->getAttr() . '>';
-        foreach ($this->options as $optionKey => $optionValue) {
-            $attr = '';
-            if (is_array($optionValue)) {
-                if (array_key_exists('attr', $optionValue)) {
-                    foreach ($optionValue['attr'] as $key => $value) {
-                        $attr .= ' ' . $this->escape($key) . '="' . $this->escape($value) . '"';
-                    }
-                }
-                $optionValue = $optionValue['name'];
-            }
-            echo '<option value="' . $this->escape($optionKey) . '"' .
-                ($optionKey == $this->getValue() ? ' selected' : '') . $attr . '>' . $this->escape($optionValue) .
-                '</option>';
-        }
-        echo '</select>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'attr' => $this->getAttr(),
+            'name' => $this->getName(),
+            'options' => $this->options,
+            'value' => $this->getValue(),
+        ]);
+        $partial->render();
     }
 }

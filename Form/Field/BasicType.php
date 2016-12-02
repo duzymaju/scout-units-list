@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Form\Field;
 
 use ScoutUnitsList\System\ParamPack;
+use ScoutUnitsList\System\View\Partial;
 use ScoutUnitsList\Form\FormElement;
 use ScoutUnitsList\Validator\Condition\NotEmptyCondition;
 
@@ -27,10 +28,13 @@ abstract class BasicType extends FormElement
      * Constructor
      *
      * @param string $name     name
+     * @param string $viewPath view path
      * @param array  $settings settings
      */
-    public function __construct($name, array $settings = [])
+    public function __construct($name, $viewPath, array $settings = [])
     {
+        $this->setViewPath($viewPath);
+
         $this->name = $name;
         $this->label = array_key_exists('label', $settings) ? $settings['label'] : $name;
         $this->attr = array_key_exists('attr', $settings) && is_array($settings['attr']) ? $settings['attr'] : [];
@@ -119,31 +123,32 @@ abstract class BasicType extends FormElement
     /**
      * Render row
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function row()
+    public function row($partialName = 'Form/Row')
     {
-        $this->label();
-        echo '<dd>';
-        $this->errors();
-        $this->widget();
-        echo '</dd>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'type' => $this,
+        ]);
+        $partial->render();
     }
 
     /**
      * Render label
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function label()
+    public function label($partialName = 'Form/Label')
     {
-        echo '<dt>' . $this->escape($this->getLabel()) . ($this->isRequired() ? ' *' : '') . ':</dt>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'label' => $this->getLabel(),
+            'required' => $this->isRequired(),
+        ]);
+        $partial->render();
     }
 
     /**
      * Render widget
-     *
-     * @TODO: move to partial
      */
     abstract public function widget();
 }

@@ -54,7 +54,7 @@ abstract class Validator
     {
         $fields = $this->form->getFields();
         // @TODO: return null if field doesn't exist when YAML validation files will be ready
-        $field = array_key_exists($name, $fields) ? $fields[$name] : new StringType($name);
+        $field = array_key_exists($name, $fields) ? $fields[$name] : new StringType($name, '');
 
         return $field;
     }

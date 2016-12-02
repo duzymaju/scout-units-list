@@ -2,6 +2,8 @@
 
 namespace ScoutUnitsList\Form\Field;
 
+use ScoutUnitsList\System\View\Partial;
+
 /**
  * Form submit field
  */
@@ -10,23 +12,28 @@ class SubmitType extends BasicType
     /**
      * Render widget
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function widget()
+    public function widget($partialName = 'Form/Widget/Submit')
     {
-        echo '<input type="submit" name="' . $this->escape($this->getName()) . '" value="' .
-            $this->escape($this->getLabel()) . '"' . $this->getAttr() . '>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'attr' => $this->getAttr(),
+            'label' => $this->getLabel(),
+            'name' => $this->getName(),
+        ]);
+        $partial->render();
     }
 
     /**
      * Render row
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function row()
+    public function row($partialName = 'Form/RowWidgetOnly')
     {
-        echo '<dd>';
-        $this->widget();
-        echo '</dd>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'type' => $this,
+        ]);
+        $partial->render();
     }
 }

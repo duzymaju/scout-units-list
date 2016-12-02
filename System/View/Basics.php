@@ -14,13 +14,13 @@ abstract class Basics
     use HelpersTrait;
 
     /** @var string */
-    protected $path;
+    protected $basicsPath;
 
     /** @var string */
-    protected $name;
+    protected $basicsName;
 
     /** @var array */
-    protected $params;
+    protected $basicsParams;
 
     /**
      * Constructor
@@ -31,9 +31,9 @@ abstract class Basics
      */
     public function __construct($path, $name, array $params = [])
     {
-        $this->path = trim($path, '/') . '/';
-        $this->name = str_replace('\\', '/', trim($name, '/'));
-        $this->params = $params;
+        $this->basicsPath = trim($path, '/') . '/';
+        $this->basicsName = str_replace('\\', '/', trim($name, '/'));
+        $this->basicsParams = $params;
     }
 
     /**
@@ -46,7 +46,7 @@ abstract class Basics
      */
     public function setParam($name, $value)
     {
-        $this->params[$name] = $value;
+        $this->basicsParams[$name] = $value;
 
         return $this;
     }
@@ -62,9 +62,9 @@ abstract class Basics
      */
     public function getParam($name, $defaultValue = null, $toString = false)
     {
-        $param = isset($this->params[$name]) ? ($toString ? (is_array($this->params[$name]) ?
-            implode('', $this->params[$name]) : (string) $this->params[$name]) : $this->params[$name]) :
-            $defaultValue;
+        $param = isset($this->basicsParams[$name]) ? ($toString ? (is_array($this->basicsParams[$name]) ?
+            implode('', $this->basicsParams[$name]) : (string) $this->basicsParams[$name]) :
+            $this->basicsParams[$name]) : $defaultValue;
 
         return $param;
     }
@@ -92,7 +92,7 @@ abstract class Basics
      */
     public function __isset($name)
     {
-        return isset($this->params[$name]);
+        return isset($this->basicsParams[$name]);
     }
 
     /**
@@ -130,7 +130,7 @@ abstract class Basics
      */
     protected function getPath()
     {
-        return $this->path;
+        return $this->basicsPath;
     }
 
     /**
@@ -151,7 +151,7 @@ abstract class Basics
     public function getRender()
     {
         try {
-            $fileName = $this->path . $this->name . '.phtml';
+            $fileName = $this->basicsPath . $this->basicsName . '.phtml';
             if (!empty($fileName) && file_exists($fileName)) {
                 ob_start();
                 include($fileName);

@@ -2,6 +2,9 @@
 
 namespace ScoutUnitsList\Controller;
 
+use ScoutUnitsList\Exception\FormException;
+use ScoutUnitsList\Form\Form;
+use ScoutUnitsList\Model\ModelInterface;
 use ScoutUnitsList\System\Loader;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\View;
@@ -42,6 +45,16 @@ abstract class Controller
     }
 
     /**
+     * Get view path
+     *
+     * @return string
+     */
+    private function getViewPath()
+    {
+        return $this->loader->getPath('View');
+    }
+
+    /**
      * Get view
      *
      * @param string $name   name
@@ -51,10 +64,31 @@ abstract class Controller
      */
     public function getView($name, array $params = [])
     {
-        $path = $this->loader->getPath('View');
-        $view = new View($this->request, $path, $name, $params);
+        $view = new View($this->getViewPath(), $name, $params);
+        $view->setRequest($this->request);
 
         return $view;
+    }
+
+    /**
+     * Create form
+     * 
+     * @param string         $formClassName form class name
+     * @param ModelInterface $model         model
+     * @param array          $settings      settings
+     *
+     * @return Form
+     *
+     * @throws FormException
+     */
+    public function createForm($formClassName, ModelInterface $model, array $settings = [])
+    {
+        $form = new $formClassName($this->request, $model, $this->getViewPath(), $settings);
+        if (!($form instanceof Form)) {
+            throw new FormException(sprintf('Form class "%s" doesn\'t exist.', $formClassName));
+        }
+
+        return $form;
     }
 
     /**

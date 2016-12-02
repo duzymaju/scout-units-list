@@ -2,6 +2,8 @@
 
 namespace ScoutUnitsList\Form\Field;
 
+use ScoutUnitsList\System\View\Partial;
+
 /**
  * Form hidden field trait
  */
@@ -10,23 +12,28 @@ trait HiddenTypeTrait
     /**
      * Render widget
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function widget()
+    public function widget($partialName = 'Form/Widget/Hidden')
     {
-        echo '<input type="hidden" name="' . $this->escape($this->getName()) . '" value="' .
-            $this->escape($this->getValue()) . '"' . $this->getAttr() . '>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'attr' => $this->getAttr(),
+            'name' => $this->getName(),
+            'value' => $this->getValue(),
+        ]);
+        $partial->render();
     }
 
     /**
      * Render row
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function row()
+    public function row($partialName = 'Form/RowWidgetOnly')
     {
-        echo '<dd>';
-        $this->widget();
-        echo '</dd>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'type' => $this,
+        ]);
+        $partial->render();
     }
 }

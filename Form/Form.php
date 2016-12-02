@@ -3,9 +3,10 @@
 namespace ScoutUnitsList\Form;
 
 use ScoutUnitsList\Form\Field\BasicType as Field;
+use ScoutUnitsList\Model\ModelInterface;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
-use ScoutUnitsList\Model\ModelInterface;
+use ScoutUnitsList\System\View\Partial;
 use ScoutUnitsList\Validator\Validator;
 
 /**
@@ -42,10 +43,13 @@ abstract class Form extends FormElement
      *
      * @param Request        $request  request
      * @param ModelInterface $model    model
+     * @param string         $viewPath view path
      * @param array          $settings settings
      */
-    public function __construct(Request $request, ModelInterface $model, array $settings = [])
+    public function __construct(Request $request, ModelInterface $model, $viewPath, array $settings = [])
     {
+        $this->setViewPath($viewPath);
+
         $this->method = array_key_exists('method', $settings) ? strtolower($settings['method']) : Request::METHOD_POST;
         if (!in_array($this->method, $this->allowedMethods)) {
             $this->method = Request::METHOD_POST;
@@ -119,7 +123,7 @@ abstract class Form extends FormElement
      */
     protected function addField($name, $type, array $settings = [])
     {
-        $field = new $type($name, $settings);
+        $field = new $type($name, $this->getViewPath(), $settings);
         if ($field instanceof Field) {
             $this->fields[$name] = $field;
         }
@@ -211,27 +215,23 @@ abstract class Form extends FormElement
     /**
      * Start rendering
      *
-     * @param array $params params
-     *
-     * @TODO: move to partial
+     * @param array  $params      params
+     * @param string $partialName partial name
      */
-    public function start(array $params = [])
+    public function start(array $params = [], $partialName = 'Form/Start')
     {
-        $attr = '';
-        if (array_key_exists('attr', $params)) {
-            foreach ($params['attr'] as $key => $value) {
-                $attr .= ' ' . $this->escape($key) . '="' . $this->escape($value) . '"';
-            }
-        }
-        echo '<form action="' . $this->action . '" method="' . $this->escape($this->method) . '"' . $attr . '>';
+        $partial = new Partial($this->getViewPath(), $partialName, [
+            'action' => $this->action,
+            'attr' => array_key_exists('attr', $params) ? $params['attr'] : [],
+            'method' => $this->method,
+        ]);
+        $partial->render();
     }
 
     /**
      * Start rendering
      *
      * @param string $name name
-     *
-     * @TODO: move to partial
      */
     public function row($name)
     {
@@ -245,8 +245,6 @@ abstract class Form extends FormElement
      * Start rendering
      *
      * @param string $name name
-     *
-     * @TODO: move to partial
      */
     public function label($name)
     {
@@ -260,8 +258,6 @@ abstract class Form extends FormElement
      * Start rendering
      *
      * @param string|null $name name
-     *
-     * @TODO: move to partial
      */
     public function errors($name = null)
     {
@@ -279,8 +275,6 @@ abstract class Form extends FormElement
      * Start rendering
      *
      * @param string $name name
-     *
-     * @TODO: move to partial
      */
     public function widget($name)
     {
@@ -293,10 +287,11 @@ abstract class Form extends FormElement
     /**
      * End rendering
      *
-     * @TODO: move to partial
+     * @param string $partialName partial name
      */
-    public function end()
+    public function end($partialName = 'Form/End')
     {
-        echo '</form>';
+        $partial = new Partial($this->getViewPath(), $partialName);
+        $partial->render();
     }
 }

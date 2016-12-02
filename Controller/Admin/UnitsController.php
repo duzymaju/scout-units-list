@@ -85,7 +85,7 @@ class UnitsController extends Controller
         $messageManager = $this->get('manager.message');
 
         $parentId = $request->request->getInt('parentId', $unit->getParentId());
-        $form = new UnitAdminForm($request, $unit, [
+        $form = $this->createForm(UnitAdminForm::class, $unit, [
             'config' => $this->get('manager.config')
                 ->get(),
             'parentUnit' => $parentId > 0 ? $unitRepository->getOneBy([
@@ -144,7 +144,7 @@ class UnitsController extends Controller
 
         $messageManager = $this->get('manager.message');
 
-        $form = new UnitLeaderForm($request, $unit);
+        $form = $this->createForm(UnitLeaderForm::class, $unit);
         if ($form->isValid()) {
             try {
                 $unitRepository->save($unit);
@@ -198,7 +198,7 @@ class UnitsController extends Controller
             $person = new Person();
             $person->setUnitId($id);
             $userId = $request->request->getInt('userId');
-            $form = new PersonForm($request, $person, [
+            $form = $this->createForm(PersonForm::class, $person, [
                 'action' => $request->getCurrentUrl([], [
                     'deletedId',
                 ]),
