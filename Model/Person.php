@@ -13,11 +13,17 @@ class Person implements ModelInterface
     /** @var int */
     protected $userId;
 
+    /** @var User|null */
+    protected $user;
+
     /** @var int */
     protected $unitId;
 
     /** @var int */
     protected $positionId;
+
+    /** @var Position|null */
+    protected $position;
 
     /** @var string */
     protected $orderNo;
@@ -52,6 +58,30 @@ class Person implements ModelInterface
     public function setUserId($userId)
     {
         $this->userId = (int) $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return User|null
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set user
+     *
+     * @param User $user user
+     *
+     * @return self
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
 
         return $this;
     }
@@ -100,6 +130,30 @@ class Person implements ModelInterface
     public function setPositionId($positionId)
     {
         $this->positionId = (int) $positionId;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return Position|null
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set position
+     *
+     * @param Position $position position
+     *
+     * @return self
+     */
+    public function setPosition(Position $position)
+    {
+        $this->position = $position;
 
         return $this;
     }

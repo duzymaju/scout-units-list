@@ -185,15 +185,16 @@ class UnitsController extends Controller
         $messageManager = $this->get('manager.message');
 
         $positionList = [];
-        $positions = $this->get('repository.position')
-            ->getBy([
-                'type' => $unit->getType(),
-            ]);
+        $positionRepository = $this->get('repository.position');
+        $positions = $positionRepository->getBy([
+            'type' => $unit->getType(),
+        ]);
         foreach ($positions as $position) {
             $positionList[$position->getId()] = $position->getNameMale() . '/' . $position->getNameFemale();
         }
 
         $personRepository = $this->get('repository.person');
+        $userRepository = $this->get('repository.user');
         if (count($positionList) > 0) {
             $person = new Person();
             $person->setUnitId($id);
@@ -205,10 +206,9 @@ class UnitsController extends Controller
                 'config' => $this->get('manager.config')
                     ->get(),
                 'positions' => $positionList,
-                'user' => $userId > 0 ? $this->get('repository.user')
-                    ->getOneBy([
-                        'id' => $userId,
-                    ]) : null,
+                'user' => $userId > 0 ? $userRepository->getOneBy([
+                    'id' => $userId,
+                ]) : null,
                 'validator' => [
                     'repository' => $personRepository,
                 ],
@@ -247,9 +247,7 @@ class UnitsController extends Controller
         $this->getView('Admin/Units/PersonManage', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
-            'persons' => $personRepository->getBy([
-                'unitId' => $id,
-            ]),
+            'persons' => $personRepository->getPersonsForUnit($id, $userRepository, $positionRepository),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();

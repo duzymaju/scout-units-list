@@ -6,9 +6,15 @@
         'messages' => $this->messages,
     ]); ?>
     <ul>
-        <?php foreach ($this->persons as $person): ?>
+        <?php foreach ($this->persons as $person): $user = $person->getUser(); $position = $person->getPosition(); ?>
             <li>
-                user/position ID: <?php echo $this->escape($person->getUserId()); ?>/<?php echo $this->escape($person->getPositionId()); ?>
+                user: <?php echo $this->escape($user->getNiceName()); ?>
+                    (<?php echo $this->escape($user->getLogin()); ?>) /
+                position: <?php echo $this->escape($position->getNameFemale()); ?> /
+                    <?php echo $this->escape($position->getNameFemale()); ?>,
+                    <?php echo $position->getDescription() != '' ?
+                        '(' . $this->escape($position->getDescription()) . '),' : ''; ?>
+                    <?php echo $position->isLeader() ? ' ' . __('leader', 'scout-units-list') : ''; ?>
                 <a href="<?php echo $this->link([
                     'action' => 'person-manage',
                     'deletedId' => $person->getId(),

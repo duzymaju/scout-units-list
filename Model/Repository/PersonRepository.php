@@ -132,4 +132,64 @@ class PersonRepository extends Repository
 
         return $ids;
     }
+
+    /**
+     * Get persons for unit
+     *
+     * @param int                $unitId             unit ID
+     * @param UserRepository     $userRepository     user repository
+     * @param PositionRepository $positionRepository position repository
+     *
+     * @return array
+     */
+    public function getPersonsForUnit($unitId, UserRepository $userRepository, PositionRepository $positionRepository)
+    {
+        $persons = $this->getBy([
+            'unitId' => $unitId,
+        ]);
+
+        $userIds = [];
+        $positionIds = [];
+        $personsByUserIds = [];
+        $personsByPositionIds = [];
+        foreach ($persons as $person) {
+            $userId = $person->getUserId();
+            $userIds[] = $userId;
+
+            $positionId = $person->getPositionId();
+            $positionIds[] = $positionId;
+
+            if (!array_key_exists($userId, $personsByUserIds)) {
+                $personsByUserIds[$userId] = [];
+            }
+            $personsByUserIds[$userId][] = $person;
+
+            if (!array_key_exists($positionId, $personsByPositionIds)) {
+                $personsByPositionIds[$positionId] = [];
+            }
+            $personsByPositionIds[$positionId][] = $person;
+        }
+
+        $users = $userRepository->getBy([
+            'id' => array_unique($userIds),
+        ]);
+        foreach ($users as $user) {
+            $userId = $user->getId();
+            foreach ($personsByUserIds[$userId] as $person) {
+                $person->setUser($user);
+            }
+        }
+
+        $positions = $positionRepository->getBy([
+            'id' => array_unique($positionIds),
+        ]);
+        foreach ($positions as $position) {
+            $positionId = $position->getId();
+            foreach ($personsByPositionIds[$positionId] as $person) {
+                $person->setPosition($position);
+            }
+        }
+
+        return $persons;
+    }
 }
