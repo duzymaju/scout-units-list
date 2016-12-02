@@ -16,6 +16,7 @@ use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\ApiController;
 use ScoutUnitsList\Controller\InstallController;
 use ScoutUnitsList\Controller\ShortcodesController;
+use ScoutUnitsList\Manager\CacheManager;
 use ScoutUnitsList\Manager\ConfigManager;
 use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Manager\MessageManager;
@@ -37,13 +38,14 @@ $request = new Request();
 
 $dbManager = new DbManager($wpdb);
 $configManager = new ConfigManager($loader->getName() . '_config');
-$loader->set('manager.db', $dbManager)
+$loader->set('manager.cache', new CacheManager($loader->getPath('Cache')))
     ->set('manager.config', $configManager)
+    ->set('manager.db', $dbManager)
+    ->set('manager.message', new MessageManager())
     ->set('repository.person', new PersonRepository($dbManager))
     ->set('repository.position', new PositionRepository($dbManager))
     ->set('repository.unit', new UnitRepository($dbManager))
-    ->set('repository.user', new UserRepository($dbManager))
-    ->set('manager.message', new MessageManager());
+    ->set('repository.user', new UserRepository($dbManager));
 
 // Initialization
 add_action('init', [
