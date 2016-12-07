@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Form;
 
 use ScoutUnitsList\Form\Field\FloatType;
+use ScoutUnitsList\Form\Field\IntegerType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
 use ScoutUnitsList\Validator\ConfigValidator;
@@ -22,6 +23,10 @@ class ConfigForm extends Form
         unset($settings);
 
         $this
+            ->addField('cacheTtl', IntegerType::class, [
+                'label' => __('Cache TTL [seconds]', 'wpcore'),
+                'required' => true,
+            ])
             ->addField('orderNoFormat', StringType::class, [
                 'label' => __('Order number format (for "pattern" attribute)', 'wpcore'),
             ])
@@ -30,15 +35,19 @@ class ConfigForm extends Form
             ])
             ->addField('mapKey', StringType::class, [
                 'label' => __('Map key', 'wpcore'),
+                'required' => true,
             ])
             ->addField('mapDefaultLat', FloatType::class, [
                 'label' => __('Map default latitude', 'wpcore'),
+                'required' => true,
             ])
             ->addField('mapDefaultLng', FloatType::class, [
                 'label' => __('Map default longitude', 'wpcore'),
+                'required' => true,
             ])
             ->addField('mapDefaultZoom', FloatType::class, [
                 'label' => __('Map default zoom', 'wpcore'),
+                'required' => true,
             ])
             ->addField('submit', SubmitType::class, [
                 'label' => __('Save', 'wpcore'),

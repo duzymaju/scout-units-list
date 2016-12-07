@@ -7,6 +7,9 @@ namespace ScoutUnitsList\Model;
  */
 class Config implements ModelInterface
 {
+    /** @var int */
+    protected $cacheTtl = 3600;
+
     /** @var string|null */
     protected $orderNoFormat;
 
@@ -24,6 +27,30 @@ class Config implements ModelInterface
 
     /** @var int */
     protected $mapDefaultZoom = 0;
+
+    /**
+     * Get cache TTL
+     *
+     * @return int
+     */
+    public function getCacheTtl()
+    {
+        return $this->cacheTtl;
+    }
+
+    /**
+     * Set cache TTL
+     *
+     * @param int $cacheTtl cache TTL
+     *
+     * @return self
+     */
+    public function setCacheTtl($cacheTtl)
+    {
+        $this->cacheTtl = max(0, (int) $cacheTtl);
+
+        return $this;
+    }
 
     /**
      * Get order number format

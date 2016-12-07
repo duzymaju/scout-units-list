@@ -38,7 +38,8 @@ $request = new Request();
 
 $dbManager = new DbManager($wpdb);
 $configManager = new ConfigManager($loader->getName() . '_config');
-$loader->set('manager.cache', new CacheManager($loader->getPath('Cache')))
+$config = $configManager->get();
+$loader->set('manager.cache', new CacheManager($loader->getPath('Cache'), $config->getCacheTtl()))
     ->set('manager.config', $configManager)
     ->set('manager.db', $dbManager)
     ->set('manager.message', new MessageManager())
