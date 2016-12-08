@@ -1,0 +1,32 @@
+<h2><?php _e('Scout data', 'scout-units-list'); ?></h2>
+<table class="form-table">
+    <tbody>
+        <tr>
+            <th><label for="sul_publish_email"><?php _e('Publish e-mail', 'scout-units-list'); ?></label></th>
+            <td>
+                <select name="sul_publish_email" id="sul_publish_email">
+                    <?php foreach ($this->publishEmails as $value => $name): ?>
+                        <option<?php echo $this->user->getPublishEmail() == $value ? ' selected' : ''; ?>
+                            value="<?php echo $this->escape($value); ?>">
+                            <?php echo $this->escape($name); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><label for="sul_grade"><?php _e('Grade', 'scout-units-list'); ?></label></th>
+            <td>
+                <input type="text" name="sul_grade" id="sul_grade"
+                    value="<?php echo $this->escape($this->user->getGrade()); ?>" class="regular-text">
+            </td>
+        </tr>
+        <tr>
+            <th><label for="sul_duty"><?php _e('Duty', 'scout-units-list'); ?></label></th>
+            <td>
+                <input type="text" name="sul_duty" id="sul_duty"
+                    value="<?php echo $this->escape($this->user->getDuty()); ?>" class="regular-text">
+            </td>
+        </tr>
+    </tbody>
+</table>

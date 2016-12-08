@@ -13,6 +13,7 @@ Text Domain: scout-units-list
 namespace ScoutUnitsList;
 
 use ScoutUnitsList\Controller\AdminController;
+use ScoutUnitsList\Controller\Admin\UserController;
 use ScoutUnitsList\Controller\ApiController;
 use ScoutUnitsList\Controller\InstallController;
 use ScoutUnitsList\Controller\ShortcodesController;
@@ -131,5 +132,23 @@ if (WP_ADMIN && is_admin()) {
     add_action('admin_menu', [
         $adminController,
         'menu',
+    ]);
+
+    $userController = new UserController($loader, $request);
+    add_action('show_user_profile', [
+        $userController,
+        'form',
+    ]);
+    add_action('edit_user_profile', [
+        $userController,
+        'form',
+    ]);
+    add_action('personal_options_update', [
+        $userController,
+        'update',
+    ]);
+    add_action('edit_user_profile_update', [
+        $userController,
+        'update',
     ]);
 }

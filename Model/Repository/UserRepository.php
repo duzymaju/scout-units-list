@@ -47,23 +47,94 @@ class UserRepository extends NativeRepository
     }
 
     /**
+     * Create model
+     *
+     * @param array $tableData table data
+     *
+     * @return User
+     */
+    protected function createModel(array $tableData)
+    {
+        $user = parent::createModel($tableData);
+        $this->completeUserModel($user);
+
+        return $user;
+    }
+
+    /**
      * Create model from WP user
      *
      * @param WP_User $wpUser WP user
      *
      * @return User
      */
-    protected function createModelFromWpUser(WP_User $wpUser)
+    public function createModelFromWpUser(WP_User $wpUser)
     {
         $modelClass = static::getModel();
-        $model = new $modelClass();
+        $user = new $modelClass();
         foreach ($this->getMap() as $modelKey => $objectKey) {
             if (isset($wpUser->$objectKey)) {
-                $this->setValue($model, $modelKey, $wpUser->$objectKey);
+                $this->setValue($user, $modelKey, $wpUser->$objectKey);
             }
         }
+        $this->completeUserModel($user);
 
-        return $model;
+        return $user;
+    }
+
+    /**
+     * Save
+     *
+     * @param User $user user
+     *
+     * @return self
+     */
+    public function save(User $user)
+    {
+        $this->setProperPublishEmail($user);
+        update_user_meta($user->getId(), 'sul_publish_email', $user->getPublishEmail());
+        update_user_meta($user->getId(), 'sul_grade', $user->getGrade());
+        update_user_meta($user->getId(), 'sul_duty', $user->getDuty());
+
+        return $this;
+    }
+
+    /**
+     * Complete user model
+     *
+     * @param User $user user
+     *
+     * @return User
+     */
+    protected function completeUserModel(User $user)
+    {
+        // @README: This method could cause high database load when used for users list
+        $user->setPublishEmail((int) get_the_author_meta('sul_publish_email', $user->getId()))
+            ->setGrade(get_the_author_meta('sul_grade', $user->getId()))
+            ->setDuty(get_the_author_meta('sul_duty', $user->getId()));
+        $this->setProperPublishEmail($user);
+
+        return $user;
+    }
+
+    /**
+     * Get by
+     *
+     * @param array    $conditions conditions
+     * @param array    $order      order
+     * @param int|null $limit      limit
+     * @param int      $offset     offset
+     *
+     * @return array
+     */
+    public function getBy(array $conditions, array $order = [], $limit = null, $offset = 0)
+    {
+        $users = parent::getBy($conditions, $order, $limit, $offset);
+        foreach ($users as $user) {
+            $this->completeUserModel($user);
+        }
+
+        return $users;
     }
 
     /**
@@ -103,5 +174,35 @@ class UserRepository extends NativeRepository
         $user = $this->createModelFromWpUser($wpUser);
 
         return $user;
+    }
+
+    /**
+     * Get publish e-mails
+     *
+     * @return array
+     */
+    public function getPublishEmails()
+    {
+        return [
+            User::PUBLISH_EMAIL_FORM => __('Contact form', 'scout-units-list'),
+            User::PUBLISH_EMAIL_YES => __('Yes', 'scout-units-list'),
+            User::PUBLISH_EMAIL_NO => __('No', 'scout-units-list'),
+        ];
+    }
+
+    /**
+     * Set proper publish e-mail
+     *
+     * @param User $user user
+     * 
+     * @return self
+     */
+    protected function setProperPublishEmail(User $user)
+    {
+        if (!array_key_exists($user->getPublishEmail(), $this->getPublishEmails())) {
+            $user->setPublishEmail(User::PUBLISH_EMAIL_FORM);
+        }
+
+        return $this;
     }
 }

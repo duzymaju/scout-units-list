@@ -9,6 +9,15 @@ use DateTime;
  */
 class User implements ModelInterface
 {
+    /** @const int */
+    const PUBLISH_EMAIL_NO = 1;
+
+    /** @const int */
+    const PUBLISH_EMAIL_FORM = 2;
+
+    /** @const int */
+    const PUBLISH_EMAIL_YES = 3;
+
     /** @var int */
     protected $id;
 
@@ -20,6 +29,15 @@ class User implements ModelInterface
 
     /** @var string */
     protected $email;
+
+    /** @var int */
+    protected $publishEmail;
+
+    /** @var string */
+    protected $grade;
+
+    /** @var string */
+    protected $duty;
 
     /** @var string */
     protected $url;
@@ -125,6 +143,78 @@ class User implements ModelInterface
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get publish e-mail
+     *
+     * @return string
+     */
+    public function getPublishEmail()
+    {
+        return $this->publishEmail;
+    }
+
+    /**
+     * Set publish e-mail
+     *
+     * @param string $publishEmail publish e-mail
+     *
+     * @return self
+     */
+    public function setPublishEmail($publishEmail)
+    {
+        $this->publishEmail = $publishEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return string
+     */
+    public function getGrade()
+    {
+        return $this->grade;
+    }
+
+    /**
+     * Set grade
+     *
+     * @param string $grade grade
+     *
+     * @return self
+     */
+    public function setGrade($grade)
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Get duty
+     *
+     * @return string
+     */
+    public function getDuty()
+    {
+        return $this->duty;
+    }
+
+    /**
+     * Set duty
+     *
+     * @param string $duty duty
+     *
+     * @return self
+     */
+    public function setDuty($duty)
+    {
+        $this->duty = $duty;
 
         return $this;
     }
