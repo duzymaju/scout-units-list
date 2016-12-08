@@ -43,7 +43,7 @@ class UnitsController extends Controller
                     break;
 
                 case 'person-manage':
-                    $this->personManageAction($request, $id);
+                    $this->personManageAction($id);
                     break;
 
                 case 'delete':
@@ -119,12 +119,11 @@ class UnitsController extends Controller
     /**
      * Leader form action
      *
-     * @param Request $request request
-     * @param int     $id      ID
+     * @param int $id ID
      *
      * @throws UnauthorizedException
      */
-    public function leaderFormAction(Request $request, $id)
+    public function leaderFormAction($id)
     {
         $unitRepository = $this->get('repository.unit');
         $unit = $unitRepository->getOneByOr404([
@@ -171,7 +170,7 @@ class UnitsController extends Controller
      *
      * @throws UnauthorizedException
      */
-    public function personManageAction(Request $request, $id)
+    public function personManageAction($request, $id)
     {
         if (!current_user_can('sul_manage_persons')) {
             throw new UnauthorizedException();

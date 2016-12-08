@@ -35,7 +35,7 @@ class PositionsController extends Controller
 
             switch ($action) {
                 case 'form':
-                    $this->formAction($request, $id);
+                    $this->formAction($id);
                     break;
 
                 case 'delete':
@@ -58,10 +58,9 @@ class PositionsController extends Controller
     /**
      * Form action
      *
-     * @param Request  $request request
-     * @param int|null $id      ID
+     * @param int|null $id ID
      */
-    public function formAction(Request $request, $id)
+    public function formAction($id)
     {
         $positionRepository = $this->get('repository.position');
         $position = $id > 0 ? $positionRepository->getOneByOr404([

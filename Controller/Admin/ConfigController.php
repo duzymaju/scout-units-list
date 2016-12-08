@@ -6,7 +6,6 @@ use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\Controller;
 use ScoutUnitsList\Exception\UnauthorizedException;
 use ScoutUnitsList\Form\ConfigForm;
-use ScoutUnitsList\System\Request;
 
 /**
  * Admin config controller
@@ -26,16 +25,16 @@ class ConfigController extends Controller
                 throw new UnauthorizedException();
             }
 
-            $this->formAction($this->request);
+            $this->formAction();
         } catch (UnauthorizedException $e) {
             $this->respondWith401($e);
         }
     }
 
     /**
-     * Edit action
+     * Form action
      */
-    public function formAction(Request $request)
+    public function formAction()
     {
         $configManager = $this->loader->get('manager.config');
         $config = $configManager->get();
