@@ -172,4 +172,3 @@
         }
     };
 })(document, jQuery, google, sul);
-

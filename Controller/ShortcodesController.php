@@ -25,15 +25,16 @@ class ShortcodesController extends Controller
 
         $withCurrent = $attributes->getBool('current', false);
         $levels = $attributes->getInt('levels', 1);
-        $currentUnit = $withCurrent ? $this->loader->get('repository.unit')
-            ->getOneBy([
-                'id' => $id,
-            ]) : null;
-        $dependentUnitsResult = $this->getDependentUnitsResult($id, $levels);
 
         $cacheManager = $this->get('manager.cache');
         $cacheManager->setId('units-list-' . $id . '-' . ($withCurrent ? '1' : '0') . '-' . $levels);
         if (!$cacheManager->has()) {
+            $currentUnit = $withCurrent ? $this->loader->get('repository.unit')
+                ->getOneBy([
+                    'id' => $id,
+                ]) : null;
+            $dependentUnitsResult = $this->getDependentUnitsResult($id, $levels);
+
             $cacheManager->set($this->getView('Shortcodes/UnitsListMain', [
                 'current' => $currentUnit,
                 'dependents' => $dependentUnitsResult,
