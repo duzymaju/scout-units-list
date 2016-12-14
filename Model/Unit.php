@@ -104,6 +104,9 @@ class Unit implements ModelInterface
     /** @var float|null */
     protected $localizationLng;
 
+    /** @var array */
+    protected $persons = [];
+
     /**
      * Get ID
      *
@@ -525,6 +528,49 @@ class Unit implements ModelInterface
     public function setLocalizationLng($localizationLng)
     {
         $this->localizationLng = isset($localizationLng) ? (float) $localizationLng : null;
+
+        return $this;
+    }
+
+    /**
+     * Add person
+     *
+     * @param Person $person person
+     *
+     * @return self
+     */
+    public function addPerson(Person $person)
+    {
+        foreach ($this->persons as $currentPerson) {
+            if ($person->getId() == $currentPerson->getId()) {
+                return $this;
+            }
+        }
+        $this->persons[] = $person;
+
+        return $this;
+    }
+
+    /**
+     * Get persons
+     *
+     * @return Person[]
+     */
+    public function getPersons()
+    {
+        return $this->persons;
+    }
+
+    /**
+     * Set persons
+     *
+     * @param Person[] $persons persons
+     *
+     * @return self
+     */
+    public function setPersons(array $persons)
+    {
+        $this->persons = $persons;
 
         return $this;
     }

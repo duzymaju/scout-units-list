@@ -150,7 +150,7 @@ class User implements ModelInterface
     /**
      * Get publish e-mail
      *
-     * @return string
+     * @return int
      */
     public function getPublishEmail()
     {
@@ -160,7 +160,7 @@ class User implements ModelInterface
     /**
      * Set publish e-mail
      *
-     * @param string $publishEmail publish e-mail
+     * @param int $publishEmail publish e-mail
      *
      * @return self
      */

@@ -134,62 +134,77 @@ class PersonRepository extends Repository
     }
 
     /**
-     * Get persons for unit
+     * Set persons to units
      *
-     * @param int                $unitId             unit ID
+     * @param Unit[]             $units              units
      * @param UserRepository     $userRepository     user repository
      * @param PositionRepository $positionRepository position repository
+     * @param bool               $includeUsers       include users
+     * @param bool               $leaderOnly         leader only
      *
-     * @return array
+     * @return self
      */
-    public function getPersonsForUnit($unitId, UserRepository $userRepository, PositionRepository $positionRepository)
+    public function setPersonsToUnits(array $units, UserRepository $userRepository,
+        PositionRepository $positionRepository, $includeUsers = false, $leaderOnly = true)
     {
+        // Get persons
+        $unitsByIds = [];
+        foreach ($units as $unit) {
+            $unitsByIds[$unit->getId()] = $unit;
+        }
         $persons = $this->getBy([
-            'unitId' => $unitId,
+            'unitId' => array_keys($unitsByIds),
         ]);
 
-        $userIds = [];
+        // Get positions
         $positionIds = [];
-        $personsByUserIds = [];
-        $personsByPositionIds = [];
         foreach ($persons as $person) {
-            $userId = $person->getUserId();
-            $userIds[] = $userId;
-
-            $positionId = $person->getPositionId();
-            $positionIds[] = $positionId;
-
-            if (!array_key_exists($userId, $personsByUserIds)) {
-                $personsByUserIds[$userId] = [];
-            }
-            $personsByUserIds[$userId][] = $person;
-
-            if (!array_key_exists($positionId, $personsByPositionIds)) {
-                $personsByPositionIds[$positionId] = [];
-            }
-            $personsByPositionIds[$positionId][] = $person;
+            $positionIds[] = $person->getPositionId();
         }
-
-        $users = $userRepository->getBy([
-            'id' => array_unique($userIds),
-        ]);
-        foreach ($users as $user) {
-            $userId = $user->getId();
-            foreach ($personsByUserIds[$userId] as $person) {
-                $person->setUser($user);
-            }
-        }
-
-        $positions = $positionRepository->getBy([
+        $positionsParams = [
             'id' => array_unique($positionIds),
-        ]);
+        ];
+        if ($leaderOnly) {
+            $positionsParams['leader'] = 1;
+        }
+        $positions = $positionRepository->getBy($positionsParams);
+        $positionsByIds = [];
         foreach ($positions as $position) {
-            $positionId = $position->getId();
-            foreach ($personsByPositionIds[$positionId] as $person) {
-                $person->setPosition($position);
+            $positionsByIds[$position->getId()] = $position;
+        }
+
+        // Set positions to persons
+        $userIds = [];
+        foreach ($persons as $person) {
+            if (array_key_exists($person->getPositionId(), $positionsByIds)) {
+                $person->setPosition($positionsByIds[$person->getPositionId()]);
+                $userIds[] = $person->getUserId();
             }
         }
 
-        return $persons;
+        // Include users if necessary
+        $usersByIds = [];
+        if ($includeUsers) {
+            $users = $userRepository->getBy([
+                'id' => $userIds,
+            ]);
+            foreach ($users as $user) {
+                $usersByIds[$user->getId()] = $user;
+            }
+        }
+
+        // Add complete persons to units
+        foreach ($persons as $person) {
+            if ((!$includeUsers || array_key_exists($person->getUserId(), $usersByIds)) &&
+                array_key_exists($person->getUnitId(), $unitsByIds) && $person->getPosition()) {
+                if ($includeUsers) {
+                    $person->setUnit($unitsByIds[$person->getUnitId()]);
+                }
+                $person->setUser($usersByIds[$person->getUserId()]);
+                $unitsByIds[$person->getUnitId()]->addPerson($person);
+            }
+        }
+
+        return $this;
     }
 }

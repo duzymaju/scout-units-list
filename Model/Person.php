@@ -19,6 +19,9 @@ class Person implements ModelInterface
     /** @var int */
     protected $unitId;
 
+    /** @var Unit|null */
+    protected $unit;
+
     /** @var int */
     protected $positionId;
 
@@ -106,6 +109,30 @@ class Person implements ModelInterface
     public function setUnitId($unitId)
     {
         $this->unitId = (int) $unitId;
+
+        return $this;
+    }
+
+    /**
+     * Get unit
+     *
+     * @return Unit|null
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * Set unit
+     *
+     * @param Unit $unit unit
+     *
+     * @return self
+     */
+    public function setUnit(Unit $unit)
+    {
+        $this->unit = $unit;
 
         return $this;
     }

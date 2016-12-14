@@ -125,6 +125,10 @@ add_shortcode('sul-units-list', [
     $shortcodesController,
     'unitsList',
 ]);
+add_shortcode('sul-persons-list', [
+    $shortcodesController,
+    'personsList',
+]);
 
 // Admin panel
 if (WP_ADMIN && is_admin()) {

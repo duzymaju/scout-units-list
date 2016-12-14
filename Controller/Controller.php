@@ -64,7 +64,14 @@ abstract class Controller
      */
     public function getView($name, array $params = [])
     {
-        $view = new View($this->getViewPath(), $name, $params);
+        if (array_key_exists('path', $params)) {
+            $path = $params['path'];
+            unset($params['path']);
+        } else {
+            $path = $this->getViewPath();
+        }
+
+        $view = new View($path, $name, $params);
         $view->setRequest($this->request);
 
         return $view;

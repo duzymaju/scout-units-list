@@ -242,11 +242,13 @@ class UnitsController extends Controller
                 $messageManager->addError(__('An error occured during person saving.', 'scout-units-list'));
             }
         }
+        $personRepository->setPersonsToUnits([
+            $unit,
+        ], $userRepository, $positionRepository, true, false);
 
         $this->getView('Admin/Units/PersonManage', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
-            'persons' => $personRepository->getPersonsForUnit($id, $userRepository, $positionRepository),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();

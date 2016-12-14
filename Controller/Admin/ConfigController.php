@@ -44,7 +44,7 @@ class ConfigController extends Controller
         $form = $this->createForm(ConfigForm::class, $config);
         if ($form->isValid()) {
             $configManager->save($config);
-            $messageManager->addSuccess(__('Position was successfully saved.', 'scout-units-list'));
+            $messageManager->addSuccess(__('Configuration was successfully saved.', 'scout-units-list'));
         }
 
         $this->getView('Admin/Config', [

@@ -13,6 +13,9 @@ abstract class Basics
 {
     use HelpersTrait;
 
+    /** @const string */
+    const TEMPLATE_EXT = '.phtml';
+
     /** @var string */
     protected $basicsPath;
 
@@ -151,7 +154,7 @@ abstract class Basics
     public function getRender()
     {
         try {
-            $fileName = $this->basicsPath . $this->basicsName . '.phtml';
+            $fileName = $this->basicsPath . $this->basicsName . self::TEMPLATE_EXT;
             if (!empty($fileName) && file_exists($fileName)) {
                 ob_start();
                 include($fileName);

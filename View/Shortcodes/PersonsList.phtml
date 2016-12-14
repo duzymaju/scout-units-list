@@ -1,0 +1,22 @@
+<div class="sul-persons-list">
+    <h3><?php echo $this->escape($this->unit->getName()); ?></h3>
+    <ul>
+        <?php foreach ($this->unit->getPersons() as $person): ?>
+            <?php $user = $person->getUser(); ?>
+            <?php $position = $person->getPosition(); ?>
+            <li>
+                <?php echo $this->escape($position->getNameMale() . '/' . $position->getNameFemale()); ?>
+                <?php if ($user->getPublishEmail()): ?>
+                    <a href="mailto:<?php echo $this->escape($user->getEmail()); ?>">
+                        <?php echo $this->escape($user->getGrade() . '  ' . $user->getNiceName()); ?>
+                    </a>
+                <?php else: ?>
+                    <span>
+                        <?php echo $this->escape($user->getGrade() . '  ' . $user->getNiceName()); ?>
+                    </span>
+                <?php endif; ?>
+                
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>

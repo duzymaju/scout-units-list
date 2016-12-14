@@ -6,11 +6,11 @@
         'messages' => $this->messages,
     ]); ?>
     <ul>
-        <?php foreach ($this->persons as $person): $user = $person->getUser(); $position = $person->getPosition(); ?>
+        <?php foreach ($this->unit->getPersons() as $person): ?>
             <li>
-                user: <?php echo $this->escape($user->getNiceName()); ?>
+                user: <?php $user = $person->getUser(); echo $this->escape($user->getNiceName()); ?>
                     (<?php echo $this->escape($user->getLogin()); ?>) /
-                position: <?php echo $this->escape($position->getNameFemale()); ?> /
+                position: <?php $position = $person->getPosition(); echo $this->escape($position->getNameFemale()); ?> /
                     <?php echo $this->escape($position->getNameFemale()); ?>,
                     <?php echo $position->getDescription() != '' ?
                         '(' . $this->escape($position->getDescription()) . '),' : ''; ?>
