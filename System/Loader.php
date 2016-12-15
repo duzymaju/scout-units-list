@@ -206,12 +206,10 @@ final class Loader
      */
     public function init()
     {
-        if (function_exists('load_plugin_textdomain')) {
-            if (!defined('WP_PLUGIN_DIR')) {
-                load_plugin_textdomain($this->name, str_replace(ABSPATH, '', $this->getPath()));
-            } else {
-                load_plugin_textdomain($this->name, false, $this->getDirName());
-            }
+        if (is_textdomain_loaded($this->name)) {
+            return true;
+        } else {
+            return load_plugin_textdomain($this->name, false, $this->getDirName() . '/Languages' );
         }
     }
 }

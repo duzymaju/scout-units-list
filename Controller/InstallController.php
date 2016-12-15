@@ -14,7 +14,7 @@ class InstallController extends Controller
      */
     public function activate()
     {
-        if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
+        if (version_compare(PHP_VERSION, '5.6.0') < 0) {
             return $this->error('PHP version 5.6 or higher is required to properly activate and work of this plugin.');
         }
 

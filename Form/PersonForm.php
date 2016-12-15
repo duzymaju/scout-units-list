@@ -28,13 +28,13 @@ class PersonForm extends Form
         $this
             ->addField('userId', IntegerAutocompleteType::class, [
                 'action' => 'sul_users',
-                'label' => __('User', 'wpcore'),
+                'label' => __('User', 'scout-units-list'),
                 'required' => true,
                 'valueLabel' => is_object($settings['user']) && $settings['user'] instanceof User ?
                     $settings['user']->getNiceName() . ' (' . $settings['user']->getLogin() . ')' : null,
             ])
             ->addField('positionId', SelectType::class, [
-                'label' => __('Position', 'wpcore'),
+                'label' => __('Position', 'scout-units-list'),
                 'options' => $settings['positions'],
                 'required' => true,
             ])
@@ -43,11 +43,11 @@ class PersonForm extends Form
                     'pattern' => $config->getOrderNoFormat(),
                     'placeholder' => $config->getOrderNoPlaceholder(),
                 ],
-                'label' => __('Order number', 'wpcore'),
+                'label' => __('Order number', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('submit', SubmitType::class, [
-                'label' => __('Save', 'wpcore'),
+                'label' => __('Save', 'scout-units-list'),
             ])
         ;
     }

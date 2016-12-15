@@ -39,11 +39,11 @@ class UnitsController extends Controller
                     break;
 
                 case 'leader-form':
-                    $this->leaderFormAction($request, $id);
+                    $this->leaderFormAction($id);
                     break;
 
                 case 'person-manage':
-                    $this->personManageAction($id);
+                    $this->personManageAction($request, $id);
                     break;
 
                 case 'delete':

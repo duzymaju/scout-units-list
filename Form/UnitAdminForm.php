@@ -27,10 +27,10 @@ class UnitAdminForm extends Form
     public function getTypes()
     {
         return [
-            Unit::TYPE_GROUP => __('Group', 'wpcore'),
-            Unit::TYPE_TROOP => __('Troop', 'wpcore'),
-            Unit::TYPE_PATROL => __('Patrol', 'wpcore'),
-            Unit::TYPE_CLUB => __('Club', 'wpcore'),
+            Unit::TYPE_GROUP => __('Group', 'scout-units-list'),
+            Unit::TYPE_TROOP => __('Troop', 'scout-units-list'),
+            Unit::TYPE_PATROL => __('Patrol', 'scout-units-list'),
+            Unit::TYPE_CLUB => __('Club', 'scout-units-list'),
         ];
     }
 
@@ -42,13 +42,13 @@ class UnitAdminForm extends Form
     private function getSubtypes()
     {
         $subtypes = [
-            Unit::SUBTYPE_CUBSCOUTS => __('Cubscouts', 'wpcore'),
-            Unit::SUBTYPE_SCOUTS => __('Scouts', 'wpcore'),
-            Unit::SUBTYPE_SENIORS_COUTS => __('Senior scouts', 'wpcore'),
-            Unit::SUBTYPE_ROVERS => __('Rovers', 'wpcore'),
-            Unit::SUBTYPE_MULTI_LEVEL => __('Multi level', 'wpcore'),
-            Unit::SUBTYPE_GROUP => __('Group', 'wpcore'),
-            Unit::SUBTYPE_UNION_OF_GROUPS => __('Union of troops', 'wpcore'),
+            Unit::SUBTYPE_CUBSCOUTS => __('Cubscouts', 'scout-units-list'),
+            Unit::SUBTYPE_SCOUTS => __('Scouts', 'scout-units-list'),
+            Unit::SUBTYPE_SENIORS_COUTS => __('Senior scouts', 'scout-units-list'),
+            Unit::SUBTYPE_ROVERS => __('Rovers', 'scout-units-list'),
+            Unit::SUBTYPE_MULTI_LEVEL => __('Multi level', 'scout-units-list'),
+            Unit::SUBTYPE_GROUP => __('Group', 'scout-units-list'),
+            Unit::SUBTYPE_UNION_OF_GROUPS => __('Union of troops', 'scout-units-list'),
         ];
         foreach ($subtypes as $subtype => $name) {
             $subtypes[$subtype] = [
@@ -74,28 +74,28 @@ class UnitAdminForm extends Form
 
         $this
             ->addField('status', SelectType::class, [
-                'label' => __('Status', 'wpcore'),
+                'label' => __('Status', 'scout-units-list'),
                 'options' => [
-                    Unit::STATUS_ACTIVE => __('Active', 'wpcore'),
-                    Unit::STATUS_HIDDEN => __('Hidden', 'wpcore'),
+                    Unit::STATUS_ACTIVE => __('Active', 'scout-units-list'),
+                    Unit::STATUS_HIDDEN => __('Hidden', 'scout-units-list'),
                 ],
                 'required' => true,
             ])
             ->addField('type', SelectType::class, [
-                'label' => __('Type', 'wpcore'),
+                'label' => __('Type', 'scout-units-list'),
                 'options' => self::getTypes(),
                 'required' => true,
             ])
             ->addField('subtype', SelectType::class, [
-                'label' => __('Subtype', 'wpcore'),
+                'label' => __('Subtype', 'scout-units-list'),
                 'options' => self::getSubtypes(),
             ])
             ->addField('sort', IntegerType::class, [
-                'label' => __('Sort', 'wpcore'),
+                'label' => __('Sort', 'scout-units-list'),
             ])
             ->addField('parentId', IntegerAutocompleteType::class, [
                 'action' => 'sul_units',
-                'label' => __('Parent', 'wpcore'),
+                'label' => __('Parent unit', 'scout-units-list'),
                 'valueLabel' => is_object($settings['parentUnit']) && $settings['parentUnit'] instanceof Unit ?
                     $settings['parentUnit']->getName() : null,
             ])
@@ -104,24 +104,24 @@ class UnitAdminForm extends Form
                     'pattern' => $config->getOrderNoFormat(),
                     'placeholder' => $config->getOrderNoPlaceholder(),
                 ],
-                'label' => __('Order number', 'wpcore'),
+                'label' => __('Order number', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('name', StringType::class, [
-                'label' => __('Name short', 'wpcore'),
+                'label' => __('Name short', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('nameFull', StringType::class, [
-                'label' => __('Name full', 'wpcore'),
+                'label' => __('Name full', 'scout-units-list'),
             ])
             ->addField('hero', StringType::class, [
-                'label' => __('Hero short', 'wpcore'),
+                'label' => __('Hero short', 'scout-units-list'),
             ])
             ->addField('heroFull', StringType::class, [
-                'label' => __('Hero full', 'wpcore'),
+                'label' => __('Hero full', 'scout-units-list'),
             ])
             ->addField('submit', SubmitType::class, [
-                'label' => __('Save', 'wpcore'),
+                'label' => __('Save', 'scout-units-list'),
             ])
         ;
     }

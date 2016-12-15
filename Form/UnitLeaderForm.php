@@ -25,23 +25,23 @@ class UnitLeaderForm extends Form
 
         $this
             ->addField('url', UrlType::class, [
-                'label' => __('URL', 'wpcore'),
+                'label' => __('URL', 'scout-units-list'),
             ])
             ->addField('mail', EmailType::class, [
-                'label' => __('E-mail', 'wpcore'),
+                'label' => __('E-mail', 'scout-units-list'),
             ])
             ->addField('address', StringType::class, [
-                'label' => __('Address', 'wpcore'),
+                'label' => __('Address', 'scout-units-list'),
             ])
             ->addField('meetingsTime', StringType::class, [
-                'label' => __('Meetings time', 'wpcore'),
+                'label' => __('Meetings time', 'scout-units-list'),
             ])
             ->addField('localizationLat', FloatHiddenType::class, [
-                'label' => __('Localization', 'wpcore'),
+                'label' => __('Localization', 'scout-units-list'),
             ])
             ->addField('localizationLng', FloatHiddenType::class)
             ->addField('submit', SubmitType::class, [
-                'label' => __('Save', 'wpcore'),
+                'label' => __('Save', 'scout-units-list'),
             ])
         ;
     }

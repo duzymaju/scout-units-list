@@ -1,0 +1,375 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Scout Units List pl_PL 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-15 18:44+0100\n"
+"PO-Revision-Date: 2016-12-15 18:44+0100\n"
+"Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
+"Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Controller/Admin/ConfigController.php:47
+msgid "Configuration was successfully saved."
+msgstr "Konfiguracja została pomyślnie zapisana."
+
+#: Controller/Admin/PositionsController.php:77
+msgid "Position was successfully saved."
+msgstr "Funkcja została pomyślnie zapisana."
+
+#: Controller/Admin/PositionsController.php:80
+msgid "An error occured during position saving."
+msgstr "Wystąpił błąd podczas zapisywania funkcji."
+
+#: Controller/Admin/PositionsController.php:108
+msgid "Position was successfully deleted."
+msgstr "Funkcja została pomyślnie usunięta."
+
+#: Controller/Admin/PositionsController.php:111
+msgid "An error occured during position removing."
+msgstr "Wystąpił błąd podczas usuwania funkcji."
+
+#: Controller/Admin/UnitsController.php:104
+#: Controller/Admin/UnitsController.php:150
+msgid "Unit was successfully saved."
+msgstr "Jednostka została pomyślnie zapisana."
+
+#: Controller/Admin/UnitsController.php:107
+#: Controller/Admin/UnitsController.php:153
+msgid "An error occured during unit saving."
+msgstr "Wystąpił błąd podczas zapisywania jednostki."
+
+#: Controller/Admin/UnitsController.php:216
+msgid ""
+"Add at least one position for this unit type to be able to manage persons."
+msgstr ""
+"Dodaj przynajmniej jedną funkcję do tego typu jednostki, żeby móc zarządzać "
+"funkcyjnymi."
+
+#: Controller/Admin/UnitsController.php:229
+msgid "Person was successfully deleted."
+msgstr "Funkcyjny został pomyślnie usunięty."
+
+#: Controller/Admin/UnitsController.php:232
+msgid "An error occured during person removing."
+msgstr "Wystąpił błąd podczas usuwania funkcyjnego."
+
+#: Controller/Admin/UnitsController.php:238
+msgid "Person was successfully saved."
+msgstr "Funkcyjny został pomyślnie zapisany."
+
+#: Controller/Admin/UnitsController.php:242
+msgid "An error occured during person saving."
+msgstr "Wystąpił błąd podczas zapisywania funkcyjnego."
+
+#: Controller/Admin/UnitsController.php:279
+msgid "Unit was successfully deleted."
+msgstr "Jednostka została pomyślnie usunięta."
+
+#: Controller/Admin/UnitsController.php:282
+msgid "An error occured during unit removing."
+msgstr "Wystąpił błąd podczas usuwania jednostki."
+
+#: Controller/AdminController.php:26 Controller/AdminController.php:31
+msgid "Scout units list"
+msgstr "Lista jednostek harcerskich"
+
+#: Controller/AdminController.php:26
+msgid "Scout units"
+msgstr "Jednostki harc."
+
+#: Controller/AdminController.php:32
+msgid "Units list"
+msgstr "Lista jednostek"
+
+#: Controller/AdminController.php:36
+msgid "Scout positions list"
+msgstr "Lista funkcji harcerskich"
+
+#: Controller/AdminController.php:37
+msgid "Positions list"
+msgstr "Lista funkcji"
+
+#: Controller/AdminController.php:41
+msgid "Scout units configuration"
+msgstr "Konfiguracja jednostek harcerskich"
+
+#: Controller/AdminController.php:42
+msgid "Configuration"
+msgstr "Konfiguracja"
+
+#: Form/ConfigForm.php:27
+msgid "Cache TTL [seconds]"
+msgstr "Czas życia (TTL) cache'a [sekundy]"
+
+#: Form/ConfigForm.php:31
+msgid "Order number format (for \"pattern\" attribute)"
+msgstr "Format numerów rozkazów (dla atrybutu \"pattern\")"
+
+#: Form/ConfigForm.php:34
+msgid "Order number placeholder"
+msgstr "Etykieta zastępcza numeru rozkazu"
+
+#: Form/ConfigForm.php:37
+msgid "Map key"
+msgstr "Klucz do mapy"
+
+#: Form/ConfigForm.php:41
+msgid "Map default latitude"
+msgstr "Domyślna szerokość geograficzna mapy"
+
+#: Form/ConfigForm.php:45
+msgid "Map default longitude"
+msgstr "Domyślna długość geograficzna mapy"
+
+#: Form/ConfigForm.php:49
+msgid "Map default zoom"
+msgstr "Domyślne powiększenie mapy"
+
+#: Form/ConfigForm.php:53 Form/PersonForm.php:50 Form/PositionForm.php:46
+#: Form/UnitAdminForm.php:124 Form/UnitLeaderForm.php:44
+msgid "Save"
+msgstr "Zapisz"
+
+#: Form/PersonForm.php:31
+msgid "User"
+msgstr "Użytkownik"
+
+#: Form/PersonForm.php:37
+msgid "Position"
+msgstr "Funkcja"
+
+#: Form/PersonForm.php:46 Form/UnitAdminForm.php:107
+msgid "Order number"
+msgstr "Numer rozkazu"
+
+#: Form/PositionForm.php:27 Form/UnitAdminForm.php:85
+msgid "Type"
+msgstr "Typ"
+
+#: Form/PositionForm.php:32
+msgid "Name male"
+msgstr "Nazwa męska"
+
+#: Form/PositionForm.php:36
+msgid "Name female"
+msgstr "Nazwa żeńska"
+
+#: Form/PositionForm.php:40
+msgid "Description"
+msgstr "Opis"
+
+#: Form/PositionForm.php:43
+msgid "Is unit leader"
+msgstr "Czy funkcyjny jest szefem jednostki"
+
+#: Form/UnitAdminForm.php:30 Form/UnitAdminForm.php:50
+msgid "Group"
+msgstr "Szczep"
+
+#: Form/UnitAdminForm.php:31
+msgid "Troop"
+msgstr "Drużyna"
+
+#: Form/UnitAdminForm.php:32
+msgid "Patrol"
+msgstr "Patrol"
+
+#: Form/UnitAdminForm.php:33
+msgid "Club"
+msgstr "Klub"
+
+#: Form/UnitAdminForm.php:45
+msgid "Cubscouts"
+msgstr "Gromada zuchowa"
+
+#: Form/UnitAdminForm.php:46
+msgid "Scouts"
+msgstr "Drużyna harcerska"
+
+#: Form/UnitAdminForm.php:47
+msgid "Senior scouts"
+msgstr "Drużyna starszoharcerska"
+
+#: Form/UnitAdminForm.php:48
+msgid "Rovers"
+msgstr "Drużyna wędrownicza"
+
+#: Form/UnitAdminForm.php:49
+msgid "Multi level"
+msgstr "Drużyna wielopoziomowa"
+
+#: Form/UnitAdminForm.php:51
+msgid "Union of troops"
+msgstr "Związek drużyn"
+
+#: Form/UnitAdminForm.php:77
+msgid "Status"
+msgstr "Status"
+
+#: Form/UnitAdminForm.php:79
+msgid "Active"
+msgstr "Aktywny"
+
+#: Form/UnitAdminForm.php:80
+msgid "Hidden"
+msgstr "Ukryty"
+
+#: Form/UnitAdminForm.php:90
+msgid "Subtype"
+msgstr "Podtyp"
+
+#: Form/UnitAdminForm.php:94
+msgid "Sort"
+msgstr "Sortowanie"
+
+#: Form/UnitAdminForm.php:98
+msgid "Parent unit"
+msgstr "Jednostka nadrzędna"
+
+#: Form/UnitAdminForm.php:111
+msgid "Name short"
+msgstr "Krótka nazwa"
+
+#: Form/UnitAdminForm.php:115
+msgid "Name full"
+msgstr "Pełna nazwa"
+
+#: Form/UnitAdminForm.php:118
+msgid "Hero short"
+msgstr "Krótka nazwa bohatera"
+
+#: Form/UnitAdminForm.php:121
+msgid "Hero full"
+msgstr "Pełna nazwa bohatera"
+
+#: Form/UnitLeaderForm.php:28
+msgid "URL"
+msgstr "Adres URL"
+
+#: Form/UnitLeaderForm.php:31
+msgid "E-mail"
+msgstr "Adres e-mail"
+
+#: Form/UnitLeaderForm.php:34
+msgid "Address"
+msgstr "Adres"
+
+#: Form/UnitLeaderForm.php:37
+msgid "Meetings time"
+msgstr "Termin spotkań"
+
+#: Form/UnitLeaderForm.php:40
+msgid "Localization"
+msgstr "Lokalizacja"
+
+#: Model/Repository/UserRepository.php:187
+msgid "Contact form"
+msgstr "Formularz kontaktowy"
+
+#: Model/Repository/UserRepository.php:188
+msgid "Yes"
+msgstr "Tak"
+
+#: Model/Repository/UserRepository.php:189
+msgid "No"
+msgstr "Nie"
+
+#: Validator/Condition/BooleanCondition.php:22
+msgid "This value should be a boolean."
+msgstr "Ta wartość powinna być wartością logiczną."
+
+#: Validator/Condition/CallbackCondition.php:39
+msgid "This value is inproper."
+msgstr "Ta wartość jest niepoprawna."
+
+#: Validator/Condition/FloatCondition.php:22
+msgid "This value should be a float."
+msgstr "Ta wartość powinna być liczbą zmiennoprzecinkową."
+
+#: Validator/Condition/InSetCondition.php:35
+msgid "This value isn't allowed."
+msgstr "Ta wartość jest niedozwolona."
+
+#: Validator/Condition/IntegerCondition.php:22
+msgid "This value should be an integer."
+msgstr "Ta wartość powinna być liczbą całkowitą."
+
+#: Validator/Condition/NotEmptyCondition.php:22
+msgid "This value should not be empty."
+msgstr "Ta wartość nie powinna być pusta."
+
+#: Validator/Condition/NumericCompareCondition.php:74
+msgid "This value should be greater than %n and lower than %n."
+msgstr "Ta wartość powinna być większa niż %n i mniejsza niż %n."
+
+#: Validator/Condition/NumericCompareCondition.php:95
+msgid "This value should be between %n and %n."
+msgstr "Ta wartość powinna zawierać się w zakresie od %n do %n."
+
+#: Validator/Condition/NumericCompareCondition.php:115
+msgid "This value should be greater than %n."
+msgstr "Ta wartość powinna być większa niż %n."
+
+#: Validator/Condition/NumericCompareCondition.php:134
+msgid "This value should be greater than or equal %n."
+msgstr "Ta wartość powinna być większa lub równa %n."
+
+#: Validator/Condition/NumericCompareCondition.php:153
+msgid "This value should be lower than %n."
+msgstr "Ta wartość powinna być mniejsza niż %n."
+
+#: Validator/Condition/NumericCompareCondition.php:172
+msgid "This value should be lower than or equal %n."
+msgstr "Ta wartość powinna być mniejsza lub równa %n."
+
+#: Validator/Condition/RegExpCondition.php:35
+msgid "This value has incorrect format."
+msgstr "Ta wartość ma niepoprawny format."
+
+#: Validator/Condition/StringCondition.php:22
+msgid "This value should be a string."
+msgstr "Ta wartość powinna być ciągiem znaków."
+
+#: Validator/Condition/StringLengthCondition.php:41
+#, php-format
+msgid "This value should be longer than %d characters."
+msgstr "Ta wartość powinna być dłuższa niż %d znaków."
+
+#: Validator/Condition/StringLengthCondition.php:44
+#, php-format
+msgid "This value should be shorter than %d characters."
+msgstr "Ta wartość powinna być krótsza niż %d znaków."
+
+#: Validator/Condition/TypesDependencyCondition.php:56
+#: Validator/Condition/UniqueCondition.php:43
+msgid ""
+"This value should be a ParamPack object - check form/validator configuration."
+msgstr ""
+"Ta wartość powinna być obiektem ParamPack - sprawdź konfigurację formularza/"
+"walidatora."
+
+#: Validator/Condition/TypesDependencyCondition.php:63
+msgid "Selected type is inadequate for selected subtype."
+msgstr "Wybrany typ jest nieadekwatny do wybranego podtypu."
+
+#: Validator/Condition/TypesDependencyCondition.php:71
+msgid "Selected parent unit doesn't exist."
+msgstr "Wybrana jednostka nadrzędna nie istnieje."
+
+#: Validator/Condition/TypesDependencyCondition.php:73
+msgid "Type of selected parent unit is inadequate for selected type."
+msgstr "Typ wybranej jednostki nadrzędnej jest nieadekwatny do wybranego typu."
+
+#: Validator/Condition/UniqueCondition.php:52
+msgid "This record should be unique."
+msgstr "Ten rekord powinien być unikatowy."

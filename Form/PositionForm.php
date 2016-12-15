@@ -24,26 +24,26 @@ class PositionForm extends Form
 
         $this
             ->addField('type', SelectType::class, [
-                'label' => __('Type', 'wpcore'),
+                'label' => __('Type', 'scout-units-list'),
                 'options' => UnitAdminForm::getTypes(),
                 'required' => true,
             ])
             ->addField('nameMale', StringType::class, [
-                'label' => __('Name male', 'wpcore'),
+                'label' => __('Name male', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('nameFemale', StringType::class, [
-                'label' => __('Name female', 'wpcore'),
+                'label' => __('Name female', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('description', StringType::class, [
-                'label' => __('Description', 'wpcore'),
+                'label' => __('Description', 'scout-units-list'),
             ])
             ->addField('leader', BooleanType::class, [
-                'label' => __('Is unit leader', 'wpcore'),
+                'label' => __('Is unit leader', 'scout-units-list'),
             ])
             ->addField('submit', SubmitType::class, [
-                'label' => __('Save', 'wpcore'),
+                'label' => __('Save', 'scout-units-list'),
             ])
         ;
     }
