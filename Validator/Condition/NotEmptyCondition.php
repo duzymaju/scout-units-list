@@ -19,7 +19,7 @@ class NotEmptyCondition implements ConditionInterface
         $errors = [];
 
         if (empty($value)) {
-            $errors[] = __('This value should not be empty.', 'wpcore');
+            $errors[] = __('This value should not be empty.', 'scout-units-list');
         }
 
         return $errors;

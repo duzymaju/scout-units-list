@@ -71,8 +71,8 @@ class NumericCompareCondition implements ConditionInterface
         $errors = [];
 
         if ($value <= $lowerLimit || $value >= $upperLimit) {
-            $errors[] = $this->sprintf(__('This value should be greater than %n and lower than %n.', 'wpcore'),
-                $lowerLimit, $upperLimit);
+            $errors[] = $this->sprintf(__('This value should be greater than %n and lower than %n.',
+                'scout-units-list'), $lowerLimit, $upperLimit);
         }
 
         return $errors;
@@ -92,7 +92,7 @@ class NumericCompareCondition implements ConditionInterface
         $errors = [];
 
         if ($value < $lowerLimit || $value > $upperLimit) {
-            $errors[] = $this->sprintf(__('This value should be between %n and %n.', 'wpcore'), $lowerLimit,
+            $errors[] = $this->sprintf(__('This value should be between %n and %n.', 'scout-units-list'), $lowerLimit,
                 $upperLimit);
         }
 
@@ -112,7 +112,7 @@ class NumericCompareCondition implements ConditionInterface
         $errors = [];
 
         if ($value <= $limit) {
-            $errors[] = $this->sprintf(__('This value should be greater than %n.', 'wpcore'), $limit);
+            $errors[] = $this->sprintf(__('This value should be greater than %n.', 'scout-units-list'), $limit);
         }
 
         return $errors;
@@ -131,7 +131,8 @@ class NumericCompareCondition implements ConditionInterface
         $errors = [];
 
         if ($value < $limit) {
-            $errors[] = $this->sprintf(__('This value should be greater than or equal %n.', 'wpcore'), $limit);
+            $errors[] = $this->sprintf(__('This value should be greater than or equal %n.', 'scout-units-list'),
+                $limit);
         }
 
         return $errors;
@@ -150,7 +151,7 @@ class NumericCompareCondition implements ConditionInterface
         $errors = [];
 
         if ($value >= $limit) {
-            $errors[] = $this->sprintf(__('This value should be lower than %n.', 'wpcore'), $limit);
+            $errors[] = $this->sprintf(__('This value should be lower than %n.', 'scout-units-list'), $limit);
         }
 
         return $errors;
@@ -169,7 +170,7 @@ class NumericCompareCondition implements ConditionInterface
         $errors = [];
 
         if ($value > $limit) {
-            $errors[] = $this->sprintf(__('This value should be lower than or equal %n.', 'wpcore'), $limit);
+            $errors[] = $this->sprintf(__('This value should be lower than or equal %n.', 'scout-units-list'), $limit);
         }
 
         return $errors;

@@ -19,7 +19,7 @@ class BooleanCondition implements ConditionInterface
         $errors = [];
 
         if (isset($value) && !is_bool($value)) {
-            $errors[] = __('This value should be a boolean.', 'wpcore');
+            $errors[] = __('This value should be a boolean.', 'scout-units-list');
         }
 
         return $errors;

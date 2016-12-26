@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-15 18:44+0100\n"
-"PO-Revision-Date: 2016-12-15 18:44+0100\n"
+"POT-Creation-Date: 2016-12-26 20:11+0100\n"
+"PO-Revision-Date: 2016-12-26 20:11+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -87,7 +87,7 @@ msgstr "Lista jednostek harcerskich"
 msgid "Scout units"
 msgstr "Jednostki harc."
 
-#: Controller/AdminController.php:32
+#: Controller/AdminController.php:32 View/Admin/Units/List.phtml:3
 msgid "Units list"
 msgstr "Lista jednostek"
 
@@ -95,7 +95,7 @@ msgstr "Lista jednostek"
 msgid "Scout positions list"
 msgstr "Lista funkcji harcerskich"
 
-#: Controller/AdminController.php:37
+#: Controller/AdminController.php:37 View/Admin/Positions/List.phtml:3
 msgid "Positions list"
 msgstr "Lista funkcji"
 
@@ -103,7 +103,7 @@ msgstr "Lista funkcji"
 msgid "Scout units configuration"
 msgstr "Konfiguracja jednostek harcerskich"
 
-#: Controller/AdminController.php:42
+#: Controller/AdminController.php:42 View/Admin/Config.phtml:3
 msgid "Configuration"
 msgstr "Konfiguracja"
 
@@ -276,11 +276,11 @@ msgstr "Lokalizacja"
 msgid "Contact form"
 msgstr "Formularz kontaktowy"
 
-#: Model/Repository/UserRepository.php:188
+#: Model/Repository/UserRepository.php:188 View/Form/Widget/Boolean.phtml:2
 msgid "Yes"
 msgstr "Tak"
 
-#: Model/Repository/UserRepository.php:189
+#: Model/Repository/UserRepository.php:189 View/Form/Widget/Boolean.phtml:3
 msgid "No"
 msgstr "Nie"
 
@@ -324,11 +324,11 @@ msgstr "Ta wartość powinna być większa niż %n."
 msgid "This value should be greater than or equal %n."
 msgstr "Ta wartość powinna być większa lub równa %n."
 
-#: Validator/Condition/NumericCompareCondition.php:153
+#: Validator/Condition/NumericCompareCondition.php:154
 msgid "This value should be lower than %n."
 msgstr "Ta wartość powinna być mniejsza niż %n."
 
-#: Validator/Condition/NumericCompareCondition.php:172
+#: Validator/Condition/NumericCompareCondition.php:173
 msgid "This value should be lower than or equal %n."
 msgstr "Ta wartość powinna być mniejsza lub równa %n."
 
@@ -345,7 +345,7 @@ msgstr "Ta wartość powinna być ciągiem znaków."
 msgid "This value should be longer than %d characters."
 msgstr "Ta wartość powinna być dłuższa niż %d znaków."
 
-#: Validator/Condition/StringLengthCondition.php:44
+#: Validator/Condition/StringLengthCondition.php:45
 #, php-format
 msgid "This value should be shorter than %d characters."
 msgstr "Ta wartość powinna być krótsza niż %d znaków."
@@ -358,18 +358,109 @@ msgstr ""
 "Ta wartość powinna być obiektem ParamPack - sprawdź konfigurację formularza/"
 "walidatora."
 
-#: Validator/Condition/TypesDependencyCondition.php:63
+#: Validator/Condition/TypesDependencyCondition.php:64
 msgid "Selected type is inadequate for selected subtype."
 msgstr "Wybrany typ jest nieadekwatny do wybranego podtypu."
 
-#: Validator/Condition/TypesDependencyCondition.php:71
+#: Validator/Condition/TypesDependencyCondition.php:72
 msgid "Selected parent unit doesn't exist."
 msgstr "Wybrana jednostka nadrzędna nie istnieje."
 
-#: Validator/Condition/TypesDependencyCondition.php:73
+#: Validator/Condition/TypesDependencyCondition.php:74
 msgid "Type of selected parent unit is inadequate for selected type."
 msgstr "Typ wybranej jednostki nadrzędnej jest nieadekwatny do wybranego typu."
 
-#: Validator/Condition/UniqueCondition.php:52
+#: Validator/Condition/UniqueCondition.php:53
 msgid "This record should be unique."
 msgstr "Ten rekord powinien być unikatowy."
+
+#: View/Admin/Error401.phtml:2
+msgid "Error 401"
+msgstr "Błąd 401"
+
+#: View/Admin/Error404.phtml:2
+msgid "Error 404"
+msgstr "Błąd 404"
+
+#: View/Admin/Positions/Form.phtml:4
+msgid "Edit position"
+msgstr "Edytuj funkcję"
+
+#: View/Admin/Positions/Form.phtml:6 View/Admin/Positions/Form.phtml:9
+msgid "Add position"
+msgstr "Dodaj funkcję"
+
+#: View/Admin/Positions/List.phtml:7 View/Admin/Units/AdminForm.phtml:8
+#: View/Admin/Units/List.phtml:6
+msgid "Add new"
+msgstr "Dodaj nową"
+
+#: View/Admin/Units/AdminForm.phtml:4
+msgid "Edit unit"
+msgstr "Edytuj jednostkę"
+
+#: View/Admin/Units/AdminForm.phtml:11
+msgid "Add unit"
+msgstr "Dodaj jednostkę"
+
+#: View/Admin/Units/LeaderForm.phtml:3
+#, php-format
+msgid "Edit unit \"%s\""
+msgstr "Edytuj jednostkę \"%s\""
+
+#: View/Admin/Units/PersonManage.phtml:3
+#, php-format
+msgid "Manage persons in unit \"%s\""
+msgstr "Zarządzaj funkcyjnymi w jednostce \"%s\""
+
+#: View/Admin/Units/PersonManage.phtml:17
+msgid "leader"
+msgstr "szef"
+
+#: View/Admin/Users/Form.phtml:1 View/Admin/Users/Show.phtml:1
+msgid "Scout data"
+msgstr "Dane harcerskie"
+
+#: View/Admin/Users/Form.phtml:5 View/Admin/Users/Show.phtml:5
+msgid "Publish e-mail"
+msgstr "Publikuj adres e-mail"
+
+#: View/Admin/Users/Form.phtml:18 View/Admin/Users/Show.phtml:11
+msgid "Grade"
+msgstr "Stopień instruktorski"
+
+#: View/Admin/Users/Form.phtml:25 View/Admin/Users/Show.phtml:17
+msgid "Duty"
+msgstr "Dyżur"
+
+#: View/Partial/Messages.phtml:5
+msgid "Dismiss this notice."
+msgstr "Ukryj ten komunikat."
+
+#: View/Partial/PaginationAdmin.phtml:6
+#, php-format
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] "%s element"
+msgstr[1] "%s elementy"
+msgstr[2] "%s elementów"
+
+#: View/Partial/PaginationAdmin.phtml:13
+msgid "First page"
+msgstr "Pierwsza strona"
+
+#: View/Partial/PaginationAdmin.phtml:23
+msgid "Previous page"
+msgstr "Poprzednia strona"
+
+#: View/Partial/PaginationAdmin.phtml:29
+msgid "Current Page"
+msgstr "Aktualna strona"
+
+#: View/Partial/PaginationAdmin.phtml:40
+msgid "Next page"
+msgstr "Następna strona"
+
+#: View/Partial/PaginationAdmin.phtml:50
+msgid "Last page"
+msgstr "Ostatnia strona"

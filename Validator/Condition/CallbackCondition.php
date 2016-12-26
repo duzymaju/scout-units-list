@@ -36,7 +36,7 @@ class CallbackCondition implements ConditionInterface
         } else {
             $errors = [];
             if (!$result) {
-                $errors[] = __('This value is inproper.', 'wpcore');
+                $errors[] = __('This value is inproper.', 'scout-units-list');
             }
         }
 

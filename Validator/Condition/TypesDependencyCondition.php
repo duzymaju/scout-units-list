@@ -53,14 +53,15 @@ class TypesDependencyCondition implements ConditionInterface
         $errors = [];
 
         if (!$value instanceof ParamPack) {
-            $errors[] = __('This value should be a ParamPack object - check form/validator configuration.', 'wpcore');
+            $errors[] = __('This value should be a ParamPack object - check form/validator configuration.',
+                'scout-units-list');
         } else {
             $type = $value->getString($this->typeField);
             $subtype = $value->getString($this->subtypeField);
             $parentId = $value->getInt($this->parentField);
 
             if (!empty($subtype) && $type != $this->getTypeForSubtype($subtype)) {
-                $errors[] = __('Selected type is inadequate for selected subtype.', 'wpcore');
+                $errors[] = __('Selected type is inadequate for selected subtype.', 'scout-units-list');
             }
 
             if (!empty($parentId)) {
@@ -68,9 +69,9 @@ class TypesDependencyCondition implements ConditionInterface
                     'id' => $parentId,
                 ]);
                 if (!isset($parentUnit)) {
-                    $errors[] = __('Selected parent unit doesn\'t exist.', 'wpcore');
+                    $errors[] = __('Selected parent unit doesn\'t exist.', 'scout-units-list');
                 } elseif (!in_array($parentUnit->getType(), $this->getPossibleParentTypes($type))) {
-                    $errors[] = __('Type of selected parent unit is inadequate for selected type.', 'wpcore');
+                    $errors[] = __('Type of selected parent unit is inadequate for selected type.', 'scout-units-list');
                 }
             }
         }

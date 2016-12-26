@@ -32,7 +32,7 @@ class RegExpCondition implements ConditionInterface
         $errors = [];
 
         if (!preg_match($this->regExp, $value)) {
-            $errors[] = __('This value has incorrect format.', 'wpcore');
+            $errors[] = __('This value has incorrect format.', 'scout-units-list');
         }
 
         return $errors;

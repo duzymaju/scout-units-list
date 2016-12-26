@@ -19,7 +19,7 @@ class StringCondition implements ConditionInterface
         $errors = [];
 
         if (isset($value) && !is_string($value)) {
-            $errors[] = __('This value should be a string.', 'wpcore');
+            $errors[] = __('This value should be a string.', 'scout-units-list');
         }
 
         return $errors;

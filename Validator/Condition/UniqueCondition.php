@@ -40,7 +40,8 @@ class UniqueCondition implements ConditionInterface
         $errors = [];
 
         if (!$value instanceof ParamPack) {
-            $errors[] = __('This value should be a ParamPack object - check form/validator configuration.', 'wpcore');
+            $errors[] = __('This value should be a ParamPack object - check form/validator configuration.',
+                'scout-units-list');
         } else {
             $conditions = [];
             foreach ($this->fieldNames as $fieldName => $defaultValue) {
@@ -49,7 +50,7 @@ class UniqueCondition implements ConditionInterface
             }
             $duplicate = $this->repository->getOneBy($conditions);
             if (isset($duplicate)) {
-                $errors[] = __('This record should be unique.', 'wpcore');
+                $errors[] = __('This record should be unique.', 'scout-units-list');
             }
         }
 

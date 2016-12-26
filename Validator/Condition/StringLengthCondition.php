@@ -38,10 +38,12 @@ class StringLengthCondition implements ConditionInterface
 
         $length = mb_strlen($value);
         if (isset($this->minLength) && $length < $this->minLength) {
-            $errors[] = sprintf(__('This value should be longer than %d characters.', 'wpcore'), $this->minLength);
+            $errors[] = sprintf(__('This value should be longer than %d characters.', 'scout-units-list'),
+                $this->minLength);
         }
         if (isset($this->maxLength) && $length > $this->maxLength) {
-            $errors[] = sprintf(__('This value should be shorter than %d characters.', 'wpcore'), $this->maxLength);
+            $errors[] = sprintf(__('This value should be shorter than %d characters.', 'scout-units-list'),
+                $this->maxLength);
         }
 
         return $errors;

@@ -19,7 +19,7 @@ class FloatCondition implements ConditionInterface
         $errors = [];
 
         if (isset($value) && !is_float($value)) {
-            $errors[] = __('This value should be a float.', 'wpcore');
+            $errors[] = __('This value should be a float.', 'scout-units-list');
         }
 
         return $errors;
