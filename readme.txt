@@ -16,6 +16,7 @@ This plugin allows you to create a structure of units which are dependent on mai
 = Showing units list =
 
 Add `[sul-units-list id="X"]` shortcode, where `X` is an ID of a base unit. You can use also other attributes:
+
 * `current` (boolean, `false` as a default value) - allows to show/hide current unit on a list,
 * `levels` (integer, `1` as a default value) - allows to define number of levels with dependent units.
 
