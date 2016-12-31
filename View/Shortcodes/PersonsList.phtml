@@ -5,7 +5,7 @@
             <?php $user = $person->getUser(); ?>
             <?php $position = $person->getPosition(); ?>
             <li>
-                <?php echo $this->escape($position->getNameMale() . '/' . $position->getNameFemale()); ?>
+                <?php echo $this->escape($user->isFemale() ? $position->getNameFemale() : $position->getNameMale()); ?>
                 <?php if ($user->getPublishEmail()): ?>
                     <a href="mailto:<?php echo $this->escape($user->getEmail()); ?>">
                         <?php echo $this->escape($user->getGrade() . '  ' . $user->getNiceName()); ?>

@@ -37,6 +37,7 @@ class ShortcodesController extends Controller
             $currentUnit = $withCurrent ? $this->loader->get('repository.unit')
                 ->getOneBy([
                     'id' => $id,
+                    'status' => Unit::STATUS_ACTIVE,
                 ]) : null;
             if (isset($currentUnit)) {
                 $this->units = [
@@ -80,6 +81,7 @@ class ShortcodesController extends Controller
             $unit = $this->loader->get('repository.unit')
                 ->getOneBy([
                     'id' => $id,
+                    'status' => Unit::STATUS_ACTIVE,
                 ]);
             if (isset($unit)) {
                 $this->setPersonsToUnits([
@@ -114,6 +116,7 @@ class ShortcodesController extends Controller
         $units = $this->loader->get('repository.unit')
             ->getBy([
                 'parentId' => $id,
+                'status' => Unit::STATUS_ACTIVE,
             ]);
         $elements = [];
         foreach ($units as $unit) {
