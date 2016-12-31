@@ -14,6 +14,7 @@ use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\Tools\Paginator;
+use Traversable;
 
 /**
  * Admin units controller
@@ -306,8 +307,10 @@ class UnitsController extends Controller
             $conditions['id'] = $this->get('repository.person')
                 ->getSubordinateUnitIds($user);
         }
-        $units = !array_key_exists('id', $conditions) || count($conditions['id']) > 0 ? $this->get('repository.unit')
-            ->getPaginatorBy($conditions, $order, 20, $page) : [];
+        $unitRepository = $this->get('repository.unit');
+        $units = !array_key_exists('id', $conditions) || count($conditions['id']) > 0 ?
+            $unitRepository->getPaginatorBy($conditions, $order, 20, $page) : [];
+        $this->setParentUnits($units);
 
         $this->getView('Admin/Units/List', [
             'messages' => $this->get('manager.message')
@@ -316,7 +319,40 @@ class UnitsController extends Controller
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }
-    
+
+    /**
+     * Set parent units
+     *
+     * @param Traversable $units units
+     *
+     * @return self
+     */
+    private function setParentUnits(Traversable $units)
+    {
+        $parentIds = [];
+        foreach ($units as $unit) {
+            if ($unit->getParentId() > 0) {
+                $parentIds[] = $unit->getParentId();
+            }
+        }
+        $parentsList = $this->get('repository.unit')
+            ->getBy([
+                'id' => array_unique($parentIds),
+            ]);
+
+        $parents = [];
+        foreach ($parentsList as $parent) {
+            $parents[$parent->getId()] = $parent;
+        }
+        foreach ($units as $unit) {
+            if (array_key_exists($unit->getParentId(), $parents)) {
+                $unit->setParent($parents[$unit->getParentId()]);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * Get order
      *

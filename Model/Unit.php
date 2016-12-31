@@ -68,6 +68,9 @@ class Unit implements ModelInterface
     /** @var int|null */
     protected $parentId;
 
+    /** @var self|null */
+    protected $parent;
+
     /** @var string */
     protected $orderNo;
 
@@ -139,6 +142,18 @@ class Unit implements ModelInterface
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * Is active
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        $isActive = $this->status == self::STATUS_ACTIVE;
+
+        return $isActive;
     }
 
     /**
@@ -236,6 +251,30 @@ class Unit implements ModelInterface
         if ($this->parentId < 1) {
             $this->parentId = null;
         }
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return self|null
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param self $parent parent
+     *
+     * @return self
+     */
+    public function setParent(self $parent)
+    {
+        $this->parent = $parent;
 
         return $this;
     }

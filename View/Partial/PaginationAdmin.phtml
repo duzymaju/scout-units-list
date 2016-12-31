@@ -1,10 +1,10 @@
-<?php if ($this->packsCount > 1):
-    $this->packsVar = !empty($this->packsVar) ?: 'paged';
-?>
-    <div class="tablenav-pages">
-        <span class="displaying-num"
-            <?php echo sprintf(_n('%s item', '%s items', $this->totalSize), $this->totalSize); ?>
-        </span>
+<div class="tablenav-pages">
+    <span class="displaying-num">
+        <?php echo sprintf(_n('%s item', '%s items', $this->totalSize), $this->totalSize); ?>
+    </span>
+    <?php if ($this->packsCount > 1):
+        $this->packsVar = !empty($this->packsVar) ?: 'paged';
+    ?>
         <span class="pagination-links">
             <?php if ($this->packNo > 2): ?>
                 <a class="first-page" href="<?php echo $this->getRequest()->getCurrentUrl([
@@ -54,5 +54,5 @@
                 <span class="tablenav-pages-navspan" aria-hidden="true">»</span>
             <?php endif; ?>
         </span>
-    </div>
-<?php endif;
+    <?php endif; ?>
+</div>

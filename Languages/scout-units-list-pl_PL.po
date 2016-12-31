@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 12:02+0100\n"
-"PO-Revision-Date: 2016-12-31 12:02+0100\n"
+"POT-Creation-Date: 2016-12-31 19:23+0100\n"
+"PO-Revision-Date: 2016-12-31 19:23+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -38,44 +38,44 @@ msgstr "Funkcja została pomyślnie usunięta."
 msgid "An error occured during position removing."
 msgstr "Wystąpił błąd podczas usuwania funkcji."
 
-#: Controller/Admin/UnitsController.php:104
-#: Controller/Admin/UnitsController.php:150
+#: Controller/Admin/UnitsController.php:105
+#: Controller/Admin/UnitsController.php:151
 msgid "Unit was successfully saved."
 msgstr "Jednostka została pomyślnie zapisana."
 
-#: Controller/Admin/UnitsController.php:107
-#: Controller/Admin/UnitsController.php:153
+#: Controller/Admin/UnitsController.php:108
+#: Controller/Admin/UnitsController.php:154
 msgid "An error occured during unit saving."
 msgstr "Wystąpił błąd podczas zapisywania jednostki."
 
-#: Controller/Admin/UnitsController.php:216
+#: Controller/Admin/UnitsController.php:217
 msgid ""
 "Add at least one position for this unit type to be able to manage persons."
 msgstr ""
 "Dodaj przynajmniej jedną funkcję do tego typu jednostki, żeby móc zarządzać "
 "funkcyjnymi."
 
-#: Controller/Admin/UnitsController.php:229
+#: Controller/Admin/UnitsController.php:230
 msgid "Person was successfully deleted."
 msgstr "Funkcyjny został pomyślnie usunięty."
 
-#: Controller/Admin/UnitsController.php:232
+#: Controller/Admin/UnitsController.php:233
 msgid "An error occured during person removing."
 msgstr "Wystąpił błąd podczas usuwania funkcyjnego."
 
-#: Controller/Admin/UnitsController.php:238
+#: Controller/Admin/UnitsController.php:239
 msgid "Person was successfully saved."
 msgstr "Funkcyjny został pomyślnie zapisany."
 
-#: Controller/Admin/UnitsController.php:242
+#: Controller/Admin/UnitsController.php:243
 msgid "An error occured during person saving."
 msgstr "Wystąpił błąd podczas zapisywania funkcyjnego."
 
-#: Controller/Admin/UnitsController.php:279
+#: Controller/Admin/UnitsController.php:280
 msgid "Unit was successfully deleted."
 msgstr "Jednostka została pomyślnie usunięta."
 
-#: Controller/Admin/UnitsController.php:282
+#: Controller/Admin/UnitsController.php:283
 msgid "An error occured during unit removing."
 msgstr "Wystąpił błąd podczas usuwania jednostki."
 
@@ -144,11 +144,13 @@ msgid "Map default zoom"
 msgstr "Domyślne powiększenie mapy"
 
 #: Form/ConfigForm.php:77 Form/PersonForm.php:60 Form/PositionForm.php:64
-#: Form/UnitAdminForm.php:155 Form/UnitLeaderForm.php:59
+#: Form/UnitAdminForm.php:168 Form/UnitLeaderForm.php:59
 msgid "Save"
 msgstr "Zapisz"
 
-#: Form/PersonForm.php:34
+#: Form/PersonForm.php:34 View/Admin/Units/PersonManage.phtml:21
+#: View/Admin/Units/PersonManage.phtml:48
+#: View/Admin/Units/PersonManage.phtml:57
 msgid "User"
 msgstr "Użytkownik"
 
@@ -156,11 +158,17 @@ msgstr "Użytkownik"
 msgid "Position"
 msgstr "Funkcja"
 
-#: Form/PersonForm.php:53 Form/UnitAdminForm.php:123
+#: Form/PersonForm.php:53 Form/UnitAdminForm.php:136
+#: View/Admin/Units/PersonManage.phtml:23
+#: View/Admin/Units/PersonManage.phtml:50
+#: View/Admin/Units/PersonManage.phtml:59
 msgid "Order number"
 msgstr "Numer rozkazu"
 
-#: Form/PositionForm.php:30 Form/UnitAdminForm.php:91
+#: Form/PositionForm.php:30 Form/UnitAdminForm.php:104
+#: View/Admin/Positions/List.phtml:25 View/Admin/Positions/List.phtml:52
+#: View/Admin/Positions/List.phtml:61 View/Admin/Units/List.phtml:25
+#: View/Admin/Units/List.phtml:66 View/Admin/Units/List.phtml:75
 msgid "Type"
 msgstr "Typ"
 
@@ -172,7 +180,8 @@ msgstr "Nazwa męska"
 msgid "Name female"
 msgstr "Nazwa żeńska"
 
-#: Form/PositionForm.php:52
+#: Form/PositionForm.php:52 View/Admin/Positions/List.phtml:27
+#: View/Admin/Positions/List.phtml:54 View/Admin/Positions/List.phtml:63
 msgid "Description"
 msgstr "Opis"
 
@@ -180,7 +189,7 @@ msgstr "Opis"
 msgid "Is unit leader"
 msgstr "Czy funkcyjny jest szefem jednostki"
 
-#: Form/UnitAdminForm.php:30 Form/UnitAdminForm.php:50
+#: Form/UnitAdminForm.php:30 Form/UnitAdminForm.php:63
 msgid "Group"
 msgstr "Szczep"
 
@@ -196,67 +205,69 @@ msgstr "Patrol"
 msgid "Club"
 msgstr "Klub"
 
-#: Form/UnitAdminForm.php:45
+#: Form/UnitAdminForm.php:58
 msgid "Cubscouts"
 msgstr "Gromada zuchowa"
 
-#: Form/UnitAdminForm.php:46
+#: Form/UnitAdminForm.php:59
 msgid "Scouts"
 msgstr "Drużyna harcerska"
 
-#: Form/UnitAdminForm.php:47
+#: Form/UnitAdminForm.php:60
 msgid "Senior scouts"
 msgstr "Drużyna starszoharcerska"
 
-#: Form/UnitAdminForm.php:48
+#: Form/UnitAdminForm.php:61
 msgid "Rovers"
 msgstr "Drużyna wędrownicza"
 
-#: Form/UnitAdminForm.php:49
+#: Form/UnitAdminForm.php:62
 msgid "Multi level"
 msgstr "Drużyna wielopoziomowa"
 
-#: Form/UnitAdminForm.php:51
+#: Form/UnitAdminForm.php:64
 msgid "Union of troops"
 msgstr "Związek drużyn"
 
-#: Form/UnitAdminForm.php:80
+#: Form/UnitAdminForm.php:93 View/Admin/Units/List.phtml:27
+#: View/Admin/Units/List.phtml:68 View/Admin/Units/List.phtml:77
 msgid "Status"
 msgstr "Status"
 
-#: Form/UnitAdminForm.php:82
+#: Form/UnitAdminForm.php:95 View/Admin/Units/List.phtml:68
 msgid "Active"
 msgstr "Aktywny"
 
-#: Form/UnitAdminForm.php:83
+#: Form/UnitAdminForm.php:96 View/Admin/Units/List.phtml:68
 msgid "Hidden"
 msgstr "Ukryty"
 
-#: Form/UnitAdminForm.php:99
+#: Form/UnitAdminForm.php:112
 msgid "Subtype"
 msgstr "Podtyp"
 
-#: Form/UnitAdminForm.php:106
+#: Form/UnitAdminForm.php:119
 msgid "Sort"
 msgstr "Sortowanie"
 
-#: Form/UnitAdminForm.php:113
+#: Form/UnitAdminForm.php:126 View/Admin/Units/List.phtml:26
+#: View/Admin/Units/List.phtml:67 View/Admin/Units/List.phtml:76
 msgid "Parent unit"
 msgstr "Jednostka nadrzędna"
 
-#: Form/UnitAdminForm.php:130
+#: Form/UnitAdminForm.php:143
 msgid "Name short"
 msgstr "Krótka nazwa"
 
-#: Form/UnitAdminForm.php:137
+#: Form/UnitAdminForm.php:150
 msgid "Name full"
 msgstr "Pełna nazwa"
 
-#: Form/UnitAdminForm.php:143
+#: Form/UnitAdminForm.php:156
 msgid "Hero short"
 msgstr "Krótka nazwa bohatera"
 
-#: Form/UnitAdminForm.php:149
+#: Form/UnitAdminForm.php:162
 msgid "Hero full"
 msgstr "Pełna nazwa bohatera"
 
@@ -284,11 +295,13 @@ msgstr "Lokalizacja"
 msgid "Contact form"
 msgstr "Formularz kontaktowy"
 
-#: Model/Repository/UserRepository.php:190 View/Form/Widget/Boolean.phtml:2
+#: Model/Repository/UserRepository.php:190 View/Admin/Positions/List.phtml:53
+#: View/Admin/Units/PersonManage.phtml:49 View/Form/Widget/Boolean.phtml:2
 msgid "Yes"
 msgstr "Tak"
 
-#: Model/Repository/UserRepository.php:191 View/Form/Widget/Boolean.phtml:3
+#: Model/Repository/UserRepository.php:191 View/Admin/Positions/List.phtml:53
+#: View/Admin/Units/PersonManage.phtml:49 View/Form/Widget/Boolean.phtml:3
 msgid "No"
 msgstr "Nie"
 
@@ -403,6 +416,39 @@ msgstr "Dodaj funkcję"
 msgid "Add new"
 msgstr "Dodaj nową"
 
+#: View/Admin/Positions/List.phtml:24 View/Admin/Positions/List.phtml:44
+#: View/Admin/Positions/List.phtml:60 View/Admin/Units/PersonManage.phtml:20
+#: View/Admin/Units/PersonManage.phtml:41
+#: View/Admin/Units/PersonManage.phtml:56
+msgid "Position name"
+msgstr "Nazwa funkcji"
+
+#: View/Admin/Positions/List.phtml:26 View/Admin/Positions/List.phtml:53
+#: View/Admin/Positions/List.phtml:62 View/Admin/Units/PersonManage.phtml:22
+#: View/Admin/Units/PersonManage.phtml:49
+#: View/Admin/Units/PersonManage.phtml:58
+msgid "Unit leader"
+msgstr "Szef jednostki"
+
+#: View/Admin/Positions/List.phtml:45 View/Admin/Units/List.phtml:53
+#, php-format
+msgid "&#8220;%s&#8221; (Edit)"
+msgstr "&#8222;%s&#8221; (Edycja)"
+
+#: View/Admin/Positions/List.phtml:47 View/Admin/Units/List.phtml:60
+msgid "Edit"
+msgstr "Edytuj"
+
+#: View/Admin/Positions/List.phtml:48 View/Admin/Units/List.phtml:61
+#: View/Admin/Units/PersonManage.phtml:44
+msgid "Delete"
+msgstr "Usuń"
+
+#: View/Admin/Positions/List.phtml:50 View/Admin/Units/List.phtml:64
+#: View/Admin/Units/PersonManage.phtml:46
+msgid "Show more details"
+msgstr "Pokaż więcej szczegółów"
+
 #: View/Admin/Units/AdminForm.phtml:4
 msgid "Edit unit"
 msgstr "Edytuj jednostkę"
@@ -416,16 +462,34 @@ msgstr "Dodaj jednostkę"
 msgid "Edit unit \"%s\""
 msgstr "Edytuj jednostkę \"%s\""
 
+#: View/Admin/Units/List.phtml:24 View/Admin/Units/List.phtml:52
+#: View/Admin/Units/List.phtml:74
+msgid "Unit name"
+msgstr "Nazwa jednostki"
+
+#: View/Admin/Units/List.phtml:55
+msgid "Configure"
+msgstr "Konfiguruj"
+
+#: View/Admin/Units/List.phtml:57
+msgid "Manage persons"
+msgstr "Zarządzaj funkcyjnymi"
+
 #: View/Admin/Units/PersonManage.phtml:3
 #, php-format
 msgid "Manage persons in unit \"%s\""
 msgstr "Zarządzaj funkcyjnymi w jednostce \"%s\""
 
-#: View/Admin/Units/PersonManage.phtml:17
-msgid "leader"
-msgstr "szef"
+#: View/Admin/Units/PersonManage.phtml:12
+#: View/Admin/Units/PersonManage.phtml:66 View/Partial/PaginationAdmin.phtml:3
+#, php-format
+msgid "%s item"
+msgid_plural "%s items"
+msgstr[0] "%s element"
+msgstr[1] "%s elementy"
+msgstr[2] "%s elementów"
 
-#: View/Admin/Units/PersonManage.phtml:27
+#: View/Admin/Units/PersonManage.phtml:72
 #, php-format
 msgid "Add person to unit \"%s\""
 msgstr "Dodaj funkcyjnego do jednostki \"%s\""
@@ -461,14 +525,6 @@ msgstr "(wymagane)"
 #: View/Partial/Messages.phtml:5
 msgid "Dismiss this notice."
 msgstr "Ukryj ten komunikat."
-
-#: View/Partial/PaginationAdmin.phtml:6
-#, php-format
-msgid "%s item"
-msgid_plural "%s items"
-msgstr[0] "%s element"
-msgstr[1] "%s elementy"
-msgstr[2] "%s elementów"
 
 #: View/Partial/PaginationAdmin.phtml:13
 msgid "First page"

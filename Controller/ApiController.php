@@ -25,7 +25,7 @@ class ApiController extends Controller
         foreach ($users as $user) {
             $list[] =[
                 'id' => $user->getId(),
-                'value' => $user->getNiceName() . ' (' . $user->getLogin() . ')',
+                'value' => $user->getDisplayName() . ' (' . $user->getLogin() . ')',
             ];
         }
 

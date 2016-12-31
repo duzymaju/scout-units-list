@@ -148,7 +148,7 @@ class UserRepository extends NativeRepository
      */
     public function findByName($name, $limit = 10)
     {
-        $query = $this->db->prepare('SELECT ID, user_login, user_nicename FROM wp_users ' .
+        $query = $this->db->prepare('SELECT ID, user_login, display_name FROM wp_users ' .
                 'WHERE user_login LIKE :name || user_nicename LIKE :name LIMIT ' . ((int) $limit))
             ->setParam('name', '%' . $this->escapeLike($name) . '%')
             ->getQuery();

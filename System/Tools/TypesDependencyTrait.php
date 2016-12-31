@@ -16,7 +16,7 @@ trait TypesDependencyTrait
      *
      * @return array
      */
-    protected function getPossibleParentTypes($childType)
+    protected static function getPossibleParentTypes($childType)
     {
         $types = [];
         switch ($childType) {
@@ -46,7 +46,7 @@ trait TypesDependencyTrait
      *
      * @return string|null
      */
-    protected function getTypeForSubtype($subtype)
+    protected static function getTypeForSubtype($subtype)
     {
         $subtypes = [
             Unit::SUBTYPE_CUBSCOUTS => Unit::TYPE_TROOP,

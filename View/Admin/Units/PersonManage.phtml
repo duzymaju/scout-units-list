@@ -5,24 +5,69 @@
     <?php echo $this->partial('Partial/Messages', [
         'messages' => $this->messages,
     ]); ?>
-    <ul>
-        <?php foreach ($this->unit->getPersons() as $person): ?>
-            <li>
-                user: <?php $user = $person->getUser(); echo $this->escape($user->getNiceName()); ?>
-                    (<?php echo $this->escape($user->getLogin()); ?>) /
-                position: <?php $position = $person->getPosition(); echo $this->escape($position->getNameFemale()); ?> /
-                    <?php echo $this->escape($position->getNameFemale()); ?>,
-                    <?php echo $position->getDescription() != '' ?
-                        '(' . $this->escape($position->getDescription()) . '),' : ''; ?>
-                    <?php echo $position->isLeader() ? ' ' . __('leader', 'scout-units-list') : ''; ?>
-                <a href="<?php echo $this->link([
+    <div class="tablenav top">
+        <div class="tablenav-pages">
+            <span class="displaying-num">
+                <?php $persons = $this->unit->getPersons(); $personsNumber = count($persons);
+                echo sprintf(_n('%s item', '%s items', $personsNumber), $personsNumber); ?>
+            </span>
+        </div>
+        <br class="clear">
+    </div>
+    <table class="wp-list-table widefat fixed striped pages">
+	<thead>
+            <tr>
+                <th scope="col" id="name" class="manage-column column-primary"><?php _e('Position name', 'scout-units-list'); ?></th>
+                <th scope="col" id="user" class="manage-column"><?php _e('User', 'scout-units-list'); ?></th>
+                <th scope="col" id="leader" class="manage-column"><?php _e('Unit leader', 'scout-units-list'); ?></th>
+                <th scope="col" id="order" class="manage-column"><?php _e('Order number', 'scout-units-list'); ?></th>
+            </tr>
+	</thead>
+	<tbody id="the-list">
+            <?php foreach ($persons as $person):
+                $position = $person->getPosition();
+                $user = $person->getUser();
+                $positionName = $user->isFemale() ? $position->getNameFemale() : $position->getNameMale();
+                $userLink = $this->getLink([
+                    'user_id' => $user->getId(),
+                ], 'user-edit.php');
+                $deleteLink = $this->getLink([
                     'action' => 'person-manage',
                     'deletedId' => $person->getId(),
                     'id' => $this->unit->getId(),
-                ]); ?>">usuń</a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+                ]);
+            ?>
+                <tr>
+                    <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Position name', 'scout-units-list'); ?>">
+                        <strong><?php echo $this->escape($positionName); ?></strong>
+                        <div class="row-actions">
+                            <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
+                        </div>
+                        <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
+                    </td>
+                    <td class="user column-user" data-colname="<?php _e('User', 'scout-units-list'); ?>"><a href="<?php echo $userLink; ?>"><?php  echo $this->escape($user->getDisplayName()); ?></a></td>
+                    <td class="leader column-leader" data-colname="<?php _e('Unit leader', 'scout-units-list'); ?>"><?php echo $position->isLeader() ? __('Yes', 'scout-units-list') : __('No', 'scout-units-list'); ?></td>
+                    <td class="order column-order" data-colname="<?php _e('Order number', 'scout-units-list'); ?>"><?php echo $this->escape($person->getOrderNo()); ?></td>
+                </tr>
+            <?php endforeach; ?>
+	</tbody>
+	<tfoot>
+            <tr>
+                <th scope="col" class="manage-column column-primary"><?php _e('Position name', 'scout-units-list'); ?></th>
+                <th scope="col" class="manage-column"><?php _e('User', 'scout-units-list'); ?></th>
+                <th scope="col" class="manage-column"><?php _e('Unit leader', 'scout-units-list'); ?></th>
+                <th scope="col" class="manage-column"><?php _e('Order number', 'scout-units-list'); ?></th>
+            </tr>
+	</tfoot>
+    </table>
+    <div class="tablenav bottom">
+        <div class="tablenav-pages">
+            <span class="displaying-num">
+                <?php echo sprintf(_n('%s item', '%s items', $personsNumber), $personsNumber); ?>
+            </span>
+        </div>
+        <br class="clear">
+    </div>
     <h2>
         <?php printf(__('Add person to unit "%s"', 'scout-units-list'), $this->unit->getName()); ?>
     </h2>

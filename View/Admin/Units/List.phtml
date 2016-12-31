@@ -10,37 +10,74 @@
     <?php echo $this->partial('Partial/Messages', [
         'messages' => $this->messages,
     ]); ?>
-    <ul>
-        <?php foreach ($this->units as $unit): ?>
-            <li>
-                <a href="<?php echo $this->link([
+    <div class="tablenav top">
+        <?php echo $this->partial('Partial/PaginationAdmin', [
+            'packNo' => $this->units->packNo,
+            'packsCount' => $this->units->packsCount,
+            'totalSize' => $this->units->totalSize,
+        ]); ?>
+        <br class="clear">
+    </div>
+    <table class="wp-list-table widefat fixed striped pages">
+	<thead>
+            <tr>
+                <th scope="col" id="name" class="manage-column column-primary"><?php _e('Unit name', 'scout-units-list'); ?></th>
+                <th scope="col" id="type" class="manage-column"><?php _e('Type', 'scout-units-list'); ?></th>
+                <th scope="col" id="parent" class="manage-column"><?php _e('Parent unit', 'scout-units-list'); ?></th>
+                <th scope="col" id="status" class="manage-column"><?php _e('Status', 'scout-units-list'); ?></th>
+            </tr>
+	</thead>
+	<tbody id="the-list">
+            <?php foreach ($this->units as $unit):
+                $typeName = ScoutUnitsList\Form\UnitAdminForm::getTypeName($unit->getType());
+                $configureLink = $this->getLink([
                     'action' => 'leader-form',
                     'id' => $unit->getId(),
-                ]); ?>"><?php echo $this->escape($unit->getName()); ?></a>
-                | <a href="<?php echo $this->link([
-                    'action' => 'leader-form',
+                ]);
+                $managePersonsLink = $this->getLink([
+                    'action' => 'person-manage',
                     'id' => $unit->getId(),
-                ]); ?>">konfiguruj</a>
-                <?php if (current_user_can('sul_manage_persons')): ?>
-                    | <a href="<?php echo $this->link([
-                        'action' => 'person-manage',
-                        'id' => $unit->getId(),
-                    ]); ?>">zarządzaj funkcyjnymi</a>
-                <?php endif; ?>
-                <?php if (current_user_can('sul_manage_units')): ?>
-                    | <a href="<?php echo $this->link([
-                        'action' => 'admin-form',
-                        'id' => $unit->getId(),
-                    ]); ?>">edytuj</a>
-                    | <a href="<?php echo $this->link([
-                        'action' => 'delete',
-                        'id' => $unit->getId(),
-                    ]); ?>">usuń</a>
-                <?php endif; ?>
-
-            </li>
-        <?php endforeach; ?>
-    </ul>
+                ]);
+                $editLink = $this->getLink([
+                    'action' => 'admin-form',
+                    'id' => $unit->getId(),
+                ]);
+                $deleteLink = $this->getLink([
+                    'action' => 'delete',
+                    'id' => $unit->getId(),
+                ]);
+                $parentUnit = $unit->getParent();
+            ?>
+                <tr>
+                    <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Unit name', 'scout-units-list'); ?>">
+                        <strong><a href="<?php echo $configureLink; ?>" aria-label="<?php echo sprintf(__('&#8220;%s&#8221; (Edit)', 'scout-units-list'), $unit->getName()); ?>"><?php echo $this->escape($unit->getName()); ?></a></strong>
+                        <div class="row-actions">
+                            <span class="configure"><a href="<?php echo $configureLink; ?>"><?php _e('Configure', 'scout-units-list'); ?></a></span>
+                            <?php if (current_user_can('sul_manage_persons')): ?>
+                                | <span class="manage-persons"><a href="<?php echo $managePersonsLink; ?>"><?php _e('Manage persons', 'scout-units-list'); ?></a></span>
+                            <?php endif; ?>
+                            <?php if (current_user_can('sul_manage_units')): ?>
+                                | <span class="edit"><a href="<?php echo $editLink; ?>"><?php _e('Edit', 'scout-units-list'); ?></a></span>
+                                | <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
+                            <?php endif; ?>
+                        </div>
+                        <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
+                    </td>
+                    <td class="type column-type" data-colname="<?php _e('Type', 'scout-units-list'); ?>"><?php echo $this->escape($typeName); ?></td>
+                    <td class="parent column-parent" data-colname="<?php _e('Parent unit', 'scout-units-list'); ?>"><?php echo isset($parentUnit) ? $this->escape($parentUnit->getName()) : ''; ?></td>
+                    <td class="status column-status" data-colname="<?php _e('Status', 'scout-units-list'); ?>"><?php echo $unit->isActive() ? __('Active', 'scout-units-list') : __('Hidden', 'scout-units-list'); ?></td>
+                </tr>
+            <?php endforeach; ?>
+	</tbody>
+	<tfoot>
+            <tr>
+                <th scope="col" class="manage-column column-primary"><?php _e('Unit name', 'scout-units-list'); ?></th>
+                <th scope="col" class="manage-column"><?php _e('Type', 'scout-units-list'); ?></th>
+                <th scope="col" class="manage-column"><?php _e('Parent unit', 'scout-units-list'); ?></th>
+                <th scope="col" class="manage-column"><?php _e('Status', 'scout-units-list'); ?></th>
+            </tr>
+	</tfoot>
+    </table>
     <div class="tablenav bottom">
         <?php echo $this->partial('Partial/PaginationAdmin', [
             'packNo' => $this->units->packNo,

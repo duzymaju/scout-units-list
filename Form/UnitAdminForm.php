@@ -24,7 +24,7 @@ class UnitAdminForm extends Form
      *
      * @return array
      */
-    public function getTypes()
+    public static function getTypes()
     {
         return [
             Unit::TYPE_GROUP => __('Group', 'scout-units-list'),
@@ -35,11 +35,24 @@ class UnitAdminForm extends Form
     }
 
     /**
+     * Get type name
+     *
+     * @return string|null
+     */
+    public static function getTypeName($type)
+    {
+        $types = self::getTypes();
+        $typeName = array_key_exists($type, $types) ? $types[$type] : null;
+
+        return $typeName;
+    }
+
+    /**
      * Get subtypes
      *
      * @return array
      */
-    private function getSubtypes()
+    private static function getSubtypes()
     {
         $subtypes = [
             Unit::SUBTYPE_CUBSCOUTS => __('Cubscouts', 'scout-units-list'),
@@ -53,7 +66,7 @@ class UnitAdminForm extends Form
         foreach ($subtypes as $subtype => $name) {
             $subtypes[$subtype] = [
                 'attr' => [
-                    'data-for-type' => $this->getTypeForSubtype($subtype),
+                    'data-for-type' => self::getTypeForSubtype($subtype),
                 ],
                 'name' => $name,
             ];
