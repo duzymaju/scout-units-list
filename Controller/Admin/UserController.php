@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Controller\Admin;
 
 use ScoutUnitsList\Controller\Controller;
+use ScoutUnitsList\Model\User;
 use WP_User;
 
 /**
@@ -22,6 +23,10 @@ class UserController extends Controller
 
         $this->getView(current_user_can('promote_users') ? 'Admin/Users/Form' : 'Admin/Users/Show', [
             'publishEmails' => $userRepository->getPublishEmails(),
+            'sexes' => [
+                User::SEX_FEMALE => __('Female', 'scout-units-list'),
+                User::SEX_MALE => __('Male', 'scout-units-list'),
+            ],
             'user' => $user,
         ])->render();
     }
@@ -42,7 +47,8 @@ class UserController extends Controller
                 $params = $this->request->request;
                 $user->setPublishEmail($params->getInt('sul_publish_email'))
                     ->setGrade($params->getString('sul_grade'))
-                    ->setDuty($params->getString('sul_duty'));
+                    ->setDuty($params->getString('sul_duty'))
+                    ->setSex($params->getString('sul_sex'));
                 $userRepository->save($user);
             }
         }

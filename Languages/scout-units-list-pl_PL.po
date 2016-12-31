@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-26 20:11+0100\n"
-"PO-Revision-Date: 2016-12-26 20:11+0100\n"
+"POT-Creation-Date: 2016-12-31 09:56+0100\n"
+"PO-Revision-Date: 2016-12-31 09:56+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -78,6 +78,14 @@ msgstr "Jednostka została pomyślnie usunięta."
 #: Controller/Admin/UnitsController.php:282
 msgid "An error occured during unit removing."
 msgstr "Wystąpił błąd podczas usuwania jednostki."
+
+#: Controller/Admin/UserController.php:27 View/Admin/Users/Show.phtml:23
+msgid "Female"
+msgstr "Kobieta"
+
+#: Controller/Admin/UserController.php:28 View/Admin/Users/Show.phtml:24
+msgid "Male"
+msgstr "Mężczyzna"
 
 #: Controller/AdminController.php:26 Controller/AdminController.php:31
 msgid "Scout units list"
@@ -272,15 +280,15 @@ msgstr "Termin spotkań"
 msgid "Localization"
 msgstr "Lokalizacja"
 
-#: Model/Repository/UserRepository.php:187
+#: Model/Repository/UserRepository.php:189
 msgid "Contact form"
 msgstr "Formularz kontaktowy"
 
-#: Model/Repository/UserRepository.php:188 View/Form/Widget/Boolean.phtml:2
+#: Model/Repository/UserRepository.php:190 View/Form/Widget/Boolean.phtml:2
 msgid "Yes"
 msgstr "Tak"
 
-#: Model/Repository/UserRepository.php:189 View/Form/Widget/Boolean.phtml:3
+#: Model/Repository/UserRepository.php:191 View/Form/Widget/Boolean.phtml:3
 msgid "No"
 msgstr "Nie"
 
@@ -432,6 +440,14 @@ msgstr "Stopień instruktorski"
 #: View/Admin/Users/Form.phtml:25 View/Admin/Users/Show.phtml:17
 msgid "Duty"
 msgstr "Dyżur"
+
+#: View/Admin/Users/Form.phtml:32 View/Admin/Users/Show.phtml:22
+msgid "Sex"
+msgstr "Płeć"
+
+#: View/Admin/Users/Form.phtml:35 View/Admin/Users/Show.phtml:24
+msgid "Unknown sex"
+msgstr "Płeć nieznana"
 
 #: View/Partial/Messages.phtml:5
 msgid "Dismiss this notice."

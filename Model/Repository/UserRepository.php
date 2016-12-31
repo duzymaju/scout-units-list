@@ -95,6 +95,7 @@ class UserRepository extends NativeRepository
         update_user_meta($user->getId(), 'sul_publish_email', $user->getPublishEmail());
         update_user_meta($user->getId(), 'sul_grade', $user->getGrade());
         update_user_meta($user->getId(), 'sul_duty', $user->getDuty());
+        update_user_meta($user->getId(), 'sul_sex', $user->getSex());
 
         return $this;
     }
@@ -111,7 +112,8 @@ class UserRepository extends NativeRepository
         // @README: This method could cause high database load when used for users list
         $user->setPublishEmail((int) get_the_author_meta('sul_publish_email', $user->getId()))
             ->setGrade(get_the_author_meta('sul_grade', $user->getId()))
-            ->setDuty(get_the_author_meta('sul_duty', $user->getId()));
+            ->setDuty(get_the_author_meta('sul_duty', $user->getId()))
+            ->setSex(get_the_author_meta('sul_sex', $user->getId()));
         $this->setProperPublishEmail($user);
 
         return $user;

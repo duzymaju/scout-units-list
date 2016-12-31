@@ -28,5 +28,18 @@
                     value="<?php echo $this->escape($this->user->getDuty()); ?>" class="regular-text">
             </td>
         </tr>
+        <tr>
+            <th><label for="sul_sex"><?php _e('Sex', 'scout-units-list'); ?></label></th>
+            <td>
+                <select name="sul_sex" id="sul_sex">
+                    <option value=""><?php _e('Unknown sex', 'scout-units-list'); ?></option>
+                    <?php foreach ($this->sexes as $sexKey => $sexName): $selected = $this->user->getSex() == $sexKey ?>
+                        <option value="<?php echo $sexKey; ?>"<?php echo $selected ? ' selected' : ''; ?>>
+                            <?php echo $this->escape($sexName); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </td>
+        </tr>
     </tbody>
 </table>

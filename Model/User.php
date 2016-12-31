@@ -18,6 +18,12 @@ class User implements ModelInterface
     /** @const int */
     const PUBLISH_EMAIL_YES = 3;
 
+    /** @const string */
+    const SEX_FEMALE = 'f';
+
+    /** @const string */
+    const SEX_MALE = 'm';
+
     /** @var int */
     protected $id;
 
@@ -38,6 +44,9 @@ class User implements ModelInterface
 
     /** @var string */
     protected $duty;
+
+    /** @var string */
+    protected $sex;
 
     /** @var string */
     protected $url;
@@ -217,6 +226,54 @@ class User implements ModelInterface
         $this->duty = $duty;
 
         return $this;
+    }
+
+    /**
+     * Get sex
+     *
+     * @return string
+     */
+    public function getSex()
+    {
+        return $this->sex;
+    }
+
+    /**
+     * Set sex
+     *
+     * @param string $sex sex
+     *
+     * @return self
+     */
+    public function setSex($sex)
+    {
+        $this->sex = $sex;
+
+        return $this;
+    }
+
+    /**
+     * Is female
+     *
+     * @return bool
+     */
+    public function isFemale()
+    {
+        $isFemale = $this->sex == self::SEX_FEMALE;
+
+        return $isFemale;
+    }
+
+    /**
+     * Is male
+     *
+     * @return bool
+     */
+    public function isMale()
+    {
+        $isMale = $this->sex == self::SEX_MALE;
+
+        return $isMale;
     }
 
     /**
