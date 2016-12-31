@@ -10,7 +10,7 @@
                 <a class="first-page" href="<?php echo $this->getRequest()->getCurrentUrl([
                     $this->packsVar => 1,
                 ]); ?>">
-                    <span class="screen-reader-text"><?php _e('First page'); ?></span>
+                    <span class="screen-reader-text"><?php _e('First page', 'scout-units-list'); ?></span>
                     <span aria-hidden="true">«</span>
                 </a>
             <?php else: ?>
@@ -20,7 +20,7 @@
                 <a class="prev-page" href="<?php echo $this->getRequest()->getCurrentUrl([
                     $this->packsVar => $this->packNo - 1,
                 ]); ?>">
-                    <span class="screen-reader-text"><?php _e('Previous page'); ?></span>
+                    <span class="screen-reader-text"><?php _e('Previous page', 'scout-units-list'); ?></span>
                     <span aria-hidden="true">‹</span>
                 </a>
             <?php else: ?>
@@ -37,7 +37,7 @@
                 <a class="next-page" href="<?php echo $this->getRequest()->getCurrentUrl([
                     $this->packsVar => $this->packNo + 1,
                 ]); ?>">
-                    <span class="screen-reader-text"><?php _e('Next page'); ?></span>
+                    <span class="screen-reader-text"><?php _e('Next page', 'scout-units-list'); ?></span>
                     <span aria-hidden="true">›</span>
                 </a>
             <?php else: ?>
@@ -47,7 +47,7 @@
                 <a class="last-page" href="<?php echo $this->getRequest()->getCurrentUrl([
                     $this->packsVar => $this->packsCount,
                 ]); ?>">
-                    <span class="screen-reader-text"><?php _e('Last page'); ?></span>
+                    <span class="screen-reader-text"><?php _e('Last page', 'scout-units-list'); ?></span>
                     <span aria-hidden="true">»</span>
                 </a>
             <?php else: ?>

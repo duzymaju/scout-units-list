@@ -24,32 +24,56 @@ class ConfigForm extends Form
 
         $this
             ->addField('cacheTtl', IntegerType::class, [
-                'label' => __('Cache TTL [seconds]', 'scout-units-list'),
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
+                'label' => __('Cache TTL in seconds', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('orderNoFormat', StringType::class, [
-                'label' => __('Order number format (for "pattern" attribute)', 'scout-units-list'),
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
+                'label' => __('Order number format for "pattern" attribute', 'scout-units-list'),
             ])
             ->addField('orderNoPlaceholder', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Order number placeholder', 'scout-units-list'),
             ])
             ->addField('mapKey', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Map key', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('mapDefaultLat', FloatType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Map default latitude', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('mapDefaultLng', FloatType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Map default longitude', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('mapDefaultZoom', FloatType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Map default zoom', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'button button-primary',
+                ],
                 'label' => __('Save', 'scout-units-list'),
             ])
         ;

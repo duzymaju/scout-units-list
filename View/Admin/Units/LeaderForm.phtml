@@ -11,20 +11,22 @@
         ],
     ]); ?>
         <?php $form->errors(); ?>
-        <dl>
-            <?php $form->row('url'); ?>
-            <?php $form->row('mail'); ?>
-            <?php $form->row('address'); ?>
-            <?php $form->row('meetingsTime'); ?>
-            <?php $form->label('localizationLat'); ?>
-            <dd>
-                <?php $form->errors('localizationLat'); ?>
-                <?php $form->errors('localizationLng'); ?>
-                <div id="sul-localization-map"></div>
-                <?php $form->widget('localizationLat'); ?>
-                <?php $form->widget('localizationLng'); ?>
-            </dd>
-            <?php $form->row('submit'); ?>
-        </dl>
+        <table class="form-table">
+            <tbody>
+                <?php $form->row('url', 'Form/RowAdmin'); ?>
+                <?php $form->row('mail', 'Form/RowAdmin'); ?>
+                <?php $form->row('address', 'Form/RowAdmin'); ?>
+                <?php $form->row('meetingsTime', 'Form/RowAdmin'); ?>
+                <?php $form->label('localizationLat', 'Form/LabelAdmin'); ?>
+                <td>
+                    <?php $form->errors('localizationLat'); ?>
+                    <?php $form->errors('localizationLng'); ?>
+                    <div id="sul-localization-map"></div>
+                    <?php $form->widget('localizationLat'); ?>
+                    <?php $form->widget('localizationLng'); ?>
+                </td>
+            </tbody>
+        </table>
+        <?php $form->row('submit', 'Form/RowSubmitAdmin'); ?>
     <?php $form->end(); ?>
 </div>

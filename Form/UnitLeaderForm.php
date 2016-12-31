@@ -25,15 +25,27 @@ class UnitLeaderForm extends Form
 
         $this
             ->addField('url', UrlType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('URL', 'scout-units-list'),
             ])
             ->addField('mail', EmailType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('E-mail', 'scout-units-list'),
             ])
             ->addField('address', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Address', 'scout-units-list'),
             ])
             ->addField('meetingsTime', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Meetings time', 'scout-units-list'),
             ])
             ->addField('localizationLat', FloatHiddenType::class, [
@@ -41,6 +53,9 @@ class UnitLeaderForm extends Form
             ])
             ->addField('localizationLng', FloatHiddenType::class)
             ->addField('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'button button-primary',
+                ],
                 'label' => __('Save', 'scout-units-list'),
             ])
         ;

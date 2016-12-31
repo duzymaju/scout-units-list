@@ -1,6 +1,6 @@
 <div class="wrap">
     <h1>
-        <?php if (isset($this->position)): ?>
+        <?php if ($this->position->getId() != null): ?>
             <?php _e('Edit position', 'scout-units-list'); ?>
             <a href="<?php $this->link(['action' => 'form']); ?>" class="page-title-action">
                 <?php _e('Add position', 'scout-units-list'); ?>
@@ -18,13 +18,15 @@
         ],
     ]); ?>
         <?php $form->errors(); ?>
-        <dl>
-            <?php $form->row('type'); ?>
-            <?php $form->row('nameMale'); ?>
-            <?php $form->row('nameFemale'); ?>
-            <?php $form->row('description'); ?>
-            <?php $form->row('leader'); ?>
-            <?php $form->row('submit'); ?>
-        </dl>
+        <table class="form-table">
+            <tbody>
+                <?php $form->row('type', 'Form/RowAdmin'); ?>
+                <?php $form->row('nameMale', 'Form/RowAdmin'); ?>
+                <?php $form->row('nameFemale', 'Form/RowAdmin'); ?>
+                <?php $form->row('description', 'Form/RowAdmin'); ?>
+                <?php $form->row('leader', 'Form/RowAdmin'); ?>
+            </tbody>
+        </table>
+        <?php $form->row('submit', 'Form/RowSubmitAdmin'); ?>
     <?php $form->end(); ?>
 </div>

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 09:56+0100\n"
-"PO-Revision-Date: 2016-12-31 09:56+0100\n"
+"POT-Creation-Date: 2016-12-31 12:02+0100\n"
+"PO-Revision-Date: 2016-12-31 12:02+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -115,68 +115,68 @@ msgstr "Konfiguracja jednostek harcerskich"
 msgid "Configuration"
 msgstr "Konfiguracja"
 
-#: Form/ConfigForm.php:27
-msgid "Cache TTL [seconds]"
-msgstr "Czas życia (TTL) cache'a [sekundy]"
+#: Form/ConfigForm.php:30
+msgid "Cache TTL in seconds"
+msgstr "Czas życia (TTL) cache'a w sekundach"
 
-#: Form/ConfigForm.php:31
-msgid "Order number format (for \"pattern\" attribute)"
-msgstr "Format numerów rozkazów (dla atrybutu \"pattern\")"
+#: Form/ConfigForm.php:37
+msgid "Order number format for \"pattern\" attribute"
+msgstr "Format numerów rozkazów dla atrybutu \"pattern\""
 
-#: Form/ConfigForm.php:34
+#: Form/ConfigForm.php:43
 msgid "Order number placeholder"
 msgstr "Etykieta zastępcza numeru rozkazu"
 
-#: Form/ConfigForm.php:37
+#: Form/ConfigForm.php:49
 msgid "Map key"
 msgstr "Klucz do mapy"
 
-#: Form/ConfigForm.php:41
+#: Form/ConfigForm.php:56
 msgid "Map default latitude"
 msgstr "Domyślna szerokość geograficzna mapy"
 
-#: Form/ConfigForm.php:45
+#: Form/ConfigForm.php:63
 msgid "Map default longitude"
 msgstr "Domyślna długość geograficzna mapy"
 
-#: Form/ConfigForm.php:49
+#: Form/ConfigForm.php:70
 msgid "Map default zoom"
 msgstr "Domyślne powiększenie mapy"
 
-#: Form/ConfigForm.php:53 Form/PersonForm.php:50 Form/PositionForm.php:46
-#: Form/UnitAdminForm.php:124 Form/UnitLeaderForm.php:44
+#: Form/ConfigForm.php:77 Form/PersonForm.php:60 Form/PositionForm.php:64
+#: Form/UnitAdminForm.php:155 Form/UnitLeaderForm.php:59
 msgid "Save"
 msgstr "Zapisz"
 
-#: Form/PersonForm.php:31
+#: Form/PersonForm.php:34
 msgid "User"
 msgstr "Użytkownik"
 
-#: Form/PersonForm.php:37
+#: Form/PersonForm.php:43
 msgid "Position"
 msgstr "Funkcja"
 
-#: Form/PersonForm.php:46 Form/UnitAdminForm.php:107
+#: Form/PersonForm.php:53 Form/UnitAdminForm.php:123
 msgid "Order number"
 msgstr "Numer rozkazu"
 
-#: Form/PositionForm.php:27 Form/UnitAdminForm.php:85
+#: Form/PositionForm.php:30 Form/UnitAdminForm.php:91
 msgid "Type"
 msgstr "Typ"
 
-#: Form/PositionForm.php:32
+#: Form/PositionForm.php:38
 msgid "Name male"
 msgstr "Nazwa męska"
 
-#: Form/PositionForm.php:36
+#: Form/PositionForm.php:45
 msgid "Name female"
 msgstr "Nazwa żeńska"
 
-#: Form/PositionForm.php:40
+#: Form/PositionForm.php:52
 msgid "Description"
 msgstr "Opis"
 
-#: Form/PositionForm.php:43
+#: Form/PositionForm.php:58
 msgid "Is unit leader"
 msgstr "Czy funkcyjny jest szefem jednostki"
 
@@ -220,63 +220,63 @@ msgstr "Drużyna wielopoziomowa"
 msgid "Union of troops"
 msgstr "Związek drużyn"
 
-#: Form/UnitAdminForm.php:77
+#: Form/UnitAdminForm.php:80
 msgid "Status"
 msgstr "Status"
 
-#: Form/UnitAdminForm.php:79
+#: Form/UnitAdminForm.php:82
 msgid "Active"
 msgstr "Aktywny"
 
-#: Form/UnitAdminForm.php:80
+#: Form/UnitAdminForm.php:83
 msgid "Hidden"
 msgstr "Ukryty"
 
-#: Form/UnitAdminForm.php:90
+#: Form/UnitAdminForm.php:99
 msgid "Subtype"
 msgstr "Podtyp"
 
-#: Form/UnitAdminForm.php:94
+#: Form/UnitAdminForm.php:106
 msgid "Sort"
 msgstr "Sortowanie"
 
-#: Form/UnitAdminForm.php:98
+#: Form/UnitAdminForm.php:113
 msgid "Parent unit"
 msgstr "Jednostka nadrzędna"
 
-#: Form/UnitAdminForm.php:111
+#: Form/UnitAdminForm.php:130
 msgid "Name short"
 msgstr "Krótka nazwa"
 
-#: Form/UnitAdminForm.php:115
+#: Form/UnitAdminForm.php:137
 msgid "Name full"
 msgstr "Pełna nazwa"
 
-#: Form/UnitAdminForm.php:118
+#: Form/UnitAdminForm.php:143
 msgid "Hero short"
 msgstr "Krótka nazwa bohatera"
 
-#: Form/UnitAdminForm.php:121
+#: Form/UnitAdminForm.php:149
 msgid "Hero full"
 msgstr "Pełna nazwa bohatera"
 
-#: Form/UnitLeaderForm.php:28
+#: Form/UnitLeaderForm.php:31
 msgid "URL"
 msgstr "Adres URL"
 
-#: Form/UnitLeaderForm.php:31
+#: Form/UnitLeaderForm.php:37
 msgid "E-mail"
 msgstr "Adres e-mail"
 
-#: Form/UnitLeaderForm.php:34
+#: Form/UnitLeaderForm.php:43
 msgid "Address"
 msgstr "Adres"
 
-#: Form/UnitLeaderForm.php:37
+#: Form/UnitLeaderForm.php:49
 msgid "Meetings time"
 msgstr "Termin spotkań"
 
-#: Form/UnitLeaderForm.php:40
+#: Form/UnitLeaderForm.php:52
 msgid "Localization"
 msgstr "Lokalizacja"
 
@@ -425,6 +425,11 @@ msgstr "Zarządzaj funkcyjnymi w jednostce \"%s\""
 msgid "leader"
 msgstr "szef"
 
+#: View/Admin/Units/PersonManage.phtml:27
+#, php-format
+msgid "Add person to unit \"%s\""
+msgstr "Dodaj funkcyjnego do jednostki \"%s\""
+
 #: View/Admin/Users/Form.phtml:1 View/Admin/Users/Show.phtml:1
 msgid "Scout data"
 msgstr "Dane harcerskie"
@@ -448,6 +453,10 @@ msgstr "Płeć"
 #: View/Admin/Users/Form.phtml:35 View/Admin/Users/Show.phtml:24
 msgid "Unknown sex"
 msgstr "Płeć nieznana"
+
+#: View/Form/LabelAdmin.phtml:2
+msgid "(required)"
+msgstr "(wymagane)"
 
 #: View/Partial/Messages.phtml:5
 msgid "Dismiss this notice."

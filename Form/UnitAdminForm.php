@@ -74,6 +74,9 @@ class UnitAdminForm extends Form
 
         $this
             ->addField('status', SelectType::class, [
+                'attr' => [
+                    'style' => 'width:15em',
+                ],
                 'label' => __('Status', 'scout-units-list'),
                 'options' => [
                     Unit::STATUS_ACTIVE => __('Active', 'scout-units-list'),
@@ -82,25 +85,38 @@ class UnitAdminForm extends Form
                 'required' => true,
             ])
             ->addField('type', SelectType::class, [
+                'attr' => [
+                    'style' => 'width:15em',
+                ],
                 'label' => __('Type', 'scout-units-list'),
                 'options' => self::getTypes(),
                 'required' => true,
             ])
             ->addField('subtype', SelectType::class, [
+                'attr' => [
+                    'style' => 'width:15em',
+                ],
                 'label' => __('Subtype', 'scout-units-list'),
                 'options' => self::getSubtypes(),
             ])
             ->addField('sort', IntegerType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Sort', 'scout-units-list'),
             ])
             ->addField('parentId', IntegerAutocompleteType::class, [
                 'action' => 'sul_units',
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Parent unit', 'scout-units-list'),
                 'valueLabel' => is_object($settings['parentUnit']) && $settings['parentUnit'] instanceof Unit ?
                     $settings['parentUnit']->getName() : null,
             ])
             ->addField('orderNo', StringType::class, [
                 'attr' => [
+                    'class' => 'regular-text',
                     'pattern' => $config->getOrderNoFormat(),
                     'placeholder' => $config->getOrderNoPlaceholder(),
                 ],
@@ -108,19 +124,34 @@ class UnitAdminForm extends Form
                 'required' => true,
             ])
             ->addField('name', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Name short', 'scout-units-list'),
                 'required' => true,
             ])
             ->addField('nameFull', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Name full', 'scout-units-list'),
             ])
             ->addField('hero', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Hero short', 'scout-units-list'),
             ])
             ->addField('heroFull', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('Hero full', 'scout-units-list'),
             ])
             ->addField('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'button button-primary',
+                ],
                 'label' => __('Save', 'scout-units-list'),
             ])
         ;

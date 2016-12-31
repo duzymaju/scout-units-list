@@ -23,17 +23,22 @@
             </li>
         <?php endforeach; ?>
     </ul>
+    <h2>
+        <?php printf(__('Add person to unit "%s"', 'scout-units-list'), $this->unit->getName()); ?>
+    </h2>
     <?php if (isset($this->form)): $form = $this->form; $form->start([
         'attr' => [
             'class' => 'sul-form',
         ],
     ]); ?>
         <?php $form->errors(); ?>
-        <dl>
-            <?php $form->row('userId'); ?>
-            <?php $form->row('positionId'); ?>
-            <?php $form->row('orderNo'); ?>
-            <?php $form->row('submit'); ?>
-        </dl>
+        <table class="form-table">
+            <tbody>
+                <?php $form->row('userId', 'Form/RowAdmin'); ?>
+                <?php $form->row('positionId', 'Form/RowAdmin'); ?>
+                <?php $form->row('orderNo', 'Form/RowAdmin'); ?>
+            </tbody>
+        </table>
+        <?php $form->row('submit', 'Form/RowSubmitAdmin'); ?>
     <?php $form->end(); endif; ?>
 </div>

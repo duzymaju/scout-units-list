@@ -10,15 +10,18 @@
             'class' => 'sul-form',
         ],
     ]); ?>
-        <dl>
-            <?php $form->row('cacheTtl'); ?>
-            <?php $form->row('orderNoFormat'); ?>
-            <?php $form->row('orderNoPlaceholder'); ?>
-            <?php $form->row('mapKey'); ?>
-            <?php $form->row('mapDefaultLat'); ?>
-            <?php $form->row('mapDefaultLng'); ?>
-            <?php $form->row('mapDefaultZoom'); ?>
-            <?php $form->row('submit'); ?>
-        </dl>
+        <?php $form->errors(); ?>
+        <table class="form-table">
+            <tbody>
+                <?php $form->row('cacheTtl', 'Form/RowAdmin'); ?>
+                <?php $form->row('orderNoFormat', 'Form/RowAdmin'); ?>
+                <?php $form->row('orderNoPlaceholder', 'Form/RowAdmin'); ?>
+                <?php $form->row('mapKey', 'Form/RowAdmin'); ?>
+                <?php $form->row('mapDefaultLat', 'Form/RowAdmin'); ?>
+                <?php $form->row('mapDefaultLng', 'Form/RowAdmin'); ?>
+                <?php $form->row('mapDefaultZoom', 'Form/RowAdmin'); ?>
+            </tbody>
+        </table>
+        <?php $form->row('submit', 'Form/RowSubmitAdmin'); ?>
     <?php $form->end(); ?>
 </div>

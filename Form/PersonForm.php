@@ -28,18 +28,25 @@ class PersonForm extends Form
         $this
             ->addField('userId', IntegerAutocompleteType::class, [
                 'action' => 'sul_users',
+                'attr' => [
+                    'class' => 'regular-text',
+                ],
                 'label' => __('User', 'scout-units-list'),
                 'required' => true,
                 'valueLabel' => is_object($settings['user']) && $settings['user'] instanceof User ?
                     $settings['user']->getNiceName() . ' (' . $settings['user']->getLogin() . ')' : null,
             ])
             ->addField('positionId', SelectType::class, [
+                'attr' => [
+                    'style' => 'width:15em',
+                ],
                 'label' => __('Position', 'scout-units-list'),
                 'options' => $settings['positions'],
                 'required' => true,
             ])
             ->addField('orderNo', StringType::class, [
                 'attr' => [
+                    'class' => 'regular-text',
                     'pattern' => $config->getOrderNoFormat(),
                     'placeholder' => $config->getOrderNoPlaceholder(),
                 ],
@@ -47,6 +54,9 @@ class PersonForm extends Form
                 'required' => true,
             ])
             ->addField('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'button button-primary',
+                ],
                 'label' => __('Save', 'scout-units-list'),
             ])
         ;

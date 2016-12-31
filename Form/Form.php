@@ -231,26 +231,36 @@ abstract class Form extends FormElement
     /**
      * Start rendering
      *
-     * @param string $name name
+     * @param string      $name        name
+     * @param string|null $partialName partial name
      */
-    public function row($name)
+    public function row($name, $partialName = null)
     {
         $field = $this->get($name);
         if (isset($field)) {
-            $field->row();
+            if (empty($partialName)) {
+                $field->row();
+            } else {
+                $field->row($partialName);
+            }
         }
     }
 
     /**
      * Start rendering
      *
-     * @param string $name name
+     * @param string      $name        name
+     * @param string|null $partialName partial name
      */
-    public function label($name)
+    public function label($name, $partialName = null)
     {
         $field = $this->get($name);
         if (isset($field)) {
-            $field->label();
+            if (empty($partialName)) {
+                $field->label();
+            } else {
+                $field->label($partialName);
+            }
         }
     }
 
@@ -274,13 +284,18 @@ abstract class Form extends FormElement
     /**
      * Start rendering
      *
-     * @param string $name name
+     * @param string      $name        name
+     * @param string|null $partialName partial name
      */
-    public function widget($name)
+    public function widget($name, $partialName = null)
     {
         $field = $this->get($name);
         if (isset($field)) {
-            $field->widget();
+            if (empty($partialName)) {
+                $field->widget();
+            } else {
+                $field->widget($partialName);
+            }
         }
     }
 

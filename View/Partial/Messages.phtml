@@ -2,7 +2,7 @@
     <div class="notice notice-<?php echo $message->type; ?> <?php echo implode(' ', $message->cssClasses); ?>">
         <p><?php echo $this->escape($message->text); ?></p>
         <button type="button" class="notice-dismiss">
-            <span class="screen-reader-text"><?php _e('Dismiss this notice.'); ?></span>
+            <span class="screen-reader-text"><?php _e('Dismiss this notice.', 'scout-units-list'); ?></span>
         </button>
     </div>
 <?php endforeach;

@@ -38,6 +38,7 @@ class IntegerAutocompleteType extends IntegerType
         } else {
             $partial = new Partial($this->getViewPath(), $partialName, [
                 'action' => $this->action,
+                'attr' => $this->getAttr(),
                 'filled' => isset($this->valueLabel) && $this->getValue() !== null,
                 'name' => $this->getName(),
                 'value' => $this->getValue(),

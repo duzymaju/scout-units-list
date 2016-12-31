@@ -20,18 +20,20 @@
         ],
     ]); ?>
         <?php $form->errors(); ?>
-        <dl>
-            <?php $form->row('status'); ?>
-            <?php $form->row('type'); ?>
-            <?php $form->row('subtype'); ?>
-            <?php $form->row('sort'); ?>
-            <?php $form->row('parentId'); ?>
-            <?php $form->row('name'); ?>
-            <?php $form->row('nameFull'); ?>
-            <?php $form->row('hero'); ?>
-            <?php $form->row('heroFull'); ?>
-            <?php $form->row('orderNo'); ?>
-            <?php $form->row('submit'); ?>
-        </dl>
+        <table class="form-table">
+            <tbody>
+                <?php $form->row('status', 'Form/RowAdmin'); ?>
+                <?php $form->row('type', 'Form/RowAdmin'); ?>
+                <?php $form->row('subtype', 'Form/RowAdmin'); ?>
+                <?php $form->row('sort', 'Form/RowAdmin'); ?>
+                <?php $form->row('parentId', 'Form/RowAdmin'); ?>
+                <?php $form->row('name', 'Form/RowAdmin'); ?>
+                <?php $form->row('nameFull', 'Form/RowAdmin'); ?>
+                <?php $form->row('hero', 'Form/RowAdmin'); ?>
+                <?php $form->row('heroFull', 'Form/RowAdmin'); ?>
+                <?php $form->row('orderNo', 'Form/RowAdmin'); ?>
+            </tbody>
+        </table>
+        <?php $form->row('submit', 'Form/RowSubmitAdmin'); ?>
     <?php $form->end(); ?>
 </div>
