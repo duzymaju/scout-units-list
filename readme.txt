@@ -28,6 +28,16 @@ Add `[sul-persons-list id="X"]` shortcode, where `X` is an ID of a base unit.
 
 To define your own template create `scout-units-list` directory in your current theme directory and then create there `PersonsList.phtml` or `PersonsList-X.phtml` file where `X` is an ID of a base unit. To know how to access units data please check default template in `View/Shortcodes` directory.
 
+= Future plans =
+
+1. Finish default shortcode templates, add default CSSes.
+2. Add possibility to define which unit types are needed by a shortcode.
+3. Add a shortcode which implements a map with selected units marked on it.
+4. Integrate with some plugins used to publish orders (selectable orders list).
+5. Units/persons versioning.
+6. Configurable types/subtypes lists and dependencies.
+7. Sorting/searching on units/positions lists in admin panel.
+
 == Installation ==
 
 1. Upload plugin files to the "/wp-content/plugins/scout-units-list" directory.
