@@ -1,5 +1,5 @@
 === Scout Units List ===
-Contributors: majpage
+Contributors: duzymaju
 Tags: scouts, zhp, zhr, wosm, wagggs
 Requires at least: 3.0.0
 Tested up to: 4.7
