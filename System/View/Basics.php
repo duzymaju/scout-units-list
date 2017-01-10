@@ -34,7 +34,7 @@ abstract class Basics
      */
     public function __construct($path, $name, array $params = [])
     {
-        $this->basicsPath = trim($path, '/') . '/';
+        $this->basicsPath = rtrim($path, '/') . '/';
         $this->basicsName = str_replace('\\', '/', trim($name, '/'));
         $this->basicsParams = $params;
     }

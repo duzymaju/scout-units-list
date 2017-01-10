@@ -335,10 +335,10 @@ class UnitsController extends Controller
                 $parentIds[] = $unit->getParentId();
             }
         }
-        $parentsList = $this->get('repository.unit')
+        $parentsList = count($parentIds) > 0 ? $this->get('repository.unit')
             ->getBy([
                 'id' => array_unique($parentIds),
-            ]);
+            ]) : [];
 
         $parents = [];
         foreach ($parentsList as $parent) {

@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Model\Repository;
 
 use ScoutUnitsList\Manager\DbManager;
+use ScoutUnitsList\Model\ModelInterface;
 use ScoutUnitsList\Model\User;
 use WP_User;
 
@@ -16,7 +17,7 @@ class UserRepository extends NativeRepository
      *
      * @return string
      */
-    protected static function getName()
+    protected function getName()
     {
         return 'users';
     }
@@ -26,7 +27,7 @@ class UserRepository extends NativeRepository
      *
      * @return string
      */
-    protected static function getModel()
+    protected function getModel()
     {
         return User::class;
     }
@@ -70,7 +71,7 @@ class UserRepository extends NativeRepository
      */
     public function createModelFromWpUser(WP_User $wpUser)
     {
-        $modelClass = static::getModel();
+        $modelClass = $this->getModel();
         $user = new $modelClass();
         foreach ($this->getMap() as $modelKey => $objectKey) {
             if (isset($wpUser->$objectKey)) {
@@ -85,12 +86,14 @@ class UserRepository extends NativeRepository
     /**
      * Save
      *
-     * @param User $user user
+     * @param ModelInterface $model model
      *
      * @return self
      */
-    public function save(User $user)
+    public function save(ModelInterface $model)
     {
+        /** @var User $user */
+        $user = $model;
         $this->setProperPublishEmail($user);
         update_user_meta($user->getId(), 'sul_publish_email', $user->getPublishEmail());
         update_user_meta($user->getId(), 'sul_grade', $user->getGrade());

@@ -15,7 +15,7 @@ class PositionRepository extends Repository
      *
      * @return string
      */
-    protected static function getName()
+    protected function getName()
     {
         return 'positions';
     }
@@ -25,7 +25,7 @@ class PositionRepository extends Repository
      *
      * @return string
      */
-    protected static function getModel()
+    protected function getModel()
     {
         return Position::class;
     }

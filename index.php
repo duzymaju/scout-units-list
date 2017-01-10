@@ -94,18 +94,21 @@ add_action('init', function () use ($loader, $configManager) {
 
 // Installation
 $installController = new InstallController($loader, $request);
-register_activation_hook(__FILE__, [
-    $installController,
-    'activate',
-]);
-register_deactivation_hook(__FILE__, [
-    $installController,
-    'deactivate',
-]);
-register_uninstall_hook(__FILE__, [
-    $installController,
-    'uninstall',
-]);
+function sul_activation() {
+    global $installController;
+    return $installController->activate();
+}
+register_activation_hook(__FILE__, 'sul_activation');
+function sul_deactivation() {
+    global $installController;
+    return $installController->deactivate();
+}
+register_deactivation_hook(__FILE__, 'sul_deactivation');
+function sul_uninstall() {
+    global $installController;
+    return $installController->uninstall();
+}
+register_uninstall_hook(__FILE__, 'sul_uninstall');
 
 // AJAX requests
 $apiController = new ApiController($loader, $request);

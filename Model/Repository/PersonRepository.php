@@ -17,7 +17,7 @@ class PersonRepository extends Repository
      *
      * @return string
      */
-    protected static function getName()
+    protected function getName()
     {
         return 'persons';
     }
@@ -27,7 +27,7 @@ class PersonRepository extends Repository
      *
      * @return string
      */
-    protected static function getModel()
+    protected function getModel()
     {
         return Person::class;
     }

@@ -36,14 +36,14 @@ abstract class Repository
      *
      * @return string
      */
-    abstract protected static function getName();
+    abstract protected function getName();
 
     /**
      * Get model
      *
      * @return string
      */
-    abstract protected static function getModel();
+    abstract protected function getModel();
 
     /**
      * Define structure
@@ -84,7 +84,7 @@ abstract class Repository
     protected function getPluginTableName($name = null)
     {
         if (empty($name)) {
-            $name = static::getName();
+            $name = $this->getName();
         }
         $pluginTableName = $this->getTableName('sul_' . $name);
 
@@ -100,7 +100,7 @@ abstract class Repository
      */
     protected function getIndexName($no)
     {
-        $indexName = static::getName() . '_index_' . $no;
+        $indexName = $this->getName() . '_index_' . $no;
 
         return $indexName;
     }
@@ -155,7 +155,7 @@ abstract class Repository
      */
     protected function createModel(array $tableData)
     {
-        $modelClass = static::getModel();
+        $modelClass = $this->getModel();
         $model = new $modelClass();
         foreach ($this->getMap() as $modelKey => $tableKey) {
             if (array_key_exists($tableKey, $tableData)) {
@@ -184,7 +184,7 @@ abstract class Repository
             if (is_numeric($value)) {
                 $value = (int) $value;
             }
-            $modelReflector = new ReflectionClass(static::getModel());
+            $modelReflector = new ReflectionClass($this->getModel());
             $property = $modelReflector->getProperty($key);
             $property->setAccessible(true);
             $property->setValue($model, $value);

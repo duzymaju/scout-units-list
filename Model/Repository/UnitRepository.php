@@ -15,7 +15,7 @@ class UnitRepository extends Repository
      *
      * @return string
      */
-    protected static function getName()
+    protected function getName()
     {
         return 'units';
     }
@@ -25,7 +25,7 @@ class UnitRepository extends Repository
      *
      * @return string
      */
-    protected static function getModel()
+    protected function getModel()
     {
         return Unit::class;
     }

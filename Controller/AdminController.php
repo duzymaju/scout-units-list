@@ -27,7 +27,7 @@ class AdminController extends Controller
             'sul_modify_own_units', $unitsController::PAGE_NAME, [
                 $unitsController,
                 'routes',
-            ], '', 3);
+            ], 'dashicons-networking', 101);
         add_submenu_page($unitsController::PAGE_NAME, __('Scout units list', 'scout-units-list'),
             __('Units list', 'scout-units-list'), 'sul_modify_own_units', $unitsController::PAGE_NAME, [
                 $unitsController,

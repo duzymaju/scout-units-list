@@ -2,6 +2,8 @@
 
 namespace ScoutUnitsList\Model\Repository;
 
+use ScoutUnitsList\Model\ModelInterface;
+
 /**
  * Native repository
  */
@@ -27,7 +29,7 @@ abstract class NativeRepository extends Repository
     protected function getPluginTableName($name = null)
     {
         if (empty($name)) {
-            $name = static::getName();
+            $name = $this->getName();
         }
         $pluginTableName = $this->getTableName($name);
 
@@ -37,20 +39,28 @@ abstract class NativeRepository extends Repository
     /**
      * Save
      *
+     * @param ModelInterface $model model
+     *
      * @return self
      */
-    public function save()
+    public function save(ModelInterface $model)
     {
+        unset($model);
+
         return $this;
     }
 
     /**
      * Delete
      *
+     * @param ModelInterface $model model
+     *
      * @return self
      */
-    public function delete()
+    public function delete(ModelInterface $model)
     {
+        unset($model);
+
         return $this;
     }
 }
