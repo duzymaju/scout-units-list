@@ -24,32 +24,38 @@
             </tr>
 	</thead>
 	<tbody id="the-list">
-            <?php foreach ($persons as $person):
-                $position = $person->getPosition();
-                $user = $person->getUser();
-                $positionName = $user->isFemale() ? $position->getNameFemale() : $position->getNameMale();
-                $userLink = $this->getLink([
-                    'user_id' => $user->getId(),
-                ], 'user-edit.php');
-                $deleteLink = $this->getLink([
-                    'action' => 'person-manage',
-                    'deletedId' => $person->getId(),
-                    'id' => $this->unit->getId(),
-                ]);
-            ?>
-                <tr>
-                    <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Position name', 'scout-units-list'); ?>">
-                        <strong><?php echo $this->escape($positionName); ?></strong>
-                        <div class="row-actions">
-                            <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
-                        </div>
-                        <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
-                    </td>
-                    <td class="user column-user" data-colname="<?php _e('User', 'scout-units-list'); ?>"><a href="<?php echo $userLink; ?>"><?php  echo $this->escape($user->getDisplayName()); ?></a></td>
-                    <td class="leader column-leader" data-colname="<?php _e('Unit leader', 'scout-units-list'); ?>"><?php echo $position->isLeader() ? __('Yes', 'scout-units-list') : __('No', 'scout-units-list'); ?></td>
-                    <td class="order column-order" data-colname="<?php _e('Order number', 'scout-units-list'); ?>"><?php echo $this->escape($person->getOrderNo()); ?></td>
+            <?php if (count($persons) > 0): ?>
+                <?php foreach ($persons as $person):
+                    $position = $person->getPosition();
+                    $user = $person->getUser();
+                    $positionName = $user->isFemale() ? $position->getNameFemale() : $position->getNameMale();
+                    $userLink = $this->getLink([
+                        'user_id' => $user->getId(),
+                    ], 'user-edit.php');
+                    $deleteLink = $this->getLink([
+                        'action' => 'person-manage',
+                        'deletedId' => $person->getId(),
+                        'id' => $this->unit->getId(),
+                    ]);
+                ?>
+                    <tr>
+                        <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Position name', 'scout-units-list'); ?>">
+                            <strong><?php echo $this->escape($positionName); ?></strong>
+                            <div class="row-actions">
+                                <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
+                            </div>
+                            <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
+                        </td>
+                        <td class="user column-user" data-colname="<?php _e('User', 'scout-units-list'); ?>"><a href="<?php echo $userLink; ?>"><?php  echo $this->escape($user->getDisplayName()); ?></a></td>
+                        <td class="leader column-leader" data-colname="<?php _e('Unit leader', 'scout-units-list'); ?>"><?php echo $position->isLeader() ? __('Yes', 'scout-units-list') : __('No', 'scout-units-list'); ?></td>
+                        <td class="order column-order" data-colname="<?php _e('Order number', 'scout-units-list'); ?>"><?php echo $this->escape($person->getOrderNo()); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr class="no-items">
+                    <td colspan="4" class="colspanchange"><?php _e('No persons found.', 'scout-units-list'); ?></td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endif; ?>
 	</tbody>
 	<tfoot>
             <tr>

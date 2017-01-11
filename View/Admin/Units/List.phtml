@@ -28,46 +28,52 @@
             </tr>
 	</thead>
 	<tbody id="the-list">
-            <?php foreach ($this->units as $unit):
-                $typeName = ScoutUnitsList\Form\UnitAdminForm::getTypeName($unit->getType());
-                $configureLink = $this->getLink([
-                    'action' => 'leader-form',
-                    'id' => $unit->getId(),
-                ]);
-                $managePersonsLink = $this->getLink([
-                    'action' => 'person-manage',
-                    'id' => $unit->getId(),
-                ]);
-                $editLink = $this->getLink([
-                    'action' => 'admin-form',
-                    'id' => $unit->getId(),
-                ]);
-                $deleteLink = $this->getLink([
-                    'action' => 'delete',
-                    'id' => $unit->getId(),
-                ]);
-                $parentUnit = $unit->getParent();
-            ?>
-                <tr>
-                    <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Unit name', 'scout-units-list'); ?>">
-                        <strong><a href="<?php echo $configureLink; ?>" aria-label="<?php echo sprintf(__('&#8220;%s&#8221; (Edit)', 'scout-units-list'), $unit->getName()); ?>"><?php echo $this->escape($unit->getName()); ?></a></strong>
-                        <div class="row-actions">
-                            <span class="configure"><a href="<?php echo $configureLink; ?>"><?php _e('Configure', 'scout-units-list'); ?></a></span>
-                            <?php if (current_user_can('sul_manage_persons')): ?>
-                                | <span class="manage-persons"><a href="<?php echo $managePersonsLink; ?>"><?php _e('Manage persons', 'scout-units-list'); ?></a></span>
-                            <?php endif; ?>
-                            <?php if (current_user_can('sul_manage_units')): ?>
-                                | <span class="edit"><a href="<?php echo $editLink; ?>"><?php _e('Edit', 'scout-units-list'); ?></a></span>
-                                | <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
-                            <?php endif; ?>
-                        </div>
-                        <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
-                    </td>
-                    <td class="type column-type" data-colname="<?php _e('Type', 'scout-units-list'); ?>"><?php echo $this->escape($typeName); ?></td>
-                    <td class="parent column-parent" data-colname="<?php _e('Parent unit', 'scout-units-list'); ?>"><?php echo isset($parentUnit) ? $this->escape($parentUnit->getName()) : ''; ?></td>
-                    <td class="status column-status" data-colname="<?php _e('Status', 'scout-units-list'); ?>"><?php echo $unit->isActive() ? __('Active', 'scout-units-list') : __('Hidden', 'scout-units-list'); ?></td>
+            <?php if (count($this->units) > 0): ?>
+                <?php foreach ($this->units as $unit):
+                    $typeName = ScoutUnitsList\Form\UnitAdminForm::getTypeName($unit->getType());
+                    $configureLink = $this->getLink([
+                        'action' => 'leader-form',
+                        'id' => $unit->getId(),
+                    ]);
+                    $managePersonsLink = $this->getLink([
+                        'action' => 'person-manage',
+                        'id' => $unit->getId(),
+                    ]);
+                    $editLink = $this->getLink([
+                        'action' => 'admin-form',
+                        'id' => $unit->getId(),
+                    ]);
+                    $deleteLink = $this->getLink([
+                        'action' => 'delete',
+                        'id' => $unit->getId(),
+                    ]);
+                    $parentUnit = $unit->getParent();
+                ?>
+                    <tr>
+                        <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Unit name', 'scout-units-list'); ?>">
+                            <strong><a href="<?php echo $configureLink; ?>" aria-label="<?php echo sprintf(__('&#8220;%s&#8221; (Edit)', 'scout-units-list'), $unit->getName()); ?>"><?php echo $this->escape($unit->getName()); ?></a></strong>
+                            <div class="row-actions">
+                                <span class="configure"><a href="<?php echo $configureLink; ?>"><?php _e('Configure', 'scout-units-list'); ?></a></span>
+                                <?php if (current_user_can('sul_manage_persons')): ?>
+                                    | <span class="manage-persons"><a href="<?php echo $managePersonsLink; ?>"><?php _e('Manage persons', 'scout-units-list'); ?></a></span>
+                                <?php endif; ?>
+                                <?php if (current_user_can('sul_manage_units')): ?>
+                                    | <span class="edit"><a href="<?php echo $editLink; ?>"><?php _e('Edit', 'scout-units-list'); ?></a></span>
+                                    | <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
+                                <?php endif; ?>
+                            </div>
+                            <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
+                        </td>
+                        <td class="type column-type" data-colname="<?php _e('Type', 'scout-units-list'); ?>"><?php echo $this->escape($typeName); ?></td>
+                        <td class="parent column-parent" data-colname="<?php _e('Parent unit', 'scout-units-list'); ?>"><?php echo isset($parentUnit) ? $this->escape($parentUnit->getName()) : ''; ?></td>
+                        <td class="status column-status" data-colname="<?php _e('Status', 'scout-units-list'); ?>"><?php echo $unit->isActive() ? __('Active', 'scout-units-list') : __('Hidden', 'scout-units-list'); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr class="no-items">
+                    <td colspan="4" class="colspanchange"><?php _e('No units found.', 'scout-units-list'); ?></td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endif; ?>
 	</tbody>
 	<tfoot>
             <tr>

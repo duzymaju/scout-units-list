@@ -28,32 +28,38 @@
             </tr>
 	</thead>
 	<tbody id="the-list">
-            <?php foreach ($this->positions as $position):
-                $positionName = $position->getNameMale() . ' / ' . $position->getNameFemale();
-                $typeName = ScoutUnitsList\Form\UnitAdminForm::getTypeName($position->getType());
-                $editLink = $this->getLink([
-                    'action' => 'form',
-                    'id' => $position->getId(),
-                ]);
-                $deleteLink = $this->getLink([
-                    'action' => 'delete',
-                    'id' => $position->getId(),
-                ]);
-            ?>
-                <tr>
-                    <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Position name', 'scout-units-list'); ?>">
-                        <strong><a href="<?php echo $editLink; ?>" aria-label="<?php echo sprintf(__('&#8220;%s&#8221; (Edit)', 'scout-units-list'), $positionName); ?>"><?php echo $this->escape($positionName); ?></a></strong>
-                        <div class="row-actions">
-                            <span class="edit"><a href="<?php echo $editLink; ?>"><?php _e('Edit', 'scout-units-list'); ?></a></span> |
-                            <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
-                        </div>
-                        <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
-                    </td>
-                    <td class="type column-type" data-colname="<?php _e('Type', 'scout-units-list'); ?>"><?php echo $this->escape($typeName); ?></td>
-                    <td class="leader column-leader" data-colname="<?php _e('Unit leader', 'scout-units-list'); ?>"><?php echo $position->isLeader() ? __('Yes', 'scout-units-list') : __('No', 'scout-units-list'); ?></td>
-                    <td class="description column-description" data-colname="<?php _e('Description', 'scout-units-list'); ?>"><?php echo $this->escape($position->getDescription()); ?></td>
+            <?php if (count($this->positions) > 0): ?>
+                <?php foreach ($this->positions as $position):
+                    $positionName = $position->getNameMale() . ' / ' . $position->getNameFemale();
+                    $typeName = ScoutUnitsList\Form\UnitAdminForm::getTypeName($position->getType());
+                    $editLink = $this->getLink([
+                        'action' => 'form',
+                        'id' => $position->getId(),
+                    ]);
+                    $deleteLink = $this->getLink([
+                        'action' => 'delete',
+                        'id' => $position->getId(),
+                    ]);
+                ?>
+                    <tr>
+                        <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Position name', 'scout-units-list'); ?>">
+                            <strong><a href="<?php echo $editLink; ?>" aria-label="<?php echo sprintf(__('&#8220;%s&#8221; (Edit)', 'scout-units-list'), $positionName); ?>"><?php echo $this->escape($positionName); ?></a></strong>
+                            <div class="row-actions">
+                                <span class="edit"><a href="<?php echo $editLink; ?>"><?php _e('Edit', 'scout-units-list'); ?></a></span> |
+                                <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
+                            </div>
+                            <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
+                        </td>
+                        <td class="type column-type" data-colname="<?php _e('Type', 'scout-units-list'); ?>"><?php echo $this->escape($typeName); ?></td>
+                        <td class="leader column-leader" data-colname="<?php _e('Unit leader', 'scout-units-list'); ?>"><?php echo $position->isLeader() ? __('Yes', 'scout-units-list') : __('No', 'scout-units-list'); ?></td>
+                        <td class="description column-description" data-colname="<?php _e('Description', 'scout-units-list'); ?>"><?php echo $this->escape($position->getDescription()); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr class="no-items">
+                    <td colspan="4" class="colspanchange"><?php _e('No positions found.', 'scout-units-list'); ?></td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endif; ?>
 	</tbody>
 	<tfoot>
             <tr>
