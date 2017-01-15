@@ -10,15 +10,8 @@ use ScoutUnitsList\Model\Unit;
  */
 class UnitRepository extends Repository
 {
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    protected function getName()
-    {
-        return 'units';
-    }
+    /** @const string */
+    const NAME = 'sul_units';
 
     /**
      * Get model
@@ -56,62 +49,6 @@ class UnitRepository extends Repository
     }
 
     /**
-     * Install
-     *
-     * @return self
-     */
-    public function install()
-    {
-        $this->db->query('
-            CREATE TABLE IF NOT EXISTS `' . $this->getPluginTableName() . '` (
-                `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `status` char(1) COLLATE utf8_polish_ci NOT NULL DEFAULT "' . Unit::STATUS_ACTIVE . '",
-                `type` char(1) COLLATE utf8_polish_ci NOT NULL DEFAULT "' . Unit::TYPE_TROOP . '",
-                `subtype` char(1) COLLATE utf8_polish_ci DEFAULT NULL,
-                `sort` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
-                `parent_id` int(10) UNSIGNED DEFAULT NULL,
-                `order_no` varchar(50) COLLATE utf8_polish_ci NOT NULL,
-                `slug` varchar(50) COLLATE utf8_polish_ci NOT NULL,
-                `name` varchar(50) COLLATE utf8_polish_ci NOT NULL,
-                `name_full` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
-                `hero` varchar(50) COLLATE utf8_polish_ci DEFAULT NULL,
-                `hero_full` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
-                `url` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
-                `mail` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
-                `address` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
-                `meetings_time` varchar(50) COLLATE utf8_polish_ci DEFAULT NULL,
-                `localization_lat` float(10,6) DEFAULT NULL,
-                `localization_lng` float(10,6) DEFAULT NULL,
-                PRIMARY KEY (`id`),
-                INDEX `' . $this->getIndexName(1) . '` (`status`),
-                INDEX `' . $this->getIndexName(2) . '` (`type`),
-                INDEX `' . $this->getIndexName(3) . '` (`subtype`),
-                INDEX `' . $this->getIndexName(4) . '` (`parent_id`),
-                UNIQUE `' . $this->getIndexName(5) . '` (`slug`),
-                FOREIGN KEY (parent_id)
-                    REFERENCES `' . $this->getPluginTableName() . '` (`id`)
-                    ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
-        ');
-
-        return $this;
-    }
-
-    /**
-     * Uninstall
-     *
-     * @return self
-     */
-    public function uninstall()
-    {
-        $this->db->query('
-            DROP TABLE IF EXISTS `' . $this->getPluginTableName() . '`;
-        ');
-
-        return $this;
-    }
-
-    /**
      * Find by name and types
      *
      * @param string $name  name
@@ -122,7 +59,7 @@ class UnitRepository extends Repository
      */
     public function findByNameAndTypes($name, array $types = null, $limit = 10)
     {
-        $statement = $this->db->prepare('SELECT * FROM `' . $this->getPluginTableName() . '` ' .
+        $statement = $this->db->prepare('SELECT * FROM `' . $this->getTableName() . '` ' .
                 'WHERE (`name` LIKE :name || `name_full` LIKE :name)' .
                 (isset($types) ? ' && `type` IN (:types)' : '') . ' LIMIT ' . ((int) $limit))
             ->setParam('name', '%' . $this->escapeLike($name) . '%');
@@ -150,7 +87,7 @@ class UnitRepository extends Repository
     public function getUniqueSlug(Unit $unit)
     {
         $slug = $unit->getSlug();
-        $query = $this->db->prepare('SELECT slug FROM `' . $this->getPluginTableName() . '` WHERE `slug` LIKE :slug')
+        $query = $this->db->prepare('SELECT slug FROM `' . $this->getTableName() . '` WHERE `slug` LIKE :slug')
             ->setParam('slug', $this->escapeLike($slug) . '%')
             ->getQuery();
         $results = $this->db->getResults($query, ARRAY_A);

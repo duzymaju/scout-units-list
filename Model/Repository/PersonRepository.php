@@ -12,15 +12,8 @@ use ScoutUnitsList\Model\User;
  */
 class PersonRepository extends Repository
 {
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    protected function getName()
-    {
-        return 'persons';
-    }
+    /** @const string */
+    const NAME = 'sul_persons';
 
     /**
      * Get model
@@ -42,51 +35,6 @@ class PersonRepository extends Repository
             ->setStructureElement('unitId', DbManager::TYPE_DECIMAL, 'unit_id')
             ->setStructureElement('positionId', DbManager::TYPE_DECIMAL, 'position_id')
             ->setStructureElement('orderNo', DbManager::TYPE_STRING, 'order_no');
-    }
-
-    /**
-     * Install
-     *
-     * @return self
-     */
-    public function install()
-    {
-        $this->db->query('
-            CREATE TABLE IF NOT EXISTS `' . $this->getPluginTableName() . '` (
-                `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `user_id` bigint(20) UNSIGNED NOT NULL,
-                `unit_id` int(10) UNSIGNED NOT NULL,
-                `position_id` int(10) UNSIGNED NOT NULL,
-                `order_no` varchar(50) COLLATE utf8_polish_ci NOT NULL,
-                PRIMARY KEY (`id`),
-                UNIQUE `' . $this->getIndexName(1) . '` (`user_id`, `unit_id`, `position_id`),
-                FOREIGN KEY (user_id)
-                    REFERENCES `' . $this->getTableName('users') . '` (`ID`)
-                    ON DELETE CASCADE,
-                FOREIGN KEY (unit_id)
-                    REFERENCES `' . $this->getPluginTableName(UnitRepository::getName()) . '` (`id`)
-                    ON DELETE CASCADE,
-                FOREIGN KEY (position_id)
-                    REFERENCES `' . $this->getPluginTableName(PositionRepository::getName()) . '` (`id`)
-                    ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
-        ');
-
-        return $this;
-    }
-
-    /**
-     * Uninstall
-     *
-     * @return self
-     */
-    public function uninstall()
-    {
-        $this->db->query('
-            DROP TABLE IF EXISTS `' . $this->getPluginTableName() . '`;
-        ');
-
-        return $this;
     }
 
     /**
@@ -117,8 +65,8 @@ class PersonRepository extends Repository
         $query = $this->db
             ->prepare('
                 SELECT pe.unit_id
-                    FROM `' . $this->getPluginTableName() . '` pe
-                    INNER JOIN `' . $this->getPluginTableName(PositionRepository::getName()) . '` po
+                    FROM `' . $this->getTableName() . '` pe
+                    INNER JOIN `' . $this->getTableName(PositionRepository::NAME) . '` po
                     ON pe.position_id = po.id
                     WHERE pe.user_id = :userId && po.leader = :leader
             ')

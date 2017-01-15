@@ -33,11 +33,11 @@ class DbManager
     }
 
     /**
-     * Get perfix
+     * Get prefix
      *
      * @return string
      */
-    public function getPerfix()
+    public function getPrefix()
     {
         return $this->db->prefix;
     }

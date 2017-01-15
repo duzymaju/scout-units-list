@@ -32,13 +32,6 @@ abstract class Repository
     }
 
     /**
-     * Get name
-     *
-     * @return string
-     */
-    abstract protected function getName();
-
-    /**
      * Get model
      *
      * @return string
@@ -51,58 +44,17 @@ abstract class Repository
     abstract protected function defineStructure();
 
     /**
-     * Install
-     */
-    abstract public function install();
-
-    /**
-     * Uninstall
-     */
-    abstract public function uninstall();
-
-    /**
      * Get table name
-     *
-     * @param string $name name
-     *
-     * @return string
-     */
-    protected function getTableName($name)
-    {
-        $tableName = $this->db->getPerfix() . $name;
-
-        return $tableName;
-    }
-
-    /**
-     * Get plugin table name
      *
      * @param string|null $name name
      *
      * @return string
      */
-    protected function getPluginTableName($name = null)
+    protected function getTableName($name = null)
     {
-        if (empty($name)) {
-            $name = $this->getName();
-        }
-        $pluginTableName = $this->getTableName('sul_' . $name);
+        $tableName = $this->db->getPrefix() . (empty($name) ? static::NAME : $name);
 
-        return $pluginTableName;
-    }
-
-    /**
-     * Get index name
-     *
-     * @param int $no no
-     *
-     * @return string
-     */
-    protected function getIndexName($no)
-    {
-        $indexName = $this->getName() . '_index_' . $no;
-
-        return $indexName;
+        return $tableName;
     }
 
     /**
@@ -203,12 +155,12 @@ abstract class Repository
     public function save(ModelInterface $model)
     {
         if ($model->getId() == null) {
-            $id = $this->db->getAutoIncrement($this->getPluginTableName());
+            $id = $this->db->getAutoIncrement($this->getTableName());
             $this->setValue($model, 'id', $id);
-            $statement = $this->db->insert($this->getPluginTableName());
+            $statement = $this->db->insert($this->getTableName());
             $statement->setParam('id', $id, DbManager::TYPE_DECIMAL);
         } else {
-            $statement = $this->db->update($this->getPluginTableName());
+            $statement = $this->db->update($this->getTableName());
             $statement->setCondition('id', $model->getId(), DbManager::TYPE_DECIMAL);
         }
 
@@ -242,7 +194,7 @@ abstract class Repository
         if ($model->getId() == null) {
             return $this;
         }
-        $this->db->delete($this->getPluginTableName())
+        $this->db->delete($this->getTableName())
             ->setCondition('id', $model->getId(), DbManager::TYPE_DECIMAL)
             ->execute();
 
@@ -258,7 +210,7 @@ abstract class Repository
      */
     public function countBy(array $conditions)
     {
-        $query = 'SELECT COUNT(*) FROM ' . $this->getPluginTableName();
+        $query = 'SELECT COUNT(*) FROM ' . $this->getTableName();
 
         $where = $this->getConditionsToQuery($conditions);
         if (count($where) > 0) {
@@ -283,7 +235,7 @@ abstract class Repository
      */
     public function getBy(array $conditions, array $order = [], $limit = null, $offset = 0)
     {
-        $query = 'SELECT * FROM ' . $this->getPluginTableName();
+        $query = 'SELECT * FROM ' . $this->getTableName();
 
         $where = $this->getConditionsToQuery($conditions);
         if (count($where) > 0) {

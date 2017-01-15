@@ -12,15 +12,8 @@ use WP_User;
  */
 class UserRepository extends NativeRepository
 {
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    protected function getName()
-    {
-        return 'users';
-    }
+    /** @const string */
+    const NAME = 'users';
 
     /**
      * Get model
