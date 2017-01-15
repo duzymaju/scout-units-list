@@ -4,6 +4,7 @@ namespace ScoutUnitsList\Form;
 
 use ScoutUnitsList\Form\Field\FloatType;
 use ScoutUnitsList\Form\Field\IntegerType;
+use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
 use ScoutUnitsList\Validator\ConfigValidator;
@@ -29,6 +30,13 @@ class ConfigForm extends Form
                 ],
                 'label' => __('Cache TTL in seconds', 'scout-units-list'),
                 'required' => true,
+            ])
+            ->addField('orderCategoryId', SelectType::class, [
+                'attr' => [
+                    'style' => 'width:25em',
+                ],
+                'label' => __('Order category', 'scout-units-list'),
+                'options' => $this->getOrderCategories(),
             ])
             ->addField('orderNoFormat', StringType::class, [
                 'attr' => [
@@ -77,6 +85,25 @@ class ConfigForm extends Form
                 'label' => __('Save', 'scout-units-list'),
             ])
         ;
+    }
+
+    /**
+     * Get order categories
+     *
+     * @return array
+     */
+    private function getOrderCategories()
+    {
+        $orderCategories = [];
+
+        $categories = get_categories([
+            'taxonomy' => null,
+        ]);
+        foreach ($categories as $category) {
+            $orderCategories[$category->cat_ID] = $category->cat_name . ' (' . $category->taxonomy . ')';
+        }
+
+        return $orderCategories;
     }
 
     /**

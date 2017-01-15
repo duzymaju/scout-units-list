@@ -34,6 +34,7 @@ class UnitRepository extends Repository
             ->setStructureElement('subtype', DbManager::TYPE_STRING)
             ->setStructureElement('sort', DbManager::TYPE_DECIMAL)
             ->setStructureElement('parentId', DbManager::TYPE_DECIMAL, 'parent_id')
+            ->setStructureElement('orderId', DbManager::TYPE_DECIMAL, 'order_id')
             ->setStructureElement('orderNo', DbManager::TYPE_STRING, 'order_no')
             ->setStructureElement('slug', DbManager::TYPE_STRING)
             ->setStructureElement('name', DbManager::TYPE_STRING)

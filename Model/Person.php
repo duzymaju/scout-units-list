@@ -28,6 +28,12 @@ class Person implements ModelInterface
     /** @var Position|null */
     protected $position;
 
+    /** @var int|null */
+    protected $orderId;
+
+    /** @var Attachment|null */
+    protected $order;
+
     /** @var string */
     protected $orderNo;
 
@@ -181,6 +187,54 @@ class Person implements ModelInterface
     public function setPosition(Position $position)
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get order ID
+     *
+     * @return int|null
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
+    }
+
+    /**
+     * Set order ID
+     *
+     * @param int|null $orderId order ID
+     *
+     * @return self
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return Attachment|null
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Set order
+     *
+     * @param Attachment $order order
+     *
+     * @return self
+     */
+    public function setOrder(Attachment $order)
+    {
+        $this->order = $order;
 
         return $this;
     }

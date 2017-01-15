@@ -10,6 +10,9 @@ class Config implements ModelInterface
     /** @var int */
     protected $cacheTtl = 3600;
 
+    /** @var int|null */
+    protected $orderCategoryId = null;
+
     /** @var string|null */
     protected $orderNoFormat;
 
@@ -48,6 +51,30 @@ class Config implements ModelInterface
     public function setCacheTtl($cacheTtl)
     {
         $this->cacheTtl = max(0, (int) $cacheTtl);
+
+        return $this;
+    }
+
+    /**
+     * Get order category ID
+     *
+     * @return int|null
+     */
+    public function getOrderCategoryId()
+    {
+        return $this->orderCategoryId;
+    }
+
+    /**
+     * Set order category ID
+     *
+     * @param int|null $orderCategoryId order category ID
+     *
+     * @return self
+     */
+    public function setOrderCategoryId($orderCategoryId)
+    {
+        $this->orderCategoryId = $orderCategoryId;
 
         return $this;
     }

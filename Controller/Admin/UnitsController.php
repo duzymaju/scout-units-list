@@ -78,6 +78,7 @@ class UnitsController extends Controller
             throw new UnauthorizedException();
         }
 
+        $attachmentRepository = $this->get('repository.attachment');
         $unitRepository = $this->get('repository.unit');
         $unit = $id > 0 ? $unitRepository->getOneByOr404([
                 'id' => $id,
@@ -86,9 +87,15 @@ class UnitsController extends Controller
         $messageManager = $this->get('manager.message');
 
         $parentId = $request->request->getInt('parentId', $unit->getParentId());
+        $orderId = $request->request->getInt('orderId', $unit->getOrderId());
+        $config = $this->get('manager.config')
+            ->get();
+        $orderCategoryDefined = $config->getOrderCategoryId() > 0;
         $form = $this->createForm(UnitAdminForm::class, $unit, [
-            'config' => $this->get('manager.config')
-                ->get(),
+            'config' => $config,
+            'order' => $orderCategoryDefined && $orderId > 0 ? $attachmentRepository->getOneBy([
+                'id' => $orderId,
+            ]) : null,
             'parentUnit' => $parentId > 0 ? $unitRepository->getOneBy([
                 'id' => $parentId,
             ]) : null,
@@ -112,6 +119,7 @@ class UnitsController extends Controller
         $this->getView('Admin/Units/AdminForm', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
+            'orderCategoryDefined' => $orderCategoryDefined,
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
@@ -193,18 +201,26 @@ class UnitsController extends Controller
             $positionList[$position->getId()] = $position->getNameMale() . '/' . $position->getNameFemale();
         }
 
+        $config = $this->get('manager.config')
+            ->get();
+        $orderCategoryDefined = $config->getOrderCategoryId() > 0;
+
         $personRepository = $this->get('repository.person');
         $userRepository = $this->get('repository.user');
         if (count($positionList) > 0) {
             $person = new Person();
             $person->setUnitId($id);
             $userId = $request->request->getInt('userId');
+            $orderId = $request->request->getInt('orderId');
+            $attachmentRepository = $this->get('repository.attachment');
             $form = $this->createForm(PersonForm::class, $person, [
                 'action' => $request->getCurrentUrl([], [
                     'deletedId',
                 ]),
-                'config' => $this->get('manager.config')
-                    ->get(),
+                'config' => $config,
+                'order' => $orderCategoryDefined && $orderId > 0 ? $attachmentRepository->getOneBy([
+                    'id' => $orderId,
+                ]) : null,
                 'positions' => $positionList,
                 'user' => $userId > 0 ? $userRepository->getOneBy([
                     'id' => $userId,
@@ -250,6 +266,7 @@ class UnitsController extends Controller
         $this->getView('Admin/Units/PersonManage', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
+            'orderCategoryDefined' => $orderCategoryDefined,
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();

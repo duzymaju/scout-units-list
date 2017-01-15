@@ -5,8 +5,10 @@ namespace ScoutUnitsList\Form;
 use ScoutUnitsList\Form\Field\IntegerAutocompleteType;
 use ScoutUnitsList\Form\Field\IntegerType;
 use ScoutUnitsList\Form\Field\SelectType;
+use ScoutUnitsList\Form\Field\StringHiddenType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
+use ScoutUnitsList\Model\Attachment;
 use ScoutUnitsList\Model\Config;
 use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\System\Tools\TypesDependencyTrait;
@@ -126,16 +128,36 @@ class UnitAdminForm extends Form
                 'label' => __('Parent unit', 'scout-units-list'),
                 'valueLabel' => is_object($settings['parentUnit']) && $settings['parentUnit'] instanceof Unit ?
                     $settings['parentUnit']->getName() : null,
-            ])
-            ->addField('orderNo', StringType::class, [
-                'attr' => [
-                    'class' => 'regular-text',
-                    'pattern' => $config->getOrderNoFormat(),
-                    'placeholder' => $config->getOrderNoPlaceholder(),
-                ],
-                'label' => __('Order number', 'scout-units-list'),
-                'required' => true,
-            ])
+            ]);
+        if ($config->getOrderCategoryId() > 0) {
+            $this
+                ->addField('orderId', IntegerAutocompleteType::class, [
+                    'action' => 'sul_orders',
+                    'attr' => [
+                        'class' => 'regular-text',
+                    ],
+                    'label' => __('Order number', 'scout-units-list'),
+                    'required' => true,
+                    'valueField' => 'input[name="orderNo"]',
+                    'valueLabel' => is_object($settings['order']) && $settings['order'] instanceof Attachment ?
+                        $settings['order']->getTitle() : null,
+                ])
+                ->addField('orderNo', StringHiddenType::class, [
+                    'required' => true,
+                ]);
+        } else {
+            $this
+                ->addField('orderNo', StringType::class, [
+                    'attr' => [
+                        'class' => 'regular-text',
+                        'pattern' => $config->getOrderNoFormat(),
+                        'placeholder' => $config->getOrderNoPlaceholder(),
+                    ],
+                    'label' => __('Order number', 'scout-units-list'),
+                    'required' => true,
+                ]);
+        }
+        $this
             ->addField('name', StringType::class, [
                 'attr' => [
                     'class' => 'regular-text',

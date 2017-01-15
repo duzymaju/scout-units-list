@@ -34,6 +34,7 @@ class PersonRepository extends Repository
             ->setStructureElement('userId', DbManager::TYPE_DECIMAL, 'user_id')
             ->setStructureElement('unitId', DbManager::TYPE_DECIMAL, 'unit_id')
             ->setStructureElement('positionId', DbManager::TYPE_DECIMAL, 'position_id')
+            ->setStructureElement('orderId', DbManager::TYPE_DECIMAL, 'order_id')
             ->setStructureElement('orderNo', DbManager::TYPE_STRING, 'order_no');
     }
 
@@ -115,7 +116,7 @@ class PersonRepository extends Repository
         if ($leaderOnly) {
             $positionsParams['leader'] = 1;
         }
-        $positions = $positionRepository->getBy($positionsParams);
+        $positions = count($positionsParams['id']) > 0 ? $positionRepository->getBy($positionsParams) : [];
         $positionsByIds = [];
         foreach ($positions as $position) {
             $positionsByIds[$position->getId()] = $position;
@@ -132,7 +133,7 @@ class PersonRepository extends Repository
 
         // Include users if necessary
         $usersByIds = [];
-        if ($includeUsers) {
+        if ($includeUsers && count($userIds) > 0) {
             $users = $userRepository->getBy([
                 'id' => $userIds,
             ]);

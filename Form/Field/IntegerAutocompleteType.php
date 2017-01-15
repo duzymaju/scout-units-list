@@ -13,6 +13,9 @@ class IntegerAutocompleteType extends IntegerType
     protected $action;
 
     /** @var string|null */
+    protected $valueField;
+
+    /** @var string|null */
     protected $valueLabel;
 
     /**
@@ -23,6 +26,7 @@ class IntegerAutocompleteType extends IntegerType
     protected function setup(array $settings)
     {
         $this->action = array_key_exists('action', $settings) ? $settings['action'] : null;
+        $this->valueField = array_key_exists('valueField', $settings) ? $settings['valueField'] : null;
         $this->valueLabel = array_key_exists('valueLabel', $settings) ? $settings['valueLabel'] : null;
     }
 
@@ -42,6 +46,7 @@ class IntegerAutocompleteType extends IntegerType
                 'filled' => isset($this->valueLabel) && $this->getValue() !== null,
                 'name' => $this->getName(),
                 'value' => $this->getValue(),
+                'valueField' => $this->valueField,
                 'valueLabel' => $this->valueLabel,
             ]);
             $partial->render();

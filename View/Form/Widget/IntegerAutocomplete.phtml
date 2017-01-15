@@ -1,6 +1,7 @@
 <div class="autocomplete-box<?php echo $this->filled ? ' autocomplete-filled' : ''; ?>">
     <input type="text"<?php echo $this->attr; ?>>
     <input type="hidden" data-autocomplete-action="<?php echo $this->escape($this->action); ?>"
+        <?php if ($this->valueField): ?>data-autocomplete-value-field="<?php echo $this->escape($this->valueField) ?>"<?php endif; ?>
         name="<?php echo $this->escape($this->name); ?>" value="<?php echo $this->escape($this->value); ?>">
     <span class="autocomplete-value"><?php echo $this->filled ? $this->escape($this->valueLabel) : ''; ?></span>
 </div>

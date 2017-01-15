@@ -59,6 +59,32 @@ class ApiController extends Controller
     }
 
     /**
+     * Orders action
+     */
+    public function ordersAction()
+    {
+        $list = [];
+        $orderCategoryId = $this->get('manager.config')
+            ->get()
+            ->getOrderCategoryId();
+        if ($orderCategoryId > 0) {
+            $term = $this->request->query->getString('term');
+
+            $orders = $this->loader->get('repository.attachment')
+                ->findMatchedTitles($term, $orderCategoryId);
+
+            foreach ($orders as $id => $title) {
+                $list[] =[
+                    'id' => $id,
+                    'value' => $title,
+                ];
+            }
+        }
+
+        $this->sendResponse($list);
+    }
+
+    /**
      * Send response
      *
      * @param array $data data

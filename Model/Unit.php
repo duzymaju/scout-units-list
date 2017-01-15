@@ -71,6 +71,12 @@ class Unit implements ModelInterface
     /** @var self|null */
     protected $parent;
 
+    /** @var int|null */
+    protected $orderId;
+
+    /** @var Attachment|null */
+    protected $order;
+
     /** @var string */
     protected $orderNo;
 
@@ -275,6 +281,54 @@ class Unit implements ModelInterface
     public function setParent(self $parent)
     {
         $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get order ID
+     *
+     * @return int|null
+     */
+    public function getOrderId()
+    {
+        return $this->orderId;
+    }
+
+    /**
+     * Set order ID
+     *
+     * @param int|null $orderId order ID
+     *
+     * @return self
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return Attachment|null
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Set order
+     *
+     * @param Attachment $order order
+     *
+     * @return self
+     */
+    public function setOrder(Attachment $order)
+    {
+        $this->order = $order;
 
         return $this;
     }

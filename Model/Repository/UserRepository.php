@@ -138,7 +138,8 @@ class UserRepository extends NativeRepository
     /**
      * Find by name
      * 
-     * @param string $name name
+     * @param string $name  name
+     * @param int    $limit limit
      *
      * @return array
      */

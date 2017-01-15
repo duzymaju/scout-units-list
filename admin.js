@@ -28,54 +28,65 @@
     };
 
     $.fn.autocompleteInit = function () {
-        var hidden = $(this);
-        if (hidden.length !== 1) {
-            return;
-        }
-
-        var autocompleteAction = hidden.data('autocomplete-action');
-        var box = hidden.closest('.autocomplete-box');
-        var text = box.find('input[type="text"]');
-        var boxFilledClass = 'autocomplete-filled';
-
-        var valueBox = box.find('.autocomplete-value');
-        var valueText = $('<span>');
-        valueText.text(valueBox.text());
-        var valueClear = $('<span class="autocomplete-clear">×</span>');
-        valueBox.text(' ')
-            .prepend(valueText)
-            .append(valueClear);
-        if (box.hasClass(boxFilledClass)) {
-            text.disableField();
-        }
-
-        text.autocomplete({
-            delay: 500,
-            minLength: 2,
-            select: function (event, ui) {
-                hidden.val(ui.item.id);
-                valueText.text(ui.item.value);
-                box.addClass(boxFilledClass);
-                text.disableField();
-                return false;
-            },
-            source: function (request, response) {
-                $.ajax({
-                    dataType: 'json',
-                    data: {
-                        action: autocompleteAction,
-                        term: request.term,
-                        type: autocompleteType
-                    },
-                    success: response,
-                    url: sul.ajaxUrl
-                });
+        $(this).each(function () {
+            var hidden = $(this);
+            if (hidden.length !== 1) {
+                return;
             }
-        });
-        valueClear.on('click', function () {
-            hidden.val('');
-            box.removeClass(boxFilledClass);
-            text.enableField();
+
+            var action = hidden.data('autocomplete-action');
+            var valueFieldSelector = hidden.data('autocomplete-value-field');
+            var valueField = typeof valueFieldSelector !== 'undefined' ?
+                hidden.closest('form').find(valueFieldSelector) : null;
+            var box = hidden.closest('.autocomplete-box');
+            var text = box.find('input[type="text"]');
+            var boxFilledClass = 'autocomplete-filled';
+
+            var valueBox = box.find('.autocomplete-value');
+            var valueText = $('<span>');
+            valueText.text(valueBox.text());
+            var valueClear = $('<span class="autocomplete-clear">×</span>');
+            valueBox.text(' ')
+                .prepend(valueText)
+                .append(valueClear);
+            if (box.hasClass(boxFilledClass)) {
+                text.disableField();
+            }
+
+            text.autocomplete({
+                delay: 500,
+                minLength: 2,
+                select: function (event, ui) {
+                    hidden.val(ui.item.id);
+                    valueText.text(ui.item.value);
+                    box.addClass(boxFilledClass);
+                    text.disableField();
+                    if (valueField) {
+                        valueField.val(ui.item.value);
+                    }
+                    return false;
+                },
+                source: function (request, response) {
+                    $.ajax({
+                        dataType: 'json',
+                        data: {
+                            action: action,
+                            term: request.term,
+                            type: autocompleteType
+                        },
+                        success: response,
+                        url: sul.ajaxUrl
+                    });
+                }
+            });
+            valueClear.on('click', function () {
+                hidden.val('');
+                box.removeClass(boxFilledClass);
+                text.enableField();
+                if (valueField) {
+                    valueField.val('');
+                }
+            });
         });
     };
     

@@ -23,6 +23,7 @@ use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Manager\MessageManager;
 use ScoutUnitsList\Manager\MigrationManager;
 use ScoutUnitsList\Manager\RoleManager;
+use ScoutUnitsList\Model\Repository\AttachmentRepository;
 use ScoutUnitsList\Model\Repository\PersonRepository;
 use ScoutUnitsList\Model\Repository\PositionRepository;
 use ScoutUnitsList\Model\Repository\UnitRepository;
@@ -47,6 +48,7 @@ $loader->set('manager.cache', new CacheManager($loader->getPath('Cache'), $confi
     ->set('manager.message', new MessageManager())
     ->set('manager.migration', new MigrationManager($dbManager, $loader->getName() . '_versions',
         $loader->getPath('Migration')))
+    ->set('repository.attachment', new AttachmentRepository($dbManager))
     ->set('repository.person', new PersonRepository($dbManager))
     ->set('repository.position', new PositionRepository($dbManager))
     ->set('repository.unit', new UnitRepository($dbManager))
