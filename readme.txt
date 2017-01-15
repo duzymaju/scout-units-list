@@ -3,7 +3,7 @@ Contributors: duzymaju
 Tags: scouts, zhp, zhr, wosm, wagggs
 Requires at least: 3.0.0
 Tested up to: 4.7
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GNU GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,5 +46,5 @@ To define your own template create `scout-units-list` directory in your current 
 
 == Changelog ==
 
-= 0.1.0 =
+= 0.1 =
 The first version of plugin.
