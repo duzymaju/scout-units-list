@@ -32,6 +32,9 @@
                     $userLink = $this->getLink([
                         'user_id' => $user->getId(),
                     ], 'user-edit.php');
+                    $orderLink = $person->getOrderId() ? $this->getLink([
+                        'item' => $person->getOrderId(),
+                    ], 'upload.php') : null;
                     $deleteLink = $this->getLink([
                         'action' => 'person-manage',
                         'deletedId' => $person->getId(),
@@ -46,9 +49,9 @@
                             </div>
                             <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
                         </td>
-                        <td class="user column-user" data-colname="<?php _e('User', 'scout-units-list'); ?>"><a href="<?php echo $userLink; ?>"><?php  echo $this->escape($user->getDisplayName()); ?></a></td>
+                        <td class="user column-user" data-colname="<?php _e('User', 'scout-units-list'); ?>"><a href="<?php echo $userLink; ?>"><?php echo $this->escape($user->getDisplayName()); ?></a></td>
                         <td class="leader column-leader" data-colname="<?php _e('Unit leader', 'scout-units-list'); ?>"><?php echo $position->isLeader() ? __('Yes', 'scout-units-list') : __('No', 'scout-units-list'); ?></td>
-                        <td class="order column-order" data-colname="<?php _e('Order number', 'scout-units-list'); ?>"><?php echo $this->escape($person->getOrderNo()); ?></td>
+                        <td class="order column-order" data-colname="<?php _e('Order number', 'scout-units-list'); ?>"><?php if ($orderLink): ?><a href="<?php echo $orderLink; ?>" target="_blank"><?php echo $this->escape($person->getOrderNo()); ?></a><?php else: echo $this->escape($person->getOrderNo()); endif; ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

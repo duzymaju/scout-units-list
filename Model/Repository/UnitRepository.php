@@ -8,7 +8,7 @@ use ScoutUnitsList\Model\Unit;
 /**
  * Unit repository
  */
-class UnitRepository extends Repository
+class UnitRepository extends VersionedRepository
 {
     /** @const string */
     const NAME = 'sul_units';
@@ -28,7 +28,8 @@ class UnitRepository extends Repository
      */
     protected function defineStructure()
     {
-        $this->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
+        $this
+            ->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
             ->setStructureElement('status', DbManager::TYPE_STRING)
             ->setStructureElement('type', DbManager::TYPE_STRING)
             ->setStructureElement('subtype', DbManager::TYPE_STRING)
@@ -46,7 +47,23 @@ class UnitRepository extends Repository
             ->setStructureElement('address', DbManager::TYPE_STRING)
             ->setStructureElement('meetingsTime', DbManager::TYPE_STRING, 'meetings_time')
             ->setStructureElement('localizationLat', DbManager::TYPE_FLOAT, 'localization_lat')
-            ->setStructureElement('localizationLng', DbManager::TYPE_FLOAT, 'localization_lng');
+            ->setStructureElement('localizationLng', DbManager::TYPE_FLOAT, 'localization_lng')
+        ;
+        parent::defineStructure();
+    }
+
+    /**
+     * Modify old version
+     *
+     * @param Unit $oldUnitVersion old unit version
+     *
+     * @return Unit
+     */
+    protected function modifyOldVersion(Unit $oldUnitVersion)
+    {
+        $oldUnitVersion->setSlug(null);
+
+        return $oldUnitVersion;
     }
 
     /**
@@ -61,9 +78,10 @@ class UnitRepository extends Repository
     public function findByNameAndTypes($name, array $types = null, $limit = 10)
     {
         $statement = $this->db->prepare('SELECT * FROM `' . $this->getTableName() . '` ' .
-                'WHERE (`name` LIKE :name || `name_full` LIKE :name)' .
+                'WHERE (`name` LIKE :name || `name_full` LIKE :name) && `group_id` = 0 && `action` IN (:actions)' .
                 (isset($types) ? ' && `type` IN (:types)' : '') . ' LIMIT ' . ((int) $limit))
-            ->setParam('name', '%' . $this->escapeLike($name) . '%');
+            ->setParam('name', '%' . $this->escapeLike($name) . '%')
+            ->setParam('actions', $this->getActionsExceptRemoved());
         if (isset($types)) {
             $statement->setParam('types', $types);
         }
@@ -88,7 +106,7 @@ class UnitRepository extends Repository
     public function getUniqueSlug(Unit $unit)
     {
         $slug = $unit->getSlug();
-        $query = $this->db->prepare('SELECT slug FROM `' . $this->getTableName() . '` WHERE `slug` LIKE :slug')
+        $query = $this->db->prepare('SELECT `slug` FROM `' . $this->getTableName() . '` WHERE `slug` LIKE :slug')
             ->setParam('slug', $this->escapeLike($slug) . '%')
             ->getQuery();
         $results = $this->db->getResults($query, ARRAY_A);

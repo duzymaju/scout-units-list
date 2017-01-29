@@ -11,6 +11,9 @@ use wpdb;
 class DbManager
 {
     /** @const string */
+    const TYPE_DATETIME = '%dt';
+
+    /** @const string */
     const TYPE_DECIMAL = '%d';
 
     /** @const string */

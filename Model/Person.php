@@ -5,8 +5,10 @@ namespace ScoutUnitsList\Model;
 /**
  * Person model
  */
-class Person implements ModelInterface
+class Person implements VersionedModelInterface
 {
+    use VersionedModelTrait;
+
     /** @var int */
     protected $id;
 

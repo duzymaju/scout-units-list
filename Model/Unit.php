@@ -7,9 +7,10 @@ use ScoutUnitsList\System\Tools\StringTrait;
 /**
  * Unit model
  */
-class Unit implements ModelInterface
+class Unit implements VersionedModelInterface
 {
     use StringTrait;
+    use VersionedModelTrait;
 
     /** @const string */
     const STATUS_ACTIVE = 'a';
@@ -80,7 +81,7 @@ class Unit implements ModelInterface
     /** @var string */
     protected $orderNo;
 
-    /** @var string */
+    /** @var string|null */
     protected $slug;
 
     /** @var string */
@@ -360,7 +361,7 @@ class Unit implements ModelInterface
     /**
      * Get slug
      *
-     * @return string
+     * @return string|null
      */
     public function getSlug()
     {
@@ -370,13 +371,13 @@ class Unit implements ModelInterface
     /**
      * Set slug
      *
-     * @param string $slug slug
+     * @param string|null $slug slug
      *
      * @return self
      */
     public function setSlug($slug)
     {
-        $this->slug = $this->convertToSlug($slug);
+        $this->slug = empty($slug) ? null : $this->convertToSlug($slug);
 
         return $this;
     }

@@ -83,6 +83,8 @@ class UnitsController extends Controller
         $unit = $id > 0 ? $unitRepository->getOneByOr404([
                 'id' => $id,
             ]) : new Unit();
+        $unit->setOrderId(null)
+            ->setOrderNo(null);
 
         $messageManager = $this->get('manager.message');
 
@@ -110,6 +112,10 @@ class UnitsController extends Controller
                 }
                 $unitRepository->save($unit);
                 $messageManager->addSuccess(__('Unit was successfully saved.', 'scout-units-list'));
+                $form->clear([
+                    'orderId',
+                    'orderNo',
+                ]);
             } catch (Exception $e) {
                 unlink($e);
                 $messageManager->addError(__('An error occured during unit saving.', 'scout-units-list'));
@@ -190,6 +196,7 @@ class UnitsController extends Controller
             'id' => $id,
         ]);
 
+        $attachmentRepository = $this->get('repository.attachment');
         $messageManager = $this->get('manager.message');
 
         $positionList = [];
@@ -212,7 +219,6 @@ class UnitsController extends Controller
             $person->setUnitId($id);
             $userId = $request->request->getInt('userId');
             $orderId = $request->request->getInt('orderId');
-            $attachmentRepository = $this->get('repository.attachment');
             $form = $this->createForm(PersonForm::class, $person, [
                 'action' => $request->getCurrentUrl([], [
                     'deletedId',
@@ -261,7 +267,7 @@ class UnitsController extends Controller
         }
         $personRepository->setPersonsToUnits([
             $unit,
-        ], $userRepository, $positionRepository, true, false);
+        ], $positionRepository, $userRepository, $attachmentRepository, false);
 
         $this->getView('Admin/Units/PersonManage', [
             'form' => $form,

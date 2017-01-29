@@ -200,13 +200,17 @@ abstract class Form extends FormElement
     /**
      * Clear
      *
+     * @param array|null $fieldNames field names
+     *
      * @return self
      */
-    public function clear()
+    public function clear(array $fieldNames = null)
     {
         parent::clear();
         foreach ($this->fields as $field) {
-            $field->clear();
+            if (!is_array($fieldNames) || in_array($field->getName(), $fieldNames)) {
+                $field->clear();
+            }
         }
 
         return $this;

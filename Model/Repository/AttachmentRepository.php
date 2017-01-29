@@ -28,15 +28,17 @@ class AttachmentRepository extends NativeRepository
      */
     protected function defineStructure()
     {
-        $this->setStructureElement('id', DbManager::TYPE_DECIMAL, 'ID', true)
+        $this
+            ->setStructureElement('id', DbManager::TYPE_DECIMAL, 'ID', true)
             ->setStructureElement('authorId', DbManager::TYPE_DECIMAL, 'post_author')
             ->setStructureElement('title', DbManager::TYPE_STRING, 'post_title')
             ->setStructureElement('slug', DbManager::TYPE_STRING, 'post_name')
             ->setStructureElement('url', DbManager::TYPE_STRING, 'guid')
             ->setStructureElement('type', DbManager::TYPE_STRING, 'post_type')
             ->setStructureElement('mimeType', DbManager::TYPE_STRING, 'post_mime_type')
-            ->setStructureElement('createdAt', DbManager::TYPE_STRING, 'post_date')
-            ->setStructureElement('updatedAt', DbManager::TYPE_STRING, 'post_modified');
+            ->setStructureElement('createdAt', DbManager::TYPE_DATETIME, 'post_date')
+            ->setStructureElement('updatedAt', DbManager::TYPE_DATETIME, 'post_modified')
+        ;
     }
 
     /**

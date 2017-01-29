@@ -107,9 +107,11 @@ register_deactivation_hook(__FILE__, [
     $installController,
     'deactivate',
 ]);
-function sul_uninstall() {
-    global $installController;
-    return $installController->uninstall();
+if (function_exists('sul_uninstall')) {
+    function sul_uninstall() {
+        global $installController;
+        return $installController->uninstall();
+    }
 }
 register_uninstall_hook(__FILE__, 'sul_uninstall');
 

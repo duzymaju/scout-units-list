@@ -10,7 +10,7 @@ use ScoutUnitsList\Model\User;
 /**
  * Person repository
  */
-class PersonRepository extends Repository
+class PersonRepository extends VersionedRepository
 {
     /** @const string */
     const NAME = 'sul_persons';
@@ -30,12 +30,15 @@ class PersonRepository extends Repository
      */
     protected function defineStructure()
     {
-        $this->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
+        $this
+            ->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
             ->setStructureElement('userId', DbManager::TYPE_DECIMAL, 'user_id')
             ->setStructureElement('unitId', DbManager::TYPE_DECIMAL, 'unit_id')
             ->setStructureElement('positionId', DbManager::TYPE_DECIMAL, 'position_id')
             ->setStructureElement('orderId', DbManager::TYPE_DECIMAL, 'order_id')
-            ->setStructureElement('orderNo', DbManager::TYPE_STRING, 'order_no');
+            ->setStructureElement('orderNo', DbManager::TYPE_STRING, 'order_no')
+        ;
+        parent::defineStructure();
     }
 
     /**
@@ -65,14 +68,16 @@ class PersonRepository extends Repository
     {
         $query = $this->db
             ->prepare('
-                SELECT pe.unit_id
+                SELECT pe.`unit_id`
                     FROM `' . $this->getTableName() . '` pe
                     INNER JOIN `' . $this->getTableName(PositionRepository::NAME) . '` po
-                    ON pe.position_id = po.id
-                    WHERE pe.user_id = :userId && po.leader = :leader
+                    ON pe.`position_id` = po.`id`
+                    WHERE pe.`user_id` = :userId && po.`leader` = :leader && pe.`group_id` = 0 &&
+                        pe.`action` IN (:actions)
             ')
             ->setParam('userId', $user->getId())
             ->setParam('leader', 1)
+            ->setParam('actions', $this->getActionsExceptRemoved())
             ->getQuery();
         $ids = [];
         foreach ($this->db->getColumn($query) as $id) {
@@ -85,16 +90,16 @@ class PersonRepository extends Repository
     /**
      * Set persons to units
      *
-     * @param Unit[]             $units              units
-     * @param UserRepository     $userRepository     user repository
-     * @param PositionRepository $positionRepository position repository
-     * @param bool               $includeUsers       include users
-     * @param bool               $leaderOnly         leader only
+     * @param Unit[]                    $units                units
+     * @param PositionRepository        $positionRepository   position repository
+     * @param UserRepository|null       $userRepository       user repository (to include users)
+     * @param AttachmentRepository|null $attachmentRepository attachment repository (to include orders)
+     * @param bool                      $leaderOnly           leader only
      *
      * @return self
      */
-    public function setPersonsToUnits(array $units, UserRepository $userRepository,
-        PositionRepository $positionRepository, $includeUsers = false, $leaderOnly = true)
+    public function setPersonsToUnits(array $units, PositionRepository $positionRepository,
+        UserRepository $userRepository = null, AttachmentRepository $attachmentRepository = null, $leaderOnly = true)
     {
         // Get persons
         $unitsByIds = [];
@@ -124,16 +129,20 @@ class PersonRepository extends Repository
 
         // Set positions to persons
         $userIds = [];
+        $orderIds = [];
         foreach ($persons as $person) {
             if (array_key_exists($person->getPositionId(), $positionsByIds)) {
                 $person->setPosition($positionsByIds[$person->getPositionId()]);
                 $userIds[] = $person->getUserId();
+                if ($person->getOrderId()) {
+                    $orderIds[] = $person->getOrderId();
+                }
             }
         }
 
         // Include users if necessary
         $usersByIds = [];
-        if ($includeUsers && count($userIds) > 0) {
+        if ($userRepository && count($userIds) > 0) {
             $users = $userRepository->getBy([
                 'id' => $userIds,
             ]);
@@ -142,15 +151,29 @@ class PersonRepository extends Repository
             }
         }
 
+        // Include orders if necessary
+        $ordersByIds = [];
+        if ($attachmentRepository && count($orderIds) > 0) {
+            $orders = $attachmentRepository->getBy([
+                'id' => $orderIds,
+            ]);
+            foreach ($orders as $order) {
+                $ordersByIds[$order->getId()] = $order;
+            }
+        }
+
         // Add complete persons to units
         foreach ($persons as $person) {
-            if ((!$includeUsers || array_key_exists($person->getUserId(), $usersByIds)) &&
+            if ((!$userRepository || array_key_exists($person->getUserId(), $usersByIds)) &&
                 array_key_exists($person->getUnitId(), $unitsByIds) && $person->getPosition()) {
-                if ($includeUsers) {
-                    $person->setUnit($unitsByIds[$person->getUnitId()]);
+                if ($userRepository) {
+                    $person->setUser($usersByIds[$person->getUserId()]);
                 }
-                $person->setUser($usersByIds[$person->getUserId()]);
+                $person->setUnit($unitsByIds[$person->getUnitId()]);
                 $unitsByIds[$person->getUnitId()]->addPerson($person);
+            }
+            if ($attachmentRepository && array_key_exists($person->getOrderId(), $ordersByIds)) {
+                $person->setOrder($ordersByIds[$person->getOrderId()]);
             }
         }
 

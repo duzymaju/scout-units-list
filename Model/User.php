@@ -2,7 +2,7 @@
 
 namespace ScoutUnitsList\Model;
 
-use DateTime;
+use ScoutUnitsList\System\Tools\DateTime;
 
 /**
  * User model
@@ -289,7 +289,7 @@ class User implements ModelInterface
     /**
      * Set URL
      *
-     * @param DateTime|string $url URL
+     * @param string $url URL
      *
      * @return self
      */

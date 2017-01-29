@@ -101,7 +101,6 @@ abstract class BasicType extends FormElement
         return $this->isRequired;
     }
 
-
     /**
      * Get attributes as string
      * 

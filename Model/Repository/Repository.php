@@ -119,6 +119,52 @@ abstract class Repository
     }
 
     /**
+     * Copy
+     *
+     * @param ModelInterface $model model
+     *
+     * @return ModelInterface
+     */
+    protected function copy(ModelInterface $model)
+    {
+        $modelClass = $this->getModel();
+        $copiedModel = new $modelClass();
+        foreach (array_keys($this->getMap(false)) as $modelKey) {
+            $this->setValue($copiedModel, $modelKey, $this->getValue($model, $modelKey));
+        }
+
+        return $copiedModel;
+    }
+
+    /**
+     * Get value
+     *
+     * @param ModelInterface $model        model
+     * @param string         $key          key
+     * @param mixed          $defaultValue default value
+     *
+     * @return self
+     */
+    protected function getValue(ModelInterface $model, $key, $defaultValue = null)
+    {
+        $ucName = ucfirst($key);
+        $methodGet = 'get' . $ucName;
+        $methodIs = 'is' . $ucName;
+        $methodHas = 'has' . $ucName;
+        if (method_exists($model, $methodGet)) {
+            $value = $model->$methodGet();
+        } elseif (method_exists($model, $methodIs)) {
+            $value = $model->$methodIs();
+        } elseif (method_exists($model, $methodHas)) {
+            $value = $model->$methodHas();
+        } else {
+            $value = $defaultValue;
+        }
+
+        return $value;
+    }
+
+    /**
      * Set value
      *
      * @param ModelInterface $model model
@@ -165,17 +211,13 @@ abstract class Repository
         }
 
         foreach ($this->getMap(false, true) as $key => $element) {
-            $ucName = ucfirst($key);
-            $methodGet = 'get' . $ucName;
-            $methodIs = 'is' . $ucName;
-            $methodHas = 'has' . $ucName;
-            if (method_exists($model, $methodGet)) {
-                $statement->setParam($element['dbKey'], $model->$methodGet(), $element['type']);
-            } elseif (method_exists($model, $methodIs)) {
-                $statement->setParam($element['dbKey'], $model->$methodIs(), $element['type']);
-            } elseif (method_exists($model, $methodHas)) {
-                $statement->setParam($element['dbKey'], $model->$methodHas(), $element['type']);
+            if ($element['type'] == DbManager::TYPE_DATETIME) {
+                $value = (string) $this->getValue($model, $key);
+                $element['type'] = DbManager::TYPE_STRING;
+            } else {
+                $value = $this->getValue($model, $key);
             }
+            $statement->setParam($element['dbKey'], $value, $element['type']);
         }
         $statement->execute();
 
@@ -210,7 +252,7 @@ abstract class Repository
      */
     public function countBy(array $conditions)
     {
-        $query = 'SELECT COUNT(*) FROM ' . $this->getTableName();
+        $query = 'SELECT COUNT(*) FROM `' . $this->getTableName() . '`';
 
         $where = $this->getConditionsToQuery($conditions);
         if (count($where) > 0) {
@@ -341,7 +383,7 @@ abstract class Repository
             $dbKey = $this->getDbKey($key);
             if (isset($dbKey)) {
                 $key = $this->escape($dbKey);
-                $where[] = is_array($value) ? $key . ' IN (:' . $key . ')' : $key . '=:' . $key;
+                $where[] = is_array($value) ? $key . ' IN (:' . $key . ')' : $key . ' = :' . $key;
             }
         }
 

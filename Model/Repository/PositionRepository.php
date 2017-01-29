@@ -28,11 +28,13 @@ class PositionRepository extends Repository
      */
     protected function defineStructure()
     {
-        $this->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
+        $this
+            ->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
             ->setStructureElement('type', DbManager::TYPE_STRING)
             ->setStructureElement('nameMale', DbManager::TYPE_STRING, 'name_male')
             ->setStructureElement('nameFemale', DbManager::TYPE_STRING, 'name_female')
             ->setStructureElement('description', DbManager::TYPE_STRING)
-            ->setStructureElement('leader', DbManager::TYPE_DECIMAL);
+            ->setStructureElement('leader', DbManager::TYPE_DECIMAL)
+        ;
     }
 }

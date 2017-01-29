@@ -30,14 +30,16 @@ class UserRepository extends NativeRepository
      */
     protected function defineStructure()
     {
-        $this->setStructureElement('id', DbManager::TYPE_DECIMAL, 'ID', true)
+        $this
+            ->setStructureElement('id', DbManager::TYPE_DECIMAL, 'ID', true)
             ->setStructureElement('login', DbManager::TYPE_STRING, 'user_login')
             ->setStructureElement('niceName', DbManager::TYPE_STRING, 'user_nicename')
             ->setStructureElement('email', DbManager::TYPE_STRING, 'user_email')
             ->setStructureElement('url', DbManager::TYPE_STRING, 'user_url')
-            ->setStructureElement('registered', DbManager::TYPE_STRING, 'user_registered')
+            ->setStructureElement('registered', DbManager::TYPE_DATETIME, 'user_registered')
             ->setStructureElement('status', DbManager::TYPE_DECIMAL, 'user_status')
-            ->setStructureElement('displayName', DbManager::TYPE_STRING, 'display_name');
+            ->setStructureElement('displayName', DbManager::TYPE_STRING, 'display_name')
+        ;
     }
 
     /**
@@ -145,8 +147,8 @@ class UserRepository extends NativeRepository
      */
     public function findByName($name, $limit = 10)
     {
-        $query = $this->db->prepare('SELECT ID, user_login, display_name FROM wp_users ' .
-                'WHERE user_login LIKE :name || user_nicename LIKE :name LIMIT ' . ((int) $limit))
+        $query = $this->db->prepare('SELECT `ID`, `user_login`, `display_name` FROM `' . $this->getTableName() .
+            '` WHERE `user_login` LIKE :name || `user_nicename` LIKE :name LIMIT ' . ((int) $limit))
             ->setParam('name', '%' . $this->escapeLike($name) . '%')
             ->getQuery();
         $results = $this->db->getResults($query, ARRAY_A);

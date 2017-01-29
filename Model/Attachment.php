@@ -2,7 +2,7 @@
 
 namespace ScoutUnitsList\Model;
 
-use DateTime;
+use ScoutUnitsList\System\Tools\DateTime;
 
 /**
  * Attachment model
