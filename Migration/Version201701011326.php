@@ -31,8 +31,8 @@ class Version201701011326 extends Version
                     `description` varchar(100) COLLATE utf8_polish_ci DEFAULT NULL,
                     `leader` bool NOT NULL DEFAULT 0,
                     PRIMARY KEY (`id`),
-                    INDEX `' . $this->getIndexName($positionName, 1) . '` (`type`),
-                    INDEX `' . $this->getIndexName($positionName, 2) . '` (`leader`)
+                    INDEX `' . $this->getOldIndexName($positionName, 1) . '` (`type`),
+                    INDEX `' . $this->getOldIndexName($positionName, 2) . '` (`leader`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
             ')
             ->addSql('
@@ -56,11 +56,11 @@ class Version201701011326 extends Version
                     `localization_lat` float(10,6) DEFAULT NULL,
                     `localization_lng` float(10,6) DEFAULT NULL,
                     PRIMARY KEY (`id`),
-                    INDEX `' . $this->getIndexName($unitName, 1) . '` (`status`),
-                    INDEX `' . $this->getIndexName($unitName, 2) . '` (`type`),
-                    INDEX `' . $this->getIndexName($unitName, 3) . '` (`subtype`),
-                    INDEX `' . $this->getIndexName($unitName, 4) . '` (`parent_id`),
-                    UNIQUE `' . $this->getIndexName($unitName, 5) . '` (`slug`),
+                    INDEX `' . $this->getOldIndexName($unitName, 1) . '` (`status`),
+                    INDEX `' . $this->getOldIndexName($unitName, 2) . '` (`type`),
+                    INDEX `' . $this->getOldIndexName($unitName, 3) . '` (`subtype`),
+                    INDEX `' . $this->getOldIndexName($unitName, 4) . '` (`parent_id`),
+                    UNIQUE `' . $this->getOldIndexName($unitName, 5) . '` (`slug`),
                     FOREIGN KEY (`parent_id`)
                         REFERENCES `' . $this->getTableName($unitName) . '` (`id`)
                         ON DELETE CASCADE
@@ -74,7 +74,7 @@ class Version201701011326 extends Version
                     `position_id` int(10) UNSIGNED NOT NULL,
                     `order_no` varchar(50) COLLATE utf8_polish_ci NOT NULL,
                     PRIMARY KEY (`id`),
-                    UNIQUE `' . $this->getIndexName($personName, 1) . '` (`user_id`, `unit_id`, `position_id`),
+                    UNIQUE `' . $this->getOldIndexName($personName, 1) . '` (`user_id`, `unit_id`, `position_id`),
                     FOREIGN KEY (`user_id`)
                         REFERENCES `' . $this->getTableName('users') . '` (`ID`)
                         ON DELETE CASCADE,
@@ -105,5 +105,22 @@ class Version201701011326 extends Version
                 DROP TABLE IF EXISTS `' . $this->getTableName(PositionRepository::NAME) . '`;
             ')
         ;
+    }
+
+    /**
+     * Get old index name
+     *
+     * @param string $name name
+     * @param int    $no   no
+     *
+     * @return string
+     */
+    private function getOldIndexName($name, $no)
+    {
+        $prefix = 'sul_';
+        $indexName = $this->getIndexName($name, $no);
+        $oldIndexName = strpos($indexName, $prefix) === 0 ? substr($indexName, strlen($prefix)) : $indexName;
+
+        return $oldIndexName;
     }
 }
