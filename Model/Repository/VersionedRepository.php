@@ -30,38 +30,16 @@ abstract class VersionedRepository extends Repository
      * @param VersionedModelInterface $model model
      *
      * @return self
-     *
-     * @throws RepositoryException
      */
     public function save(VersionedModelInterface $model)
     {
         if ($model->getId() == null) {
-            $model
-                ->setGroupId(0)
-                ->setAction(VersionedModelInterface::ACTION_INSERTED)
-                ->setCreatedAt(new DateTime())
-            ;
+            $this->saveNewVersion($model, VersionedModelInterface::ACTION_INSERTED);
         } else {
-            $oldModel = $this->getOneBy([
-                'id' => $model->getId(),
-            ]);
-            if (!isset($oldModel)) {
-                throw new RepositoryException(sprintf('Model %s (ID %d) doesn\'t exist in database.',
-                    get_class($model), $model->getId()));
-            }
-
-            $oldVersion = $this->copy($oldModel);
-            $oldVersion->setGroupId($model->getId());
-            $this->modifyOldVersion($oldVersion);
+            $oldVersion = $this->getOldVersion($model);
+            $this->saveNewVersion($model, VersionedModelInterface::ACTION_MODIFIED);
             parent::save($oldVersion);
-
-            $model
-                ->setGroupId(0)
-                ->setAction(VersionedModelInterface::ACTION_MODIFIED)
-                ->setCreatedAt(new DateTime())
-            ;
         }
-        parent::save($model);
 
         return $this;
     }
@@ -75,8 +53,11 @@ abstract class VersionedRepository extends Repository
      */
     public function delete(VersionedModelInterface $model)
     {
-        $model->setAction(VersionedModelInterface::ACTION_REMOVED);
-        parent::save($model);
+        if ($model->getId() != null) {
+            $oldVersion = $this->getOldVersion($model);
+            $this->saveNewVersion($model, VersionedModelInterface::ACTION_REMOVED);
+            parent::save($oldVersion);
+        }
 
         return $this;
     }
@@ -110,6 +91,52 @@ abstract class VersionedRepository extends Repository
         $response = parent::getBy($this->improveConditions($conditions), $order, $limit, $offset);
 
         return $response;
+    }
+
+    /**
+     * Get old version
+     *
+     * @param VersionedModelInterface $model model
+     *
+     * @return VersionedModelInterface
+     *
+     * @throws RepositoryException
+     */
+    private function getOldVersion(VersionedModelInterface $model)
+    {
+        $oldModel = $this->getOneBy([
+            'id' => $model->getId(),
+        ]);
+        if (!isset($oldModel)) {
+            throw new RepositoryException(sprintf('Model %s (ID %d) doesn\'t exist in database.', get_class($model),
+                $model->getId()));
+        }
+
+        $oldVersion = $this->copy($oldModel);
+        $oldVersion->setGroupId($model->getId());
+        $this->modifyOldVersion($oldVersion);
+
+        return $oldVersion;
+    }
+
+    /**
+     * Save new version
+     *
+     * @param VersionedModelInterface $model  model
+     * @param string                  $action action
+     *
+     * @return self
+     */
+    private function saveNewVersion(VersionedModelInterface $model, $action)
+    {
+        $model
+            ->setGroupId(0)
+            ->setAction($action)
+            ->setCreatedAt(new DateTime())
+        ;
+        parent::save($model);
+
+        return $this;
     }
 
     /**

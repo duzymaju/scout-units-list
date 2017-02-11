@@ -66,6 +66,16 @@ class Config implements ModelInterface
     }
 
     /**
+     * Is order category defined
+     *
+     * @return bool
+     */
+    public function isOrderCategoryDefined()
+    {
+        return $this->getOrderCategoryId() > 0;
+    }
+
+    /**
      * Set order category ID
      *
      * @param int|null $orderCategoryId order category ID

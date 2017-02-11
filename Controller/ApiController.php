@@ -64,14 +64,13 @@ class ApiController extends Controller
     public function ordersAction()
     {
         $list = [];
-        $orderCategoryId = $this->get('manager.config')
-            ->get()
-            ->getOrderCategoryId();
-        if ($orderCategoryId > 0) {
+        $config = $this->get('manager.config')
+            ->get();
+        if ($config->isOrderCategoryDefined()) {
             $term = $this->request->query->getString('term');
 
             $orders = $this->loader->get('repository.attachment')
-                ->findMatchedTitles($term, $orderCategoryId);
+                ->findMatchedTitles($term, $config->getOrderCategoryId());
 
             foreach ($orders as $id => $title) {
                 $list[] =[

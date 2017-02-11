@@ -90,6 +90,34 @@ abstract class Form extends FormElement
     }
 
     /**
+     * Set action
+     *
+     * @param string $action action
+     *
+     * @return self
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Set model
+     *
+     * @param string $model model
+     *
+     * @return self
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
      * Get model
      *
      * @return ModelInterface

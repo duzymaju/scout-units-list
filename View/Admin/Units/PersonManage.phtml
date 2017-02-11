@@ -14,7 +14,7 @@
         </div>
         <br class="clear">
     </div>
-    <table class="wp-list-table widefat fixed striped pages">
+    <table class="wp-list-table widefat fixed striped pages sul-list">
 	<thead>
             <tr>
                 <th scope="col" id="name" class="manage-column column-primary"><?php _e('Position name', 'scout-units-list'); ?></th>
@@ -23,7 +23,13 @@
                 <th scope="col" id="order" class="manage-column"><?php _e('Order number', 'scout-units-list'); ?></th>
             </tr>
 	</thead>
-	<tbody id="the-list">
+	<tbody id="the-list" data-delete-form-prototype="<?php echo $this->escape(str_replace([
+            '%colspan%',
+            '%25deleteId%25',
+        ], [
+            4,
+            '%deletedId%',
+        ], $this->deleteFormPrototype)); ?>">
             <?php if (count($persons) > 0): ?>
                 <?php foreach ($persons as $person):
                     $position = $person->getPosition();
@@ -35,17 +41,12 @@
                     $orderLink = $person->getOrderId() ? $this->getLink([
                         'item' => $person->getOrderId(),
                     ], 'upload.php') : null;
-                    $deleteLink = $this->getLink([
-                        'action' => 'person-manage',
-                        'deletedId' => $person->getId(),
-                        'id' => $this->unit->getId(),
-                    ]);
                 ?>
-                    <tr>
+                    <tr data-delete-form-name="<?php echo $this->escape($positionName); ?>" data-deleted-id="<?php echo $person->getId(); ?>">
                         <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Position name', 'scout-units-list'); ?>">
                             <strong><?php echo $this->escape($positionName); ?></strong>
                             <div class="row-actions">
-                                <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
+                                <span class="trash"><a class="sul-delete"><?php _e('Delete', 'scout-units-list'); ?></a></span>
                             </div>
                             <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>
                         </td>

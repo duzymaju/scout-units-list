@@ -1,7 +1,7 @@
-.autocomplete-box {
+.sul-form .autocomplete-box {
     position: relative;
 }
-.autocomplete-value {
+.sul-form .autocomplete-value {
     background: #23282d;
     border-radius: 6px;
     color: #eee;
@@ -14,15 +14,21 @@
     top: 4px;
     white-space: nowrap;
 }
-.autocomplete-box.autocomplete-filled .autocomplete-value {
+.sul-form .autocomplete-box.autocomplete-filled .autocomplete-value {
     display: inline-block;
 }
-.autocomplete-clear {
+.sul-form .autocomplete-clear {
     cursor: pointer;
     font-weight: bold;
 }
+.sul-list .autocomplete-value {
+    line-height: 1.5;
+}
+.sul-delete {
+    cursor: pointer;
+}
 
-#sul-localization-map {
+.sul-form #sul-localization-map {
     height: 400px;
     width: 100%;
 }

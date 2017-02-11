@@ -3,6 +3,7 @@
 
     $(document).ready(function () {
         var form = $('form.sul-form');
+        var list = $('table.sul-list');
 
         form.find('input[data-autocomplete-action]')
             .autocompleteInit();
@@ -13,6 +14,8 @@
 
         form.find('#sul-localization-map')
             .mapInit();
+
+        list.versionedItemDeleteForm();
     });
 
     $.fn.enableField = function () {
@@ -181,5 +184,31 @@
         if (coordsSet) {
             addMarker(coords);
         }
+    };
+
+    $.fn.versionedItemDeleteForm = function () {
+        var list = $(this).find('tbody[data-delete-form-prototype]').first();
+        if (list.length !== 1) {
+            return;
+        }
+
+        var prototype = list.data('delete-form-prototype');
+        list.on('click', 'a.sul-delete', function () {
+            var listRow = $(this).closest('tr');
+            var formRow = $(prototype
+                .replace('%name%', listRow.data('delete-form-name'))
+                .replace('%deletedId%', listRow.data('deleted-id'))
+            );
+            listRow.after(formRow);
+            listRow.hide();
+            formRow.find('form.sul-form input[data-autocomplete-action]')
+                .autocompleteInit();
+
+            formRow.find('button.cancel').on('click', function () {
+                formRow.unbind();
+                formRow.remove();
+                listRow.show();
+            });
+        });
     };
 })(document, jQuery, google, sul);

@@ -35,7 +35,7 @@ class PositionsController extends Controller
 
             switch ($action) {
                 case 'form':
-                    $this->formAction($id);
+                    $this->formAction($request, $id);
                     break;
 
                 case 'delete':
@@ -58,12 +58,13 @@ class PositionsController extends Controller
     /**
      * Form action
      *
-     * @param int|null $id ID
+     * @param Request  $request request
+     * @param int|null $id      ID
      */
-    public function formAction($id)
+    public function formAction(Request $request, $id)
     {
         $positionRepository = $this->get('repository.position');
-        $position = $id > 0 ? $positionRepository->getOneByOr404([
+        $position = isset($id) ? $positionRepository->getOneByOr404([
                 'id' => $id,
             ]) : new Position();
 
@@ -74,6 +75,11 @@ class PositionsController extends Controller
             try {
                 // @TODO: set proper slug here instead of inside model - check if there is no duplication
                 $positionRepository->save($position);
+                if (!isset($id)) {
+                    $form->setAction($request->getCurrentUrl([
+                        'id' => $position->getId(),
+                    ]));
+                }
                 $messageManager->addSuccess(__('Position was successfully saved.', 'scout-units-list'));
             } catch (Exception $e) {
                 unlink($e);

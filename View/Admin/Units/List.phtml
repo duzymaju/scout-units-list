@@ -18,7 +18,7 @@
         ]); ?>
         <br class="clear">
     </div>
-    <table class="wp-list-table widefat fixed striped pages">
+    <table class="wp-list-table widefat fixed striped pages sul-list">
 	<thead>
             <tr>
                 <th scope="col" id="name" class="manage-column column-primary"><?php _e('Unit name', 'scout-units-list'); ?></th>
@@ -27,7 +27,13 @@
                 <th scope="col" id="status" class="manage-column"><?php _e('Status', 'scout-units-list'); ?></th>
             </tr>
 	</thead>
-	<tbody id="the-list">
+	<tbody id="the-list" data-delete-form-prototype="<?php echo $this->escape(str_replace([
+            '%colspan%',
+            '%25deleteId%25',
+        ], [
+            4,
+            '%deletedId%',
+        ], $this->deleteFormPrototype)); ?>">
             <?php if (count($this->units) > 0): ?>
                 <?php foreach ($this->units as $unit):
                     $typeName = ScoutUnitsList\Form\UnitAdminForm::getTypeName($unit->getType());
@@ -43,13 +49,9 @@
                         'action' => 'admin-form',
                         'id' => $unit->getId(),
                     ]);
-                    $deleteLink = $this->getLink([
-                        'action' => 'delete',
-                        'id' => $unit->getId(),
-                    ]);
                     $parentUnit = $unit->getParent();
                 ?>
-                    <tr>
+                    <tr data-delete-form-name="<?php echo $this->escape($unit->getName()); ?>" data-deleted-id="<?php echo $unit->getId(); ?>">
                         <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Unit name', 'scout-units-list'); ?>">
                             <strong><a href="<?php echo $configureLink; ?>" aria-label="<?php echo sprintf(__('&#8220;%s&#8221; (Edit)', 'scout-units-list'), $unit->getName()); ?>"><?php echo $this->escape($unit->getName()); ?></a></strong>
                             <div class="row-actions">
@@ -59,7 +61,7 @@
                                 <?php endif; ?>
                                 <?php if (current_user_can('sul_manage_units')): ?>
                                     | <span class="edit"><a href="<?php echo $editLink; ?>"><?php _e('Edit', 'scout-units-list'); ?></a></span>
-                                    | <span class="trash"><a href="<?php echo $deleteLink; ?>"><?php _e('Delete', 'scout-units-list'); ?></a></span>
+                                    | <span class="trash"><a class="sul-delete"><?php _e('Delete', 'scout-units-list'); ?></a></span>
                                 <?php endif; ?>
                             </div>
                             <button type="button" class="toggle-row"><span class="screen-reader-text"><?php _e('Show more details', 'scout-units-list'); ?></span></button>

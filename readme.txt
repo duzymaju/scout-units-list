@@ -3,7 +3,7 @@ Contributors: duzymaju
 Tags: scouts, zhp, zhr, wosm, wagggs
 Requires at least: 3.0.0
 Tested up to: 4.7
-Stable tag: 0.1.1
+Stable tag: 0.2.0
 License: GNU GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,10 +33,8 @@ To define your own template create `scout-units-list` directory in your current 
 1. Finish default shortcode templates, add default CSSes.
 2. Add possibility to define which unit types are needed by a shortcode.
 3. Add a shortcode which implements a map with selected units marked on it.
-4. Integrate with some plugins used to publish orders (selectable orders list).
-5. Units/persons versioning.
-6. Configurable types/subtypes lists and dependencies.
-7. Sorting/searching on units/positions lists in admin panel.
+4. Configurable types/subtypes lists and dependencies.
+5. Sorting/searching on units/positions lists in admin panel.
 
 == Installation ==
 
@@ -48,3 +46,6 @@ To define your own template create `scout-units-list` directory in your current 
 
 = 0.1 =
 The first version of plugin.
+
+= 0.2 =
+Add migrations. Integrate with orders added into database as posts (configurable post category). Add versioning of units and persons.

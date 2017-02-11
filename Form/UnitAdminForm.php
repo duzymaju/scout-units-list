@@ -129,7 +129,7 @@ class UnitAdminForm extends Form
                 'valueLabel' => is_object($settings['parentUnit']) && $settings['parentUnit'] instanceof Unit ?
                     $settings['parentUnit']->getName() : null,
             ]);
-        if ($config->getOrderCategoryId() > 0) {
+        if ($config->isOrderCategoryDefined()) {
             $this
                 ->addField('orderId', IntegerAutocompleteType::class, [
                     'action' => 'sul_orders',
@@ -139,8 +139,8 @@ class UnitAdminForm extends Form
                     'label' => __('Order number', 'scout-units-list'),
                     'required' => true,
                     'valueField' => 'input[name="orderNo"]',
-                    'valueLabel' => is_object($settings['order']) && $settings['order'] instanceof Attachment ?
-                        $settings['order']->getTitle() : null,
+                    'valueLabel' => array_key_exists('order', $settings) && is_object($settings['order']) &&
+                        $settings['order'] instanceof Attachment ? $settings['order']->getTitle() : null,
                 ])
                 ->addField('orderNo', StringHiddenType::class, [
                     'required' => true,

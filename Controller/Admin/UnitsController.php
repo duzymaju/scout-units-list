@@ -9,6 +9,8 @@ use ScoutUnitsList\Exception\UnauthorizedException;
 use ScoutUnitsList\Form\PersonForm;
 use ScoutUnitsList\Form\UnitAdminForm;
 use ScoutUnitsList\Form\UnitLeaderForm;
+use ScoutUnitsList\Form\VersionedDeleteForm;
+use ScoutUnitsList\Model\Config;
 use ScoutUnitsList\Model\Person;
 use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\System\ParamPack;
@@ -49,7 +51,7 @@ class UnitsController extends Controller
 
                 case 'delete':
                     if (isset($id)) {
-                        $this->deleteAction($id);
+                        $this->deleteAction($request, $id);
                     }
 
                 case 'list':
@@ -80,7 +82,7 @@ class UnitsController extends Controller
 
         $attachmentRepository = $this->get('repository.attachment');
         $unitRepository = $this->get('repository.unit');
-        $unit = $id > 0 ? $unitRepository->getOneByOr404([
+        $unit = isset($id) ? $unitRepository->getOneByOr404([
                 'id' => $id,
             ]) : new Unit();
         $unit->setOrderId(null)
@@ -92,10 +94,9 @@ class UnitsController extends Controller
         $orderId = $request->request->getInt('orderId', $unit->getOrderId());
         $config = $this->get('manager.config')
             ->get();
-        $orderCategoryDefined = $config->getOrderCategoryId() > 0;
         $form = $this->createForm(UnitAdminForm::class, $unit, [
             'config' => $config,
-            'order' => $orderCategoryDefined && $orderId > 0 ? $attachmentRepository->getOneBy([
+            'order' => $config->isOrderCategoryDefined() && $orderId > 0 ? $attachmentRepository->getOneBy([
                 'id' => $orderId,
             ]) : null,
             'parentUnit' => $parentId > 0 ? $unitRepository->getOneBy([
@@ -111,6 +112,11 @@ class UnitsController extends Controller
                     $unit->setSlug($unitRepository->getUniqueSlug($unit));
                 }
                 $unitRepository->save($unit);
+                if (!isset($id)) {
+                    $form->setAction($request->getCurrentUrl([
+                        'id' => $unit->getId(),
+                    ]));
+                }
                 $messageManager->addSuccess(__('Unit was successfully saved.', 'scout-units-list'));
                 $form->clear([
                     'orderId',
@@ -125,7 +131,7 @@ class UnitsController extends Controller
         $this->getView('Admin/Units/AdminForm', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
-            'orderCategoryDefined' => $orderCategoryDefined,
+            'orderCategoryDefined' => $config->isOrderCategoryDefined(),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
@@ -210,7 +216,6 @@ class UnitsController extends Controller
 
         $config = $this->get('manager.config')
             ->get();
-        $orderCategoryDefined = $config->getOrderCategoryId() > 0;
 
         $personRepository = $this->get('repository.person');
         $userRepository = $this->get('repository.user');
@@ -219,12 +224,12 @@ class UnitsController extends Controller
             $person->setUnitId($id);
             $userId = $request->request->getInt('userId');
             $orderId = $request->request->getInt('orderId');
-            $form = $this->createForm(PersonForm::class, $person, [
+            $addForm = $this->createForm(PersonForm::class, $person, [
                 'action' => $request->getCurrentUrl([], [
                     'deletedId',
                 ]),
                 'config' => $config,
-                'order' => $orderCategoryDefined && $orderId > 0 ? $attachmentRepository->getOneBy([
+                'order' => $config->isOrderCategoryDefined() && $orderId > 0 ? $attachmentRepository->getOneBy([
                     'id' => $orderId,
                 ]) : null,
                 'positions' => $positionList,
@@ -238,28 +243,54 @@ class UnitsController extends Controller
         } else {
             $messageManager->addWarning(__('Add at least one position for this unit type to be able to manage persons.',
                 'scout-units-list'));
-            $form = null;
+            $addForm = null;
         }
+
+        $deleteForm = $this->createForm(VersionedDeleteForm::class, new Person(), [
+            'action' => $request->getCurrentUrlWithOnly([
+                'action',
+                'id',
+                'page',
+            ], [
+                'deletedId' => '%deleteId%',
+            ]),
+            'config' => $config,
+        ]);
+        $deleteFormPrototype = $this->getView('Admin/VersionedDeleteForm', [
+            'form' => $deleteForm,
+            'label' => __('Delete "%name%" person', 'scout-units-list'),
+            'orderCategoryDefined' => $config->isOrderCategoryDefined(),
+        ])->getRender();
 
         $deletedId = $request->query->getInt('deletedId');
         if (isset($deletedId)) {
-            $person = $personRepository->getOneBy([
-                'id' => $deletedId,
-            ]);
-            if (isset($person)) {
-                try {
-                    $personRepository->delete($person);
-                    $messageManager->addSuccess(__('Person was successfully deleted.', 'scout-units-list'));
-                } catch (Exception $e) {
-                    unlink($e);
-                    $messageManager->addError(__('An error occured during person removing.', 'scout-units-list'));
+            if (isset($deleteForm) && $deleteForm->isValid()) {
+                $person = $personRepository->getOneBy([
+                    'id' => $deletedId,
+                ]);
+                if (isset($person)) {
+                    try {
+                        $deletedPerson = $deleteForm->getModel();
+                        $person->setOrderNo($deletedPerson->getOrderNo());
+                        if ($config->isOrderCategoryDefined()) {
+                            $person->setOrderId($deletedPerson->getOrderId());
+                        }
+                        $personRepository->delete($person);
+                        $messageManager->addSuccess(__('Person was successfully deleted.', 'scout-units-list'));
+                    } catch (Exception $e) {
+                        unlink($e);
+                        $messageManager->addError(__('An error occured during person deleting.', 'scout-units-list'));
+                    }
                 }
+            } else {
+                $messageManager->addError(__('Valid order number is required to delete this person.',
+                    'scout-units-list'));
             }
-        } elseif (isset($form) && $form->isValid()) {
+        } elseif (isset($addForm) && $addForm->isValid()) {
             try {
                 $personRepository->save($person);
                 $messageManager->addSuccess(__('Person was successfully saved.', 'scout-units-list'));
-                $form->clear();
+                $addForm->clear();
             } catch (Exception $e) {
                 unlink($e);
                 $messageManager->addError(__('An error occured during person saving.', 'scout-units-list'));
@@ -270,9 +301,10 @@ class UnitsController extends Controller
         ], $positionRepository, $userRepository, $attachmentRepository, false);
 
         $this->getView('Admin/Units/PersonManage', [
-            'form' => $form,
+            'deleteFormPrototype' => $deleteFormPrototype,
+            'form' => $addForm,
             'messages' => $messageManager->getMessages(),
-            'orderCategoryDefined' => $orderCategoryDefined,
+            'orderCategoryDefined' => $config->isOrderCategoryDefined(),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
@@ -281,29 +313,40 @@ class UnitsController extends Controller
     /**
      * Delete action
      *
-     * @param int $id ID
+     * @param Request $request request
+     * @param int     $id      ID
      *
      * @throws UnauthorizedException
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         if (!current_user_can('sul_manage_units')) {
             throw new UnauthorizedException();
         }
-
-        $unitRepository = $this->get('repository.unit');
-        $unit = $unitRepository->getOneByOr404([
-            'id' => $id,
-        ]);
-
+        $config = $this->get('manager.config')
+            ->get();
         $messageManager = $this->get('manager.message');
 
-        try {
-            $unitRepository->delete($unit);
-            $messageManager->addSuccess(__('Unit was successfully deleted.', 'scout-units-list'));
-        } catch (Exception $e) {
-            unset($e);
-            $messageManager->addError(__('An error occured during unit removing.', 'scout-units-list'));
+        $form = $this->getUnitDeleteForm($request, $config);
+        if (isset($form) && $form->isValid()) {
+            $unitRepository = $this->get('repository.unit');
+            $unit = $unitRepository->getOneByOr404([
+                'id' => $id,
+            ]);
+            $deletedUnit = $form->getModel();
+            $unit->setOrderNo($deletedUnit->getOrderNo());
+            if ($config->isOrderCategoryDefined()) {
+                $unit->setOrderId($deletedUnit->getOrderId());
+            }
+            try {
+                $unitRepository->delete($unit);
+                $messageManager->addSuccess(__('Unit was successfully deleted.', 'scout-units-list'));
+            } catch (Exception $e) {
+                unset($e);
+                $messageManager->addError(__('An error occured during unit deleting.', 'scout-units-list'));
+            }
+        } else {
+            $messageManager->addError(__('Valid order number is required to delete this unit.', 'scout-units-list'));
         }
     }
 
@@ -335,7 +378,17 @@ class UnitsController extends Controller
             $unitRepository->getPaginatorBy($conditions, $order, 20, $page) : [];
         $this->setParentUnits($units);
 
+        $config = $this->get('manager.config')
+            ->get();
+        $deleteForm = $this->getUnitDeleteForm($request, $config);
+        $deleteFormPrototype = $this->getView('Admin/VersionedDeleteForm', [
+            'form' => $deleteForm,
+            'label' => __('Delete "%name%" unit', 'scout-units-list'),
+            'orderCategoryDefined' => $config->isOrderCategoryDefined(),
+        ])->getRender();
+
         $this->getView('Admin/Units/List', [
+            'deleteFormPrototype' => $deleteFormPrototype,
             'messages' => $this->get('manager.message')
                 ->getMessages(),
             'units' => $units,
@@ -374,6 +427,29 @@ class UnitsController extends Controller
         }
 
         return $this;
+    }
+
+    /**
+     * Get unit delete form
+     *
+     * @param Request $request request
+     * @param Config  $config  config
+     *
+     * @return VersionedDeleteForm
+     */
+    private function getUnitDeleteForm(Request $request, Config $config)
+    {
+        $deleteForm = $this->createForm(VersionedDeleteForm::class, new Unit(), [
+            'action' => $request->getCurrentUrlWithOnly([
+                'page',
+            ], [
+                'action' => 'delete',
+                'id' => '%deleteId%',
+            ]),
+            'config' => $config,
+        ]);
+
+        return $deleteForm;
     }
 
     /**

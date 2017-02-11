@@ -3,19 +3,17 @@
 namespace ScoutUnitsList\Form;
 
 use ScoutUnitsList\Form\Field\IntegerAutocompleteType;
-use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringHiddenType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
 use ScoutUnitsList\Model\Attachment;
 use ScoutUnitsList\Model\Config;
-use ScoutUnitsList\Model\User;
-use ScoutUnitsList\Validator\PersonValidator;
+use ScoutUnitsList\Validator\VersionedDeleteValidator;
 
 /**
- * Person form
+ * Versioned delete form
  */
-class PersonForm extends Form
+class VersionedDeleteForm extends Form
 {
     /**
      * Set fields
@@ -27,25 +25,6 @@ class PersonForm extends Form
         /** @var Config $config */
         $config = $settings['config'];
 
-        $this
-            ->addField('userId', IntegerAutocompleteType::class, [
-                'action' => 'sul_users',
-                'attr' => [
-                    'class' => 'regular-text',
-                ],
-                'label' => __('User', 'scout-units-list'),
-                'required' => true,
-                'valueLabel' => is_object($settings['user']) && $settings['user'] instanceof User ?
-                    $settings['user']->getNiceName() . ' (' . $settings['user']->getLogin() . ')' : null,
-            ])
-            ->addField('positionId', SelectType::class, [
-                'attr' => [
-                    'style' => 'width:15em',
-                ],
-                'label' => __('Position', 'scout-units-list'),
-                'options' => $settings['positions'],
-                'required' => true,
-            ]);
         if ($config->isOrderCategoryDefined()) {
             $this
                 ->addField('orderId', IntegerAutocompleteType::class, [
@@ -53,7 +32,7 @@ class PersonForm extends Form
                     'attr' => [
                         'class' => 'regular-text',
                     ],
-                    'label' => __('Order number', 'scout-units-list'),
+                    'label' => __('Order no', 'scout-units-list'),
                     'required' => true,
                     'valueField' => 'input[name="orderNo"]',
                     'valueLabel' => array_key_exists('order', $settings) && is_object($settings['order']) &&
@@ -70,16 +49,16 @@ class PersonForm extends Form
                         'pattern' => $config->getOrderNoFormat(),
                         'placeholder' => $config->getOrderNoPlaceholder(),
                     ],
-                    'label' => __('Order number', 'scout-units-list'),
+                    'label' => __('Order no', 'scout-units-list'),
                     'required' => true,
                 ]);
         }
         $this
             ->addField('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'button button-primary',
+                    'class' => 'button button-primary alignright',
                 ],
-                'label' => __('Save', 'scout-units-list'),
+                'label' => __('Delete', 'scout-units-list'),
             ])
         ;
     }
@@ -91,6 +70,6 @@ class PersonForm extends Form
      */
     protected function getValidatorClass()
     {
-        return PersonValidator::class;
+        return VersionedDeleteValidator::class;
     }
 }
