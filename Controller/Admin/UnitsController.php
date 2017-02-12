@@ -329,16 +329,27 @@ class UnitsController extends Controller
 
         $form = $this->getUnitDeleteForm($request, $config);
         if (isset($form) && $form->isValid()) {
+            $personRepository = $this->get('repository.person');
             $unitRepository = $this->get('repository.unit');
             $unit = $unitRepository->getOneByOr404([
                 'id' => $id,
             ]);
-            $deletedUnit = $form->getModel();
-            $unit->setOrderNo($deletedUnit->getOrderNo());
-            if ($config->isOrderCategoryDefined()) {
-                $unit->setOrderId($deletedUnit->getOrderId());
-            }
             try {
+                $deletedUnit = $form->getModel();
+                $unit->setOrderNo($deletedUnit->getOrderNo());
+                if ($config->isOrderCategoryDefined()) {
+                    $unit->setOrderId($deletedUnit->getOrderId());
+                }
+                $persons = $personRepository->getBy([
+                    'unitId' => $id,
+                ]);
+                foreach ($persons as $person) {
+                    $person->setOrderNo($deletedUnit->getOrderNo());
+                    if ($config->isOrderCategoryDefined()) {
+                        $person->setOrderId($deletedUnit->getOrderId());
+                    }
+                    $personRepository->delete($person);
+                }
                 $unitRepository->delete($unit);
                 $messageManager->addSuccess(__('Unit was successfully deleted.', 'scout-units-list'));
             } catch (Exception $e) {
