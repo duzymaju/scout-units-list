@@ -2,6 +2,7 @@
 
 namespace ScoutUnitsList\Controller;
 
+use ScoutUnitsList\Form\UnitAdminForm;
 use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\View;
@@ -30,9 +31,22 @@ class ShortcodesController extends Controller
 
         $withCurrent = $attributes->getBool('current', false);
         $levels = $attributes->getInt('levels', 1);
+        $typesList = $attributes->getString('types');
+        if (empty($typesList)) {
+            $types = null;
+        } else {
+            $allowedTypes = array_keys(UnitAdminForm::getTypes());
+            $types = [];
+            foreach (explode(',', $typesList) as $type) {
+                if (!in_array($type, $types) && in_array($type, $allowedTypes)) {
+                    $types[] = $type;
+                }
+            }
+        }
 
         $cacheManager = $this->get('manager.cache');
-        $cacheManager->setId('units-list-' . $id . '-' . ($withCurrent ? '1' : '0') . '-' . $levels);
+        $cacheManager->setId('units-list-' . $id . '-' . ($withCurrent ? '1' : '0') . '-' . $levels .
+            (isset($types) ? '-' . implode(',', $types) : ''));
         if (!$cacheManager->has()) {
             $currentUnit = $withCurrent ? $this->loader->get('repository.unit')
                 ->getOneBy([
@@ -43,7 +57,7 @@ class ShortcodesController extends Controller
                 $this->units = [
                     $currentUnit,
                 ];
-                $dependentUnitsResult = $this->getDependentUnitsResult($id, $id, $levels);
+                $dependentUnitsResult = $this->getDependentUnitsResult($id, $id, $levels, $types);
                 $this->setPersonsToUnits($this->units, true);
 
                 $cacheManager->set($this->getRenderedView([
@@ -103,27 +117,33 @@ class ShortcodesController extends Controller
     /**
      * Get dependent units result
      *
-     * @param int $rootId root ID
-     * @param int $id     ID
-     * @param int $levels levels
+     * @param int        $rootId root ID
+     * @param int        $id     ID
+     * @param int        $levels levels
+     * @param array|null $types  types
      *
      * @return string
      */
-    private function getDependentUnitsResult($rootId, $id, $levels)
+    private function getDependentUnitsResult($rootId, $id, $levels, array $types = null)
     {
         $levels--;
-
+        $conditions = [
+            'parentId' => $id,
+            'status' => Unit::STATUS_ACTIVE,
+        ];
+        if (isset($types)) {
+            $conditions['type'] = $types;
+        }
         $units = $this->loader->get('repository.unit')
-            ->getBy([
-                'parentId' => $id,
-                'status' => Unit::STATUS_ACTIVE,
-            ]);
+            ->getBy($conditions);
+
         $elements = [];
         foreach ($units as $unit) {
             $this->units[] = $unit;
             $elements[] = [
                 'current' => $unit,
-                'dependents' => $levels > 0 ? $this->getDependentUnitsResult($rootId, $unit->getId(), $levels) : '',
+                'dependents' => $levels > 0 ?
+                    $this->getDependentUnitsResult($rootId, $unit->getId(), $levels, $types) : '',
             ];
         }
 
@@ -194,7 +214,8 @@ class ShortcodesController extends Controller
             return '';
         }
 
-        $attributes = new ParamPack(array_shift($arguments));
+        $attributesList = array_shift($arguments);
+        $attributes = new ParamPack(is_array($attributesList) ? $attributesList : []);
         $content = array_shift($arguments);
         $result = call_user_func([
             $this,

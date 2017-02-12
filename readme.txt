@@ -31,10 +31,9 @@ To define your own template create `scout-units-list` directory in your current 
 = Future plans =
 
 1. Finish default shortcode templates, add default CSSes.
-2. Add possibility to define which unit types are needed by a shortcode.
-3. Add a shortcode which implements a map with selected units marked on it.
-4. Configurable types/subtypes lists and dependencies.
-5. Sorting/searching on units/positions lists in admin panel.
+2. Add a shortcode which implements a map with selected units marked on it.
+3. Configurable types/subtypes lists and dependencies.
+4. Sorting/searching on units/positions lists in admin panel.
 
 == Installation ==
 
