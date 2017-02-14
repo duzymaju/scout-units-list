@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 19:58+0100\n"
-"PO-Revision-Date: 2017-02-14 19:58+0100\n"
+"POT-Creation-Date: 2017-02-14 20:59+0100\n"
+"PO-Revision-Date: 2017-02-14 20:59+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -85,7 +85,7 @@ msgstr "Jednostka została pomyślnie usunięta."
 
 #: Controller/Admin/UnitsController.php:357
 msgid "An error occured during unit deleting."
-msgstr "Wystąpił błąd podczas usuwania funkcyjnego."
+msgstr "Wystąpił błąd podczas usuwania jednostki."
 
 #: Controller/Admin/UnitsController.php:360
 msgid "Valid order number is required to delete this unit."
@@ -164,7 +164,7 @@ msgid "Map default zoom"
 msgstr "Domyślne powiększenie mapy"
 
 #: Form/ConfigForm.php:85 Form/PersonForm.php:82 Form/PositionForm.php:64
-#: Form/UnitAdminForm.php:134 Form/UnitLeaderForm.php:59
+#: Form/UnitAdminForm.php:123 Form/UnitLeaderForm.php:59
 msgid "Save"
 msgstr "Zapisz"
 
@@ -178,14 +178,14 @@ msgstr "Użytkownik"
 msgid "Position"
 msgstr "Funkcja"
 
-#: Form/PersonForm.php:56 Form/PersonForm.php:73 Form/UnitAdminForm.php:83
-#: Form/UnitAdminForm.php:100 View/Admin/Units/PersonManage.phtml:23
+#: Form/PersonForm.php:56 Form/PersonForm.php:73 Form/UnitAdminForm.php:72
+#: Form/UnitAdminForm.php:89 View/Admin/Units/PersonManage.phtml:23
 #: View/Admin/Units/PersonManage.phtml:55
 #: View/Admin/Units/PersonManage.phtml:69
 msgid "Order number"
 msgstr "Numer rozkazu"
 
-#: Form/PositionForm.php:30 Form/UnitAdminForm.php:50
+#: Form/PositionForm.php:30 Form/UnitAdminForm.php:39
 #: View/Admin/Positions/List.phtml:25 View/Admin/Positions/List.phtml:53
 #: View/Admin/Positions/List.phtml:67 View/Admin/Units/List.phtml:25
 #: View/Admin/Units/List.phtml:69 View/Admin/Units/List.phtml:83
@@ -209,45 +209,32 @@ msgstr "Opis"
 msgid "Is unit leader"
 msgstr "Czy funkcyjny jest szefem jednostki"
 
-#: Form/UnitAdminForm.php:39 View/Admin/Units/List.phtml:27
-#: View/Admin/Units/List.phtml:71 View/Admin/Units/List.phtml:85
-msgid "Status"
-msgstr "Status"
-
-#: Form/UnitAdminForm.php:41 View/Admin/Units/List.phtml:71
-msgid "Active"
-msgstr "Aktywny"
-
-#: Form/UnitAdminForm.php:42 View/Admin/Units/List.phtml:71
-msgid "Hidden"
-msgstr "Ukryty"
-
-#: Form/UnitAdminForm.php:58
+#: Form/UnitAdminForm.php:47
 msgid "Subtype"
 msgstr "Podtyp"
 
-#: Form/UnitAdminForm.php:65
+#: Form/UnitAdminForm.php:54
 msgid "Sort"
 msgstr "Sortowanie"
 
-#: Form/UnitAdminForm.php:72 View/Admin/Units/List.phtml:26
+#: Form/UnitAdminForm.php:61 View/Admin/Units/List.phtml:26
 #: View/Admin/Units/List.phtml:70 View/Admin/Units/List.phtml:84
 msgid "Parent unit"
 msgstr "Jednostka nadrzędna"
 
-#: Form/UnitAdminForm.php:109
+#: Form/UnitAdminForm.php:98
 msgid "Name short"
 msgstr "Krótka nazwa"
 
-#: Form/UnitAdminForm.php:116
+#: Form/UnitAdminForm.php:105
 msgid "Name full"
 msgstr "Pełna nazwa"
 
-#: Form/UnitAdminForm.php:122
+#: Form/UnitAdminForm.php:111
 msgid "Hero short"
 msgstr "Krótka nazwa bohatera"
 
-#: Form/UnitAdminForm.php:128
+#: Form/UnitAdminForm.php:117
 msgid "Hero full"
 msgstr "Pełna nazwa bohatera"
 
@@ -512,6 +499,11 @@ msgstr "Edytuj jednostkę \"%s\""
 msgid "Unit name"
 msgstr "Nazwa jednostki"
 
+#: View/Admin/Units/List.phtml:27 View/Admin/Units/List.phtml:71
+#: View/Admin/Units/List.phtml:85
+msgid "Completeness"
+msgstr "Kompletność"
+
 #: View/Admin/Units/List.phtml:58
 msgid "Configure"
 msgstr "Konfiguruj"
@@ -598,6 +590,3 @@ msgstr "Następna strona"
 #: View/Partial/PaginationAdmin.phtml:50
 msgid "Last page"
 msgstr "Ostatnia strona"
-
-#~ msgid "An error occured during unit removing."
-#~ msgstr "Wystąpił błąd podczas usuwania jednostki."

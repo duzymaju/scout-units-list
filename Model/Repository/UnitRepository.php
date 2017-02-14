@@ -30,7 +30,6 @@ class UnitRepository extends VersionedRepository
     {
         $this
             ->setStructureElement('id', DbManager::TYPE_DECIMAL, null, true)
-            ->setStructureElement('status', DbManager::TYPE_STRING)
             ->setStructureElement('type', DbManager::TYPE_STRING)
             ->setStructureElement('subtype', DbManager::TYPE_STRING)
             ->setStructureElement('sort', DbManager::TYPE_DECIMAL)

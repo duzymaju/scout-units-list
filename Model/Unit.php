@@ -13,12 +13,6 @@ class Unit implements VersionedModelInterface
     use VersionedModelTrait;
 
     /** @const string */
-    const STATUS_ACTIVE = 'a';
-
-    /** @const string */
-    const STATUS_HIDDEN = 'h';
-
-    /** @const string */
     const TYPE_CLUB = 'c';
 
     /** @const string */
@@ -65,9 +59,6 @@ class Unit implements VersionedModelInterface
 
     /** @var int */
     protected $id;
-
-    /** @var string */
-    protected $status;
 
     /** @var string */
     protected $type;
@@ -137,42 +128,6 @@ class Unit implements VersionedModelInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set status
-     *
-     * @param string $status status
-     *
-     * @return self
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Is active
-     *
-     * @return bool
-     */
-    public function isActive()
-    {
-        $isActive = $this->status == self::STATUS_ACTIVE;
-
-        return $isActive;
     }
 
     /**
@@ -636,6 +591,32 @@ class Unit implements VersionedModelInterface
         $this->localizationLng = isset($localizationLng) ? (float) $localizationLng : null;
 
         return $this;
+    }
+
+    /**
+     * Get completeness ratio
+     *
+     * @return float
+     */
+    public function getCompletenessRatio()
+    {
+        $components = [
+            !empty($this->getUrl()),
+            !empty($this->getMail()),
+            !empty($this->getAddress()),
+            !empty($this->getMeetingsTime()),
+            !empty($this->getLocalizationLat()) && !empty($this->getLocalizationLng()),
+        ];
+
+        $completeCounter = 0;
+        foreach ($components as $component) {
+            if ($component) {
+                $completeCounter++;
+            }
+        }
+        $ratio = $completeCounter / count($components);
+
+        return $ratio;
     }
 
     /**

@@ -24,7 +24,7 @@
                 <th scope="col" id="name" class="manage-column column-primary"><?php _e('Unit name', 'scout-units-list'); ?></th>
                 <th scope="col" id="type" class="manage-column"><?php _e('Type', 'scout-units-list'); ?></th>
                 <th scope="col" id="parent" class="manage-column"><?php _e('Parent unit', 'scout-units-list'); ?></th>
-                <th scope="col" id="status" class="manage-column"><?php _e('Status', 'scout-units-list'); ?></th>
+                <th scope="col" id="completeness" class="manage-column"><?php _e('Completeness', 'scout-units-list'); ?></th>
             </tr>
 	</thead>
 	<tbody id="the-list" data-delete-form-prototype="<?php echo $this->escape(str_replace([
@@ -68,7 +68,7 @@
                         </td>
                         <td class="type column-type" data-colname="<?php _e('Type', 'scout-units-list'); ?>"><?php echo $this->escape($typeName); ?></td>
                         <td class="parent column-parent" data-colname="<?php _e('Parent unit', 'scout-units-list'); ?>"><?php echo isset($parentUnit) ? $this->escape($parentUnit->getName()) : ''; ?></td>
-                        <td class="status column-status" data-colname="<?php _e('Status', 'scout-units-list'); ?>"><?php echo $unit->isActive() ? __('Active', 'scout-units-list') : __('Hidden', 'scout-units-list'); ?></td>
+                        <td class="completeness column-completeness" data-colname="<?php _e('Completeness', 'scout-units-list'); ?>"><?php echo round($unit->getCompletenessRatio() * 100); ?>%</td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -82,7 +82,7 @@
                 <th scope="col" class="manage-column column-primary"><?php _e('Unit name', 'scout-units-list'); ?></th>
                 <th scope="col" class="manage-column"><?php _e('Type', 'scout-units-list'); ?></th>
                 <th scope="col" class="manage-column"><?php _e('Parent unit', 'scout-units-list'); ?></th>
-                <th scope="col" class="manage-column"><?php _e('Status', 'scout-units-list'); ?></th>
+                <th scope="col" class="manage-column"><?php _e('Completeness', 'scout-units-list'); ?></th>
             </tr>
 	</tfoot>
     </table>

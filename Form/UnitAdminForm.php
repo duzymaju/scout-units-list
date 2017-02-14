@@ -32,17 +32,6 @@ class UnitAdminForm extends Form
         $config = $settings['config'];
 
         $this
-            ->addField('status', SelectType::class, [
-                'attr' => [
-                    'style' => 'width:15em',
-                ],
-                'label' => __('Status', 'scout-units-list'),
-                'options' => [
-                    Unit::STATUS_ACTIVE => __('Active', 'scout-units-list'),
-                    Unit::STATUS_HIDDEN => __('Hidden', 'scout-units-list'),
-                ],
-                'required' => true,
-            ])
             ->addField('type', SelectType::class, [
                 'attr' => [
                     'style' => 'width:15em',
