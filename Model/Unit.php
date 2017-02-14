@@ -19,16 +19,28 @@ class Unit implements VersionedModelInterface
     const STATUS_HIDDEN = 'h';
 
     /** @const string */
+    const TYPE_CLUB = 'c';
+
+    /** @const string */
+    const TYPE_DISTRICT = 'd';
+
+    /** @const string */
     const TYPE_GROUP = 'g';
 
     /** @const string */
-    const TYPE_TROOP = 't';
+    const TYPE_HQ = 'h';
 
     /** @const string */
     const TYPE_PATROL = 'p';
 
     /** @const string */
-    const TYPE_CLUB = 'c';
+    const TYPE_REGION = 'r';
+
+    /** @const string */
+    const TYPE_SECTION = 's';
+
+    /** @const string */
+    const TYPE_TROOP = 't';
 
     /** @const string */
     const SUBTYPE_CUBSCOUTS = 'c';

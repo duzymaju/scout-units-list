@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 15:29+0100\n"
-"PO-Revision-Date: 2017-02-11 15:29+0100\n"
+"POT-Creation-Date: 2017-02-14 19:58+0100\n"
+"PO-Revision-Date: 2017-02-14 19:58+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -79,19 +79,19 @@ msgstr "Funkcyjny został pomyślnie zapisany."
 msgid "An error occured during person saving."
 msgstr "Wystąpił błąd podczas zapisywania funkcyjnego."
 
-#: Controller/Admin/UnitsController.php:343
+#: Controller/Admin/UnitsController.php:354
 msgid "Unit was successfully deleted."
 msgstr "Jednostka została pomyślnie usunięta."
 
-#: Controller/Admin/UnitsController.php:346
+#: Controller/Admin/UnitsController.php:357
 msgid "An error occured during unit deleting."
 msgstr "Wystąpił błąd podczas usuwania funkcyjnego."
 
-#: Controller/Admin/UnitsController.php:349
+#: Controller/Admin/UnitsController.php:360
 msgid "Valid order number is required to delete this unit."
 msgstr "Do usunięcia tej jednostki potrzebny jest poprawny numer rozkazu."
 
-#: Controller/Admin/UnitsController.php:386
+#: Controller/Admin/UnitsController.php:397
 msgid "Delete \"%name%\" unit"
 msgstr "Usuń jednostkę \"%name%\""
 
@@ -164,7 +164,7 @@ msgid "Map default zoom"
 msgstr "Domyślne powiększenie mapy"
 
 #: Form/ConfigForm.php:85 Form/PersonForm.php:82 Form/PositionForm.php:64
-#: Form/UnitAdminForm.php:190 Form/UnitLeaderForm.php:59
+#: Form/UnitAdminForm.php:134 Form/UnitLeaderForm.php:59
 msgid "Save"
 msgstr "Zapisz"
 
@@ -178,14 +178,14 @@ msgstr "Użytkownik"
 msgid "Position"
 msgstr "Funkcja"
 
-#: Form/PersonForm.php:56 Form/PersonForm.php:73 Form/UnitAdminForm.php:139
-#: Form/UnitAdminForm.php:156 View/Admin/Units/PersonManage.phtml:23
+#: Form/PersonForm.php:56 Form/PersonForm.php:73 Form/UnitAdminForm.php:83
+#: Form/UnitAdminForm.php:100 View/Admin/Units/PersonManage.phtml:23
 #: View/Admin/Units/PersonManage.phtml:55
 #: View/Admin/Units/PersonManage.phtml:69
 msgid "Order number"
 msgstr "Numer rozkazu"
 
-#: Form/PositionForm.php:30 Form/UnitAdminForm.php:106
+#: Form/PositionForm.php:30 Form/UnitAdminForm.php:50
 #: View/Admin/Positions/List.phtml:25 View/Admin/Positions/List.phtml:53
 #: View/Admin/Positions/List.phtml:67 View/Admin/Units/List.phtml:25
 #: View/Admin/Units/List.phtml:69 View/Admin/Units/List.phtml:83
@@ -209,85 +209,45 @@ msgstr "Opis"
 msgid "Is unit leader"
 msgstr "Czy funkcyjny jest szefem jednostki"
 
-#: Form/UnitAdminForm.php:32 Form/UnitAdminForm.php:65
-msgid "Group"
-msgstr "Szczep"
-
-#: Form/UnitAdminForm.php:33
-msgid "Troop"
-msgstr "Drużyna"
-
-#: Form/UnitAdminForm.php:34
-msgid "Patrol"
-msgstr "Patrol"
-
-#: Form/UnitAdminForm.php:35
-msgid "Club"
-msgstr "Klub"
-
-#: Form/UnitAdminForm.php:60
-msgid "Cubscouts"
-msgstr "Gromada zuchowa"
-
-#: Form/UnitAdminForm.php:61
-msgid "Scouts"
-msgstr "Drużyna harcerska"
-
-#: Form/UnitAdminForm.php:62
-msgid "Senior scouts"
-msgstr "Drużyna starszoharcerska"
-
-#: Form/UnitAdminForm.php:63
-msgid "Rovers"
-msgstr "Drużyna wędrownicza"
-
-#: Form/UnitAdminForm.php:64
-msgid "Multi level"
-msgstr "Drużyna wielopoziomowa"
-
-#: Form/UnitAdminForm.php:66
-msgid "Union of troops"
-msgstr "Związek drużyn"
-
-#: Form/UnitAdminForm.php:95 View/Admin/Units/List.phtml:27
+#: Form/UnitAdminForm.php:39 View/Admin/Units/List.phtml:27
 #: View/Admin/Units/List.phtml:71 View/Admin/Units/List.phtml:85
 msgid "Status"
 msgstr "Status"
 
-#: Form/UnitAdminForm.php:97 View/Admin/Units/List.phtml:71
+#: Form/UnitAdminForm.php:41 View/Admin/Units/List.phtml:71
 msgid "Active"
 msgstr "Aktywny"
 
-#: Form/UnitAdminForm.php:98 View/Admin/Units/List.phtml:71
+#: Form/UnitAdminForm.php:42 View/Admin/Units/List.phtml:71
 msgid "Hidden"
 msgstr "Ukryty"
 
-#: Form/UnitAdminForm.php:114
+#: Form/UnitAdminForm.php:58
 msgid "Subtype"
 msgstr "Podtyp"
 
-#: Form/UnitAdminForm.php:121
+#: Form/UnitAdminForm.php:65
 msgid "Sort"
 msgstr "Sortowanie"
 
-#: Form/UnitAdminForm.php:128 View/Admin/Units/List.phtml:26
+#: Form/UnitAdminForm.php:72 View/Admin/Units/List.phtml:26
 #: View/Admin/Units/List.phtml:70 View/Admin/Units/List.phtml:84
 msgid "Parent unit"
 msgstr "Jednostka nadrzędna"
 
-#: Form/UnitAdminForm.php:165
+#: Form/UnitAdminForm.php:109
 msgid "Name short"
 msgstr "Krótka nazwa"
 
-#: Form/UnitAdminForm.php:172
+#: Form/UnitAdminForm.php:116
 msgid "Name full"
 msgstr "Pełna nazwa"
 
-#: Form/UnitAdminForm.php:178
+#: Form/UnitAdminForm.php:122
 msgid "Hero short"
 msgstr "Krótka nazwa bohatera"
 
-#: Form/UnitAdminForm.php:184
+#: Form/UnitAdminForm.php:128
 msgid "Hero full"
 msgstr "Pełna nazwa bohatera"
 
@@ -333,6 +293,63 @@ msgstr "Tak"
 #: View/Admin/Units/PersonManage.phtml:54 View/Form/Widget/Boolean.phtml:3
 msgid "No"
 msgstr "Nie"
+
+#: System/Tools/TypesDependencyTrait.php:20
+msgid "Headquarters"
+msgstr "Główna Kwatera"
+
+#: System/Tools/TypesDependencyTrait.php:21
+msgid "Region"
+msgstr "Chorągiew"
+
+#: System/Tools/TypesDependencyTrait.php:22
+msgid "District"
+msgstr "Hufiec"
+
+#: System/Tools/TypesDependencyTrait.php:23
+#: System/Tools/TypesDependencyTrait.php:57
+msgid "Group"
+msgstr "Szczep"
+
+#: System/Tools/TypesDependencyTrait.php:24
+msgid "Troop"
+msgstr "Drużyna"
+
+#: System/Tools/TypesDependencyTrait.php:25
+msgid "Patrol"
+msgstr "Patrol"
+
+#: System/Tools/TypesDependencyTrait.php:26
+msgid "Section"
+msgstr "Agenda"
+
+#: System/Tools/TypesDependencyTrait.php:27
+msgid "Club"
+msgstr "Klub"
+
+#: System/Tools/TypesDependencyTrait.php:52
+msgid "Cubscouts"
+msgstr "Gromada zuchowa"
+
+#: System/Tools/TypesDependencyTrait.php:53
+msgid "Scouts"
+msgstr "Drużyna harcerska"
+
+#: System/Tools/TypesDependencyTrait.php:54
+msgid "Senior scouts"
+msgstr "Drużyna starszoharcerska"
+
+#: System/Tools/TypesDependencyTrait.php:55
+msgid "Rovers"
+msgstr "Drużyna wędrownicza"
+
+#: System/Tools/TypesDependencyTrait.php:56
+msgid "Multi level"
+msgstr "Drużyna wielopoziomowa"
+
+#: System/Tools/TypesDependencyTrait.php:58
+msgid "Union of troops"
+msgstr "Związek drużyn"
 
 #: Validator/Condition/BooleanCondition.php:22
 msgid "This value should be a boolean."
