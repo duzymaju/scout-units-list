@@ -164,7 +164,9 @@ class UnitsController extends Controller
 
         $messageManager = $this->get('manager.message');
 
-        $form = $this->createForm(UnitLeaderForm::class, $unit);
+        $form = $this->createForm(UnitLeaderForm::class, $unit, [
+            'canManageUnits' => current_user_can('sul_manage_units'),
+        ]);
         if ($form->isValid()) {
             try {
                 $unitRepository->save($unit);

@@ -28,7 +28,7 @@ class StringType extends BasicType
      */
     public function setValueFromParamPack(ParamPack $paramPack)
     {
-        $this->setValue($paramPack->getString($this->name));
+        $this->setValue($this->filterNullable($paramPack->getString($this->name)));
 
         return $this;
     }

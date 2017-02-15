@@ -19,7 +19,7 @@ class BooleanType extends BasicType
      */
     public function setValueFromParamPack(ParamPack $paramPack)
     {
-        $this->setValue($paramPack->getBool($this->name));
+        $this->setValue($this->filterNullable($paramPack->getBool($this->name)));
 
         return $this;
     }

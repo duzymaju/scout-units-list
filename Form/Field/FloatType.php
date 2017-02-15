@@ -28,7 +28,7 @@ class FloatType extends BasicType
      */
     public function setValueFromParamPack(ParamPack $paramPack)
     {
-        $this->setValue($paramPack->getFloat($this->name));
+        $this->setValue($this->filterNullable($paramPack->getFloat($this->name)));
 
         return $this;
     }

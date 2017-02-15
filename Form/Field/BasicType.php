@@ -22,6 +22,9 @@ abstract class BasicType extends FormElement
     protected $attr;
 
     /** @var bool */
+    protected $nullable;
+
+    /** @var bool */
     protected $isRequired;
 
     /**
@@ -38,6 +41,7 @@ abstract class BasicType extends FormElement
         $this->name = $name;
         $this->label = array_key_exists('label', $settings) ? $settings['label'] : $name;
         $this->attr = array_key_exists('attr', $settings) && is_array($settings['attr']) ? $settings['attr'] : [];
+        $this->nullable = array_key_exists('nullable', $settings) && $settings['nullable'] || false;
 
         if (!array_key_exists('required', $settings) || !is_bool($settings['required'])) {
             $settings['required'] = false;
@@ -66,9 +70,25 @@ abstract class BasicType extends FormElement
      */
     public function setValueFromParamPack(ParamPack $paramPack)
     {
-        $this->setValue($paramPack->get($this->name));
+        $this->setValue($this->filterNullable($paramPack->get($this->name)));
 
         return $this;
+    }
+
+    /**
+     * Filter nullable
+     *
+     * @param mixed $value value
+     *
+     * @return mixed
+     */
+    protected function filterNullable($value)
+    {
+        if ($this->nullable && empty($value)) {
+            $value = null;
+        }
+
+        return $value;
     }
 
     /**

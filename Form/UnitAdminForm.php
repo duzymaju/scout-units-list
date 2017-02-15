@@ -47,12 +47,6 @@ class UnitAdminForm extends Form
                 'label' => __('Subtype', 'scout-units-list'),
                 'options' => self::getSubtypes(),
             ])
-            ->addField('sort', IntegerType::class, [
-                'attr' => [
-                    'class' => 'regular-text',
-                ],
-                'label' => __('Sort', 'scout-units-list'),
-            ])
             ->addField('parentId', IntegerAutocompleteType::class, [
                 'action' => 'sul_units',
                 'attr' => [
@@ -103,18 +97,21 @@ class UnitAdminForm extends Form
                     'class' => 'regular-text',
                 ],
                 'label' => __('Name full', 'scout-units-list'),
+                'nullable' => true,
             ])
             ->addField('hero', StringType::class, [
                 'attr' => [
                     'class' => 'regular-text',
                 ],
                 'label' => __('Hero short', 'scout-units-list'),
+                'nullable' => true,
             ])
             ->addField('heroFull', StringType::class, [
                 'attr' => [
                     'class' => 'regular-text',
                 ],
                 'label' => __('Hero full', 'scout-units-list'),
+                'nullable' => true,
             ])
             ->addField('submit', SubmitType::class, [
                 'attr' => [
