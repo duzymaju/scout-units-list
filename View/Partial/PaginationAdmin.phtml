@@ -1,6 +1,6 @@
 <div class="tablenav-pages">
     <span class="displaying-num">
-        <?php echo sprintf(_n('%s item', '%s items', $this->totalSize), $this->totalSize); ?>
+        <?php $itemsNumber = isset($this->totalSize) ? $this->totalSize : 0; echo sprintf(_n('%s item', '%s items', $itemsNumber), $itemsNumber); ?>
     </span>
     <?php if ($this->packsCount > 1):
         $this->packsVar = !empty($this->packsVar) ?: 'paged';
@@ -29,7 +29,7 @@
             <span class="screen-reader-text"><?php _e('Current Page'); ?></span>
             <span id="table-paging" class="paging-input">
                 <span class="tablenav-paging-text">
-                    <?php echo sprintf(_x('%1$s of %2$s', 'paging'), '' + $this->packNo,
+                    <?php echo sprintf(_x('%1$s of %2$s', 'paging'), '' . $this->packNo,
                         sprintf('<span class="total-pages">%d</span>', $this->packsCount)); ?>
                 </span>
             </span>

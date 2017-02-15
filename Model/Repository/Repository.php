@@ -319,7 +319,7 @@ abstract class Repository
      * @param int   $packSize   pack size
      * @param int   $packNo     pack no
      *
-     * @return array
+     * @return Paginator
      */
     public function getPaginatorBy(array $conditions, array $order = [], $packSize = 20, $packNo = 1)
     {

@@ -16,7 +16,6 @@ use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\Tools\Paginator;
-use Traversable;
 
 /**
  * Admin units controller
@@ -388,7 +387,7 @@ class UnitsController extends Controller
         }
         $unitRepository = $this->get('repository.unit');
         $units = !array_key_exists('id', $conditions) || count($conditions['id']) > 0 ?
-            $unitRepository->getPaginatorBy($conditions, $order, 20, $page) : [];
+            $unitRepository->getPaginatorBy($conditions, $order, 20, $page) : new Paginator([]);
         $this->setParentUnits($units);
 
         $config = $this->get('manager.config')
@@ -412,11 +411,11 @@ class UnitsController extends Controller
     /**
      * Set parent units
      *
-     * @param Traversable $units units
+     * @param Paginator $units units
      *
      * @return self
      */
-    private function setParentUnits(Traversable $units)
+    private function setParentUnits(Paginator $units)
     {
         $parentIds = [];
         foreach ($units as $unit) {
