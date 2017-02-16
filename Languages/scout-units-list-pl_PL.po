@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-14 20:59+0100\n"
-"PO-Revision-Date: 2017-02-14 20:59+0100\n"
+"PO-Revision-Date: 2017-02-15 23:24+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -109,7 +109,7 @@ msgstr "Lista jednostek harcerskich"
 
 #: Controller/AdminController.php:26
 msgid "Scout units"
-msgstr "Jednostki harc."
+msgstr "Jednostki"
 
 #: Controller/AdminController.php:32 View/Admin/Units/List.phtml:3
 msgid "Units list"

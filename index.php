@@ -14,7 +14,7 @@ namespace ScoutUnitsList;
 
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\Admin\UserController;
-use ScoutUnitsList\Controller\ApiController;
+use ScoutUnitsList\Controller\AjaxController;
 use ScoutUnitsList\Controller\InstallController;
 use ScoutUnitsList\Controller\ShortcodesController;
 use ScoutUnitsList\Manager\CacheManager;
@@ -116,12 +116,12 @@ if (function_exists('sul_uninstall')) {
 register_uninstall_hook(__FILE__, 'sul_uninstall');
 
 // AJAX requests
-$apiController = new ApiController($loader, $request);
-foreach (get_class_methods(ApiController::class) as $methodName) {
+$ajaxController = new AjaxController($loader, $request);
+foreach (get_class_methods(AjaxController::class) as $methodName) {
     if (1 <= $actionPos = strpos($methodName, 'Action')) {
         $actionName = substr($methodName, 0, $actionPos);
         add_action('wp_ajax_sul_' . $actionName, [
-            $apiController,
+            $ajaxController,
             $methodName,
         ]);
     }

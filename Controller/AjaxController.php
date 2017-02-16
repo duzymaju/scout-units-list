@@ -2,13 +2,15 @@
 
 namespace ScoutUnitsList\Controller;
 
+use ScoutUnitsList\System\Tools\JsonTrait;
 use ScoutUnitsList\System\Tools\TypesDependencyTrait;
 
 /**
- * API controller
+ * AJAX controller
  */
-class ApiController extends Controller
+class AjaxController extends Controller
 {
+    use JsonTrait;
     use TypesDependencyTrait;
 
     /**
@@ -81,19 +83,5 @@ class ApiController extends Controller
         }
 
         $this->sendResponse($list);
-    }
-
-    /**
-     * Send response
-     *
-     * @param array $data data
-     */
-    private function sendResponse(array $data)
-    {
-        header('Content-Type: text/json');
-        header('Cache-Control: no-cache, must-revalidate');
-        header('Expires: ' . gmdate('D, d M Y H:i:s T'));
-        echo json_encode($data);
-        exit; // @TODO: remove it after resolving problem with additional characters
     }
 }
