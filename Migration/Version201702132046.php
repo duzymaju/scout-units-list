@@ -18,7 +18,9 @@ class Version201702132046 extends Version
             ->addSql('
                 ALTER TABLE `' . $this->getTableName(UnitRepository::NAME) . '`
                     DROP INDEX `' . $this->getIndexName(UnitRepository::NAME, 1) . '`,
-                    DROP COLUMN `status`;
+                    DROP COLUMN `status`,
+                    CHANGE `localization_lat` `location_lat` float(10,6) DEFAULT NULL,
+                    CHANGE `localization_lng` `location_lng` float(10,6) DEFAULT NULL;
             ')
         ;
     }
@@ -33,6 +35,8 @@ class Version201702132046 extends Version
                 ALTER TABLE `' . $this->getTableName(UnitRepository::NAME) . '`
                     ADD COLUMN `status` char(1) COLLATE utf8_polish_ci NOT NULL DEFAULT "a" AFTER `id`,
                     ADD INDEX `' . $this->getIndexName(UnitRepository::NAME, 1) . '` (`status`),
+                    CHANGE `location_lat` `localization_lat` float(10,6) DEFAULT NULL,
+                    CHANGE `location_lng` `localization_lng` float(10,6) DEFAULT NULL;
             ')
         ;
     }

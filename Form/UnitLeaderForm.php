@@ -59,11 +59,11 @@ class UnitLeaderForm extends Form
                 'label' => __('Meetings time', 'scout-units-list'),
                 'nullable' => true,
             ])
-            ->addField('localizationLat', FloatHiddenType::class, [
-                'label' => __('Localization', 'scout-units-list'),
+            ->addField('locationLat', FloatHiddenType::class, [
+                'label' => __('Location', 'scout-units-list'),
                 'nullable' => true,
             ])
-            ->addField('localizationLng', FloatHiddenType::class, [
+            ->addField('locationLng', FloatHiddenType::class, [
                 'nullable' => true,
             ])
             ->addField('submit', SubmitType::class, [

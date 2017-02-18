@@ -18,13 +18,13 @@
                 <?php $form->row('mail', 'Form/RowAdmin'); ?>
                 <?php $form->row('address', 'Form/RowAdmin'); ?>
                 <?php $form->row('meetingsTime', 'Form/RowAdmin'); ?>
-                <?php $form->label('localizationLat', 'Form/LabelAdmin'); ?>
+                <?php $form->label('locationLat', 'Form/LabelAdmin'); ?>
                 <td>
-                    <?php $form->errors('localizationLat'); ?>
-                    <?php $form->errors('localizationLng'); ?>
-                    <div id="sul-localization-map"></div>
-                    <?php $form->widget('localizationLat'); ?>
-                    <?php $form->widget('localizationLng'); ?>
+                    <?php $form->errors('locationLat'); ?>
+                    <?php $form->errors('locationLng'); ?>
+                    <div id="sul-location-map"></div>
+                    <?php $form->widget('locationLat'); ?>
+                    <?php $form->widget('locationLng'); ?>
                 </td>
             </tbody>
         </table>

@@ -12,7 +12,7 @@
             autocompleteType = type;
         });
 
-        form.find('#sul-localization-map')
+        form.find('#sul-location-map')
             .mapInit();
 
         list.versionedItemDeleteForm();
@@ -131,8 +131,8 @@
         }
 
         var container = box.parent();
-        var latInput = container.children('input[name="localizationLat"]');
-        var lngInput = container.children('input[name="localizationLng"]');
+        var latInput = container.children('input[name="locationLat"]');
+        var lngInput = container.children('input[name="locationLng"]');
 
         var coordsSet = latInput.val() !== '' && lngInput.val() !== '';
         var lat = coordsSet ? +latInput.val() : sul.map.defaults.lat;

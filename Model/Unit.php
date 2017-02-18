@@ -113,10 +113,10 @@ class Unit implements JsonSerializable, VersionedModelInterface
     protected $meetingsTime;
 
     /** @var float|null */
-    protected $localizationLat;
+    protected $locationLat;
 
     /** @var float|null */
-    protected $localizationLng;
+    protected $locationLng;
 
     /** @var array */
     protected $children = [];
@@ -550,49 +550,49 @@ class Unit implements JsonSerializable, VersionedModelInterface
     }
 
     /**
-     * Get localization latitude
+     * Get location latitude
      *
      * @return float|null
      */
-    public function getLocalizationLat()
+    public function getLocationLat()
     {
-        return $this->localizationLat;
+        return $this->locationLat;
     }
 
     /**
-     * Set localization latitude
+     * Set location latitude
      *
-     * @param float|null $localizationLat localization latitude
+     * @param float|null $locationLat location latitude
      *
      * @return self
      */
-    public function setLocalizationLat($localizationLat)
+    public function setLocationLat($locationLat)
     {
-        $this->localizationLat = isset($localizationLat) ? (float) $localizationLat : null;
+        $this->locationLat = isset($locationLat) ? (float) $locationLat : null;
 
         return $this;
     }
 
     /**
-     * Get localization longitude
+     * Get location longitude
      *
      * @return float|null
      */
-    public function getLocalizationLng()
+    public function getLocationLng()
     {
-        return $this->localizationLng;
+        return $this->locationLng;
     }
 
     /**
-     * Set localization longitude
+     * Set location longitude
      *
-     * @param float|null $localizationLng localization longitude
+     * @param float|null $locationLng location longitude
      *
      * @return self
      */
-    public function setLocalizationLng($localizationLng)
+    public function setLocationLng($locationLng)
     {
-        $this->localizationLng = isset($localizationLng) ? (float) $localizationLng : null;
+        $this->locationLng = isset($locationLng) ? (float) $locationLng : null;
 
         return $this;
     }
@@ -609,7 +609,7 @@ class Unit implements JsonSerializable, VersionedModelInterface
             !empty($this->getMail()),
             !empty($this->getAddress()),
             !empty($this->getMeetingsTime()),
-            !empty($this->getLocalizationLat()) && !empty($this->getLocalizationLng()),
+            !empty($this->getLocationLat()) && !empty($this->getLocationLng()),
         ];
 
         $completeCounter = 0;
@@ -731,9 +731,9 @@ class Unit implements JsonSerializable, VersionedModelInterface
             'children' => $children,
             'hero' => $this->hero,
             'heroFull' => $this->heroFull,
-            'localization' => !empty($this->localizationLat) && !empty($this->localizationLng) ? [
-                'lat' => $this->localizationLat,
-                'lng' => $this->localizationLng,
+            'location' => !empty($this->locationLat) && !empty($this->locationLng) ? [
+                'lat' => $this->locationLat,
+                'lng' => $this->locationLng,
             ] : null,
             'mail' => $this->mail,
             'meetingsTime' => $this->meetingsTime,

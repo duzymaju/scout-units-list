@@ -45,8 +45,8 @@ class UnitRepository extends VersionedRepository
             ->setStructureElement('mail', DbManager::TYPE_STRING)
             ->setStructureElement('address', DbManager::TYPE_STRING)
             ->setStructureElement('meetingsTime', DbManager::TYPE_STRING, 'meetings_time')
-            ->setStructureElement('localizationLat', DbManager::TYPE_FLOAT, 'localization_lat')
-            ->setStructureElement('localizationLng', DbManager::TYPE_FLOAT, 'localization_lng')
+            ->setStructureElement('locationLat', DbManager::TYPE_FLOAT, 'location_lat')
+            ->setStructureElement('locationLng', DbManager::TYPE_FLOAT, 'location_lng')
         ;
         parent::defineStructure();
     }
