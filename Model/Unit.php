@@ -118,6 +118,9 @@ class Unit implements VersionedModelInterface
     protected $localizationLng;
 
     /** @var array */
+    protected $children = [];
+
+    /** @var array */
     protected $persons = [];
 
     /**
@@ -617,6 +620,49 @@ class Unit implements VersionedModelInterface
         $ratio = $completeCounter / count($components);
 
         return $ratio;
+    }
+
+    /**
+     * Add child
+     *
+     * @param Unit $child child
+     *
+     * @return self
+     */
+    public function addChild(Unit $child)
+    {
+        foreach ($this->children as $currentChild) {
+            if ($child->getId() == $currentChild->getId()) {
+                return $this;
+            }
+        }
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * Get children
+     *
+     * @return Unit[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set children
+     *
+     * @param Unit[] $children children
+     *
+     * @return self
+     */
+    public function setChildren(array $children)
+    {
+        $this->children = $children;
+
+        return $this;
     }
 
     /**

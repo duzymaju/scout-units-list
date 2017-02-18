@@ -125,4 +125,67 @@ class UnitRepository extends VersionedRepository
 
         return $slug;
     }
+
+    /**
+     * Load dependent units
+     *
+     * @param Unit     $parent parent
+     * @param int|null $levels levels
+     *
+     * @return Unit
+     */
+    public function loadDependentUnits(Unit $parent, $levels = null, array $types = null)
+    {
+        if (isset($levels)) {
+            $levels--;
+        }
+        $conditions = [
+            'parentId' => $parent->getId(),
+        ];
+        if (isset($types)) {
+            $conditions['type'] = $types;
+        }
+
+        foreach ($this->getBy($conditions) as $child) {
+            if ($child->getId() != $parent->getId()) {
+                $child->setParent($parent);
+                $parent->addChild($child);
+                if (!isset($levels) || $levels > 0) {
+                    $this->loadDependentUnits($child, $levels, $types);
+                }
+            }
+        }
+
+        return $parent;
+    }
+    
+    /**
+     * Get flat units list
+     * 
+     * @param Unit $parent    parent
+     * @param bool $idsAsKeys IDs as keys
+     * 
+     * @return Unit[]
+     */
+    public function getFlatUnitsList(Unit $parent, $idsAsKeys = false)
+    {
+        $list = [
+            $parent->getId() => $parent,
+        ];
+        foreach ($parent->getChildren() as $child) {
+            if ($child->getId() != $parent->getId()) {
+                foreach ($this->getFlatUnitsList($child, true) as $descendant) {
+                    if (!array_key_exists($descendant->getId(), $list)) {
+                        $list[$descendant->getId()] = $descendant;
+                    }
+                }
+            }
+        }
+
+        if (!$idsAsKeys) {
+            $list = array_values($list);
+        }
+
+        return $list;
+    }
 }

@@ -30,7 +30,7 @@ class ShortcodesController extends Controller
         }
 
         $withCurrent = $attributes->getBool('current', false);
-        $levels = $attributes->getInt('levels', 1);
+        $levels = max(0, $attributes->getInt('levels', 1));
         $typesList = $attributes->getString('types');
         if (empty($typesList)) {
             $types = null;
@@ -48,22 +48,20 @@ class ShortcodesController extends Controller
         $cacheManager->setId('units-list-' . $id . '-' . ($withCurrent ? '1' : '0') . '-' . $levels .
             (isset($types) ? '-' . implode(',', $types) : ''));
         if (!$cacheManager->has()) {
-            $currentUnit = $withCurrent ? $this->loader->get('repository.unit')
-                ->getOneBy([
-                    'id' => $id,
-                ]) : null;
-            if (isset($currentUnit)) {
-                $this->units = [
-                    $currentUnit,
-                ];
-                $dependentUnitsResult = $this->getDependentUnitsResult($id, $id, $levels, $types);
-                $this->setPersonsToUnits($this->units, true);
+            $unitRepository = $this->loader->get('repository.unit');
+            $unit = $withCurrent ? $unitRepository->getOneBy([
+                'id' => $id,
+            ]) : null;
+            if (isset($unit)) {
+                $unit = $unitRepository->loadDependentUnits($unit, $levels, $types);
+                $this->setPersonsToUnits($unitRepository->getFlatUnitsList($unit), true);
+                $dependentUnitsResult = $this->getDependentUnitsResult($unit, $unit, $levels, $types);
 
                 $cacheManager->set($this->getRenderedView([
                     'UnitsList-' . $id,
                     'UnitsList',
                 ], 'UnitsList', [
-                    'current' => $currentUnit,
+                    'current' => $unit,
                     'dependents' => $dependentUnitsResult,
                 ]));
             } else {
@@ -99,14 +97,16 @@ class ShortcodesController extends Controller
                 $this->setPersonsToUnits([
                     $unit,
                 ], true, false);
-            }
 
-            $cacheManager->set($this->getRenderedView([
-                'PersonsList-' . $id,
-                'PersonsList',
-            ], 'PersonsList', [
-                'unit' => $unit,
-            ]));
+                $cacheManager->set($this->getRenderedView([
+                    'PersonsList-' . $id,
+                    'PersonsList',
+                ], 'PersonsList', [
+                    'unit' => $unit,
+                ]));
+            } else {
+                $cacheManager->set('');
+            }
         }
 
         return $cacheManager->get();
@@ -115,38 +115,28 @@ class ShortcodesController extends Controller
     /**
      * Get dependent units result
      *
-     * @param int        $rootId root ID
-     * @param int        $id     ID
+     * @param Unit       $root   root
+     * @param Unit       $parent parent
      * @param int        $levels levels
      * @param array|null $types  types
      *
      * @return string
      */
-    private function getDependentUnitsResult($rootId, $id, $levels, array $types = null)
+    private function getDependentUnitsResult(Unit $root, Unit $parent, $levels, array $types = null)
     {
         $levels--;
-        $conditions = [
-            'parentId' => $id,
-        ];
-        if (isset($types)) {
-            $conditions['type'] = $types;
-        }
-        $units = $this->loader->get('repository.unit')
-            ->getBy($conditions);
-
         $elements = [];
-        foreach ($units as $unit) {
-            $this->units[] = $unit;
+        foreach ($parent->getChildren() as $child) {
             $elements[] = [
-                'current' => $unit,
+                'current' => $child,
                 'dependents' => $levels > 0 ?
-                    $this->getDependentUnitsResult($rootId, $unit->getId(), $levels, $types) : '',
+                    $this->getDependentUnitsResult($root, $child, $levels, $types) : '',
             ];
         }
 
         $result = $this->getRenderedView([
             'UnitsListLevel',
-            'UnitsListLevel-' . $rootId,
+            'UnitsListLevel-' . $root->getId(),
         ], 'UnitsListLevel', [
             'elements' => $elements,
         ]);

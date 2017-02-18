@@ -199,7 +199,9 @@
                 .replace('%name%', listRow.data('delete-form-name'))
                 .replace('%deletedId%', listRow.data('deleted-id'))
             );
+            var fakeRow = $('<tr>');
             listRow.after(formRow);
+            listRow.after(fakeRow);
             listRow.hide();
             formRow.find('form.sul-form input[data-autocomplete-action]')
                 .autocompleteInit();
@@ -207,6 +209,7 @@
             formRow.find('button.cancel').on('click', function () {
                 formRow.unbind();
                 formRow.remove();
+                fakeRow.remove();
                 listRow.show();
             });
         });
