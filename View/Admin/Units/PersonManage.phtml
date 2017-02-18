@@ -34,7 +34,7 @@
                 <?php foreach ($persons as $person):
                     $position = $person->getPosition();
                     $user = $person->getUser();
-                    $positionName = $user->isFemale() ? $position->getNameFemale() : $position->getNameMale();
+                    $positionName = $position->getNameFor($user);
                     $userLink = $this->getLink([
                         'user_id' => $user->getId(),
                     ], 'user-edit.php');

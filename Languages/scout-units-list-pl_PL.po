@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-18 14:53+0100\n"
-"PO-Revision-Date: 2017-02-18 14:53+0100\n"
+"POT-Creation-Date: 2017-02-18 18:14+0100\n"
+"PO-Revision-Date: 2017-02-18 18:15+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -590,3 +590,7 @@ msgstr "Następna strona"
 #: View/Partial/PaginationAdmin.phtml:50
 msgid "Last page"
 msgstr "Ostatnia strona"
+
+#: View/Shortcodes/UnitsListLevel.phtml:19
+msgid "vacancy"
+msgstr "wakat"

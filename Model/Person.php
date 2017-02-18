@@ -196,6 +196,19 @@ class Person implements JsonSerializable, VersionedModelInterface
     }
 
     /**
+     * Is leader
+     *
+     * @return bool
+     */
+    public function isLeader()
+    {
+        $position = $this->getPosition();
+        $isLeader = isset($position) && $position->isLeader();
+
+        return $isLeader;
+    }
+
+    /**
      * Get order ID
      *
      * @return int|null

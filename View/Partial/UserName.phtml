@@ -1,0 +1,13 @@
+<?php if (isset($this->user)): ?>
+    <?php $name = $this->user->getName(); $email = $this->user->getEmailIfAllowed(); if (empty($email)): ?>
+        <span<?php echo $this->getAttr('class', $this->cssClass); ?>>
+            <?php echo $this->escape($name); ?>
+        </span>
+    <?php else: ?>
+        <a href="mailto:<?php echo $this->escape($email); ?>"<?php echo $this->getAttr('class', $this->cssClass); ?>>
+            <?php echo $this->escape($name); ?>
+        </a>
+    <?php endif; ?>
+<?php else: ?>
+    -
+<?php endif;

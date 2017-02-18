@@ -132,7 +132,7 @@ final class Loader
      */
     public function getFileUrl($filePath)
     {
-        $fileUrl = $this->mainUrl . '/' . ltrim($filePath);
+        $fileUrl = $this->mainUrl . '/' . ltrim($filePath, '/');
 
         return $fileUrl;
     }

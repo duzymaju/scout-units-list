@@ -381,4 +381,39 @@ class User implements ModelInterface
 
         return $this;
     }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName($addGrade = true)
+    {
+        $grade = $addGrade ? $this->getGrade() : '';
+        $name = (empty($grade) ? '' : $grade . ' ') . $this->getDisplayName();
+
+        return $name;
+    }
+
+    /**
+     * Get avatar URL
+     *
+     * @param int|null    $size    size
+     * @param string|null $default default
+     *
+     * @return string
+     */
+    public function getAvatarUrl($size = null, $default = null)
+    {
+        $arguments = [];
+        if (!empty($size)) {
+            $arguments['size'] = $size;
+        }
+        if (!empty($default)) {
+            $arguments['default'] = $default;
+        }
+        $url = \get_avatar_url($this->getEmail(), $arguments);
+
+        return $url;
+    }
 }

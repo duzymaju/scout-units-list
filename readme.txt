@@ -17,23 +17,30 @@ This plugin allows you to create a structure of units which are dependent on mai
 
 Add `[sul-units-list id="X"]` shortcode, where `X` is an ID of a base unit. You can use also other attributes:
 
+* `class` (string) - allows to add CSS class,
 * `current` (boolean, `false` as a default value) - allows to show/hide current unit on a list,
 * `levels` (integer, `1` as a default value) - allows to define number of levels with dependent units.
 
-To define your own template create `scout-units-list` directory in your current theme directory and then create there `UnitsList.phtml` or `UnitsList-X.phtml` file where `X` is an ID of a base unit. To customize template of dependent units level you have to create in the same location `UnitsListLevel.phtml` or `UnitsListLevel-X.phtml` file as well. To know how to access units data please check default templates in `View/Shortcodes` directory.
+To define your own template create `scout-units-list` directory in your current theme directory and then create there `UnitsList.phtml`, `UnitsList-Y.phtml` or `UnitsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To customize template of dependent units level you have to create in the same location `UnitsListLevel.phtml`, `UnitsListLevel-Y.phtml` or `UnitsListLevel-X.phtml` file as well. To know how to access units data please check default templates in `View/Shortcodes` directory.
 
 = Showing persons list =
 
-Add `[sul-persons-list id="X"]` shortcode, where `X` is an ID of a base unit.
+Add `[sul-persons-list id="X"]` shortcode, where `X` is an ID of a base unit. You can use also other attributes:
 
-To define your own template create `scout-units-list` directory in your current theme directory and then create there `PersonsList.phtml` or `PersonsList-X.phtml` file where `X` is an ID of a base unit. To know how to access units data please check default template in `View/Shortcodes` directory.
+* `class` (string) - allows to add CSS class.
+
+To define your own template create `scout-units-list` directory in your current theme directory and then create there `PersonsList.phtml`, `PersonsList-Y.phtml` or `PersonsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To know how to access units data please check default template in `View/Shortcodes` directory.
+
+= Things to do before stable version release =
+
+1. Add a shortcode which implements a map with selected units marked on it.
+2. Configurable types/subtypes lists and dependencies.
 
 = Future plans =
 
-1. Finish default shortcode templates, add default CSSes.
-2. Add a shortcode which implements a map with selected units marked on it.
-3. Configurable types/subtypes lists and dependencies.
-4. Sorting/searching on units/positions lists in admin panel.
+1. Add for each unit a list of changes (versions).
+2. Add for each user a list of position changes (versions).
+3. Sorting/searching on units/positions lists in admin panel.
 
 == Installation ==
 

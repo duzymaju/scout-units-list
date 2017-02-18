@@ -710,6 +710,24 @@ class Unit implements JsonSerializable, VersionedModelInterface
     }
 
     /**
+     * Get leader
+     *
+     * @return Person|null
+     */
+    public function getLeader()
+    {
+        $leader = null;
+        foreach ($this->getPersons() as $person) {
+            if ($person->isLeader()) {
+                $leader = $person;
+                break;
+            }
+        }
+
+        return $leader;
+    }
+
+    /**
      * JSON serialize
      *
      * @return array

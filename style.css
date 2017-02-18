@@ -1,0 +1,60 @@
+.sul-person-list,
+.sul-unit-list {
+    margin: 15px 0;
+}
+.sul-person-list-unit,
+.sul-unit-list-unit {
+    border: 1px solid #000;
+    font: inherit;
+    font-weight: bold;
+    margin: 0 0 2px;
+    padding: 5px 10px;
+}
+.sul-person-list-items,
+.sul-unit-list-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sul-person {
+    border: 1px solid #000;
+    margin: 2px 0;
+    overflow: hidden;
+    padding: 5px;
+}
+.sul-person-img {
+    display: block;
+    float: left;
+}
+.sul-person-info {
+    float: left;
+    margin-left: 10px;
+}
+.sul-person-title {
+    font: inherit;
+    font-weight: bold;
+    margin: 0;
+}
+.sul-person-name,
+.sul-person-duty {
+    display: block;
+}
+
+.sul-unit {
+    margin: 0;
+    padding: 0;
+}
+.sul-unit .sul-unit-list-items {
+    margin-left: 20px;
+}
+.sul-unit-info {
+    border: 1px solid #000;
+    display: block;
+    margin: 2px 0;
+    padding: 5px 10px;
+}
+.sul-unit-name,
+.sul-unit-leader {
+    display: block;
+}

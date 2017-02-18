@@ -94,7 +94,9 @@ add_action('init', function () use ($loader, $configManager) {
                 ],
             ],
         ]);
-        wp_enqueue_style('sul-admin-css', $loader->getFileUrl('/admin.css'), false, $loader->getVersion());
+        wp_enqueue_style('sul-admin-css', $loader->getFileUrl('admin.css'), false, $loader->getVersion());
+    } else {
+        wp_enqueue_style('sul-user-css', $loader->getFileUrl('style.css'), false, $loader->getVersion());
     }
 });
 
