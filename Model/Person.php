@@ -2,10 +2,12 @@
 
 namespace ScoutUnitsList\Model;
 
+use JsonSerializable;
+
 /**
  * Person model
  */
-class Person implements VersionedModelInterface
+class Person implements JsonSerializable, VersionedModelInterface
 {
     use VersionedModelTrait;
 
@@ -263,5 +265,30 @@ class Person implements VersionedModelInterface
         $this->orderNo = $orderNo;
 
         return $this;
+    }
+
+    /**
+     * JSON serialize
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $position = $this->getPosition();
+        $user = $this->getUser();
+
+        $data = [
+            'duty' => isset($user) ? $user->getDuty() : null,
+            'email' => isset($user) ? $user->getEmailIfAllowed() : null,
+            'grade' => isset($user) ? $user->getGrade() : null,
+            'name' => isset($user) ? $user->getDisplayName() : null,
+            'position' => isset($position) ? [
+                'description' => $position->getDescription(),
+                'leader' => $position->isLeader(),
+                'name' => isset($user) ? $position->getNameFor($user) : $position->getNameMale(),
+            ] : null,
+        ];
+
+        return $data;
     }
 }

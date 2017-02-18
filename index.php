@@ -15,6 +15,7 @@ namespace ScoutUnitsList;
 use ScoutUnitsList\Controller\AdminController;
 use ScoutUnitsList\Controller\Admin\UserController;
 use ScoutUnitsList\Controller\AjaxController;
+use ScoutUnitsList\Controller\ApiController;
 use ScoutUnitsList\Controller\InstallController;
 use ScoutUnitsList\Controller\ShortcodesController;
 use ScoutUnitsList\Manager\CacheManager;
@@ -126,6 +127,22 @@ foreach (get_class_methods(AjaxController::class) as $methodName) {
         ]);
     }
 }
+
+// API requests
+$apiController = new ApiController($loader, $request);
+$apiParamName = 'sul_api_v';
+$installController->addRewriteRule('^sul-api/v([1-9][0-9]*)/([a-z-]+)/?',
+    'index.php?' . $apiParamName . '=$matches[1]&action=$matches[2]');
+add_filter('query_vars', function (array $queryVars) use ($apiParamName) {
+    $queryVars[] = $apiParamName;
+
+    return $queryVars;
+});
+add_action('parse_request', function (&$wp) use ($apiController, $apiParamName) {
+    if (array_key_exists($apiParamName, $wp->query_vars)) {
+        $apiController->routes((int) $wp->query_vars[$apiParamName]);
+    }
+});
 
 // Shortcodes
 $shortcodesController = new ShortcodesController($loader, $request);

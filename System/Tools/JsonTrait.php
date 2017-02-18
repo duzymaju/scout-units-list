@@ -10,14 +10,14 @@ trait JsonTrait
     /**
      * Send response
      *
-     * @param array $data data
+     * @param array|string $data data
      */
-    protected function sendResponse(array $data)
+    protected function sendResponse($data)
     {
         header('Content-Type: text/json');
         header('Cache-Control: no-cache, must-revalidate');
         header('Expires: ' . gmdate('D, d M Y H:i:s T'));
-        echo json_encode($data);
+        echo is_string($data) ? $data : json_encode($data);
         exit;
     }
 }

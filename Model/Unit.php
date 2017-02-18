@@ -2,12 +2,13 @@
 
 namespace ScoutUnitsList\Model;
 
+use JsonSerializable;
 use ScoutUnitsList\System\Tools\StringTrait;
 
 /**
  * Unit model
  */
-class Unit implements VersionedModelInterface
+class Unit implements JsonSerializable, VersionedModelInterface
 {
     use StringTrait;
     use VersionedModelTrait;
@@ -706,5 +707,46 @@ class Unit implements VersionedModelInterface
         $this->persons = $persons;
 
         return $this;
+    }
+
+    /**
+     * JSON serialize
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $children = [];
+        foreach ($this->children as $child) {
+            $children[] = $child->jsonSerialize();
+        }
+
+        $persons = [];
+        foreach ($this->persons as $person) {
+            $persons[] = $person->jsonSerialize();
+        }
+
+        $data = [
+            'address' => $this->address,
+            'children' => $children,
+            'hero' => $this->hero,
+            'heroFull' => $this->heroFull,
+            'localization' => !empty($this->localizationLat) && !empty($this->localizationLng) ? [
+                'lat' => $this->localizationLat,
+                'lng' => $this->localizationLng,
+            ] : null,
+            'mail' => $this->mail,
+            'meetingsTime' => $this->meetingsTime,
+            'name' => $this->name,
+            'nameFull' => $this->nameFull,
+            'parent' => isset($this->parent) ? $this->parent->getSlug() : null,
+            'persons' => $persons,
+            'slug' => $this->slug,
+            'subtype' => $this->subtype,
+            'type' => $this->type,
+            'url' => $this->url,
+        ];
+
+        return $data;
     }
 }

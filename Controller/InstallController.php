@@ -10,6 +10,9 @@ use ScoutUnitsList\Manager\MigrationManager;
  */
 class InstallController extends Controller
 {
+    /** @var array */
+    private $rewriteRules = [];
+
     /**
      * Activate
      */
@@ -24,6 +27,11 @@ class InstallController extends Controller
                 ->migrate();
             $this->get('manager.config')
                 ->save();
+
+            foreach ($this->rewriteRules as $rewriteRule) {
+                \add_rewrite_rule($rewriteRule['regExp'], $rewriteRule['redirect'], $rewriteRule['after']);
+            }
+            \flush_rewrite_rules(false);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -34,7 +42,17 @@ class InstallController extends Controller
      */
     public function deactivate()
     {
-        // nothing to do
+        \add_filter('rewrite_rules_array', function (array $rules) {
+            foreach ($this->rewriteRules as $rewriteRule) {
+                $regExp = $rewriteRule['regExp'];
+                if (array_key_exists($regExp, $rules)) {
+                    unset($rules[$regExp]);
+                }
+            }
+
+            return $rules;
+        });
+        \flush_rewrite_rules(false);
     }
 
     /**
@@ -51,6 +69,29 @@ class InstallController extends Controller
             return $this->error(sprintf('%s Please try to uninstall plugin again or remove options and tables ' .
                 'manually from database.', $e->getMessage()));
         }
+    }
+
+    /**
+     * Add rewrite rule
+     *
+     * @param string $regExp   regular expression
+     * @param string $redirect redirect
+     * @param string $after    after
+     *
+     * @return self
+     */
+    public function addRewriteRule($regExp, $redirect, $after = 'top')
+    {
+        $this->rewriteRules[] = [
+            'after' => $after,
+            'redirect' => $redirect,
+            'regExp' => $regExp,
+        ];
+        \add_action('init', function () use ($regExp, $redirect, $after) {
+            \add_rewrite_rule($regExp, $redirect, $after);
+        });
+
+        return $this;
     }
 
     /**

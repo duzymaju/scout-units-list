@@ -143,6 +143,16 @@ class User implements ModelInterface
     }
 
     /**
+     * Get e-mail if allowed
+     *
+     * @return string|null
+     */
+    public function getEmailIfAllowed()
+    {
+        return $this->getPublishEmail() == self::PUBLISH_EMAIL_YES ? $this->email : null;
+    }
+
+    /**
      * Set e-mail
      *
      * @param string $email e-mail
