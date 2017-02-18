@@ -3,7 +3,7 @@
 Plugin Name: Scout Units List
 Plugin URI: http://www.krakowpodgorze.zhp.pl/
 Description: Units management system for scout web pages.
-Version: 0.2.1
+Version: 0.3.0
 Author: Wiktor Maj
 Author URI: http://www.majpage.com/
 License: GNU GPLv2
@@ -36,7 +36,7 @@ global $wpdb;
 
 require_once(dirname(__FILE__) . '/System/Loader.php');
 $loader = Loader::run();
-$loader->setVersion('0.2.1');
+$loader->setVersion('0.3.0');
 
 $request = new Request();
 
