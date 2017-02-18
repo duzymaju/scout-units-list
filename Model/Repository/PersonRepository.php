@@ -140,6 +140,16 @@ class PersonRepository extends VersionedRepository
             }
         }
 
+        if (!$leaderOnly) {
+            // Sort persons by positions leadership
+            usort($persons, function (Person $personA, Person $personB) {
+                $positionA = $personA->getPosition();
+                $positionB = $personB->getPosition();
+
+                return $positionA->isLeader() == $positionB->isLeader() ? 0 : ($positionA->isLeader() ? -1 : 1);
+            });
+        }
+
         // Include users if necessary
         $usersByIds = [];
         if ($userRepository && count($userIds) > 0) {

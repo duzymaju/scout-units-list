@@ -132,7 +132,7 @@ class UnitRepository extends VersionedRepository
      * @param Unit     $parent parent
      * @param int|null $levels levels
      *
-     * @return Unit
+     * @return self
      */
     public function loadDependentUnits(Unit $parent, $levels = null, array $types = null)
     {
@@ -146,7 +146,11 @@ class UnitRepository extends VersionedRepository
             $conditions['type'] = $types;
         }
 
-        foreach ($this->getBy($conditions) as $child) {
+        $children = $this->getBy($conditions, [
+            'sort' => 'asc',
+            'slug' => 'asc',
+        ]);
+        foreach ($children as $child) {
             if ($child->getId() != $parent->getId()) {
                 $child->setParent($parent);
                 $parent->addChild($child);
@@ -156,7 +160,7 @@ class UnitRepository extends VersionedRepository
             }
         }
 
-        return $parent;
+        return $this;
     }
     
     /**

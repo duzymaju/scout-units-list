@@ -53,7 +53,7 @@ class ShortcodesController extends Controller
                 'id' => $id,
             ]) : null;
             if (isset($unit)) {
-                $unit = $unitRepository->loadDependentUnits($unit, $levels, $types);
+                $unitRepository->loadDependentUnits($unit, $levels, $types);
                 $this->setPersonsToUnits($unitRepository->getFlatUnitsList($unit), true);
                 $dependentUnitsResult = $this->getDependentUnitsResult($unit, $unit, $levels, $types);
 
@@ -155,9 +155,9 @@ class ShortcodesController extends Controller
      */
     private function setPersonsToUnits(array $units, $includeUsers = false, $leaderOnly = true)
     {
-        return $this->loader->get('repository.person')->setPersonsToUnits($units,
-            $this->loader->get('repository.position'), $includeUsers ? $this->loader->get('repository.user') : null,
-            null, $leaderOnly);
+        return $this->loader->get('repository.person')
+            ->setPersonsToUnits($units, $this->loader->get('repository.position'),
+                $includeUsers ? $this->loader->get('repository.user') : null, null, $leaderOnly);
     }
 
     /**
