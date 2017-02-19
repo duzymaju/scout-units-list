@@ -93,6 +93,7 @@ class UserRepository extends NativeRepository
         update_user_meta($user->getId(), 'sul_publish_email', $user->getPublishEmail());
         update_user_meta($user->getId(), 'sul_grade', $user->getGrade());
         update_user_meta($user->getId(), 'sul_duty', $user->getDuty());
+        update_user_meta($user->getId(), 'sul_responsibilities', $user->getResponsibilities());
         update_user_meta($user->getId(), 'sul_sex', $user->getSex());
 
         return $this;
@@ -111,6 +112,7 @@ class UserRepository extends NativeRepository
         $user->setPublishEmail((int) get_the_author_meta('sul_publish_email', $user->getId()))
             ->setGrade(get_the_author_meta('sul_grade', $user->getId()))
             ->setDuty(get_the_author_meta('sul_duty', $user->getId()))
+            ->setResponsibilities(get_the_author_meta('sul_responsibilities', $user->getId()))
             ->setSex(get_the_author_meta('sul_sex', $user->getId()));
         $this->setProperPublishEmail($user);
 
@@ -148,7 +150,7 @@ class UserRepository extends NativeRepository
     public function findByName($name, $limit = 10)
     {
         $query = $this->db->prepare('SELECT `ID`, `user_login`, `display_name` FROM `' . $this->getTableName() .
-            '` WHERE `user_login` LIKE :name || `user_nicename` LIKE :name LIMIT ' . ((int) $limit))
+            '` WHERE `user_login` LIKE :name || `display_name` LIKE :name LIMIT ' . ((int) $limit))
             ->setParam('name', '%' . $this->escapeLike($name) . '%')
             ->getQuery();
         $results = $this->db->getResults($query, ARRAY_A);

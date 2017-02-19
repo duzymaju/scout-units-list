@@ -21,7 +21,7 @@ class UserController extends Controller
         $userRepository = $this->get('repository.user');
         $user = $userRepository->createModelFromWpUser($wpUser);
 
-        $this->getView(current_user_can('promote_users') ? 'Admin/Users/Form' : 'Admin/Users/Show', [
+        $this->getView(current_user_can('promote_users') ? 'Admin/Users/AdminForm' : 'Admin/Users/UserForm', [
             'publishEmails' => $userRepository->getPublishEmails(),
             'sexes' => [
                 User::SEX_FEMALE => __('Female', 'scout-units-list'),
@@ -38,7 +38,8 @@ class UserController extends Controller
      */
     public function update($userId)
     {
-        if (current_user_can('promote_users')) {
+        $userCanPromoteUsers = current_user_can('promote_users');
+        if (get_current_user_id() == $userId || $userCanPromoteUsers) {
             $userRepository = $this->get('repository.user');
             $user = $userRepository->getOneBy([
                 'id' => $userId,
@@ -46,9 +47,12 @@ class UserController extends Controller
             if (isset($user)) {
                 $params = $this->request->request;
                 $user->setPublishEmail($params->getInt('sul_publish_email'))
-                    ->setGrade($params->getString('sul_grade'))
-                    ->setDuty($params->getString('sul_duty'))
-                    ->setSex($params->getString('sul_sex'));
+                    ->setDuty($params->getString('sul_duty'));
+                if ($userCanPromoteUsers) {
+                    $user->setGrade($params->getString('sul_grade'))
+                        ->setResponsibilities($params->getString('sul_responsibilities'))
+                        ->setSex($params->getString('sul_sex'));
+                }
                 $userRepository->save($user);
             }
         }

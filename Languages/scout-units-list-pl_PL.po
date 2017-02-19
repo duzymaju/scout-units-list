@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-18 18:21+0100\n"
-"PO-Revision-Date: 2017-02-18 18:21+0100\n"
+"POT-Creation-Date: 2017-02-19 02:19+0100\n"
+"PO-Revision-Date: 2017-02-19 02:19+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -95,11 +95,11 @@ msgstr "Do usunięcia tej jednostki potrzebny jest poprawny numer rozkazu."
 msgid "Delete \"%name%\" unit"
 msgstr "Usuń jednostkę \"%name%\""
 
-#: Controller/Admin/UserController.php:27 View/Admin/Users/Show.phtml:23
+#: Controller/Admin/UserController.php:27 View/Admin/Users/UserForm.phtml:38
 msgid "Female"
 msgstr "Kobieta"
 
-#: Controller/Admin/UserController.php:28 View/Admin/Users/Show.phtml:24
+#: Controller/Admin/UserController.php:28 View/Admin/Users/UserForm.phtml:39
 msgid "Male"
 msgstr "Mężczyzna"
 
@@ -267,16 +267,16 @@ msgstr "Nr rozkazu"
 msgid "Delete"
 msgstr "Usuń"
 
-#: Model/Repository/UserRepository.php:188
+#: Model/Repository/UserRepository.php:190
 msgid "Contact form"
 msgstr "Formularz kontaktowy"
 
-#: Model/Repository/UserRepository.php:189 View/Admin/Positions/List.phtml:54
+#: Model/Repository/UserRepository.php:191 View/Admin/Positions/List.phtml:54
 #: View/Admin/Units/PersonManage.phtml:54 View/Form/Widget/Boolean.phtml:2
 msgid "Yes"
 msgstr "Tak"
 
-#: Model/Repository/UserRepository.php:190 View/Admin/Positions/List.phtml:54
+#: Model/Repository/UserRepository.php:192 View/Admin/Positions/List.phtml:54
 #: View/Admin/Units/PersonManage.phtml:54 View/Form/Widget/Boolean.phtml:3
 msgid "No"
 msgstr "Nie"
@@ -539,27 +539,31 @@ msgstr "Nie znaleziono żadnych funkcyjnych."
 msgid "Add person to unit \"%s\""
 msgstr "Dodaj funkcyjnego do jednostki \"%s\""
 
-#: View/Admin/Users/Form.phtml:1 View/Admin/Users/Show.phtml:1
+#: View/Admin/Users/AdminForm.phtml:1 View/Admin/Users/UserForm.phtml:1
 msgid "Scout data"
 msgstr "Dane harcerskie"
 
-#: View/Admin/Users/Form.phtml:5 View/Admin/Users/Show.phtml:5
+#: View/Admin/Users/AdminForm.phtml:5 View/Admin/Users/UserForm.phtml:5
 msgid "Publish e-mail"
 msgstr "Publikuj adres e-mail"
 
-#: View/Admin/Users/Form.phtml:18 View/Admin/Users/Show.phtml:11
+#: View/Admin/Users/AdminForm.phtml:18 View/Admin/Users/UserForm.phtml:19
 msgid "Grade"
 msgstr "Stopień instruktorski"
 
-#: View/Admin/Users/Form.phtml:25 View/Admin/Users/Show.phtml:17
+#: View/Admin/Users/AdminForm.phtml:25 View/Admin/Users/UserForm.phtml:24
 msgid "Duty"
 msgstr "Dyżur"
 
-#: View/Admin/Users/Form.phtml:32 View/Admin/Users/Show.phtml:22
+#: View/Admin/Users/AdminForm.phtml:32 View/Admin/Users/UserForm.phtml:32
+msgid "Responsibilities"
+msgstr "Zakres obowiązków"
+
+#: View/Admin/Users/AdminForm.phtml:38 View/Admin/Users/UserForm.phtml:37
 msgid "Sex"
 msgstr "Płeć"
 
-#: View/Admin/Users/Form.phtml:35 View/Admin/Users/Show.phtml:24
+#: View/Admin/Users/AdminForm.phtml:41 View/Admin/Users/UserForm.phtml:39
 msgid "Unknown sex"
 msgstr "Płeć nieznana"
 

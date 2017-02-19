@@ -1,0 +1,43 @@
+<h2><?php _e('Scout data', 'scout-units-list'); ?></h2>
+<table class="form-table">
+    <tbody>
+        <tr>
+            <th><label for="sul_publish_email"><?php _e('Publish e-mail', 'scout-units-list'); ?></label></th>
+            <td>
+                <select name="sul_publish_email" id="sul_publish_email" style="width:15em">
+                    <?php foreach ($this->publishEmails as $value => $name): ?>
+                        <option<?php echo $this->user->getPublishEmail() == $value ? ' selected' : ''; ?>
+                            value="<?php echo $this->escape($value); ?>">
+                            <?php echo $this->escape($name); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </td>
+        </tr>
+        <?php $grade = $this->user->getGrade(); if (!empty($grade)): ?>
+            <tr>
+                <th><?php _e('Grade', 'scout-units-list'); ?></th>
+                <td><?php echo $this->escape($grade); ?></td>
+            </tr>
+        <?php endif; ?>
+        <tr>
+            <th><label for="sul_duty"><?php _e('Duty', 'scout-units-list'); ?></label></th>
+            <td>
+                <input type="text" name="sul_duty" id="sul_duty" class="regular-text"
+                    value="<?php echo $this->escape($this->user->getDuty()); ?>">
+            </td>
+        </tr>
+        <?php $responsibilities = $this->user->getResponsibilities(); if (!empty($responsibilities)): ?>
+            <tr>
+                <th><?php _e('Responsibilities', 'scout-units-list'); ?></th>
+                <td><?php echo $this->escape($responsibilities); ?></td>
+            </tr>
+        <?php endif; ?>
+        <tr>
+            <th><?php _e('Sex', 'scout-units-list'); ?></th>
+            <td><?php $this->user->isFemale() ? _e('Female', 'scout-units-list') :
+                ($this->user->isMale() ? _e('Male', 'scout-units-list') : _e('Unknown sex', 'scout-units-list'));
+            ?></td>
+        </tr>
+    </tbody>
+</table>
