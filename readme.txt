@@ -3,7 +3,7 @@ Contributors: duzymaju
 Tags: scouts, zhp, zhr, wosm, wagggs
 Requires at least: 3.0.0
 Tested up to: 4.7
-Stable tag: 0.3.1
+Stable tag: 0.4.0
 License: GNU GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,3 +59,6 @@ Add migrations. Integrate with orders added into database as posts (configurable
 
 = 0.3 =
 Improve shortcodes for units/persons. Add API.
+
+= 0.4 =
+Add multiple order categories.
