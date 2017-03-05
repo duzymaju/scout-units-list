@@ -50,9 +50,9 @@ class ShortcodesController extends Controller
             (isset($types) ? '-' . implode(',', $types) : ''));
         if (!$cacheManager->has()) {
             $unitRepository = $this->loader->get('repository.unit');
-            $unit = $withCurrent ? $unitRepository->getOneBy([
+            $unit = $unitRepository->getOneBy([
                 'id' => $id,
-            ]) : null;
+            ]);
             if (isset($unit)) {
                 $unitRepository->loadDependentUnits($unit, $levels, $types);
                 $this->setPersonsToUnits($unitRepository->getFlatUnitsList($unit), true);
@@ -66,6 +66,7 @@ class ShortcodesController extends Controller
                     'cssClass' => $cssClass,
                     'current' => $unit,
                     'dependents' => $dependentUnitsResult,
+                    'withCurrent' => $withCurrent,
                 ]));
             } else {
                 $cacheManager->set('');

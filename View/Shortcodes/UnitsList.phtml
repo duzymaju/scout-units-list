@@ -1,5 +1,5 @@
 <div class="sul-unit-list sul-unit-list-<?php echo $this->escape($this->current->getId()) . (empty($this->cssClass) ? '' : ' ' . $this->escape($this->cssClass)); ?>">
-    <?php if (isset($this->current)): ?>
+    <?php if ($this->withCurrent): ?>
         <h3 class="sul-unit-list-unit"><?php echo $this->escape($this->current->getName()); ?></h3>
     <?php endif; ?>
     <?php echo $this->dependents; ?>
