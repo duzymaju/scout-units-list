@@ -8,13 +8,13 @@
         <fieldset class="inline-edit-col-left">
             <legend class="inline-edit-legend"><?php echo $this->escape($this->label); ?></legend>
             <div class="inline-edit-col">
-                <?php $form->row($this->orderCategoryDefined ? 'orderId' : 'orderNo', 'Form/RowInline'); ?>
+                <?php $form->row($this->orderCategoriesDefined ? 'orderId' : 'orderNo', 'Form/RowInline'); ?>
             </div>
         </fieldset>
         <p class="submit inline-edit-save">
             <button type="button" class="button cancel alignleft">Anuluj</button>
             <?php $form->widget('submit'); ?>
-            <?php if ($this->orderCategoryDefined): ?>
+            <?php if ($this->orderCategoriesDefined): ?>
                 <?php $form->widget('orderNo'); ?>
             <?php endif; ?>
             <br class="clear">

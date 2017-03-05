@@ -1,4 +1,4 @@
-<select name="<?php echo $this->escape($this->name); ?>"<?php echo $this->attr; ?>>
+<select name="<?php echo $this->escape($this->name) . ($this->isMultiple ? '[]' : ''); ?>"<?php echo $this->attr; ?>>
     <?php foreach ($this->options as $optionKey => $optionValue):
         $attr = '';
         if (is_array($optionValue)):
@@ -11,7 +11,8 @@
         endif;
 ?>
         <option value="<?php echo $this->escape($optionKey); ?>"
-            <?php echo ($optionKey == $this->value ? ' selected' : '') . $attr; ?>>
+            <?php echo ((is_array($this->value) && in_array($optionKey, $this->value)) ||
+                (!is_array($this->value) && $optionKey == $this->value) ? ' selected' : '') . $attr; ?>>
             <?php echo $this->escape($optionValue); ?>
         </option>
     <?php endforeach; ?>

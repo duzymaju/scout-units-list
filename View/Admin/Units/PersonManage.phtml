@@ -91,10 +91,10 @@
             <tbody>
                 <?php $form->row('userId', 'Form/RowAdmin'); ?>
                 <?php $form->row('positionId', 'Form/RowAdmin'); ?>
-                <?php $form->row($this->orderCategoryDefined ? 'orderId' : 'orderNo', 'Form/RowAdmin'); ?>
+                <?php $form->row($this->orderCategoriesDefined ? 'orderId' : 'orderNo', 'Form/RowAdmin'); ?>
             </tbody>
         </table>
-        <?php if ($this->orderCategoryDefined): ?>
+        <?php if ($this->orderCategoriesDefined): ?>
             <?php $form->widget('orderNo'); ?>
         <?php endif; ?>
         <?php $form->row('submit', 'Form/RowSubmitAdmin'); ?>

@@ -29,10 +29,10 @@
                 <?php $form->row('nameFull', 'Form/RowAdmin'); ?>
                 <?php $form->row('hero', 'Form/RowAdmin'); ?>
                 <?php $form->row('heroFull', 'Form/RowAdmin'); ?>
-                <?php $form->row($this->orderCategoryDefined ? 'orderId' : 'orderNo', 'Form/RowAdmin'); ?>
+                <?php $form->row($this->orderCategoriesDefined ? 'orderId' : 'orderNo', 'Form/RowAdmin'); ?>
             </tbody>
         </table>
-        <?php if ($this->orderCategoryDefined): ?>
+        <?php if ($this->orderCategoriesDefined): ?>
             <?php $form->widget('orderNo'); ?>
         <?php endif; ?>
         <?php $form->row('submit', 'Form/RowSubmitAdmin'); ?>

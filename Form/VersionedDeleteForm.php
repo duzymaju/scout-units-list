@@ -25,7 +25,7 @@ class VersionedDeleteForm extends Form
         /** @var Config $config */
         $config = $settings['config'];
 
-        if ($config->isOrderCategoryDefined()) {
+        if ($config->areOrderCategoriesDefined()) {
             $this
                 ->addField('orderId', IntegerAutocompleteType::class, [
                     'action' => 'sul_orders',

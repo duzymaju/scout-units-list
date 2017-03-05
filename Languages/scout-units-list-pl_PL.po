@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-19 02:19+0100\n"
-"PO-Revision-Date: 2017-02-19 02:19+0100\n"
+"POT-Creation-Date: 2017-03-05 11:08+0100\n"
+"PO-Revision-Date: 2017-03-05 11:11+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -135,35 +135,35 @@ msgstr "Konfiguracja"
 msgid "Cache TTL in seconds"
 msgstr "Czas życia (TTL) cache'a w sekundach"
 
-#: Form/ConfigForm.php:38
-msgid "Order category"
-msgstr "Kategoria rozkazu"
+#: Form/ConfigForm.php:39
+msgid "Order categories"
+msgstr "Kategorie rozkazu"
 
-#: Form/ConfigForm.php:45
+#: Form/ConfigForm.php:46
 msgid "Order number format for \"pattern\" attribute"
 msgstr "Format numerów rozkazów dla atrybutu \"pattern\""
 
-#: Form/ConfigForm.php:51
+#: Form/ConfigForm.php:52
 msgid "Order number placeholder"
 msgstr "Etykieta zastępcza numeru rozkazu"
 
-#: Form/ConfigForm.php:57
+#: Form/ConfigForm.php:58
 msgid "Map key"
 msgstr "Klucz do mapy"
 
-#: Form/ConfigForm.php:64
+#: Form/ConfigForm.php:65
 msgid "Map default latitude"
 msgstr "Domyślna szerokość geograficzna mapy"
 
-#: Form/ConfigForm.php:71
+#: Form/ConfigForm.php:72
 msgid "Map default longitude"
 msgstr "Domyślna długość geograficzna mapy"
 
-#: Form/ConfigForm.php:78
+#: Form/ConfigForm.php:79
 msgid "Map default zoom"
 msgstr "Domyślne powiększenie mapy"
 
-#: Form/ConfigForm.php:85 Form/PersonForm.php:82 Form/PositionForm.php:64
+#: Form/ConfigForm.php:86 Form/PersonForm.php:82 Form/PositionForm.php:64
 #: Form/UnitAdminForm.php:120 Form/UnitLeaderForm.php:73
 msgid "Save"
 msgstr "Zapisz"

@@ -46,7 +46,7 @@ class PersonForm extends Form
                 'options' => $settings['positions'],
                 'required' => true,
             ]);
-        if ($config->isOrderCategoryDefined()) {
+        if ($config->areOrderCategoriesDefined()) {
             $this
                 ->addField('orderId', IntegerAutocompleteType::class, [
                     'action' => 'sul_orders',

@@ -95,7 +95,7 @@ class UnitsController extends Controller
             ->get();
         $form = $this->createForm(UnitAdminForm::class, $unit, [
             'config' => $config,
-            'order' => $config->isOrderCategoryDefined() && $orderId > 0 ? $attachmentRepository->getOneBy([
+            'order' => $config->areOrderCategoriesDefined() && $orderId > 0 ? $attachmentRepository->getOneBy([
                 'id' => $orderId,
             ]) : null,
             'parentUnit' => $parentId > 0 ? $unitRepository->getOneBy([
@@ -130,7 +130,7 @@ class UnitsController extends Controller
         $this->getView('Admin/Units/AdminForm', [
             'form' => $form,
             'messages' => $messageManager->getMessages(),
-            'orderCategoryDefined' => $config->isOrderCategoryDefined(),
+            'orderCategoriesDefined' => $config->areOrderCategoriesDefined(),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
@@ -230,7 +230,7 @@ class UnitsController extends Controller
                     'deletedId',
                 ]),
                 'config' => $config,
-                'order' => $config->isOrderCategoryDefined() && $orderId > 0 ? $attachmentRepository->getOneBy([
+                'order' => $config->areOrderCategoriesDefined() && $orderId > 0 ? $attachmentRepository->getOneBy([
                     'id' => $orderId,
                 ]) : null,
                 'positions' => $positionList,
@@ -260,7 +260,7 @@ class UnitsController extends Controller
         $deleteFormPrototype = $this->getView('Admin/VersionedDeleteForm', [
             'form' => $deleteForm,
             'label' => __('Delete "%name%" person', 'scout-units-list'),
-            'orderCategoryDefined' => $config->isOrderCategoryDefined(),
+            'orderCategoriesDefined' => $config->areOrderCategoriesDefined(),
         ])->getRender();
 
         $deletedId = $request->query->getInt('deletedId');
@@ -273,7 +273,7 @@ class UnitsController extends Controller
                     try {
                         $deletedPerson = $deleteForm->getModel();
                         $person->setOrderNo($deletedPerson->getOrderNo());
-                        if ($config->isOrderCategoryDefined()) {
+                        if ($config->areOrderCategoriesDefined()) {
                             $person->setOrderId($deletedPerson->getOrderId());
                         }
                         $personRepository->delete($person);
@@ -305,7 +305,7 @@ class UnitsController extends Controller
             'deleteFormPrototype' => $deleteFormPrototype,
             'form' => $addForm,
             'messages' => $messageManager->getMessages(),
-            'orderCategoryDefined' => $config->isOrderCategoryDefined(),
+            'orderCategoriesDefined' => $config->areOrderCategoriesDefined(),
             'unit' => $unit,
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
@@ -338,7 +338,7 @@ class UnitsController extends Controller
             try {
                 $deletedUnit = $form->getModel();
                 $unit->setOrderNo($deletedUnit->getOrderNo());
-                if ($config->isOrderCategoryDefined()) {
+                if ($config->areOrderCategoriesDefined()) {
                     $unit->setOrderId($deletedUnit->getOrderId());
                 }
                 $persons = $personRepository->getBy([
@@ -346,7 +346,7 @@ class UnitsController extends Controller
                 ]);
                 foreach ($persons as $person) {
                     $person->setOrderNo($deletedUnit->getOrderNo());
-                    if ($config->isOrderCategoryDefined()) {
+                    if ($config->areOrderCategoriesDefined()) {
                         $person->setOrderId($deletedUnit->getOrderId());
                     }
                     $personRepository->delete($person);
@@ -396,7 +396,7 @@ class UnitsController extends Controller
         $deleteFormPrototype = $this->getView('Admin/VersionedDeleteForm', [
             'form' => $deleteForm,
             'label' => __('Delete "%name%" unit', 'scout-units-list'),
-            'orderCategoryDefined' => $config->isOrderCategoryDefined(),
+            'orderCategoriesDefined' => $config->areOrderCategoriesDefined(),
         ])->getRender();
 
         $this->getView('Admin/Units/List', [

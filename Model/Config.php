@@ -10,8 +10,8 @@ class Config implements ModelInterface
     /** @var int */
     protected $cacheTtl = 3600;
 
-    /** @var int|null */
-    protected $orderCategoryId = null;
+    /** @var array */
+    protected $orderCategoryIds = [];
 
     /** @var string|null */
     protected $orderNoFormat;
@@ -56,35 +56,35 @@ class Config implements ModelInterface
     }
 
     /**
-     * Get order category ID
+     * Get order category IDs
      *
-     * @return int|null
+     * @return array
      */
-    public function getOrderCategoryId()
+    public function getOrderCategoryIds()
     {
-        return $this->orderCategoryId;
+        return $this->orderCategoryIds;
     }
 
     /**
-     * Is order category defined
+     * Are order categories defined
      *
      * @return bool
      */
-    public function isOrderCategoryDefined()
+    public function areOrderCategoriesDefined()
     {
-        return $this->getOrderCategoryId() > 0;
+        return count($this->getOrderCategoryIds()) > 0;
     }
 
     /**
-     * Set order category ID
+     * Set order category IDs
      *
-     * @param int|null $orderCategoryId order category ID
+     * @param mixed $orderCategoryIds order category IDs (mixed types allowed to prevent from plugin version conflicts)
      *
      * @return self
      */
-    public function setOrderCategoryId($orderCategoryId)
+    public function setOrderCategoryIds($orderCategoryIds)
     {
-        $this->orderCategoryId = $orderCategoryId;
+        $this->orderCategoryIds = empty($orderCategoryIds) ? [] : (array) $orderCategoryIds;
 
         return $this;
     }

@@ -56,7 +56,7 @@ class UnitAdminForm extends Form
                 'valueLabel' => is_object($settings['parentUnit']) && $settings['parentUnit'] instanceof Unit ?
                     $settings['parentUnit']->getName() : null,
             ]);
-        if ($config->isOrderCategoryDefined()) {
+        if ($config->areOrderCategoriesDefined()) {
             $this
                 ->addField('orderId', IntegerAutocompleteType::class, [
                     'action' => 'sul_orders',

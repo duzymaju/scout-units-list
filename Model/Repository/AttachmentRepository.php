@@ -62,21 +62,21 @@ class AttachmentRepository extends NativeRepository
     /**
      * Find matched titles
      * 
-     * @param string $title      title
-     * @param int    $categoryId category ID
-     * @param int    $limit      limit
+     * @param string $title       title
+     * @param array  $categoryIds category IDs
+     * @param int    $limit       limit
      *
      * @return array
      */
-    public function findMatchedTitles($title, $categoryId, $limit = 10)
+    public function findMatchedTitles($title, array $categoryIds, $limit = 10)
     {
         $query = $this->db->prepare('
             SELECT DISTINCT `ID`, `post_title` FROM `' . $this->getTableName() . '` p
                 INNER JOIN `' . $this->getTableName('term_relationships') . '` tr ON p.`id` = tr.`object_id`
                 INNER JOIN `' . $this->getTableName('term_taxonomy') . '` tt ON tr.`term_taxonomy_id` = tt.`term_taxonomy_id`
-            WHERE tt.`term_id` = :categoryId && `post_type` = :postType && `post_title` LIKE :title LIMIT ' .
+            WHERE tt.`term_id` IN (:categoryIds) && `post_type` = :postType && `post_title` LIKE :title LIMIT ' .
             ((int) $limit))
-            ->setParam('categoryId', $categoryId, DbManager::TYPE_DECIMAL)
+            ->setParam('categoryIds', $categoryIds)
             ->setParam('postType', Attachment::TYPE)
             ->setParam('title', '%' . $this->escapeLike($title) . '%')
             ->getQuery();

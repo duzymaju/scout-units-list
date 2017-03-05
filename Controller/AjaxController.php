@@ -68,11 +68,11 @@ class AjaxController extends Controller
         $list = [];
         $config = $this->get('manager.config')
             ->get();
-        if ($config->isOrderCategoryDefined()) {
+        if ($config->areOrderCategoriesDefined()) {
             $term = $this->request->query->getString('term');
 
             $orders = $this->loader->get('repository.attachment')
-                ->findMatchedTitles($term, $config->getOrderCategoryId());
+                ->findMatchedTitles($term, $config->getOrderCategoryIds());
 
             foreach ($orders as $id => $title) {
                 $list[] =[

@@ -31,11 +31,12 @@ class ConfigForm extends Form
                 'label' => __('Cache TTL in seconds', 'scout-units-list'),
                 'required' => true,
             ])
-            ->addField('orderCategoryId', SelectType::class, [
+            ->addField('orderCategoryIds', SelectType::class, [
                 'attr' => [
+                    'multiple' => true,
                     'style' => 'width:25em',
                 ],
-                'label' => __('Order category', 'scout-units-list'),
+                'label' => __('Order categories', 'scout-units-list'),
                 'options' => $this->getOrderCategories(),
             ])
             ->addField('orderNoFormat', StringType::class, [

@@ -131,7 +131,11 @@ abstract class BasicType extends FormElement
         $list = [];
         foreach ($this->attr as $key => $value) {
             if (isset($value)) {
-                $list[] = $this->escape($key) . '="' . $this->escape($value) . '"';
+                if (!is_bool($value)) {
+                    $list[] = $this->escape($key) . '="' . $this->escape($value) . '"';
+                } elseif ($value) {
+                    $list[] = $this->escape($key);
+                }
             }
         }
         $string = count($list) > 0 ? ' ' . implode(' ', $list) : '';
