@@ -19,7 +19,8 @@ Add `[sul-units-list id="X"]` shortcode, where `X` is an ID of a base unit. You 
 
 * `class` (string) - allows to add CSS class,
 * `current` (boolean, `false` as a default value) - allows to show/hide current unit on a list,
-* `levels` (integer, `1` as a default value) - allows to define number of levels with dependent units.
+* `levels` (integer, `1` as a default value) - allows to define number of levels with dependent units,
+* `types` (empty as a default value) - allows to define list of types (separated by comma) which have to be showed.
 
 To define your own template create `scout-units-list` directory in your current theme directory and then create there `UnitsList.phtml`, `UnitsList-Y.phtml` or `UnitsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To customize template of dependent units level you have to create in the same location `UnitsListLevel.phtml`, `UnitsListLevel-Y.phtml` or `UnitsListLevel-X.phtml` file as well. To know how to access units data please check default templates in `View/Shortcodes` directory.
 

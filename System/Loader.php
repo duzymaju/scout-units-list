@@ -209,7 +209,7 @@ final class Loader
         if (is_textdomain_loaded($this->name)) {
             return true;
         } else {
-            return load_plugin_textdomain($this->name, false, $this->getDirName() . '/Languages' );
+            return load_plugin_textdomain($this->name, false, $this->getDirName() . '/Languages');
         }
     }
 }

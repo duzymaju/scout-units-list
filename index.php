@@ -158,7 +158,7 @@ add_shortcode('sul-persons-list', [
 ]);
 
 // Admin panel
-if (WP_ADMIN && is_admin()) {
+if (is_admin() && defined('WP_ADMIN') && WP_ADMIN) {
     $adminController = new AdminController($loader, $request);
     add_action('admin_menu', [
         $adminController,
