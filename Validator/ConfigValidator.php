@@ -2,6 +2,7 @@
 
 namespace ScoutUnitsList\Validator;
 
+use ScoutUnitsList\Validator\Condition\DirExistsCondition;
 use ScoutUnitsList\Validator\Condition\StringLengthCondition;
 
 /**
@@ -16,11 +17,11 @@ class ConfigValidator extends Validator
      */
     protected function setConditions(array $settings)
     {
-        unset($settings);
-
         $this->getField('orderNoFormat')
             ->addCondition(new StringLengthCondition(300));
         $this->getField('orderNoPlaceholder')
             ->addCondition(new StringLengthCondition(300));
+        $this->getField('shortcodeTemplatesPath')
+            ->addCondition(new DirExistsCondition($settings['baseDir'], true));
     }
 }

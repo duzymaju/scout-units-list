@@ -183,7 +183,12 @@ class ShortcodesController extends Controller
      */
     private function getRenderedView(array $customizedNames, $name, array $params = [])
     {
-        $customizedPath = get_template_directory() . '/scout-units-list';
+        $configManager = $this->loader->get('manager.config');
+        $config = $configManager->get();
+
+        $customizedPath = $config->hasShortcodeTemplatesPath() ?
+            $this->loader->getPath($config->getShortcodeTemplatesPath()) :
+            get_template_directory() . '/scout-units-list';
         $customizedParams = array_merge($params, [
             'path' => $customizedPath,
         ]);

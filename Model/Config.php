@@ -19,6 +19,9 @@ class Config implements ModelInterface
     /** @var string|null */
     protected $orderNoPlaceholder;
 
+    /** @var string|null */
+    protected $shortcodeTemplatesPath;
+
     /** @var string */
     protected $mapKey = 'AIzaSyAVv2tyh3rLYN0bQlLPyUWkPgGohVUyixE';
 
@@ -133,6 +136,42 @@ class Config implements ModelInterface
     public function setOrderNoPlaceholder($orderNoPlaceholder)
     {
         $this->orderNoPlaceholder = empty($orderNoPlaceholder) ? null : $orderNoPlaceholder;
+
+        return $this;
+    }
+
+    /**
+     * Get shortcode templates path
+     *
+     * @return string|null
+     */
+    public function getShortcodeTemplatesPath()
+    {
+        return $this->shortcodeTemplatesPath;
+    }
+
+    /**
+     * Has shortcode templates path
+     *
+     * @return bool
+     */
+    public function hasShortcodeTemplatesPath()
+    {
+        $hasPath = !empty($this->shortcodeTemplatesPath);
+
+        return $hasPath;
+    }
+
+    /**
+     * Set shortcode templates path
+     *
+     * @param string|null $shortcodeTemplatesPath shortcode templates path
+     *
+     * @return self
+     */
+    public function setShortcodeTemplatesPath($shortcodeTemplatesPath)
+    {
+        $this->shortcodeTemplatesPath = empty($shortcodeTemplatesPath) ? null : $shortcodeTemplatesPath;
 
         return $this;
     }

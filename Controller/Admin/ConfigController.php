@@ -41,7 +41,11 @@ class ConfigController extends Controller
 
         $messageManager = $this->get('manager.message');
 
-        $form = $this->createForm(ConfigForm::class, $config);
+        $form = $this->createForm(ConfigForm::class, $config, [
+            'validator' => [
+                'baseDir' => $this->loader->getPath(),
+            ],
+        ]);
         if ($form->isValid()) {
             $configManager->save($config);
             $messageManager->addSuccess(__('Configuration was successfully saved.', 'scout-units-list'));

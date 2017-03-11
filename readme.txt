@@ -22,7 +22,7 @@ Add `[sul-units-list id="X"]` shortcode, where `X` is an ID of a base unit. You 
 * `levels` (integer, `1` as a default value) - allows to define number of levels with dependent units,
 * `types` (empty as a default value) - allows to define list of types (separated by comma) which have to be showed.
 
-To define your own template create `scout-units-list` directory in your current theme directory and then create there `UnitsList.phtml`, `UnitsList-Y.phtml` or `UnitsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To customize template of dependent units level you have to create in the same location `UnitsListLevel.phtml`, `UnitsListLevel-Y.phtml` or `UnitsListLevel-X.phtml` file as well. To know how to access units data please check default templates in `View/Shortcodes` directory.
+To define your own template create `scout-units-list` directory in your current theme directory (or define other directory in configuration form) and then create there `UnitsList.phtml`, `UnitsList-Y.phtml` or `UnitsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To customize template of dependent units level you have to create in the same location `UnitsListLevel.phtml`, `UnitsListLevel-Y.phtml` or `UnitsListLevel-X.phtml` file as well. To know how to access units data please check default templates in `View/Shortcodes` directory.
 
 = Showing persons list =
 
@@ -30,7 +30,7 @@ Add `[sul-persons-list id="X"]` shortcode, where `X` is an ID of a base unit. Yo
 
 * `class` (string) - allows to add CSS class.
 
-To define your own template create `scout-units-list` directory in your current theme directory and then create there `PersonsList.phtml`, `PersonsList-Y.phtml` or `PersonsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To know how to access units data please check default template in `View/Shortcodes` directory.
+To define your own template create `scout-units-list` directory in your current theme directory (or define other directory in configuration form) and then create there `PersonsList.phtml`, `PersonsList-Y.phtml` or `PersonsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To know how to access units data please check default template in `View/Shortcodes` directory.
 
 = Things to do before stable version release =
 

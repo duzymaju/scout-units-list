@@ -51,6 +51,16 @@ class ConfigForm extends Form
                 ],
                 'label' => __('Order number placeholder', 'scout-units-list'),
             ])
+            ->addField('shortcodeTemplatesPath', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                    'data-path-type' => json_encode([
+                        0 => __('Active theme path (default)', 'scout-units-list'),
+                        1 => __('Specified path (from plugin\'s dir):', 'scout-units-list'),
+                    ]),
+                ],
+                'label' => __('Shortcode templates path', 'scout-units-list'),
+            ])
             ->addField('mapKey', StringType::class, [
                 'attr' => [
                     'class' => 'regular-text',

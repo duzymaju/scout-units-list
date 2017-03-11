@@ -15,6 +15,8 @@
         form.find('#sul-location-map')
             .mapInit();
 
+        $('[data-path-type]').shortcodeTemplatesPath();
+
         list.versionedItemDeleteForm();
     });
 
@@ -213,5 +215,38 @@
                 listRow.show();
             });
         });
+    };
+
+    $.fn.shortcodeTemplatesPath = function () {
+        var textField = $(this);
+        if (textField.length !== 1) {
+            return;
+        }
+
+        var selectField = $('<select>');
+        selectField.attr('style', 'width:25em');
+        $.each(textField.data('path-type'), function (key, value) {
+            var optionField = $('<option>');
+            optionField.attr('value', key);
+            optionField.text(value);
+            selectField.append(optionField);
+        });
+        textField.before(selectField)
+            .before('<br>');
+
+        selectField.on('change', function () {
+            if (parseInt(selectField.val(), 10) === 1) {
+                textField.prop('disabled', false);
+            } else {
+                textField.val('');
+                textField.prop('disabled', true);
+            }
+        });
+        if (textField.val() === '') {
+            selectField.val(0);
+            textField.prop('disabled', true);
+        } else {
+            selectField.val(1);
+        }
     };
 })(document, jQuery, google, sul);
