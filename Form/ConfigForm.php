@@ -55,7 +55,7 @@ class ConfigForm extends Form
                 'attr' => [
                     'class' => 'regular-text',
                     'data-path-type' => json_encode([
-                        0 => __('Active theme path (default)', 'scout-units-list'),
+                        0 => __('"scout-units-list" dir in active theme dir (default)', 'scout-units-list'),
                         1 => __('Specified path (from plugin\'s dir):', 'scout-units-list'),
                     ]),
                 ],

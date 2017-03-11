@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 22:19+0100\n"
-"PO-Revision-Date: 2017-03-11 22:24+0100\n"
+"POT-Creation-Date: 2017-03-11 23:08+0100\n"
+"PO-Revision-Date: 2017-03-11 23:08+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -148,8 +148,8 @@ msgid "Order number placeholder"
 msgstr "Etykieta zastępcza numeru rozkazu"
 
 #: Form/ConfigForm.php:58
-msgid "Active theme path (default)"
-msgstr "Ścieżka aktywnego motywu (domyślnie)"
+msgid "\"scout-units-list\" dir in active theme dir (default)"
+msgstr "Folder \"scout-units-list\" w folderze aktywnego motywu (domyślnie)"
 
 #: Form/ConfigForm.php:59
 msgid "Specified path (from plugin's dir):"
