@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Scout Units List pl_PL 0.4.1\n"
+"Project-Id-Version: Scout Units List pl_PL 0.4.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-05 11:08+0100\n"
-"PO-Revision-Date: 2017-03-05 11:11+0100\n"
+"POT-Creation-Date: 2017-03-11 22:19+0100\n"
+"PO-Revision-Date: 2017-03-11 22:24+0100\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -18,7 +18,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Controller/Admin/ConfigController.php:47
+#: Controller/Admin/ConfigController.php:51
 msgid "Configuration was successfully saved."
 msgstr "Konfiguracja została pomyślnie zapisana."
 
@@ -148,22 +148,34 @@ msgid "Order number placeholder"
 msgstr "Etykieta zastępcza numeru rozkazu"
 
 #: Form/ConfigForm.php:58
+msgid "Active theme path (default)"
+msgstr "Ścieżka aktywnego motywu (domyślnie)"
+
+#: Form/ConfigForm.php:59
+msgid "Specified path (from plugin's dir):"
+msgstr "Określona ścieżka (z poziomu folderu wtyczki):"
+
+#: Form/ConfigForm.php:62
+msgid "Shortcode templates path"
+msgstr "Ścieżka folderu szablonów kodów skrótowych"
+
+#: Form/ConfigForm.php:68
 msgid "Map key"
 msgstr "Klucz do mapy"
 
-#: Form/ConfigForm.php:65
+#: Form/ConfigForm.php:75
 msgid "Map default latitude"
 msgstr "Domyślna szerokość geograficzna mapy"
 
-#: Form/ConfigForm.php:72
+#: Form/ConfigForm.php:82
 msgid "Map default longitude"
 msgstr "Domyślna długość geograficzna mapy"
 
-#: Form/ConfigForm.php:79
+#: Form/ConfigForm.php:89
 msgid "Map default zoom"
 msgstr "Domyślne powiększenie mapy"
 
-#: Form/ConfigForm.php:86 Form/PersonForm.php:82 Form/PositionForm.php:64
+#: Form/ConfigForm.php:96 Form/PersonForm.php:82 Form/PositionForm.php:64
 #: Form/UnitAdminForm.php:120 Form/UnitLeaderForm.php:73
 msgid "Save"
 msgstr "Zapisz"
@@ -346,11 +358,27 @@ msgstr "Ta wartość powinna być wartością logiczną."
 msgid "This value is inproper."
 msgstr "Ta wartość jest niepoprawna."
 
+#: Validator/Condition/DirExistsCondition.php:45
+msgid "Path shouldn't end on slash."
+msgstr "Ścieżka nie powinna kończyć się na slashu."
+
+#: Validator/Condition/DirExistsCondition.php:47
+msgid "Path shouldn't begin from slash."
+msgstr "Ścieżka nie powinna zaczynać się od slasha."
+
+#: Validator/Condition/DirExistsCondition.php:49
+msgid "Path should begin from slash."
+msgstr "Ścieżka powinna zaczynać się od slasha."
+
+#: Validator/Condition/DirExistsCondition.php:51
+msgid "Selected directory doesn't exist."
+msgstr "Wybrany folder nie istnieje."
+
 #: Validator/Condition/FloatCondition.php:22
 msgid "This value should be a float."
 msgstr "Ta wartość powinna być liczbą zmiennoprzecinkową."
 
-#: Validator/Condition/InSetCondition.php:35
+#: Validator/Condition/InSetCondition.php:39
 msgid "This value isn't allowed."
 msgstr "Ta wartość jest niedozwolona."
 
