@@ -185,6 +185,7 @@ class MigrationManager
             }
             closedir($dir);
         }
+        sort($versions);
 
         return $versions;
     }
