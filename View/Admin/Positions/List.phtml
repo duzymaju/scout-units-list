@@ -30,7 +30,8 @@
 	<tbody id="the-list">
             <?php if (count($this->positions) > 0): ?>
                 <?php foreach ($this->positions as $position):
-                    $positionName = $position->getNameMale() . ' / ' . $position->getNameFemale();
+                    $positionName = $position->getNameMale() == $position->getNameFemale() ? $position->getNameMale() :
+                        $position->getNameMale() . ' / ' . $position->getNameFemale();
                     $typeName = ScoutUnitsList\Form\UnitAdminForm::getTypeName($position->getType());
                     $editLink = $this->getLink([
                         'action' => 'form',
