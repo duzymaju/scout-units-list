@@ -43,7 +43,7 @@ class ConfigController extends Controller
 
         $form = $this->createForm(ConfigForm::class, $config, [
             'validator' => [
-                'baseDir' => $this->loader->getPath(),
+                'baseDir' => $this->loader->getPath() . '/',
             ],
         ]);
         if ($form->isValid()) {

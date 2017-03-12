@@ -70,6 +70,9 @@ abstract class Controller
         } else {
             $path = $this->getViewPath();
         }
+        if (!array_key_exists('originalPath', $params)) {
+            $params['originalPath'] = $this->getViewPath();
+        }
 
         $view = new View($path, $name, $params);
         $view->setRequest($this->request);

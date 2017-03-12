@@ -53,7 +53,7 @@ class View extends Basics
      */
     public function getPartial($name, array $params = [])
     {
-        $partial = new Partial($this->getPath(), $name, $params);
+        $partial = new Partial($this->getParam('originalPath', $this->getPath()), $name, $params);
         $partial->setView($this);
 
         return $partial->getRender();
