@@ -34,8 +34,9 @@ To define your own template create `scout-units-list` directory in your current 
 
 = Things to do before stable version release =
 
-1. Add a shortcode which implements a map with selected units marked on it.
-2. Configurable types/subtypes lists and dependencies.
+1. Sortable persons list.
+2. Add a shortcode which implements a map with selected units marked on it.
+3. Configurable types/subtypes lists and dependencies.
 
 = Future plans =
 

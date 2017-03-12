@@ -8,11 +8,12 @@
                         <?php $person = $unit->getLeader(); if (isset($person)): ?>
                             <?php $position = $person->getPosition(); $user = $person->getUser(); if (isset($position)): ?>
                                 <span class="sul-unit-leader-position">
-                                    <?php echo $this->escape(isset($user) ? $position->getNameFor($user) : $position->getNameMale()); ?>:
+                                    <?php echo $this->escape($position->getNameFor($user)); ?>:
                                 </span>
                             <?php endif; ?>
                             <?php echo $this->partial('Partial/UserName', [
                                 'cssClass' => 'sul-unit-leader-name',
+                                'person' => $person,
                                 'user' => $user,
                             ]); ?>
                         <?php else: ?>

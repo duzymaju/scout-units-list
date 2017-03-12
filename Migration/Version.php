@@ -62,6 +62,21 @@ abstract class Version
     }
 
     /**
+     * Get foreign key name
+     *
+     * @param string $name name
+     * @param int    $no   no
+     *
+     * @return string
+     */
+    protected function getForeignKeyName($name, $no)
+    {
+        $foreignKeyName = $name . '_ibfk_' . $no;
+
+        return $foreignKeyName;
+    }
+
+    /**
      * Add SQL
      *
      * @param string $sql SQL

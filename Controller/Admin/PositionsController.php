@@ -108,7 +108,14 @@ class PositionsController extends Controller
         ]);
 
         $messageManager = $this->get('manager.message');
-        
+
+        $positionInUse = $this->get('repository.person')
+            ->isPositionInUse($position);
+        if ($positionInUse) {
+            $messageManager->addError(__('This position is in use - you can\'t delete it.', 'scout-units-list'));
+            return;
+        }
+
         try {
             $positionRepository->delete($position);
             $messageManager->addSuccess(__('Position was successfully deleted.', 'scout-units-list'));

@@ -110,13 +110,13 @@ class Position implements ModelInterface
     /**
      * Get name for
      *
-     * @param User $user user
+     * @param User|null $user user
      *
      * @return string
      */
-    public function getNameFor(User $user)
+    public function getNameFor(User $user = null)
     {
-        $name = $user->isFemale() ? $this->getNameFemale() : $this->getNameMale();
+        $name = isset($user) && $user->isFemale() ? $this->getNameFemale() : $this->getNameMale();
 
         return $name;
     }

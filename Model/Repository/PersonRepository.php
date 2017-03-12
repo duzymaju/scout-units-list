@@ -4,6 +4,7 @@ namespace ScoutUnitsList\Model\Repository;
 
 use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Model\Person;
+use ScoutUnitsList\Model\Position;
 use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\Model\User;
 
@@ -37,6 +38,9 @@ class PersonRepository extends VersionedRepository
             ->setStructureElement('positionId', DbManager::TYPE_DECIMAL, 'position_id')
             ->setStructureElement('orderId', DbManager::TYPE_DECIMAL, 'order_id')
             ->setStructureElement('orderNo', DbManager::TYPE_STRING, 'order_no')
+            ->setStructureElement('sort', DbManager::TYPE_DECIMAL)
+            ->setStructureElement('userName', DbManager::TYPE_STRING, 'user_name')
+            ->setStructureElement('userGrade', DbManager::TYPE_STRING, 'user_grade')
         ;
         parent::defineStructure();
     }
@@ -88,6 +92,28 @@ class PersonRepository extends VersionedRepository
     }
 
     /**
+     * Is position in use
+     *
+     * @param Position $position position
+     *
+     * @return bool
+     */
+    public function isPositionInUse(Position $position)
+    {
+        $query = $this->db
+            ->prepare('
+                SELECT COUNT(`id`)
+                    FROM `' . $this->getTableName() . '`
+                    WHERE `position_id` = :positionId
+            ')
+            ->setParam('positionId', $position->getId())
+            ->getQuery();
+        $personsNumber = (int) $this->db->getVariable($query);
+
+        return $personsNumber > 0;
+    }
+
+    /**
      * Set persons to units
      *
      * @param Unit[]                    $units                units
@@ -108,6 +134,8 @@ class PersonRepository extends VersionedRepository
         }
         $persons = $this->getBy([
             'unitId' => array_keys($unitsByIds),
+        ], [
+            'sort' => 'asc',
         ]);
 
         // Get positions
@@ -146,7 +174,25 @@ class PersonRepository extends VersionedRepository
                 $positionA = $personA->getPosition();
                 $positionB = $personB->getPosition();
 
-                return $positionA->isLeader() == $positionB->isLeader() ? 0 : ($positionA->isLeader() ? -1 : 1);
+                if ($positionA->isLeader() == $positionB->isLeader()) {
+                    $sortA = $personA->getSort();
+                    $sortB = $personB->getSort();
+
+                    if ($sortA == $sortB) {
+                        $nameA = $personA->getUserName();
+                        $nameB = $personB->getUserName();
+
+                        if ($nameA == $nameB) {
+                            return 0;
+                        } else {
+                            return $nameA > $nameB ? 1 : -1;
+                        }
+                    } else {
+                        return $sortA > $sortB ? 1 : -1;
+                    }
+                } else {
+                    return $positionA->isLeader() ? -1 : 1;
+                }
             });
         }
 
@@ -174,9 +220,8 @@ class PersonRepository extends VersionedRepository
 
         // Add complete persons to units
         foreach ($persons as $person) {
-            if ((!$userRepository || array_key_exists($person->getUserId(), $usersByIds)) &&
-                array_key_exists($person->getUnitId(), $unitsByIds) && $person->getPosition()) {
-                if ($userRepository) {
+            if (array_key_exists($person->getUnitId(), $unitsByIds) && $person->getPosition()) {
+                if ($userRepository && array_key_exists($person->getUserId(), $usersByIds)) {
                     $person->setUser($usersByIds[$person->getUserId()]);
                 }
                 $person->setUnit($unitsByIds[$person->getUnitId()]);

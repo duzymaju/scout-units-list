@@ -41,6 +41,15 @@ class Person implements JsonSerializable, VersionedModelInterface
     /** @var string */
     protected $orderNo;
 
+    /** @var int */
+    protected $sort = 0;
+
+    /** @var string|null */
+    protected $userName;
+
+    /** @var string|null */
+    protected $userGrade;
+
     /**
      * Get ID
      *
@@ -281,6 +290,97 @@ class Person implements JsonSerializable, VersionedModelInterface
     }
 
     /**
+     * Get sort
+     *
+     * @return int
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
+    /**
+     * Set sort
+     *
+     * @param int $sort sort
+     *
+     * @return self
+     */
+    public function setSort($sort)
+    {
+        $this->sort = (int) $sort;
+
+        return $this;
+    }
+
+    /**
+     * Get user name
+     *
+     * @param bool $addGrade add grade
+     *
+     * @return string|null
+     */
+    public function getUserName($addGrade = false)
+    {
+        $userName = $this->userName;
+        if ($addGrade && !empty($this->userGrade)) {
+            $userName = $this->userGrade . ' ' . $userName;
+        }
+
+        return $userName;
+    }
+
+    /**
+     * Has user name
+     *
+     * @return bool
+     */
+    public function hasUserName()
+    {
+        $hasUserName = !empty($this->userName);
+
+        return $hasUserName;
+    }
+
+    /**
+     * Set user name
+     *
+     * @param string|null $userName user name
+     *
+     * @return self
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    /**
+     * Get user grade
+     *
+     * @return string|null
+     */
+    public function getUserGrade()
+    {
+        return $this->userGrade;
+    }
+
+    /**
+     * Set user grade
+     *
+     * @param string|null $userGrade user grade
+     *
+     * @return self
+     */
+    public function setUserGrade($userGrade)
+    {
+        $this->userGrade = $userGrade;
+
+        return $this;
+    }
+
+    /**
      * JSON serialize
      *
      * @return array
@@ -293,12 +393,12 @@ class Person implements JsonSerializable, VersionedModelInterface
         $data = [
             'duty' => isset($user) ? $user->getDuty() : null,
             'email' => isset($user) ? $user->getEmailIfAllowed() : null,
-            'grade' => isset($user) ? $user->getGrade() : null,
-            'name' => isset($user) ? $user->getDisplayName() : null,
+            'grade' => isset($user) ? $user->getGrade() : $this->getUserGrade(),
+            'name' => isset($user) ? $user->getDisplayName() : $this->getUserName(),
             'position' => isset($position) ? [
                 'description' => $position->getDescription(),
                 'leader' => $position->isLeader(),
-                'name' => isset($user) ? $position->getNameFor($user) : $position->getNameMale(),
+                'name' => $position->getNameFor($user),
             ] : null,
         ];
 

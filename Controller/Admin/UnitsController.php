@@ -289,6 +289,14 @@ class UnitsController extends Controller
             }
         } elseif (isset($addForm) && $addForm->isValid()) {
             try {
+                $user = $userRepository->getOneBy([
+                    'id' => $person->getUserId(),
+                ]);
+                if (isset($user)) {
+                    $grade = $user->getGrade();
+                    $person->setUserGrade(empty($grade) ? null : $grade)
+                        ->setUserName($user->getDisplayName());
+                }
                 $personRepository->save($person);
                 $messageManager->addSuccess(__('Person was successfully saved.', 'scout-units-list'));
                 $addForm->clear();

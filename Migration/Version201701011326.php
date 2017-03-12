@@ -61,7 +61,8 @@ class Version201701011326 extends Version
                     INDEX `' . $this->getOldIndexName($unitName, 3) . '` (`subtype`),
                     INDEX `' . $this->getOldIndexName($unitName, 4) . '` (`parent_id`),
                     UNIQUE `' . $this->getOldIndexName($unitName, 5) . '` (`slug`),
-                    FOREIGN KEY (`parent_id`)
+                    CONSTRAINT `' . $this->getOldForeignKeyName($unitName, 1) . '`
+                        FOREIGN KEY (`parent_id`)
                         REFERENCES `' . $this->getTableName($unitName) . '` (`id`)
                         ON DELETE CASCADE
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
@@ -75,13 +76,16 @@ class Version201701011326 extends Version
                     `order_no` varchar(50) COLLATE utf8_polish_ci NOT NULL,
                     PRIMARY KEY (`id`),
                     UNIQUE `' . $this->getOldIndexName($personName, 1) . '` (`user_id`, `unit_id`, `position_id`),
-                    FOREIGN KEY (`user_id`)
+                    CONSTRAINT `' . $this->getOldForeignKeyName($personName, 1) . '`
+                        FOREIGN KEY (`user_id`)
                         REFERENCES `' . $this->getTableName('users') . '` (`ID`)
                         ON DELETE CASCADE,
-                    FOREIGN KEY (`unit_id`)
+                    CONSTRAINT `' . $this->getOldForeignKeyName($personName, 2) . '`
+                        FOREIGN KEY (`unit_id`)
                         REFERENCES `' . $this->getTableName($unitName) . '` (`id`)
                         ON DELETE CASCADE,
-                    FOREIGN KEY (`position_id`)
+                    CONSTRAINT `' . $this->getOldForeignKeyName($personName, 3) . '`
+                        FOREIGN KEY (`position_id`)
                         REFERENCES `' . $this->getTableName($positionName) . '` (`id`)
                         ON DELETE CASCADE
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
@@ -122,5 +126,20 @@ class Version201701011326 extends Version
         $oldIndexName = strpos($indexName, $prefix) === 0 ? substr($indexName, strlen($prefix)) : $indexName;
 
         return $oldIndexName;
+    }
+
+    /**
+     * Get old foreign key name
+     *
+     * @param string $name name
+     * @param int    $no   no
+     *
+     * @return string
+     */
+    private function getOldForeignKeyName($name, $no)
+    {
+        $oldForeignKeyName = $this->db->getPrefix() . $this->getForeignKeyName($name, $no);
+
+        return $oldForeignKeyName;
     }
 }

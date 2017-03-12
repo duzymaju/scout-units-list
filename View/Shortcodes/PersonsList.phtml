@@ -1,18 +1,23 @@
 <div class="sul-person-list sul-person-list-<?php echo $this->escape($this->unit->getId()) . (empty($this->cssClass) ? '' : ' ' . $this->escape($this->cssClass)); ?>">
     <h3 class="sul-person-list-unit"><?php echo $this->escape($this->unit->getName()); ?></h3>
     <ul class="sul-person-list-items">
-        <?php foreach ($this->unit->getPersons() as $person): $user = $person->getUser(); $position = $person->getPosition(); if (isset($user) && isset($position)): ?>
+        <?php foreach ($this->unit->getPersons() as $person): $user = $person->getUser(); $position = $person->getPosition(); if (isset($position)): ?>
             <li class="sul-person">
-                <img src="<?php echo $this->escape($user->getAvatarUrl()); ?>" alt="<?php echo $this->escape($user->getName()); ?>" class="sul-person-img">
+                <?php if (isset($user)): ?>
+                    <img src="<?php echo $this->escape($user->getAvatarUrl()); ?>" alt="<?php echo $this->escape($user->getName()); ?>" class="sul-person-img">
+                <?php else: ?>
+                    <img src="<?php echo $this->escape(get_avatar_url('default')); ?>" alt="<?php echo $this->escape($person->getUserName(true)); ?>" class="sul-person-img">
+                <?php endif; ?>
                 <div class="sul-person-info">
                     <h4 class="sul-person-title"><?php echo $this->escape($position->getNameFor($user)); ?></h4>
                     <?php echo $this->partial('Partial/UserName', [
                         'cssClass' => 'sul-person-name',
+                        'person' => $person,
                         'user' => $user,
                     ]); ?>
-                    <?php $duty = $user->getDuty(); if (!empty($duty)): ?>
+                    <?php if (isset($user)): $duty = $user->getDuty(); if (!empty($duty)): ?>
                         <span class="sul-person-duty"><?php echo $this->escape($duty); ?></span>
-                    <?php endif; ?>
+                    <?php endif; endif; ?>
                 </div>
             </li>
         <?php endif; endforeach; ?>

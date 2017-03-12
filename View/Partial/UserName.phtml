@@ -1,13 +1,25 @@
-<?php if (isset($this->user)): ?>
-    <?php $name = $this->user->getName(); $email = $this->user->getEmailIfAllowed(); if (empty($email)): ?>
-        <span<?php echo $this->getAttr('class', $this->cssClass); ?>>
-            <?php echo $this->escape($name); ?>
-        </span>
-    <?php else: ?>
-        <a href="mailto:<?php echo $this->escape($email); ?>"<?php echo $this->getAttr('class', $this->cssClass); ?>>
-            <?php echo $this->escape($name); ?>
-        </a>
-    <?php endif; ?>
+<?php
+    if (isset($this->user)):
+        $email = $this->user->getEmailIfAllowed();
+        $name = $this->user->getName();
+        $link = empty($this->link) ? (empty($email) ? null : 'mailto:' . $email) : $this->link;
+    elseif (isset($this->person)):
+        $link = empty($this->link) ? null : $this->link;
+        $name = $this->person->hasUserName() ? $this->person->getUserName(true) : null;
+    else:
+        $link = null;
+        $name = null;
+    endif;
+
+    if (isset($name)): if (isset($link)):
+?>
+    <a href="<?php echo $this->escape($link); ?>"<?php echo $this->getAttr('class', $this->cssClass); ?>>
+        <?php echo $this->escape($name); ?>
+    </a>
 <?php else: ?>
+    <span<?php echo $this->getAttr('class', $this->cssClass); ?>>
+        <?php echo $this->escape($name); ?>
+    </span>
+<?php endif; else: ?>
     -
 <?php endif;

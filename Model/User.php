@@ -412,12 +412,16 @@ class User implements ModelInterface
     /**
      * Get name
      *
+     * @param bool $addGrade add grade
+     *
      * @return string
      */
     public function getName($addGrade = true)
     {
-        $grade = $addGrade ? $this->getGrade() : '';
-        $name = (empty($grade) ? '' : $grade . ' ') . $this->getDisplayName();
+        $name = $this->getDisplayName();
+        if ($addGrade && !empty($this->grade)) {
+            $name = $this->grade . ' ' . $name;
+        }
 
         return $name;
     }
