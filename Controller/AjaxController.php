@@ -109,7 +109,7 @@ class AjaxController extends Controller
 
         try {
             $this->loader->get('repository.person')
-                ->sortPersonsForUnit($unit, $order, $this->loader->get('repository.position'));
+                ->sortPersonsForUnit($unit, $this->loader->get('repository.position'), $order);
             $this->sendResponse([
                 'error' => 0,
             ]);

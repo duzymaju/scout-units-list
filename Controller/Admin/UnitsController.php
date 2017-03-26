@@ -277,6 +277,8 @@ class UnitsController extends Controller
                             $person->setOrderId($deletedPerson->getOrderId());
                         }
                         $personRepository->delete($person);
+                        // Clone unit to prevent from adding persons to the same unit object twice.
+                        $personRepository->sortPersonsForUnit(clone $unit, $positionRepository);
                         $messageManager->addSuccess(__('Person was successfully deleted.', 'scout-units-list'));
                     } catch (Exception $e) {
                         unlink($e);
@@ -297,6 +299,12 @@ class UnitsController extends Controller
                     $person->setUserGrade(empty($grade) ? null : $grade)
                         ->setUserName($user->getDisplayName());
                 }
+                $lastPerson = $personRepository->getOneBy([
+                    'unitId' => $person->getUnitId(),
+                ], [
+                    'sort' => 'desc',
+                ]);
+                $person->setSort(isset($lastPerson) ? $lastPerson->getSort() + 1 : 1);
                 $personRepository->save($person);
                 $messageManager->addSuccess(__('Person was successfully saved.', 'scout-units-list'));
                 $addForm->clear();

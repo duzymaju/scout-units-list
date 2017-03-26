@@ -212,29 +212,33 @@ class PersonRepository extends VersionedRepository
      * Sort persons for unit
      *
      * @param Unit               $unit               unit
-     * @param array              $order              order
      * @param PositionRepository $positionRepository position repository
+     * @param array|null         $order              order
      *
      * @return self
      *
      * @throws InvalidArgumentException
      */
-    public function sortPersonsForUnit(Unit $unit, array $order, PositionRepository $positionRepository)
+    public function sortPersonsForUnit(Unit $unit, PositionRepository $positionRepository, array $order = null)
     {
         $this->setPersonsToUnits([
             $unit,
         ], $positionRepository);
 
-        $orderedPersons = [];
-        foreach ($unit->getPersons() as $person) {
-            if (false !== $index = array_search($person->getId(), $order)) {
-                $orderedPersons[$index] = $person;
+        if (isset($order)) {
+            $orderedPersons = [];
+            foreach ($unit->getPersons() as $person) {
+                if (false !== $index = array_search($person->getId(), $order)) {
+                    $orderedPersons[$index] = $person;
+                }
             }
-        }
-        ksort($orderedPersons);
+            ksort($orderedPersons);
 
-        if (array_keys($order) !== array_keys($orderedPersons)) {
-            throw new InvalidArgumentException('Person IDs in order list for selected unit are incorrect.');
+            if (array_keys($order) !== array_keys($orderedPersons)) {
+                throw new InvalidArgumentException('Person IDs in order list for selected unit are incorrect.');
+            }
+        } else {
+            $orderedPersons = $unit->getPersons();
         }
 
         foreach ($orderedPersons as $i => $person) {
