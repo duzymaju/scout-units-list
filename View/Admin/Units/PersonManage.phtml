@@ -29,7 +29,7 @@
         ], [
             4,
             '%deletedId%',
-        ], $this->deleteFormPrototype)); ?>">
+        ], $this->deleteFormPrototype)); ?>" data-sortable-action="sul_personsSort" data-unit-id="<?php echo $this->unit->getId(); ?>">
             <?php if (count($persons) > 0): ?>
                 <?php foreach ($persons as $person):
                     $position = $person->getPosition();
@@ -42,7 +42,7 @@
                         'item' => $person->getOrderId(),
                     ], 'upload.php') : null;
                 ?>
-                    <tr data-delete-form-name="<?php echo $this->escape($positionName); ?>" data-deleted-id="<?php echo $person->getId(); ?>">
+                    <tr data-delete-form-name="<?php echo $this->escape($positionName); ?>" data-item-id="<?php echo $person->getId(); ?>">
                         <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Position name', 'scout-units-list'); ?>">
                             <strong><?php echo $this->escape($positionName); ?></strong>
                             <div class="row-actions">

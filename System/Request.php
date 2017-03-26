@@ -421,4 +421,34 @@ class Request
 
         return !empty($requestedWith) && strtolower($requestedWith) == 'xmlhttprequest';
     }
+
+    /**
+     * Get response status name
+     *
+     * @param int $status status
+     *
+     * @return string
+     */
+    public function getResponseStatusName($status)
+    {
+        switch ($status) {
+            case 401:
+                return 'Unauthorized';
+
+            case 403:
+                return 'Forbidden';
+
+            case 404:
+                return 'Not Found';
+
+            case 500:
+                return 'Internal Server Error';
+
+            case 503:
+                return 'Service Unavailable';
+
+            default:
+                return '';
+        }
+    }
 }

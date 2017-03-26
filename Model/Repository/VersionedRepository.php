@@ -27,18 +27,21 @@ abstract class VersionedRepository extends Repository
     /**
      * Save
      *
-     * @param VersionedModelInterface $model model
+     * @param VersionedModelInterface $model         model
+     * @param bool                    $useVersioning use versioning
      *
      * @return self
      */
-    public function save(VersionedModelInterface $model)
+    public function save(VersionedModelInterface $model, $useVersioning = true)
     {
         if ($model->getId() == null) {
             $this->saveNewVersion($model, VersionedModelInterface::ACTION_INSERTED);
-        } else {
+        } elseif ($useVersioning) {
             $oldVersion = $this->getOldVersion($model);
             $this->saveNewVersion($model, VersionedModelInterface::ACTION_MODIFIED);
             parent::save($oldVersion);
+        } else {
+            parent::save($model);
         }
 
         return $this;

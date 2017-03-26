@@ -24,6 +24,23 @@
 .sul-list .autocomplete-value {
     line-height: 1.5;
 }
+.sul-list .ui-sortable-handle.ui-sortable-helper {
+    background: #e7e7e7;
+}
+.sul-list .ui-sortable-placeholder {
+    height: 57px;
+}
+.sul-list .ui-sortable-placeholder td {
+    border: 3px dashed #e1e1e1;
+    border-left-width: 0;
+    border-right-width: 0;
+}
+.sul-list .ui-sortable-placeholder td:first-child {
+    border-left-width: 3px;
+}
+.sul-list .ui-sortable-placeholder td:last-child {
+    border-right-width: 3px;
+}
 .sul-delete {
     cursor: pointer;
 }

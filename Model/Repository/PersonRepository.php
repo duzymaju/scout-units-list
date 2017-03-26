@@ -2,6 +2,7 @@
 
 namespace ScoutUnitsList\Model\Repository;
 
+use ScoutUnitsList\Exception\InvalidArgumentException;
 use ScoutUnitsList\Manager\DbManager;
 use ScoutUnitsList\Model\Person;
 use ScoutUnitsList\Model\Position;
@@ -125,7 +126,7 @@ class PersonRepository extends VersionedRepository
      * @return self
      */
     public function setPersonsToUnits(array $units, PositionRepository $positionRepository,
-        UserRepository $userRepository = null, AttachmentRepository $attachmentRepository = null, $leaderOnly = true)
+        UserRepository $userRepository = null, AttachmentRepository $attachmentRepository = null, $leaderOnly = false)
     {
         // Get persons
         $unitsByIds = [];
@@ -168,34 +169,6 @@ class PersonRepository extends VersionedRepository
             }
         }
 
-        if (!$leaderOnly) {
-            // Sort persons by positions leadership
-            usort($persons, function (Person $personA, Person $personB) {
-                $positionA = $personA->getPosition();
-                $positionB = $personB->getPosition();
-
-                if ($positionA->isLeader() == $positionB->isLeader()) {
-                    $sortA = $personA->getSort();
-                    $sortB = $personB->getSort();
-
-                    if ($sortA == $sortB) {
-                        $nameA = $personA->getUserName();
-                        $nameB = $personB->getUserName();
-
-                        if ($nameA == $nameB) {
-                            return 0;
-                        } else {
-                            return $nameA > $nameB ? 1 : -1;
-                        }
-                    } else {
-                        return $sortA > $sortB ? 1 : -1;
-                    }
-                } else {
-                    return $positionA->isLeader() ? -1 : 1;
-                }
-            });
-        }
-
         // Include users if necessary
         $usersByIds = [];
         if ($userRepository && count($userIds) > 0) {
@@ -230,6 +203,43 @@ class PersonRepository extends VersionedRepository
             if ($attachmentRepository && array_key_exists($person->getOrderId(), $ordersByIds)) {
                 $person->setOrder($ordersByIds[$person->getOrderId()]);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sort persons for unit
+     *
+     * @param Unit               $unit               unit
+     * @param array              $order              order
+     * @param PositionRepository $positionRepository position repository
+     *
+     * @return self
+     *
+     * @throws InvalidArgumentException
+     */
+    public function sortPersonsForUnit(Unit $unit, array $order, PositionRepository $positionRepository)
+    {
+        $this->setPersonsToUnits([
+            $unit,
+        ], $positionRepository);
+
+        $orderedPersons = [];
+        foreach ($unit->getPersons() as $person) {
+            if (false !== $index = array_search($person->getId(), $order)) {
+                $orderedPersons[$index] = $person;
+            }
+        }
+        ksort($orderedPersons);
+
+        if (array_keys($order) !== array_keys($orderedPersons)) {
+            throw new InvalidArgumentException('Person IDs in order list for selected unit are incorrect.');
+        }
+
+        foreach ($orderedPersons as $i => $person) {
+            $person->setSort($i + 1);
+            $this->save($person, false);
         }
 
         return $this;

@@ -18,6 +18,8 @@
         $('[data-path-type]').shortcodeTemplatesPath();
 
         list.versionedItemDeleteForm();
+
+        list.sortableItems();
     });
 
     $.fn.enableField = function () {
@@ -73,12 +75,12 @@
                 },
                 source: function (request, response) {
                     $.ajax({
-                        dataType: 'json',
                         data: {
                             action: action,
                             term: request.term,
                             type: autocompleteType
                         },
+                        dataType: 'json',
                         success: response,
                         url: sul.ajaxUrl
                     });
@@ -199,7 +201,7 @@
             var listRow = $(this).closest('tr');
             var formRow = $(prototype
                 .replace('%name%', listRow.data('delete-form-name'))
-                .replace('%deletedId%', listRow.data('deleted-id'))
+                .replace('%deletedId%', listRow.data('item-id'))
             );
             var fakeRow = $('<tr>');
             listRow.after(formRow);
@@ -207,14 +209,57 @@
             listRow.hide();
             formRow.find('form.sul-form input[data-autocomplete-action]')
                 .autocompleteInit();
+            list.trigger('row-removal', [
+                true
+            ]);
 
             formRow.find('button.cancel').on('click', function () {
                 formRow.unbind();
                 formRow.remove();
                 fakeRow.remove();
                 listRow.show();
+                list.trigger('row-removal', [
+                    false
+                ]);
             });
         });
+    };
+
+    $.fn.sortableItems = function () {
+        var list = $(this).find('tbody[data-sortable-action]').first();
+        if (list.length !== 1) {
+            return;
+        }
+
+        var action = list.data('sortable-action');
+        var unitId = list.data('unit-id');
+        list.on('row-removal', function (event, removalInProgress) {
+            list.sortable(removalInProgress ? 'disable' : 'enable');
+        });
+
+        list.sortable({
+            placeholder: 'ui-sortable-placeholder',
+            update: function () {
+                list.sortable('disable');
+                var order = [];
+                $.each(list.find('tr[data-item-id]'), function () {
+                    order.push($(this).data('item-id'));
+                });
+                $.ajax({
+                    data: {
+                        action: action,
+                        order: order,
+                        unitId: unitId
+                    },
+                    dataType: 'json',
+                    method: 'POST',
+                    url: sul.ajaxUrl
+                }).always(function () {
+                    list.sortable('enable');
+                });
+            }
+        });
+        list.disableSelection();
     };
 
     $.fn.shortcodeTemplatesPath = function () {

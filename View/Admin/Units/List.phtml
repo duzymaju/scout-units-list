@@ -51,7 +51,7 @@
                     ]);
                     $parentUnit = $unit->getParent();
                 ?>
-                    <tr data-delete-form-name="<?php echo $this->escape($unit->getName()); ?>" data-deleted-id="<?php echo $unit->getId(); ?>">
+                    <tr data-delete-form-name="<?php echo $this->escape($unit->getName()); ?>" data-item-id="<?php echo $unit->getId(); ?>">
                         <td class="name column-name has-row-actions column-primary" data-colname="<?php _e('Unit name', 'scout-units-list'); ?>">
                             <strong><a href="<?php echo $configureLink; ?>" aria-label="<?php echo sprintf(__('&#8220;%s&#8221; (Edit)', 'scout-units-list'), $unit->getName()); ?>"><?php echo $this->escape($unit->getName()); ?></a></strong>
                             <div class="row-actions">

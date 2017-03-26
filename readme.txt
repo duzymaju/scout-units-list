@@ -3,7 +3,7 @@ Contributors: duzymaju
 Tags: scouts, zhp, zhr, wosm, wagggs
 Requires at least: 3.0.0
 Tested up to: 4.7
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 License: GNU GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,9 +34,8 @@ To define your own template create `scout-units-list` directory in your current 
 
 = Things to do before stable version release =
 
-1. Sortable persons list.
-2. Add a shortcode which implements a map with selected units marked on it.
-3. Configurable types/subtypes lists and dependencies.
+1. Add a shortcode which implements a map with selected units marked on it.
+2. Configurable types/subtypes lists and dependencies.
 
 = Future plans =
 
@@ -65,4 +64,4 @@ Improve shortcodes for units/persons. Add API.
 Add multiple order categories.
 
 = 0.5 =
-Upgrade shortcodes and persons.
+Upgrade shortcodes and persons. Add persons sorting.

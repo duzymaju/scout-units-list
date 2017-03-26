@@ -307,7 +307,7 @@ class UnitsController extends Controller
         }
         $personRepository->setPersonsToUnits([
             $unit,
-        ], $positionRepository, $userRepository, $attachmentRepository, false);
+        ], $positionRepository, $userRepository, $attachmentRepository);
 
         $this->getView('Admin/Units/PersonManage', [
             'deleteFormPrototype' => $deleteFormPrototype,

@@ -66,7 +66,7 @@ class ApiController extends Controller
                 $unitRepository->loadDependentUnits($unit);
                 $this->loader->get('repository.person')
                     ->setPersonsToUnits($unitRepository->getFlatUnitsList($unit),
-                        $this->loader->get('repository.position'), $this->loader->get('repository.user'), null, false);
+                        $this->loader->get('repository.position'), $this->loader->get('repository.user'));
                 $cacheManager->set(json_encode($unit));
             } else {
                 $cacheManager->set('');
