@@ -3,7 +3,7 @@ Contributors: duzymaju
 Tags: scouts, zhp, zhr, wosm, wagggs
 Requires at least: 3.0.0
 Tested up to: 4.7
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 License: GNU GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,7 @@ Add `[sul-units-list id="X"]` shortcode, where `X` is an ID of a base unit. You 
 
 * `class` (string) - allows to add CSS class,
 * `current` (boolean, `false` as a default value) - allows to show/hide current unit on a list,
+* `external` (boolean, `false` as a default value) - decides if structure should be receive from external source (if so, external source URL in configuration should be defined),
 * `levels` (integer, `1` as a default value) - allows to define number of levels with dependent units,
 * `types` (empty as a default value) - allows to define list of types (separated by comma) which have to be showed.
 
@@ -28,7 +29,8 @@ To define your own template create `scout-units-list` directory in your current 
 
 Add `[sul-persons-list id="X"]` shortcode, where `X` is an ID of a base unit. You can use also other attributes:
 
-* `class` (string) - allows to add CSS class.
+* `class` (string) - allows to add CSS class,
+* `external` (boolean, `false` as a default value) - decides if structure should be receive from external source (if so, external source URL in configuration should be defined).
 
 To define your own template create `scout-units-list` directory in your current theme directory (or define other directory in configuration form) and then create there `PersonsList.phtml`, `PersonsList-Y.phtml` or `PersonsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To know how to access units data please check default template in `View/Shortcodes` directory.
 

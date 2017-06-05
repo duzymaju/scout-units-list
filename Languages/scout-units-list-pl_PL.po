@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Scout Units List pl_PL 0.5.1\n"
+"Project-Id-Version: Scout Units List pl_PL 0.5.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-05 20:43+0200\n"
 "PO-Revision-Date: 2017-06-05 21:15+0200\n"
