@@ -4,6 +4,7 @@ namespace ScoutUnitsList\Model;
 
 use JsonSerializable;
 use ScoutUnitsList\System\Tools\StringTrait;
+use stdClass;
 
 /**
  * Unit model
@@ -132,6 +133,20 @@ class Unit implements JsonSerializable, VersionedModelInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set ID
+     *
+     * @param int $id ID
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = (int) $id;
+
+        return $this;
     }
 
     /**
@@ -749,6 +764,7 @@ class Unit implements JsonSerializable, VersionedModelInterface
             'children' => $children,
             'hero' => $this->hero,
             'heroFull' => $this->heroFull,
+            'id' => $this->id,
             'location' => !empty($this->locationLat) && !empty($this->locationLng) ? [
                 'lat' => $this->locationLat,
                 'lng' => $this->locationLng,
@@ -766,5 +782,53 @@ class Unit implements JsonSerializable, VersionedModelInterface
         ];
 
         return $data;
+    }
+
+    /**
+     * Create
+     *
+     * @param stdClass $structure structure
+     * @param self     $parent    parent
+     *
+     * @return self
+     */
+    public static function create(stdClass $structure, self $parent = null)
+    {
+        $unit = new self();
+        $unit->setId($structure->id)
+            ->setType($structure->type)
+            ->setSubtype($structure->subtype)
+            ->setSlug($structure->slug)
+            ->setName($structure->name)
+            ->setNameFull($structure->nameFull)
+            ->setHero($structure->hero)
+            ->setHeroFull($structure->heroFull)
+            ->setUrl($structure->url)
+            ->setMail($structure->mail)
+            ->setAddress($structure->address)
+            ->setMeetingsTime($structure->meetingsTime)
+            ->setLocationLat($structure->location->lat)
+            ->setLocationLng($structure->location->lng)
+        ;
+
+        $children = [];
+        foreach ($structure->children as $childStructure) {
+            $children[] = self::create($childStructure, $parent);
+        }
+        $unit->setChildren($children);
+
+        $persons = [];
+        foreach ($structure->persons as $personStructure) {
+            $persons[] = Person::create($personStructure, $parent);
+        }
+        $unit->setPersons($persons);
+
+        if (isset($parent)) {
+            $unit->setParentId($parent->getId())
+                ->setParent($parent)
+            ;
+        }
+
+        return $unit;
     }
 }

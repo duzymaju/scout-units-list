@@ -89,6 +89,13 @@ class ConfigForm extends Form
                 'label' => __('Map default zoom', 'scout-units-list'),
                 'required' => true,
             ])
+            ->addField('externalStructureUrl', StringType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                    'pattern' => '^https?://.+',
+                ],
+                'label' => __('External structure URL', 'scout-units-list'),
+            ])
             ->addField('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'button button-primary',

@@ -3,9 +3,14 @@
 namespace ScoutUnitsList\Controller;
 
 use ScoutUnitsList\Form\UnitAdminForm;
+use ScoutUnitsList\Model\Person;
+use ScoutUnitsList\Model\Position;
 use ScoutUnitsList\Model\Unit;
+use ScoutUnitsList\Model\User;
 use ScoutUnitsList\System\ParamPack;
+use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\View;
+use stdClass;
 
 /**
  * Shortcodes controller
@@ -32,6 +37,7 @@ class ShortcodesController extends Controller
         $withCurrent = $attributes->getBool('current', false);
         $levels = max(0, $attributes->getInt('levels', 1));
         $typesList = $attributes->getString('types');
+        $isExternal = $attributes->getBool('external', false);
         if (empty($typesList)) {
             $types = null;
         } else {
@@ -47,17 +53,11 @@ class ShortcodesController extends Controller
 
         $cacheManager = $this->get('manager.cache');
         $cacheManager->setId('units-list-' . $id . '-' . ($withCurrent ? '1' : '0') . '-' . $levels .
-            (isset($types) ? '-' . implode(',', $types) : ''));
+            (isset($types) ? '-' . implode(',', $types) : '') . '-' . ($isExternal ? '1' : '0'));
         if (!$cacheManager->has()) {
-            $unitRepository = $this->loader->get('repository.unit');
-            $unit = $unitRepository->getOneBy([
-                'id' => $id,
-            ]);
+            $unit = $this->getUnitWithDependencies($id, $levels, $types, $isExternal);
             if (isset($unit)) {
-                $unitRepository->loadDependentUnits($unit, $levels, $types);
-                $this->setPersonsToUnits($unitRepository->getFlatUnitsList($unit), true);
                 $dependentUnitsResult = $this->getDependentUnitsResult($unit, $unit, $levels, $types);
-
                 $cacheManager->set($this->getRenderedView([
                     'UnitsList-' . $unit->getType(),
                     'UnitsList-' . $unit->getId(),
@@ -77,6 +77,36 @@ class ShortcodesController extends Controller
     }
 
     /**
+     * Get unit with dependencies
+     *
+     * @param int        $id         ID
+     * @param int        $levels     levels
+     * @param array|null $types      types
+     * @param bool       $isExternal if is external
+     *
+     * @return Unit|null
+     */
+    private function getUnitWithDependencies($id, $levels, $types, $isExternal)
+    {
+        if ($isExternal) {
+            $unit = $this->getExternalUnit($id);
+        } else {
+            $unitRepository = $this->loader->get('repository.unit');
+            $unit = $unitRepository->getOneBy([
+                'id' => $id,
+            ]);
+            if (!isset($unit)) {
+                return null;
+            }
+
+            $unitRepository->loadDependentUnits($unit, $levels, $types);
+            $this->setPersonsToUnits($unitRepository->getFlatUnitsList($unit), true);
+        }
+
+        return $unit;
+    }
+
+    /**
      * Persons list
      *
      * @param ParamPack $attributes attributes
@@ -91,19 +121,13 @@ class ShortcodesController extends Controller
         }
 
         $cssClass = $attributes->getString('class');
+        $isExternal = $attributes->getString('external', false);
 
         $cacheManager = $this->get('manager.cache');
-        $cacheManager->setId('persons-list-' . $id);
+        $cacheManager->setId('persons-list-' . $id . '-' . ($isExternal ? '1' : '0'));
         if (!$cacheManager->has()) {
-            $unit = $this->loader->get('repository.unit')
-                ->getOneBy([
-                    'id' => $id,
-                ]);
+            $unit = $this->getUnitWithPersons($id, $isExternal);
             if (isset($unit)) {
-                $this->setPersonsToUnits([
-                    $unit,
-                ], true, false);
-
                 $cacheManager->set($this->getRenderedView([
                     'PersonsList-' . $unit->getType(),
                     'PersonsList-' . $unit->getId(),
@@ -118,6 +142,69 @@ class ShortcodesController extends Controller
         }
 
         return $cacheManager->get();
+    }
+
+    /**
+     * Get unit with persons
+     *
+     * @param int  $id         ID
+     * @param bool $isExternal if is external
+     *
+     * @return Unit|null
+     */
+    private function getUnitWithPersons($id, $isExternal)
+    {
+        if ($isExternal) {
+            $unit = $this->getExternalUnit($id);
+        } else {
+            $unitRepository = $this->loader->get('repository.unit');
+            $unit = $unitRepository->getOneBy([
+                'id' => $id,
+            ]);
+            if (!isset($unit)) {
+                return null;
+            }
+
+            $this->setPersonsToUnits([
+                $unit,
+            ], true, false);
+        }
+
+        return $unit;
+    }
+
+    /**
+     * Get external unit
+     *
+     * @param int $id ID
+     *
+     * @return Unit|null
+     */
+    private function getExternalUnit($id)
+    {
+        $config = $this->get('manager.config')
+            ->get();
+        if (!$config->hasExternalStructureUrl()) {
+            return null;
+        }
+
+        $request = new Request();
+        $json = $request->getContent(rtrim($config->getExternalStructureUrl(), '/') . '/index.php', [
+            'action' => 'structure',
+            'root' => $id,
+            'sul_api_v' => 1,
+        ]);
+        if ($json === false) {
+            return null;
+        }
+
+        $structure = json_decode($json);
+        if (!isset($structure)) {
+            return null;
+        }
+        $unit = Unit::create($structure);
+
+        return $unit;
     }
 
     /**

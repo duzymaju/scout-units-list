@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-12 22:17+0100\n"
-"PO-Revision-Date: 2017-03-12 22:17+0100\n"
+"POT-Creation-Date: 2017-06-05 20:43+0200\n"
+"PO-Revision-Date: 2017-06-05 21:15+0200\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -63,39 +63,39 @@ msgstr ""
 msgid "Delete \"%name%\" person"
 msgstr "Usuń funkcyjnego \"%name%\""
 
-#: Controller/Admin/UnitsController.php:280
+#: Controller/Admin/UnitsController.php:282
 msgid "Person was successfully deleted."
 msgstr "Funkcyjny został pomyślnie usunięty."
 
-#: Controller/Admin/UnitsController.php:283
+#: Controller/Admin/UnitsController.php:285
 msgid "An error occured during person deleting."
 msgstr "Wystąpił błąd podczas usuwania funkcyjnego."
 
-#: Controller/Admin/UnitsController.php:287
+#: Controller/Admin/UnitsController.php:289
 msgid "Valid order number is required to delete this person."
 msgstr "Do usunięcia tego funkcyjnego potrzebny jest poprawny numer rozkazu."
 
-#: Controller/Admin/UnitsController.php:301
+#: Controller/Admin/UnitsController.php:309
 msgid "Person was successfully saved."
 msgstr "Funkcyjny został pomyślnie zapisany."
 
-#: Controller/Admin/UnitsController.php:305
+#: Controller/Admin/UnitsController.php:313
 msgid "An error occured during person saving."
 msgstr "Wystąpił błąd podczas zapisywania funkcyjnego."
 
-#: Controller/Admin/UnitsController.php:363
+#: Controller/Admin/UnitsController.php:371
 msgid "Unit was successfully deleted."
 msgstr "Jednostka została pomyślnie usunięta."
 
-#: Controller/Admin/UnitsController.php:366
+#: Controller/Admin/UnitsController.php:374
 msgid "An error occured during unit deleting."
 msgstr "Wystąpił błąd podczas usuwania jednostki."
 
-#: Controller/Admin/UnitsController.php:369
+#: Controller/Admin/UnitsController.php:377
 msgid "Valid order number is required to delete this unit."
 msgstr "Do usunięcia tej jednostki potrzebny jest poprawny numer rozkazu."
 
-#: Controller/Admin/UnitsController.php:406
+#: Controller/Admin/UnitsController.php:414
 msgid "Delete \"%name%\" unit"
 msgstr "Usuń jednostkę \"%name%\""
 
@@ -179,7 +179,11 @@ msgstr "Domyślna długość geograficzna mapy"
 msgid "Map default zoom"
 msgstr "Domyślne powiększenie mapy"
 
-#: Form/ConfigForm.php:96 Form/PersonForm.php:82 Form/PositionForm.php:64
+#: Form/ConfigForm.php:97
+msgid "External structure URL"
+msgstr "URL zewnętrznej struktury"
+
+#: Form/ConfigForm.php:103 Form/PersonForm.php:82 Form/PositionForm.php:64
 #: Form/UnitAdminForm.php:120 Form/UnitLeaderForm.php:73
 msgid "Save"
 msgstr "Zapisz"

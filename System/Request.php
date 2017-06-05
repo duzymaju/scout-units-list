@@ -43,19 +43,19 @@ class Request
     public $cookies;
 
     /** @var string */
-    protected $method;
+    private $method;
 
     /** @var string */
-    protected $protocol;
+    private $protocol;
 
     /** @var string */
-    protected $domain;
+    private $domain;
 
     /** @var string */
-    protected $path;
+    private $path;
 
     /** @var string */
-    protected $ip = '';
+    private $ip = '';
 
     /**
      * Constructor
@@ -205,10 +205,11 @@ class Request
      * @param string|null $path         path
      * @param array       $params       params
      * @param bool|string $absolutePath absolute path
+     * @param bool        $escapeUrl    escape URL
      *
      * @return string
      */
-    public function getUrl($path = '/', array $params = [], $absolutePath = false)
+    public function getUrl($path = '/', array $params = [], $absolutePath = false, $escapeUrl = true)
     {
         if (!isset($path)) {
             $path = '';
@@ -219,19 +220,32 @@ class Request
             $path = ($absolutePath === true ? $this->getPageAddress() : ($this->isValidProtocol($absolutePath) ?
                 $this->getPageAddress($absolutePath) : $absolutePath)) . $path;
         }
+        $url = $path . $this->getQueryString($params, $escapeUrl ? '&amp;' : '&');
 
+        return $url;
+    }
+
+    /**
+     * Get query string
+     * 
+     * @param array  $params      params
+     * @param string $paramsJoint params joint
+     * @param string $prefix      prefix
+     *
+     * @return string
+     */
+    private function getQueryString(array $params, $paramsJoint = '&amp;', $prefix = '?')
+    {
         foreach ($params as $key => $param) {
             if (isset($param) && !is_object($param)) {
-                $params[$key] = $this->urlEncodeParam($key, $param);
+                $params[$key] = $this->urlEncodeParam($key, $param, $paramsJoint);
             } else {
                 unset($params[$key]);
             }
         }
-        if (count($params) > 0) {
-            $path .= '?' . implode('&amp;', $params);
-        }
+        $queryString = count($params) > 0 ? $prefix . implode($paramsJoint, $params) : '';
 
-        return $path;
+        return $queryString;
     }
 
     /**
@@ -239,22 +253,23 @@ class Request
      *
      * @param string $key               key
      * @param mixed  $param             param
+     * @param string $paramsJoint       params joint
      * @param string $keyWithValueJoint key with value joint
      * @param int    $level             level
      *
      * @return string
      */
-    protected function urlEncodeParam($key, $param, $keyWithValueJoint = '=', $level = 1)
+    private function urlEncodeParam($key, $param, $paramsJoint = '&amp;', $keyWithValueJoint = '=', $level = 1)
     {
         if ($level == 1) {
             $key = urlencode($key);
         }
         if (is_array($param)) {
             foreach ($param as $subKey => $subParam) {
-                $param[$subKey] = $this->urlEncodeParam($key . '[' . urlencode($subKey) . ']', $subParam,
+                $param[$subKey] = $this->urlEncodeParam($key . '[' . urlencode($subKey) . ']', $subParam, $paramsJoint,
                     $keyWithValueJoint, $level + 1);
             }
-            $encodedParam = implode('&amp;', $param);
+            $encodedParam = implode($paramsJoint, $param);
         } else {
             $encodedParam = $key . $keyWithValueJoint . urlencode($param);
         }
@@ -332,6 +347,34 @@ class Request
     }
 
     /**
+     * Get content
+     *
+     * @param string $url    URL
+     * @param array  $params params
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
+    public function getContent($url, array $params = [])
+    {
+         $connection = curl_init();
+         curl_setopt($connection, CURLOPT_URL, $url . $this->getQueryString($params, '&'));
+         curl_setopt($connection, CURLOPT_TIMEOUT, 30);
+         curl_setopt($connection, CURLOPT_MAXREDIRS, 0);
+         curl_setopt($connection, CURLOPT_RETURNTRANSFER, true);
+
+         $content = curl_exec($connection);
+         $status = curl_getinfo($connection, CURLINFO_HTTP_CODE);
+         if ($status < 200 || $status >= 300) {
+            throw new Exception('An exception occured during content receiving.');
+         }
+         curl_close($connection);
+
+         return $content;
+    }
+
+    /**
      * Get path
      *
      * @return string
@@ -384,7 +427,7 @@ class Request
      *
      * @return int
      */
-    protected function getIniInBytes($name)
+    private function getIniInBytes($name)
     {
         $value = trim(ini_get($name));
         switch (strtolower($value[strlen($value) - 1])) {

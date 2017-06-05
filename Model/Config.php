@@ -34,6 +34,9 @@ class Config implements ModelInterface
     /** @var int */
     protected $mapDefaultZoom = 0;
 
+    /** @var string|null */
+    protected $externalStructureUrl;
+
     /**
      * Get cache TTL
      *
@@ -268,6 +271,42 @@ class Config implements ModelInterface
     public function setMapDefaultZoom($mapDefaultZoom)
     {
         $this->mapDefaultZoom = max(0, (int) $mapDefaultZoom);
+
+        return $this;
+    }
+
+    /**
+     * Get external structure URL
+     *
+     * @return string|null
+     */
+    public function getExternalStructureUrl()
+    {
+        return $this->externalStructureUrl;
+    }
+
+    /**
+     * Has external structure URL
+     *
+     * @return bool
+     */
+    public function hasExternalStructureUrl()
+    {
+        $hasPath = !empty($this->externalStructureUrl);
+
+        return $hasPath;
+    }
+
+    /**
+     * Set external structure URL
+     *
+     * @param string|null $externalStructureUrl external structure URL
+     *
+     * @return self
+     */
+    public function setExternalStructureUrl($externalStructureUrl)
+    {
+        $this->externalStructureUrl = empty($externalStructureUrl) ? null : $externalStructureUrl;
 
         return $this;
     }

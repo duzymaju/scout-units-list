@@ -3,6 +3,7 @@
 namespace ScoutUnitsList\Model;
 
 use JsonSerializable;
+use stdClass;
 
 /**
  * Person model
@@ -403,5 +404,52 @@ class Person implements JsonSerializable, VersionedModelInterface
         ];
 
         return $data;
+    }
+
+    /**
+     * Create
+     *
+     * @param stdClass $structure structure
+     * @param Unit     $unit      unit
+     *
+     * @return Unit
+     */
+    public static function create(stdClass $structure, Unit $unit = null)
+    {
+        $person = new self();
+        $person->setUserName($structure->name)
+            ->setUserGrade($structure->grade)
+        ;
+
+        if (isset($structure->position)) {
+            $position = new Position();
+            $position->setDescription($structure->position->description)
+                ->setNameMale($structure->position->name)
+                ->setLeader($structure->position->leader)
+            ;
+            $person->setPosition($position);
+        }
+
+        $user = new User();
+        $user->setGrade($structure->grade)
+            ->setDisplayName($structure->name)
+        ;
+        if (!empty($structure->duty)) {
+            $user->setDuty($structure->duty);
+        }
+        if (!empty($structure->email)) {
+            $user->setEmail($structure->email)
+                ->setPublishEmail(User::PUBLISH_EMAIL_YES)
+            ;
+        }
+        $person->setUser($user);
+
+        if (isset($unit)) {
+            $person->setUnitId($unit->getId())
+                ->setUnit($unit)
+            ;
+        }
+
+        return $person;
     }
 }
