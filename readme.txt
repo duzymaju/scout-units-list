@@ -3,7 +3,7 @@ Contributors: duzymaju
 Tags: scouts, zhp, zhr, wosm, wagggs
 Requires at least: 3.0.0
 Tested up to: 4.7
-Stable tag: 0.5.2
+Stable tag: 0.5.3
 License: GNU GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,4 +66,4 @@ Improve shortcodes for units/persons. Add API.
 Add multiple order categories.
 
 = 0.5 =
-Upgrade shortcodes and persons. Add persons sorting.
+Upgrade shortcodes and persons. Add persons sorting. Add possibility to show structure from external source. Add custom user photos.
