@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-08 12:52+0200\n"
-"PO-Revision-Date: 2017-07-08 12:52+0200\n"
+"POT-Creation-Date: 2017-07-08 16:30+0200\n"
+"PO-Revision-Date: 2017-07-08 16:31+0200\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -99,11 +99,11 @@ msgstr "Do usunięcia tej jednostki potrzebny jest poprawny numer rozkazu."
 msgid "Delete \"%name%\" unit"
 msgstr "Usuń jednostkę \"%name%\""
 
-#: Controller/Admin/UserController.php:31 View/Admin/Users/UserForm.phtml:44
+#: Controller/Admin/UserController.php:31 View/Admin/Users/UserForm.phtml:38
 msgid "Female"
 msgstr "Kobieta"
 
-#: Controller/Admin/UserController.php:32 View/Admin/Users/UserForm.phtml:45
+#: Controller/Admin/UserController.php:32 View/Admin/Users/UserForm.phtml:39
 msgid "Male"
 msgstr "Mężczyzna"
 
@@ -199,7 +199,7 @@ msgstr "Rozmiary zdjęcia użytkownika"
 msgid "External structure URL"
 msgstr "URL zewnętrznej struktury"
 
-#: Form/ConfigForm.php:123 Form/PersonForm.php:82 Form/PositionForm.php:64
+#: Form/ConfigForm.php:123 Form/PersonForm.php:82 Form/PositionForm.php:73
 #: Form/UnitAdminForm.php:120 Form/UnitLeaderForm.php:73
 msgid "Save"
 msgstr "Zapisz"
@@ -221,27 +221,31 @@ msgstr "Funkcja"
 msgid "Order number"
 msgstr "Numer rozkazu"
 
-#: Form/PositionForm.php:30 Form/UnitAdminForm.php:39
+#: Form/PositionForm.php:31 Form/UnitAdminForm.php:39
 #: View/Admin/Positions/List.phtml:25 View/Admin/Positions/List.phtml:54
 #: View/Admin/Positions/List.phtml:68 View/Admin/Units/List.phtml:25
 #: View/Admin/Units/List.phtml:69 View/Admin/Units/List.phtml:83
 msgid "Type"
 msgstr "Typ"
 
-#: Form/PositionForm.php:38
+#: Form/PositionForm.php:39
 msgid "Name male"
 msgstr "Nazwa męska"
 
-#: Form/PositionForm.php:45
+#: Form/PositionForm.php:46
 msgid "Name female"
 msgstr "Nazwa żeńska"
 
-#: Form/PositionForm.php:52 View/Admin/Positions/List.phtml:27
+#: Form/PositionForm.php:53 View/Admin/Positions/List.phtml:27
 #: View/Admin/Positions/List.phtml:56 View/Admin/Positions/List.phtml:70
 msgid "Description"
 msgstr "Opis"
 
-#: Form/PositionForm.php:58
+#: Form/PositionForm.php:61
+msgid "Responsibilities"
+msgstr "Zakres obowiązków"
+
+#: Form/PositionForm.php:67
 msgid "Is unit leader"
 msgstr "Czy funkcyjny jest szefem jednostki"
 
@@ -303,16 +307,16 @@ msgstr "Nr rozkazu"
 msgid "Delete"
 msgstr "Usuń"
 
-#: Model/Repository/UserRepository.php:194
+#: Model/Repository/UserRepository.php:192
 msgid "Contact form"
 msgstr "Formularz kontaktowy"
 
-#: Model/Repository/UserRepository.php:195 View/Admin/Positions/List.phtml:55
+#: Model/Repository/UserRepository.php:193 View/Admin/Positions/List.phtml:55
 #: View/Admin/Units/PersonManage.phtml:58 View/Form/Widget/Boolean.phtml:2
 msgid "Yes"
 msgstr "Tak"
 
-#: Model/Repository/UserRepository.php:196 View/Admin/Positions/List.phtml:55
+#: Model/Repository/UserRepository.php:194 View/Admin/Positions/List.phtml:55
 #: View/Admin/Units/PersonManage.phtml:58 View/Form/Widget/Boolean.phtml:3
 msgid "No"
 msgstr "Nie"
@@ -627,15 +631,11 @@ msgstr "Stopień instruktorski"
 msgid "Duty"
 msgstr "Dyżur"
 
-#: View/Admin/Users/AdminForm.phtml:47 View/Admin/Users/UserForm.phtml:38
-msgid "Responsibilities"
-msgstr "Zakres obowiązków"
-
-#: View/Admin/Users/AdminForm.phtml:53 View/Admin/Users/UserForm.phtml:43
+#: View/Admin/Users/AdminForm.phtml:47 View/Admin/Users/UserForm.phtml:37
 msgid "Sex"
 msgstr "Płeć"
 
-#: View/Admin/Users/AdminForm.phtml:56 View/Admin/Users/UserForm.phtml:45
+#: View/Admin/Users/AdminForm.phtml:50 View/Admin/Users/UserForm.phtml:39
 msgid "Unknown sex"
 msgstr "Płeć nieznana"
 

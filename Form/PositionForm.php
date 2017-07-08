@@ -4,6 +4,7 @@ namespace ScoutUnitsList\Form;
 
 use ScoutUnitsList\Form\Field\BooleanType;
 use ScoutUnitsList\Form\Field\SelectType;
+use ScoutUnitsList\Form\Field\StringMultilineType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
 use ScoutUnitsList\Validator\PositionValidator;
@@ -50,6 +51,14 @@ class PositionForm extends Form
                     'class' => 'regular-text',
                 ],
                 'label' => __('Description', 'scout-units-list'),
+            ])
+            ->addField('responsibilities', StringMultilineType::class, [
+                'attr' => [
+                    'class' => 'regular-text',
+                    'cols' => 50,
+                    'rows' => 5,
+                ],
+                'label' => __('Responsibilities', 'scout-units-list'),
             ])
             ->addField('leader', BooleanType::class, [
                 'attr' => [

@@ -400,6 +400,7 @@ class Person implements JsonSerializable, VersionedModelInterface
                 'description' => $position->getDescription(),
                 'leader' => $position->isLeader(),
                 'name' => $position->getNameFor($user),
+                'responsibilities' => $position->getResponsibilities(),
             ] : null,
         ];
 
@@ -426,6 +427,7 @@ class Person implements JsonSerializable, VersionedModelInterface
             $position->setDescription($structure->position->description)
                 ->setNameMale($structure->position->name)
                 ->setLeader($structure->position->leader)
+                ->setResponsibilities($structure->position->responsibilities)
             ;
             $person->setPosition($position);
         }

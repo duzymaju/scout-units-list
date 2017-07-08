@@ -34,6 +34,7 @@ class PositionRepository extends Repository
             ->setStructureElement('nameMale', DbManager::TYPE_STRING, 'name_male')
             ->setStructureElement('nameFemale', DbManager::TYPE_STRING, 'name_female')
             ->setStructureElement('description', DbManager::TYPE_STRING)
+            ->setStructureElement('responsibilities', DbManager::TYPE_STRING)
             ->setStructureElement('leader', DbManager::TYPE_DECIMAL)
         ;
     }

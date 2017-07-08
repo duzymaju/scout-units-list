@@ -52,9 +52,6 @@ class User implements ModelInterface
     protected $duty;
 
     /** @var string */
-    protected $responsibilities;
-
-    /** @var string */
     protected $sex;
 
     /** @var string */
@@ -286,30 +283,6 @@ class User implements ModelInterface
     public function setDuty($duty)
     {
         $this->duty = $duty;
-
-        return $this;
-    }
-
-    /**
-     * Get responsibilities
-     *
-     * @return string
-     */
-    public function getResponsibilities()
-    {
-        return $this->responsibilities;
-    }
-
-    /**
-     * Set responsibilities
-     *
-     * @param string $responsibilities responsibilities
-     *
-     * @return self
-     */
-    public function setResponsibilities($responsibilities)
-    {
-        $this->responsibilities = $responsibilities;
 
         return $this;
     }

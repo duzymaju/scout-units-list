@@ -55,7 +55,6 @@ class UserController extends Controller
                 if ($userCanPromoteUsers) {
                     $user->setPhotoId($this->checkPhoto($params->getInt('sul_photo_id')))
                         ->setGrade($params->getString('sul_grade'))
-                        ->setResponsibilities($params->getString('sul_responsibilities'))
                         ->setSex($params->getString('sul_sex'));
                 }
                 $userRepository->save($user);

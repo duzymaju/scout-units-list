@@ -22,6 +22,9 @@ class Position implements ModelInterface
     /** @var string */
     protected $description;
 
+    /** @var string */
+    protected $responsibilities;
+
     /** @var bool */
     protected $leader;
 
@@ -141,6 +144,30 @@ class Position implements ModelInterface
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get responsibilities
+     *
+     * @return string
+     */
+    public function getResponsibilities()
+    {
+        return $this->responsibilities;
+    }
+
+    /**
+     * Set responsibilities
+     *
+     * @param string $responsibilities responsibilities
+     *
+     * @return self
+     */
+    public function setResponsibilities($responsibilities)
+    {
+        $this->responsibilities = $responsibilities;
 
         return $this;
     }

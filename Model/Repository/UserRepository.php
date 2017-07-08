@@ -94,7 +94,6 @@ class UserRepository extends NativeRepository
         \update_user_meta($user->getId(), 'sul_photo_id', $user->getPhotoId());
         \update_user_meta($user->getId(), 'sul_grade', $user->getGrade());
         \update_user_meta($user->getId(), 'sul_duty', $user->getDuty());
-        \update_user_meta($user->getId(), 'sul_responsibilities', $user->getResponsibilities());
         \update_user_meta($user->getId(), 'sul_sex', $user->getSex());
 
         return $this;
@@ -116,7 +115,6 @@ class UserRepository extends NativeRepository
             ->setPhotoId($photoId > 0 ? $photoId : null)
             ->setGrade(\get_the_author_meta('sul_grade', $user->getId()))
             ->setDuty(\get_the_author_meta('sul_duty', $user->getId()))
-            ->setResponsibilities(\get_the_author_meta('sul_responsibilities', $user->getId()))
             ->setSex(\get_the_author_meta('sul_sex', $user->getId()));
         $this->setProperPublishEmail($user);
 

@@ -33,12 +33,6 @@
                     value="<?php echo $this->escape($this->user->getDuty()); ?>">
             </td>
         </tr>
-        <?php $responsibilities = $this->user->getResponsibilities(); if (!empty($responsibilities)): ?>
-            <tr>
-                <th><?php _e('Responsibilities', 'scout-units-list'); ?></th>
-                <td><?php echo $this->escape($responsibilities); ?></td>
-            </tr>
-        <?php endif; ?>
         <tr>
             <th><?php _e('Sex', 'scout-units-list'); ?></th>
             <td><?php $this->user->isFemale() ? _e('Female', 'scout-units-list') :
