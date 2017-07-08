@@ -18,10 +18,14 @@ class UserController extends Controller
      */
     public function form(WP_User $wpUser)
     {
+        \wp_enqueue_media();
+
         $userRepository = $this->get('repository.user');
         $user = $userRepository->createModelFromWpUser($wpUser);
 
         $this->getView(current_user_can('promote_users') ? 'Admin/Users/AdminForm' : 'Admin/Users/UserForm', [
+            'config' => $this->get('manager.config')
+                ->get(),
             'publishEmails' => $userRepository->getPublishEmails(),
             'sexes' => [
                 User::SEX_FEMALE => __('Female', 'scout-units-list'),
@@ -49,12 +53,34 @@ class UserController extends Controller
                 $user->setPublishEmail($params->getInt('sul_publish_email'))
                     ->setDuty($params->getString('sul_duty'));
                 if ($userCanPromoteUsers) {
-                    $user->setGrade($params->getString('sul_grade'))
+                    $user->setPhotoId($this->checkPhoto($params->getInt('sul_photo_id')))
+                        ->setGrade($params->getString('sul_grade'))
                         ->setResponsibilities($params->getString('sul_responsibilities'))
                         ->setSex($params->getString('sul_sex'));
                 }
                 $userRepository->save($user);
             }
         }
+    }
+
+    /**
+     * Check photo
+     *
+     * @param int $photoId photo ID
+     *
+     * @return int|null
+     */
+    private function checkPhoto($photoId)
+    {
+        if ($photoId < 1) {
+            return null;
+        }
+
+        $mimeType = get_post_mime_type($photoId);
+        if (strpos($mimeType, 'image/') !== 0) {
+            return null;
+        }
+
+        return $photoId;
     }
 }

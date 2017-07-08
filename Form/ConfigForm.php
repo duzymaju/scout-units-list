@@ -7,6 +7,7 @@ use ScoutUnitsList\Form\Field\IntegerType;
 use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
+use ScoutUnitsList\Model\Config;
 use ScoutUnitsList\Validator\ConfigValidator;
 
 /**
@@ -89,6 +90,25 @@ class ConfigForm extends Form
                 'label' => __('Map default zoom', 'scout-units-list'),
                 'required' => true,
             ])
+            ->addField('userImageSource', SelectType::class, [
+                'attr' => [
+                    'style' => 'width:25em',
+                ],
+                'label' => __('User image source', 'scout-units-list'),
+                'options' => [
+                    Config::IMAGE_SOURCE_AVATAR => __('Wordpress avatar', 'scout-units-list'),
+                    Config::IMAGE_SOURCE_PHOTO => __('custom photo', 'scout-units-list'),
+                ],
+                'required' => true,
+            ])
+            ->addField('userPhotoSize', SelectType::class, [
+                'attr' => [
+                    'style' => 'width:25em',
+                ],
+                'label' => __('User photo size', 'scout-units-list'),
+                'options' => $this->getUserPhotoSizes(),
+                'required' => true,
+            ])
             ->addField('externalStructureUrl', StringType::class, [
                 'attr' => [
                     'class' => 'regular-text',
@@ -122,6 +142,21 @@ class ConfigForm extends Form
         }
 
         return $orderCategories;
+    }
+
+    /**
+     * Get user photo sizes
+     *
+     * @return array
+     */
+    private function getUserPhotoSizes()
+    {
+        $userPhotoSizes = [];
+        foreach (\get_intermediate_image_sizes() as $size) {
+            $userPhotoSizes[$size] = $size;
+        }
+
+        return $userPhotoSizes;
     }
 
     /**

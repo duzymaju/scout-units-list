@@ -1,4 +1,4 @@
-(function (document, $, google, sul) {
+(function (document, $, wp, google, sul) {
     var autocompleteType = '';
 
     $(document).ready(function () {
@@ -20,7 +20,85 @@
         list.versionedItemDeleteForm();
 
         list.sortableItems();
+
+        $('#sul_user_photo').photoManager();
     });
+
+    $.fn.photoManager = function () {
+        var container = $(this);
+        if (container.length !== 1) {
+            return;
+        }
+
+        var frame;
+        var button = container.find('button');
+        var input = container.find('input');
+
+        var addImage = function(attachment) {
+            removeImage();
+
+            var img = $('<img>');
+            img.attr('src', attachment.sizes.thumbnail.url)
+                .attr('alt', attachment.alt);
+            container.prepend(img);
+
+            var anchor = $('<a>');
+            anchor.text(container.data('text-reset'));
+            anchor.addClass('button');
+            container.append(anchor);
+
+            input.val(attachment.id);
+
+            addImageRemoveLink();
+        };
+
+        var removeImage = function() {
+            container.find('img')
+                .remove();
+            container.find('a')
+                .remove();
+            input.val('');
+        };
+
+        var addImageRemoveLink = function() {
+            container.find('a')
+                .on('click', removeImage);
+        };
+        addImageRemoveLink();
+
+        button.on('click', function(event) {
+            event.preventDefault();
+            if (frame) {
+                frame.open();
+                return;
+            }
+
+            frame = wp.media({
+                button: {
+                  text: container.data('text-button')
+                },
+                library: {
+                    type: [
+                        'image'
+                    ]
+                },
+                multiple: false,
+                title: container.data('text-title')
+            });
+
+            frame.on('select', function() {
+                var attachment = frame.state()
+                    .get('selection')
+                    .first()
+                    .toJSON();
+                if (attachment.type === 'image') {
+                    addImage(attachment);
+                }
+            });
+
+            frame.open();
+        });
+    };
 
     $.fn.enableField = function () {
         $(this).prop('readonly', false)
@@ -294,4 +372,4 @@
             selectField.val(1);
         }
     };
-})(document, jQuery, google, sul);
+})(document, jQuery, wp, google, sul);

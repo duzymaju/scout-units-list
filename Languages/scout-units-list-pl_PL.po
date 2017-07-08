@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Scout Units List pl_PL 0.5.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-05 20:43+0200\n"
-"PO-Revision-Date: 2017-06-05 21:15+0200\n"
+"POT-Creation-Date: 2017-07-08 12:52+0200\n"
+"PO-Revision-Date: 2017-07-08 12:52+0200\n"
 "Last-Translator: Wiktor Maj <w.maj@majpage.com>\n"
 "Language-Team: Wiktor Maj <w.maj@majpage.com>\n"
 "Language: pl_PL\n"
@@ -99,11 +99,11 @@ msgstr "Do usunięcia tej jednostki potrzebny jest poprawny numer rozkazu."
 msgid "Delete \"%name%\" unit"
 msgstr "Usuń jednostkę \"%name%\""
 
-#: Controller/Admin/UserController.php:27 View/Admin/Users/UserForm.phtml:38
+#: Controller/Admin/UserController.php:31 View/Admin/Users/UserForm.phtml:44
 msgid "Female"
 msgstr "Kobieta"
 
-#: Controller/Admin/UserController.php:28 View/Admin/Users/UserForm.phtml:39
+#: Controller/Admin/UserController.php:32 View/Admin/Users/UserForm.phtml:45
 msgid "Male"
 msgstr "Mężczyzna"
 
@@ -135,55 +135,71 @@ msgstr "Konfiguracja jednostek harcerskich"
 msgid "Configuration"
 msgstr "Konfiguracja"
 
-#: Form/ConfigForm.php:31
+#: Form/ConfigForm.php:32
 msgid "Cache TTL in seconds"
 msgstr "Czas życia (TTL) cache'a w sekundach"
 
-#: Form/ConfigForm.php:39
+#: Form/ConfigForm.php:40
 msgid "Order categories"
 msgstr "Kategorie rozkazu"
 
-#: Form/ConfigForm.php:46
+#: Form/ConfigForm.php:47
 msgid "Order number format for \"pattern\" attribute"
 msgstr "Format numerów rozkazów dla atrybutu \"pattern\""
 
-#: Form/ConfigForm.php:52
+#: Form/ConfigForm.php:53
 msgid "Order number placeholder"
 msgstr "Etykieta zastępcza numeru rozkazu"
 
-#: Form/ConfigForm.php:58
+#: Form/ConfigForm.php:59
 msgid "\"scout-units-list\" dir in active theme dir (default)"
 msgstr "Folder \"scout-units-list\" w folderze aktywnego motywu (domyślnie)"
 
-#: Form/ConfigForm.php:59
+#: Form/ConfigForm.php:60
 msgid "Specified path (from plugin's dir):"
 msgstr "Określona ścieżka (z poziomu folderu wtyczki):"
 
-#: Form/ConfigForm.php:62
+#: Form/ConfigForm.php:63
 msgid "Shortcode templates path"
 msgstr "Ścieżka folderu szablonów kodów skrótowych"
 
-#: Form/ConfigForm.php:68
+#: Form/ConfigForm.php:69
 msgid "Map key"
 msgstr "Klucz do mapy"
 
-#: Form/ConfigForm.php:75
+#: Form/ConfigForm.php:76
 msgid "Map default latitude"
 msgstr "Domyślna szerokość geograficzna mapy"
 
-#: Form/ConfigForm.php:82
+#: Form/ConfigForm.php:83
 msgid "Map default longitude"
 msgstr "Domyślna długość geograficzna mapy"
 
-#: Form/ConfigForm.php:89
+#: Form/ConfigForm.php:90
 msgid "Map default zoom"
 msgstr "Domyślne powiększenie mapy"
 
 #: Form/ConfigForm.php:97
+msgid "User image source"
+msgstr "Źródło obrazka użytkownika"
+
+#: Form/ConfigForm.php:99
+msgid "Wordpress avatar"
+msgstr "zdjęcie profilowe Wordpressa"
+
+#: Form/ConfigForm.php:100
+msgid "custom photo"
+msgstr "niestandardowe zdjęcie"
+
+#: Form/ConfigForm.php:108
+msgid "User photo size"
+msgstr "Rozmiary zdjęcia użytkownika"
+
+#: Form/ConfigForm.php:117
 msgid "External structure URL"
 msgstr "URL zewnętrznej struktury"
 
-#: Form/ConfigForm.php:103 Form/PersonForm.php:82 Form/PositionForm.php:64
+#: Form/ConfigForm.php:123 Form/PersonForm.php:82 Form/PositionForm.php:64
 #: Form/UnitAdminForm.php:120 Form/UnitLeaderForm.php:73
 msgid "Save"
 msgstr "Zapisz"
@@ -287,16 +303,16 @@ msgstr "Nr rozkazu"
 msgid "Delete"
 msgstr "Usuń"
 
-#: Model/Repository/UserRepository.php:190
+#: Model/Repository/UserRepository.php:194
 msgid "Contact form"
 msgstr "Formularz kontaktowy"
 
-#: Model/Repository/UserRepository.php:191 View/Admin/Positions/List.phtml:55
+#: Model/Repository/UserRepository.php:195 View/Admin/Positions/List.phtml:55
 #: View/Admin/Units/PersonManage.phtml:58 View/Form/Widget/Boolean.phtml:2
 msgid "Yes"
 msgstr "Tak"
 
-#: Model/Repository/UserRepository.php:192 View/Admin/Positions/List.phtml:55
+#: Model/Repository/UserRepository.php:196 View/Admin/Positions/List.phtml:55
 #: View/Admin/Units/PersonManage.phtml:58 View/Form/Widget/Boolean.phtml:3
 msgid "No"
 msgstr "Nie"
@@ -583,23 +599,43 @@ msgstr "Dane harcerskie"
 msgid "Publish e-mail"
 msgstr "Publikuj adres e-mail"
 
-#: View/Admin/Users/AdminForm.phtml:18 View/Admin/Users/UserForm.phtml:19
+#: View/Admin/Users/AdminForm.phtml:19 View/Admin/Users/UserForm.phtml:19
+msgid "Photo"
+msgstr "Zdjęcie"
+
+#: View/Admin/Users/AdminForm.phtml:20
+msgid "Use this photo"
+msgstr "Użyj tego zdjęcia"
+
+#: View/Admin/Users/AdminForm.phtml:20
+msgid "Select or upload user photo"
+msgstr "Wybierz lub dodaj zdjęcie użytkownika"
+
+#: View/Admin/Users/AdminForm.phtml:20 View/Admin/Users/AdminForm.phtml:27
+msgid "Remove user photo"
+msgstr "Usuń zdjęcie użytkownika"
+
+#: View/Admin/Users/AdminForm.phtml:24
+msgid "Set user photo"
+msgstr "Ustaw zdjęcie użytkownika"
+
+#: View/Admin/Users/AdminForm.phtml:33 View/Admin/Users/UserForm.phtml:25
 msgid "Grade"
 msgstr "Stopień instruktorski"
 
-#: View/Admin/Users/AdminForm.phtml:25 View/Admin/Users/UserForm.phtml:24
+#: View/Admin/Users/AdminForm.phtml:40 View/Admin/Users/UserForm.phtml:30
 msgid "Duty"
 msgstr "Dyżur"
 
-#: View/Admin/Users/AdminForm.phtml:32 View/Admin/Users/UserForm.phtml:32
+#: View/Admin/Users/AdminForm.phtml:47 View/Admin/Users/UserForm.phtml:38
 msgid "Responsibilities"
 msgstr "Zakres obowiązków"
 
-#: View/Admin/Users/AdminForm.phtml:38 View/Admin/Users/UserForm.phtml:37
+#: View/Admin/Users/AdminForm.phtml:53 View/Admin/Users/UserForm.phtml:43
 msgid "Sex"
 msgstr "Płeć"
 
-#: View/Admin/Users/AdminForm.phtml:41 View/Admin/Users/UserForm.phtml:39
+#: View/Admin/Users/AdminForm.phtml:56 View/Admin/Users/UserForm.phtml:45
 msgid "Unknown sex"
 msgstr "Płeć nieznana"
 

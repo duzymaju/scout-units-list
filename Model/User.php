@@ -9,6 +9,9 @@ use ScoutUnitsList\System\Tools\DateTime;
  */
 class User implements ModelInterface
 {
+    /** @const string */
+    const PHOTO_SIZE_DEFAULT = 'thumbnail';
+
     /** @const int */
     const PUBLISH_EMAIL_NO = 1;
 
@@ -38,6 +41,9 @@ class User implements ModelInterface
 
     /** @var int */
     protected $publishEmail;
+
+    /** @var int|null */
+    protected $photoId;
 
     /** @var string */
     protected $grade;
@@ -189,6 +195,49 @@ class User implements ModelInterface
     public function setPublishEmail($publishEmail)
     {
         $this->publishEmail = $publishEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get photo ID
+     *
+     * @return int|null
+     */
+    public function getPhotoId()
+    {
+        return $this->photoId;
+    }
+
+    /**
+     * Get photo
+     *
+     * @param string|array|null $size       size
+     * @param bool              $icon       icon
+     * @param string|array      $attributes attributes
+     *
+     * @return string
+     */
+    public function getPhoto($size = null, $icon = false, $attributes = '')
+    {
+        if (empty($size)) {
+            $size = self::PHOTO_SIZE_DEFAULT;
+        }
+        $photo = \wp_get_attachment_image($this->getPhotoId(), $size, $icon, $attributes);
+
+        return $photo;
+    }
+
+    /**
+     * Set photo ID
+     *
+     * @param int|null $photoId photo ID
+     *
+     * @return self
+     */
+    public function setPhotoId($photoId)
+    {
+        $this->photoId = $photoId;
 
         return $this;
     }

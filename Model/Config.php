@@ -7,6 +7,12 @@ namespace ScoutUnitsList\Model;
  */
 class Config implements ModelInterface
 {
+    /** @const string */
+    const IMAGE_SOURCE_AVATAR = 'a';
+
+    /** @const string */
+    const IMAGE_SOURCE_PHOTO = 'p';
+
     /** @var int */
     protected $cacheTtl = 3600;
 
@@ -33,6 +39,12 @@ class Config implements ModelInterface
 
     /** @var int */
     protected $mapDefaultZoom = 0;
+
+    /** @var string */
+    protected $userImageSource = self::IMAGE_SOURCE_AVATAR;
+
+    /** @var string */
+    protected $userPhotoSize = '';
 
     /** @var string|null */
     protected $externalStructureUrl;
@@ -271,6 +283,78 @@ class Config implements ModelInterface
     public function setMapDefaultZoom($mapDefaultZoom)
     {
         $this->mapDefaultZoom = max(0, (int) $mapDefaultZoom);
+
+        return $this;
+    }
+
+    /**
+     * Get user image source
+     *
+     * @return string
+     */
+    public function getUserImageSource()
+    {
+        return $this->userImageSource;
+    }
+
+    /**
+     * Use avatar images
+     *
+     * @return bool
+     */
+    public function useAvatarImages()
+    {
+        return $this->userImageSource === self::IMAGE_SOURCE_AVATAR;
+    }
+
+    /**
+     * Use photo images
+     *
+     * @return bool
+     */
+    public function usePhotoImages()
+    {
+        return $this->userImageSource === self::IMAGE_SOURCE_PHOTO;
+    }
+
+    /**
+     * Set user image source
+     *
+     * @param string $userImageSource user image source
+     *
+     * @return self
+     */
+    public function setUserImageSource($userImageSource)
+    {
+        $this->userImageSource = $userImageSource;
+
+        return $this;
+    }
+
+    /**
+     * Get user photo size
+     *
+     * @return string
+     */
+    public function getUserPhotoSize()
+    {
+        $imageSizes = \get_intermediate_image_sizes();
+        $userPhotoSize = empty($this->userPhotoSize) || !in_array($this->userPhotoSize, $imageSizes) ?
+            User::PHOTO_SIZE_DEFAULT : $this->userPhotoSize;
+
+        return $userPhotoSize;
+    }
+
+    /**
+     * Set user photo size
+     *
+     * @param float $userPhotoSize user photo size
+     *
+     * @return string
+     */
+    public function setUserPhotoSize($userPhotoSize)
+    {
+        $this->userPhotoSize = $userPhotoSize;
 
         return $this;
     }

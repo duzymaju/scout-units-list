@@ -90,11 +90,12 @@ class UserRepository extends NativeRepository
         /** @var User $user */
         $user = $model;
         $this->setProperPublishEmail($user);
-        update_user_meta($user->getId(), 'sul_publish_email', $user->getPublishEmail());
-        update_user_meta($user->getId(), 'sul_grade', $user->getGrade());
-        update_user_meta($user->getId(), 'sul_duty', $user->getDuty());
-        update_user_meta($user->getId(), 'sul_responsibilities', $user->getResponsibilities());
-        update_user_meta($user->getId(), 'sul_sex', $user->getSex());
+        \update_user_meta($user->getId(), 'sul_publish_email', $user->getPublishEmail());
+        \update_user_meta($user->getId(), 'sul_photo_id', $user->getPhotoId());
+        \update_user_meta($user->getId(), 'sul_grade', $user->getGrade());
+        \update_user_meta($user->getId(), 'sul_duty', $user->getDuty());
+        \update_user_meta($user->getId(), 'sul_responsibilities', $user->getResponsibilities());
+        \update_user_meta($user->getId(), 'sul_sex', $user->getSex());
 
         return $this;
     }
@@ -108,12 +109,15 @@ class UserRepository extends NativeRepository
      */
     protected function completeUserModel(User $user)
     {
+        $photoId = (int) \get_the_author_meta('sul_photo_id', $user->getId());
+
         // @README: This method could cause high database load when used for users list
-        $user->setPublishEmail((int) get_the_author_meta('sul_publish_email', $user->getId()))
-            ->setGrade(get_the_author_meta('sul_grade', $user->getId()))
-            ->setDuty(get_the_author_meta('sul_duty', $user->getId()))
-            ->setResponsibilities(get_the_author_meta('sul_responsibilities', $user->getId()))
-            ->setSex(get_the_author_meta('sul_sex', $user->getId()));
+        $user->setPublishEmail((int) \get_the_author_meta('sul_publish_email', $user->getId()))
+            ->setPhotoId($photoId > 0 ? $photoId : null)
+            ->setGrade(\get_the_author_meta('sul_grade', $user->getId()))
+            ->setDuty(\get_the_author_meta('sul_duty', $user->getId()))
+            ->setResponsibilities(\get_the_author_meta('sul_responsibilities', $user->getId()))
+            ->setSex(\get_the_author_meta('sul_sex', $user->getId()));
         $this->setProperPublishEmail($user);
 
         return $user;

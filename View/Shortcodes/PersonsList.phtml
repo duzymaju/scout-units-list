@@ -3,10 +3,18 @@
     <ul class="sul-person-list-items">
         <?php foreach ($this->unit->getPersons() as $person): $user = $person->getUser(); $position = $person->getPosition(); if (isset($position)): ?>
             <li class="sul-person">
-                <?php if (isset($user)): ?>
-                    <img src="<?php echo $this->escape($user->getAvatarUrl()); ?>" alt="<?php echo $this->escape($user->getName()); ?>" class="sul-person-img">
+                <?php if ($this->config->usePhotoImages()): ?>
+                    <?php if (isset($user)): ?>
+                        <?php echo $user->getPhoto($this->config->getUserPhotoSize(), false, [
+                            'class' => 'sul-person-img',
+                        ]); ?>
+                    <?php endif; ?>
                 <?php else: ?>
-                    <img src="<?php echo $this->escape(get_avatar_url('default')); ?>" alt="<?php echo $this->escape($person->getUserName(true)); ?>" class="sul-person-img">
+                    <?php if (isset($user)): ?>
+                        <img src="<?php echo $this->escape($user->getAvatarUrl()); ?>" alt="<?php echo $this->escape($user->getName()); ?>" class="sul-person-img">
+                    <?php else: ?>
+                        <img src="<?php echo $this->escape(get_avatar_url('default')); ?>" alt="<?php echo $this->escape($person->getUserName(true)); ?>" class="sul-person-img">
+                    <?php endif; ?>
                 <?php endif; ?>
                 <div class="sul-person-info">
                     <h4 class="sul-person-title"><?php echo $this->escape($position->getNameFor($user)); ?></h4>

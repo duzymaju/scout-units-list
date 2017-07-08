@@ -14,6 +14,12 @@
                 </select>
             </td>
         </tr>
+        <?php if ($this->config->usePhotoImages() && $this->user->getPhotoId() !== null): ?>
+            <tr>
+                <th><?php _e('Photo', 'scout-units-list'); ?></th>
+                <td><?php echo $this->user->getPhoto(); ?></td>
+            </tr>
+        <?php endif; ?>
         <?php $grade = $this->user->getGrade(); if (!empty($grade)): ?>
             <tr>
                 <th><?php _e('Grade', 'scout-units-list'); ?></th>

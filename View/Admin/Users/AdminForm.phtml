@@ -1,5 +1,5 @@
 <h2><?php _e('Scout data', 'scout-units-list'); ?></h2>
-<table class="form-table">
+<table class="form-table sul-user-subform">
     <tbody>
         <tr>
             <th><label for="sul_publish_email"><?php _e('Publish e-mail', 'scout-units-list'); ?></label></th>
@@ -14,6 +14,21 @@
                 </select>
             </td>
         </tr>
+        <?php if ($this->config->usePhotoImages()): ?>
+            <tr>
+                <th><label for="sul_photo_id"><?php _e('Photo', 'scout-units-list'); ?></label></th>
+                <td id="sul_user_photo" data-text-button="<?php _e('Use this photo', 'scout-units-list'); ?>" data-text-title="<?php _e('Select or upload user photo', 'scout-units-list'); ?>" data-text-reset="<?php _e('Remove user photo', 'scout-units-list'); ?>">
+                    <?php $photoExists = $this->user->getPhotoId() !== null; if ($photoExists): ?>
+                        <?php echo $this->user->getPhoto(); ?>
+                    <?php endif; ?>
+                    <button type="button" class="button"><?php _e('Set user photo', 'scout-units-list'); ?></button>
+                    <input type="hidden" name="sul_photo_id" id="sul_photo_id">
+                    <?php if ($photoExists): ?>
+                        <a class="button"><?php _e('Remove user photo', 'scout-units-list'); ?></a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endif; ?>
         <tr>
             <th><label for="sul_grade"><?php _e('Grade', 'scout-units-list'); ?></label></th>
             <td>

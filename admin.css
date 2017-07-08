@@ -53,3 +53,8 @@
 .sul-form ul.errors {
     color: #f00;
 }
+
+.sul-user-subform img {
+    display: block;
+    padding: 0 0 8px;
+}

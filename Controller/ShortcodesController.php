@@ -133,6 +133,8 @@ class ShortcodesController extends Controller
                     'PersonsList-' . $unit->getId(),
                     'PersonsList',
                 ], 'PersonsList', [
+                    'config' => $this->get('manager.config')
+                        ->get(),
                     'cssClass' => $cssClass,
                     'unit' => $unit,
                 ]));
