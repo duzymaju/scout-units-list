@@ -76,7 +76,7 @@ class UserController extends Controller
             return null;
         }
 
-        $mimeType = get_post_mime_type($photoId);
+        $mimeType = \get_post_mime_type($photoId);
         if (strpos($mimeType, 'image/') !== 0) {
             return null;
         }
