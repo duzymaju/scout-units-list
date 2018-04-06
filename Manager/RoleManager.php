@@ -57,7 +57,9 @@ class RoleManager
                 $role = $this->getRole($name);
                 if ($role) {
                     foreach ($capabilities as $capability) {
-                        $role->add_cap($capability);
+                        if (!array_key_exists($capability, $role->capabilities)) {
+                            $role->add_cap($capability);
+                        }
                     }
                 }
 

@@ -171,14 +171,14 @@ class UnitRepository extends VersionedRepository
      * 
      * @return Unit[]
      */
-    public function getFlatUnitsList(Unit $parent, $idsAsKeys = false)
+    public static function getFlatUnitsList(Unit $parent, $idsAsKeys = false)
     {
         $list = [
             $parent->getId() => $parent,
         ];
         foreach ($parent->getChildren() as $child) {
             if ($child->getId() != $parent->getId()) {
-                foreach ($this->getFlatUnitsList($child, true) as $descendant) {
+                foreach (self::getFlatUnitsList($child, true) as $descendant) {
                     if (!array_key_exists($descendant->getId(), $list)) {
                         $list[$descendant->getId()] = $descendant;
                     }

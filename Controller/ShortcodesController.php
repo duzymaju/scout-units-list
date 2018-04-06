@@ -3,14 +3,11 @@
 namespace ScoutUnitsList\Controller;
 
 use ScoutUnitsList\Form\UnitAdminForm;
-use ScoutUnitsList\Model\Person;
-use ScoutUnitsList\Model\Position;
+use ScoutUnitsList\Model\Config;
 use ScoutUnitsList\Model\Unit;
-use ScoutUnitsList\Model\User;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\View;
-use stdClass;
 
 /**
  * Shortcodes controller
@@ -29,11 +26,40 @@ class ShortcodesController extends Controller
      */
     public function unitsListShortcode(ParamPack $attributes)
     {
-        $id = $attributes->getInt('id');
-        if ($id < 1) {
+        if ($attributes->getInt('id') < 1) {
             return '';
         }
 
+        $cache = $this->getUnitCache('list', $attributes,
+            function (Unit $unit, $withCurrent, $cssClass, $levels, $types) {
+                return $this->getRenderedView([
+                    'UnitsList-' . $unit->getType(),
+                    'UnitsList-' . $unit->getId(),
+                    'UnitsList',
+                ], 'UnitsList', [
+                    'cssClass' => $cssClass,
+                    'current' => $unit,
+                    'dependents' => $this->getDependentUnitsResult($unit, $unit, $levels, $types),
+                    'withCurrent' => $withCurrent,
+                ]);
+            }
+        );
+
+        return $cache;
+    }
+
+    /**
+     * Get unit cache
+     *
+     * @param string    $cachePrefix  cache prefix
+     * @param ParamPack $attributes   attributes
+     * @param callable  $dataForCache data for cache
+     *
+     * @return string
+     */
+    private function getUnitCache($cachePrefix, ParamPack $attributes, callable $dataForCache)
+    {
+        $id = $attributes->getInt('id');
         $withCurrent = $attributes->getBool('current', false);
         $levels = max(0, $attributes->getInt('levels', 1));
         $typesList = $attributes->getString('types');
@@ -51,29 +77,28 @@ class ShortcodesController extends Controller
         }
         $cssClass = $attributes->getString('class');
 
+        $cacheIdParts = [
+            'units',
+            $cachePrefix,
+            $id,
+            $withCurrent ? '1' : '0',
+            $levels,
+        ];
+        if (isset($types)) {
+            $cacheIdParts[] = implode(',', $types);
+        }
+        $cacheIdParts[] = $isExternal ? '1' : '0';
         $cacheManager = $this->get('manager.cache');
-        $cacheManager->setId('units-list-' . $id . '-' . ($withCurrent ? '1' : '0') . '-' . $levels .
-            (isset($types) ? '-' . implode(',', $types) : '') . '-' . ($isExternal ? '1' : '0'));
+        $cacheManager->setId(implode('-', $cacheIdParts));
+
         if (!$cacheManager->has()) {
             $unit = $this->getUnitWithDependencies($id, $levels, $types, $isExternal);
-            if (isset($unit)) {
-                $dependentUnitsResult = $this->getDependentUnitsResult($unit, $unit, $levels, $types);
-                $cacheManager->set($this->getRenderedView([
-                    'UnitsList-' . $unit->getType(),
-                    'UnitsList-' . $unit->getId(),
-                    'UnitsList',
-                ], 'UnitsList', [
-                    'cssClass' => $cssClass,
-                    'current' => $unit,
-                    'dependents' => $dependentUnitsResult,
-                    'withCurrent' => $withCurrent,
-                ]));
-            } else {
-                $cacheManager->set('');
-            }
+            $data = isset($unit) ? $dataForCache($unit, $withCurrent, $cssClass, $levels, $types) : '';
+            $cacheManager->set($data);
         }
+        $data = $cacheManager->get();
 
-        return $cacheManager->get();
+        return $data;
     }
 
     /**
@@ -184,6 +209,7 @@ class ShortcodesController extends Controller
      */
     private function getExternalUnit($id)
     {
+        /** @var Config $config */
         $config = $this->get('manager.config')
             ->get();
         if (!$config->hasExternalStructureUrl()) {
@@ -272,8 +298,9 @@ class ShortcodesController extends Controller
      */
     private function getRenderedView(array $customizedNames, $name, array $params = [])
     {
-        $configManager = $this->loader->get('manager.config');
-        $config = $configManager->get();
+        /** @var Config $config */
+        $config = $this->get('manager.config')
+            ->get();
 
         $customizedPath = $config->hasShortcodeTemplatesPath() ?
             $this->loader->getPath($config->getShortcodeTemplatesPath()) :
