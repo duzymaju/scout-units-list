@@ -47,6 +47,7 @@ class UnitRepository extends VersionedRepository
             ->setStructureElement('meetingsTime', DbManager::TYPE_STRING, 'meetings_time')
             ->setStructureElement('locationLat', DbManager::TYPE_FLOAT, 'location_lat')
             ->setStructureElement('locationLng', DbManager::TYPE_FLOAT, 'location_lng')
+            ->setStructureElement('markerUrl', DbManager::TYPE_STRING, 'marker_url')
         ;
         parent::defineStructure();
     }
@@ -166,19 +167,20 @@ class UnitRepository extends VersionedRepository
     /**
      * Get flat units list
      * 
-     * @param Unit $parent    parent
-     * @param bool $idsAsKeys IDs as keys
+     * @param Unit $parent      parent
+     * @param bool $withCurrent with current
+     * @param bool $idsAsKeys   IDs as keys
      * 
      * @return Unit[]
      */
-    public function getFlatUnitsList(Unit $parent, $idsAsKeys = false)
+    public static function getFlatUnitsList(Unit $parent, $withCurrent = true, $idsAsKeys = false)
     {
-        $list = [
+        $list = $withCurrent ? [
             $parent->getId() => $parent,
-        ];
+        ] : [];
         foreach ($parent->getChildren() as $child) {
             if ($child->getId() != $parent->getId()) {
-                foreach ($this->getFlatUnitsList($child, true) as $descendant) {
+                foreach (self::getFlatUnitsList($child, true, true) as $descendant) {
                     if (!array_key_exists($descendant->getId(), $list)) {
                         $list[$descendant->getId()] = $descendant;
                     }

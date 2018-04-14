@@ -119,6 +119,9 @@ class Unit implements JsonSerializable, VersionedModelInterface
     /** @var float|null */
     protected $locationLng;
 
+    /** @var string|null */
+    protected $markerUrl;
+
     /** @var array */
     protected $children = [];
 
@@ -613,6 +616,30 @@ class Unit implements JsonSerializable, VersionedModelInterface
     }
 
     /**
+     * Get marker URL
+     *
+     * @return string|null
+     */
+    public function getMarkerUrl()
+    {
+        return $this->markerUrl;
+    }
+
+    /**
+     * Set marker URL
+     *
+     * @param string|null $markerUrl marker Url
+     *
+     * @return self
+     */
+    public function setMarkerUrl($markerUrl)
+    {
+        $this->markerUrl = $markerUrl;
+
+        return $this;
+    }
+
+    /**
      * Get completeness ratio
      *
      * @return float
@@ -769,6 +796,7 @@ class Unit implements JsonSerializable, VersionedModelInterface
                 'lat' => $this->locationLat,
                 'lng' => $this->locationLng,
             ] : null,
+            'markerUrl' => $this->markerUrl,
             'mail' => $this->mail,
             'meetingsTime' => $this->meetingsTime,
             'name' => $this->name,
@@ -809,6 +837,7 @@ class Unit implements JsonSerializable, VersionedModelInterface
             ->setMeetingsTime($structure->meetingsTime)
             ->setLocationLat($structure->location->lat)
             ->setLocationLng($structure->location->lng)
+            ->setMarkerUrl($structure->markerUrl)
         ;
 
         $children = [];

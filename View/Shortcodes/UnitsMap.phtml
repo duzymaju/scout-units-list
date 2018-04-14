@@ -1,0 +1,7 @@
+<div class="sul-unit-map sul-unit-map-<?php echo $this->escape($this->current->getId()) .
+    (empty($this->cssClass) ? '' : ' ' . $this->escape($this->cssClass)); ?>"
+    data-unit="<?php echo $this->escape(json_encode($this->current)); ?>"
+    data-translations="<?php echo $this->escape(json_encode([
+        'meetingsTime' => __('meetings:', 'scout-units-list'),
+    ])); ?>" data-with-current="<?php echo (int) $this->withCurrent; ?>" data-script="default">
+</div>

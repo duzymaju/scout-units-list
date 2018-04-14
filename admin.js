@@ -34,7 +34,7 @@
         var button = container.find('button');
         var input = container.find('input');
 
-        var addImage = function(attachment) {
+        var addImage = function (attachment) {
             removeImage();
 
             var img = $('<img>');
@@ -52,7 +52,7 @@
             addImageRemoveLink();
         };
 
-        var removeImage = function() {
+        var removeImage = function () {
             container.find('img')
                 .remove();
             container.find('a')
@@ -60,13 +60,13 @@
             input.val('');
         };
 
-        var addImageRemoveLink = function() {
+        var addImageRemoveLink = function () {
             container.find('a')
                 .on('click', removeImage);
         };
         addImageRemoveLink();
 
-        button.on('click', function(event) {
+        button.on('click', function (event) {
             event.preventDefault();
             if (frame) {
                 frame.open();
@@ -75,7 +75,7 @@
 
             frame = wp.media({
                 button: {
-                  text: container.data('text-button')
+                    text: container.data('text-button')
                 },
                 library: {
                     type: [
@@ -86,7 +86,7 @@
                 title: container.data('text-title')
             });
 
-            frame.on('select', function() {
+            frame.on('select', function () {
                 var attachment = frame.state()
                     .get('selection')
                     .first()
@@ -174,7 +174,7 @@
             });
         });
     };
-    
+
     $.fn.typeManage = function (typeSelect, subtypeSelect, onChange) {
         if (typeSelect.length !== 1 || subtypeSelect.length !== 1) {
             return;

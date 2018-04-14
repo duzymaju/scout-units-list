@@ -266,7 +266,7 @@ class Config implements ModelInterface
     /**
      * Get map default zoom
      *
-     * @return float
+     * @return int
      */
     public function getMapDefaultZoom()
     {
@@ -276,7 +276,7 @@ class Config implements ModelInterface
     /**
      * Set map default zoom
      *
-     * @param float $mapDefaultZoom map default zoom
+     * @param int $mapDefaultZoom map default zoom
      *
      * @return self
      */

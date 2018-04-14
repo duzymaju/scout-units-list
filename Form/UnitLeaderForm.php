@@ -23,12 +23,20 @@ class UnitLeaderForm extends Form
     protected function setFields(array $settings)
     {
         if ($settings['canManageUnits']) {
-            $this->addField('sort', IntegerType::class, [
-                'attr' => [
-                    'class' => 'regular-text',
-                ],
-                'label' => __('Sort', 'scout-units-list'),
-            ]);
+            $this
+                ->addField('sort', IntegerType::class, [
+                    'attr' => [
+                        'class' => 'regular-text',
+                    ],
+                    'label' => __('Sort', 'scout-units-list'),
+                ])
+                ->addField('markerUrl', UrlType::class, [
+                    'attr' => [
+                        'class' => 'regular-text',
+                    ],
+                    'label' => __('Map marker URL', 'scout-units-list'),
+                ])
+            ;
         }
         $this
             ->addField('url', UrlType::class, [

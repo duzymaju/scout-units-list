@@ -58,3 +58,8 @@
 .sul-unit-leader {
     display: block;
 }
+
+.sul-unit-map {
+    height: 300px;
+    width: 100%;
+}

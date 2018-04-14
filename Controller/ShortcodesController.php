@@ -3,14 +3,10 @@
 namespace ScoutUnitsList\Controller;
 
 use ScoutUnitsList\Form\UnitAdminForm;
-use ScoutUnitsList\Model\Person;
-use ScoutUnitsList\Model\Position;
 use ScoutUnitsList\Model\Unit;
-use ScoutUnitsList\Model\User;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\View;
-use stdClass;
 
 /**
  * Shortcodes controller
@@ -34,6 +30,84 @@ class ShortcodesController extends Controller
             return '';
         }
 
+        $cache = $this->getUnitCache('list', $attributes,
+            function (Unit $unit, $withCurrent, $cssClass, $levels, $types) {
+                return $this->getRenderedView([
+                    'UnitsList-' . $unit->getType(),
+                    'UnitsList-' . $unit->getId(),
+                    'UnitsList',
+                ], 'UnitsList', [
+                    'cssClass' => $cssClass,
+                    'current' => $unit,
+                    'dependents' => $this->getDependentUnitsResult($unit, $unit, $levels, $types),
+                    'withCurrent' => $withCurrent,
+                ]);
+            }
+        );
+
+        return $cache;
+    }
+
+    /**
+     * Units map
+     *
+     * @param ParamPack $attributes attributes
+     *
+     * @return string
+     */
+    public function unitsMapShortcode(ParamPack $attributes)
+    {
+        if ($attributes->getInt('id') < 1) {
+            return '';
+        }
+
+        $cache = $this->getUnitCache('map', $attributes,
+            function (Unit $unit, $withCurrent, $cssClass) {
+                return $this->getRenderedView([
+                    'UnitsMap-' . $unit->getType(),
+                    'UnitsMap-' . $unit->getId(),
+                    'UnitsMap',
+                ], 'UnitsMap', [
+                    'cssClass' => $cssClass,
+                    'current' => $unit,
+                    'withCurrent' => $withCurrent,
+                ]);
+            }
+        );
+
+        if (!empty($cache)) {
+            if ($attributes->has('zoom')) {
+                $zoom = $attributes->getInt('zoom');
+            } else {
+                $zoom = $this->get('manager.config')
+                    ->get()
+                    ->getMapDefaultZoom();
+            }
+            wp_localize_script('sul-user', 'sul', [
+                'map' => [
+                    'defaults' => [
+                        'zoom' => $zoom,
+                    ],
+                ],
+            ]);
+            wp_enqueue_script('sul-user');
+        }
+
+        return $cache;
+    }
+
+    /**
+     * Get unit cache
+     *
+     * @param string    $cachePrefix  cache prefix
+     * @param ParamPack $attributes   attributes
+     * @param callable  $dataForCache data for cache
+     *
+     * @return string
+     */
+    private function getUnitCache($cachePrefix, ParamPack $attributes, callable $dataForCache)
+    {
+        $id = $attributes->getInt('id');
         $withCurrent = $attributes->getBool('current', false);
         $levels = max(0, $attributes->getInt('levels', 1));
         $typesList = $attributes->getString('types');
@@ -52,25 +126,11 @@ class ShortcodesController extends Controller
         $cssClass = $attributes->getString('class');
 
         $cacheManager = $this->get('manager.cache');
-        $cacheManager->setId('units-list-' . $id . '-' . ($withCurrent ? '1' : '0') . '-' . $levels .
+        $cacheManager->setId('units-' . $cachePrefix . '-' . $id . '-' . ($withCurrent ? '1' : '0') . '-' . $levels .
             (isset($types) ? '-' . implode(',', $types) : '') . '-' . ($isExternal ? '1' : '0'));
         if (!$cacheManager->has()) {
             $unit = $this->getUnitWithDependencies($id, $levels, $types, $isExternal);
-            if (isset($unit)) {
-                $dependentUnitsResult = $this->getDependentUnitsResult($unit, $unit, $levels, $types);
-                $cacheManager->set($this->getRenderedView([
-                    'UnitsList-' . $unit->getType(),
-                    'UnitsList-' . $unit->getId(),
-                    'UnitsList',
-                ], 'UnitsList', [
-                    'cssClass' => $cssClass,
-                    'current' => $unit,
-                    'dependents' => $dependentUnitsResult,
-                    'withCurrent' => $withCurrent,
-                ]));
-            } else {
-                $cacheManager->set('');
-            }
+            $cacheManager->set(isset($unit) ? $dataForCache($unit, $withCurrent, $cssClass, $levels, $types) : '');
         }
 
         return $cacheManager->get();

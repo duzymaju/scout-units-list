@@ -61,6 +61,9 @@ add_action('init', [
     'init',
 ]);
 add_action('init', function () use ($loader, $configManager) {
+    $config = $configManager->get();
+    wp_register_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?v=3&key=' . $config->getMapKey());
+
     if (is_admin()) {
         $roleManager = new RoleManager();
         $roleManager
@@ -77,15 +80,13 @@ add_action('init', function () use ($loader, $configManager) {
             ])
         ;
 
-        $config = $configManager->get();
-        wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?v=3&key=' . $config->getMapKey());
-        wp_enqueue_script('sul-admin-js', $loader->getFileUrl('admin.js'), [
+        wp_enqueue_script('sul-admin', $loader->getFileUrl('admin.js'), [
             'google-maps-api',
             'jquery-core',
             'jquery-ui-autocomplete',
             'jquery-ui-sortable',
         ], $loader->getVersion());
-        wp_localize_script('sul-admin-js', 'sul', [
+        wp_localize_script('sul-admin', 'sul', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'map' => [
                 'defaults' => [
@@ -95,9 +96,13 @@ add_action('init', function () use ($loader, $configManager) {
                 ],
             ],
         ]);
-        wp_enqueue_style('sul-admin-css', $loader->getFileUrl('admin.css'), false, $loader->getVersion());
+        wp_enqueue_style('sul-admin', $loader->getFileUrl('admin.css'), false, $loader->getVersion());
     } else {
-        wp_enqueue_style('sul-user-css', $loader->getFileUrl('style.css'), false, $loader->getVersion());
+        wp_register_script('sul-user', $loader->getFileUrl('user.js'), [
+            'google-maps-api',
+            'jquery-core',
+        ], $loader->getVersion());
+        wp_enqueue_style('sul-user', $loader->getFileUrl('style.css'), false, $loader->getVersion());
     }
 });
 
@@ -152,6 +157,10 @@ $shortcodesController = new ShortcodesController($loader, $request);
 add_shortcode('sul-units-list', [
     $shortcodesController,
     'unitsList',
+]);
+add_shortcode('sul-units-map', [
+    $shortcodesController,
+    'unitsMap',
 ]);
 add_shortcode('sul-persons-list', [
     $shortcodesController,

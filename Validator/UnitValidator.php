@@ -42,5 +42,7 @@ class UnitValidator extends Validator
             ->addCondition(new StringLengthCondition(100));
         $this->getField('meetingsTime')
             ->addCondition(new StringLengthCondition(50));
+        $this->getField('markerUrl')
+            ->addCondition(new StringLengthCondition(100));
     }
 }
