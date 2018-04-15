@@ -2,8 +2,8 @@
 Contributors: duzymaju
 Tags: scouts, zhp, zhr, wosm, wagggs
 Requires at least: 3.0.0
-Tested up to: 4.8
-Stable tag: 0.6.0
+Tested up to: 4.9
+Stable tag: 0.7.0
 License: GNU GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,8 +36,7 @@ To define your own template create `scout-units-list` directory in your current 
 
 = Things to do before stable version release =
 
-1. Add a shortcode which implements a map with selected units marked on it.
-2. Configurable types/subtypes lists and dependencies.
+1. Configurable types/subtypes lists and dependencies.
 
 = Future plans =
 
@@ -53,20 +52,23 @@ To define your own template create `scout-units-list` directory in your current 
 
 == Changelog ==
 
-= 0.1 =
-The first version of plugin.
+= 0.7 =
+Add a shortcode which implements a map with selected units marked on it.
 
-= 0.2 =
-Add migrations. Integrate with orders added into database as posts (configurable post category). Add versioning of units and persons.
-
-= 0.3 =
-Improve shortcodes for units/persons. Add API.
-
-= 0.4 =
-Add multiple order categories.
+= 0.6 =
+Move responsibilities from user to position.
 
 = 0.5 =
 Upgrade shortcodes and persons. Add persons sorting. Add possibility to show structure from external source. Add custom user photos.
 
-= 0.6 =
-Move responsibilities from user to position.
+= 0.4 =
+Add multiple order categories.
+
+= 0.3 =
+Improve shortcodes for units/persons. Add API.
+
+= 0.2 =
+Add migrations. Integrate with orders added into database as posts (configurable post category). Add versioning of units and persons.
+
+= 0.1 =
+The first version of plugin.
