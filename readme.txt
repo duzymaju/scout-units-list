@@ -34,6 +34,19 @@ Add `[sul-persons-list id="X"]` shortcode, where `X` is an ID of a base unit. Yo
 
 To define your own template create `scout-units-list` directory in your current theme directory (or define other directory in configuration form) and then create there `PersonsList.phtml`, `PersonsList-Y.phtml` or `PersonsList-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To know how to access units data please check default template in `View/Shortcodes` directory.
 
+= Showing units map =
+
+Add `[sul-units-map id="X"]` shortcode, where `X` is an ID of a base unit. You can use also other attributes:
+
+* `class` (string) - allows to add CSS class,
+* `current` (boolean, `false` as a default value) - allows to show/hide current unit on a map,
+* `external` (boolean, `false` as a default value) - decides if structure should be receive from external source (if so, external source URL in configuration should be defined),
+* `levels` (integer, `1` as a default value) - allows to define number of levels with dependent units,
+* `types` (empty as a default value) - allows to define list of types (separated by comma) which have to be showed,
+* `zoom` (value from plugin's configuration as a default) - allows to define different zoom level for each map.
+
+To define your own template create `scout-units-list` directory in your current theme directory (or define other directory in configuration form) and then create there `UnitsMap.phtml`, `UnitsMap-Y.phtml` or `UnitsMap-X.phtml` file where `Y` is a type and `X` is an ID of a base unit. To know how to access units data please check default template in `View/Shortcodes` directory.
+
 = Things to do before stable version release =
 
 1. Configurable types/subtypes lists and dependencies.
