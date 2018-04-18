@@ -39,7 +39,7 @@ class Version201701011326 extends Version
                 CREATE TABLE IF NOT EXISTS `' . $this->getTableName($unitName) . '` (
                     `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
                     `status` char(1) COLLATE utf8_polish_ci NOT NULL DEFAULT "a",
-                    `type` char(1) COLLATE utf8_polish_ci NOT NULL DEFAULT "' . Unit::TYPE_TROOP . '",
+                    `type` char(1) COLLATE utf8_polish_ci NOT NULL DEFAULT "t",
                     `subtype` char(1) COLLATE utf8_polish_ci DEFAULT NULL,
                     `sort` smallint(5) UNSIGNED NOT NULL DEFAULT 0,
                     `parent_id` int(10) UNSIGNED DEFAULT NULL,

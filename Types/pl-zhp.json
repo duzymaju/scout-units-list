@@ -1,0 +1,110 @@
+{
+  "nationality": "pl",
+  "name": {
+    "en": "Polish Scouting and Guiding Association",
+    "pl": "Związek Harcerstwa Polskiego"
+  },
+  "types": {
+    "h": {
+      "name": {
+        "en": "Headquarters",
+        "pl": "Główna Kwatera"
+      }
+    },
+    "r": {
+      "name": {
+        "en": "Region",
+        "pl": "Chorągiew"
+      },
+      "possibleParents": [ "h" ]
+    },
+    "d": {
+      "name": {
+        "en": "District",
+        "pl": "Hufiec"
+      },
+      "possibleParents": [ "r" ]
+    },
+    "g": {
+      "name": {
+        "en": "Group",
+        "pl": "Szczep"
+      },
+      "possibleParents": [ "d" ],
+      "subtypes": [ "g", "u" ]
+    },
+    "t": {
+      "name": {
+        "en": "Troop",
+        "pl": "Drużyna"
+      },
+      "possibleParents": [ "d", "g" ],
+      "subtypes": [ "c", "s", "e", "r", "m" ]
+    },
+    "p": {
+      "name": {
+        "en": "Patrol",
+        "pl": "Patrol"
+      },
+      "possibleParents": [ "d", "g", "t" ]
+    },
+    "s": {
+      "name": {
+        "en": "Section",
+        "pl": "Agenda"
+      },
+      "possibleParents": [ "d", "g", "h", "r" ]
+    },
+    "c": {
+      "name": {
+        "en": "Club",
+        "pl": "Klub"
+      },
+      "possibleParents": [ "d", "g", "h", "r", "t" ]
+    }
+  },
+  "subtypes": {
+    "c": {
+      "name": {
+        "en": "Cubscouts",
+        "pl": "Gromada zuchowa"
+      }
+    },
+    "s": {
+      "name": {
+        "en": "Scouts",
+        "pl": "Drużyna harcerska"
+      }
+    },
+    "e": {
+      "name": {
+        "en": "Senior scouts",
+        "pl": "Drużyna starszoharcerska"
+      }
+    },
+    "r": {
+      "name": {
+        "en": "Rovers",
+        "pl": "Drużyna wędrownicza"
+      }
+    },
+    "m": {
+      "name": {
+        "en": "Multi level'",
+        "pl": "Drużyna wielopoziomowa"
+      }
+    },
+    "g": {
+      "name": {
+        "en": "Group",
+        "pl": "Szczep"
+      }
+    },
+    "u": {
+      "name": {
+        "en": "Union of troops",
+        "pl": "Związek drużyn"
+      }
+    }
+  }
+}

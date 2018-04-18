@@ -13,6 +13,9 @@ class Config implements ModelInterface
     /** @const string */
     const IMAGE_SOURCE_PHOTO = 'p';
 
+    /** @const string */
+    const TYPE_SET_DEFAULT = 'pl-zhp.json';
+
     /** @var int */
     protected $cacheTtl = 3600;
 
@@ -45,6 +48,9 @@ class Config implements ModelInterface
 
     /** @var string */
     protected $userPhotoSize = '';
+
+    /** @var string|array */
+    protected $typeSet = self::TYPE_SET_DEFAULT;
 
     /** @var string|null */
     protected $externalStructureUrl;
@@ -350,11 +356,35 @@ class Config implements ModelInterface
      *
      * @param float $userPhotoSize user photo size
      *
-     * @return string
+     * @return self
      */
     public function setUserPhotoSize($userPhotoSize)
     {
         $this->userPhotoSize = $userPhotoSize;
+
+        return $this;
+    }
+
+    /**
+     * Get type set
+     *
+     * @return string|array
+     */
+    public function getTypeSet()
+    {
+        return $this->typeSet;
+    }
+
+    /**
+     * Set type set
+     *
+     * @param string|array $typeSet type set
+     *
+     * @return self
+     */
+    public function setTypeSet($typeSet)
+    {
+        $this->typeSet = $typeSet;
 
         return $this;
     }
@@ -421,8 +451,8 @@ class Config implements ModelInterface
     {
         foreach (array_keys(get_object_vars($this)) as $key) {
             $method = 'set' . ucfirst($key);
-            if (method_exists($this, $method)) {
-                $this->$method(array_key_exists($key, $structure) ? $structure[$key] : null);
+            if (method_exists($this, $method) && array_key_exists($key, $structure)) {
+                $this->$method($structure[$key]);
             }
         }
 
