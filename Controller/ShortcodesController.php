@@ -2,7 +2,7 @@
 
 namespace ScoutUnitsList\Controller;
 
-use ScoutUnitsList\Form\UnitAdminForm;
+use ScoutUnitsList\Manager\TypesManager;
 use ScoutUnitsList\Model\Unit;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
@@ -115,7 +115,9 @@ class ShortcodesController extends Controller
         if (empty($typesList)) {
             $types = null;
         } else {
-            $allowedTypes = array_keys(UnitAdminForm::getTypes());
+            /** @var TypesManager $typesManager */
+            $typesManager = $this->get('manager.types');
+            $allowedTypes = array_keys($typesManager->getTypes());
             $types = [];
             foreach (explode(',', $typesList) as $type) {
                 if (!in_array($type, $types) && in_array($type, $allowedTypes)) {

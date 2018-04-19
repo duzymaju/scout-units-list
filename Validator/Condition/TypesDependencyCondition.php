@@ -2,19 +2,20 @@
 
 namespace ScoutUnitsList\Validator\Condition;
 
-use ScoutUnitsList\Model\Repository\Repository;
+use ScoutUnitsList\Manager\TypesManager;
+use ScoutUnitsList\Model\Repository\UnitRepository;
 use ScoutUnitsList\System\ParamPack;
-use ScoutUnitsList\System\Tools\TypesDependencyTrait;
 
 /**
  * Validator types dependency condition
  */
 class TypesDependencyCondition implements ConditionInterface
 {
-    use TypesDependencyTrait;
-    
-    /** @var Repository */
-    protected $repository;
+    /** @var UnitRepository */
+    protected $unitRepository;
+
+    /** @var TypesManager */
+    protected $typesManager;
 
     /** @var string */
     protected $typeField;
@@ -28,14 +29,17 @@ class TypesDependencyCondition implements ConditionInterface
     /**
      * Constructor
      *
-     * @param Repository $repository   repository
-     * @param string     $typeField    type field
-     * @param string     $subtypeField subtype field
-     * @param string     $parentField  parent field
+     * @param UnitRepository $unitRepository unit repository
+     * @param TypesManager   $typesManager   types manager
+     * @param string         $typeField      type field
+     * @param string         $subtypeField   subtype field
+     * @param string         $parentField    parent field
      */
-    public function __construct(Repository $repository, $typeField, $subtypeField, $parentField)
+    public function __construct(UnitRepository $unitRepository, TypesManager $typesManager, $typeField, $subtypeField,
+        $parentField)
     {
-        $this->repository = $repository;
+        $this->unitRepository = $unitRepository;
+        $this->typesManager = $typesManager;
         $this->typeField = $typeField;
         $this->subtypeField = $subtypeField;
         $this->parentField = $parentField;
@@ -60,17 +64,17 @@ class TypesDependencyCondition implements ConditionInterface
             $subtype = $value->getString($this->subtypeField);
             $parentId = $value->getInt($this->parentField);
 
-            if (!empty($subtype) && $type != $this->getTypeForSubtype($subtype)) {
+            if (!empty($subtype) && $type != $this->typesManager->getTypeForSubtype($subtype)) {
                 $errors[] = __('Selected type is inadequate for selected subtype.', 'scout-units-list');
             }
 
             if (!empty($parentId)) {
-                $parentUnit = $this->repository->getOneBy([
+                $parentUnit = $this->unitRepository->getOneBy([
                     'id' => $parentId,
                 ]);
                 if (!isset($parentUnit)) {
                     $errors[] = __('Selected parent unit doesn\'t exist.', 'scout-units-list');
-                } elseif (!in_array($parentUnit->getType(), $this->getPossibleParentTypes($type))) {
+                } elseif (!in_array($parentUnit->getType(), $this->typesManager->getPossibleParentTypes($type))) {
                     $errors[] = __('Type of selected parent unit is inadequate for selected type.', 'scout-units-list');
                 }
             }

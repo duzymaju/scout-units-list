@@ -70,7 +70,9 @@ class PositionsController extends Controller
 
         $messageManager = $this->get('manager.message');
 
-        $form = $this->createForm(PositionForm::class, $position);
+        $form = $this->createForm(PositionForm::class, $position, [
+            'typesManager' => $this->get('manager.types'),
+        ]);
         if ($form->isValid()) {
             try {
                 // @TODO: set proper slug here instead of inside model - check if there is no duplication
@@ -142,6 +144,7 @@ class PositionsController extends Controller
             'messages' => $this->get('manager.message')
                 ->getMessages(),
             'positions' => $positions,
+            'typesManager' => $this->get('manager.types'),
         ])->setLinkData(AdminController::SCRIPT_NAME, self::PAGE_NAME)
             ->render();
     }

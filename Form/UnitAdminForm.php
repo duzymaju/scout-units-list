@@ -3,15 +3,14 @@
 namespace ScoutUnitsList\Form;
 
 use ScoutUnitsList\Form\Field\IntegerAutocompleteType;
-use ScoutUnitsList\Form\Field\IntegerType;
 use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringHiddenType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
+use ScoutUnitsList\Manager\TypesManager;
 use ScoutUnitsList\Model\Attachment;
 use ScoutUnitsList\Model\Config;
 use ScoutUnitsList\Model\Unit;
-use ScoutUnitsList\System\Tools\TypesDependencyTrait;
 use ScoutUnitsList\Validator\UnitValidator;
 
 /**
@@ -19,8 +18,6 @@ use ScoutUnitsList\Validator\UnitValidator;
  */
 class UnitAdminForm extends Form
 {
-    use TypesDependencyTrait;
-
     /**
      * Set fields
      *
@@ -30,6 +27,8 @@ class UnitAdminForm extends Form
     {
         /** @var Config $config */
         $config = $settings['config'];
+        /** @var TypesManager $typesManager */
+        $typesManager = $settings['typesManager'];
 
         $this
             ->addField('type', SelectType::class, [
@@ -37,7 +36,7 @@ class UnitAdminForm extends Form
                     'style' => 'width:15em',
                 ],
                 'label' => __('Type', 'scout-units-list'),
-                'options' => self::getTypes(),
+                'options' => $typesManager->getTypes(),
                 'required' => true,
             ])
             ->addField('subtype', SelectType::class, [
@@ -45,7 +44,7 @@ class UnitAdminForm extends Form
                     'style' => 'width:15em',
                 ],
                 'label' => __('Subtype', 'scout-units-list'),
-                'options' => self::getSubtypes(),
+                'options' => $typesManager->getSubtypes(),
             ])
             ->addField('parentId', IntegerAutocompleteType::class, [
                 'action' => 'sul_units',

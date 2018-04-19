@@ -88,6 +88,7 @@ class UnitsController extends Controller
             ->setOrderNo(null);
 
         $messageManager = $this->get('manager.message');
+        $typesManager = $this->get('manager.types');
 
         $parentId = $request->request->getInt('parentId', $unit->getParentId());
         $orderId = $request->request->getInt('orderId', $unit->getOrderId());
@@ -101,8 +102,10 @@ class UnitsController extends Controller
             'parentUnit' => $parentId > 0 ? $unitRepository->getOneBy([
                 'id' => $parentId,
             ]) : null,
+            'typesManager' => $typesManager,
             'validator' => [
-                'repository' => $unitRepository,
+                'typesManager' => $typesManager,
+                'unitRepository' => $unitRepository,
             ],
         ]);
         if ($form->isValid()) {

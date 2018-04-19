@@ -18,9 +18,10 @@ class UnitValidator extends Validator
      */
     protected function setConditions(array $settings)
     {
-        if (array_key_exists('repository', $settings)) {
+        if (array_key_exists('unitRepository', $settings) && array_key_exists('typesManager', $settings)) {
             $this->getForm()
-                ->addCondition(new TypesDependencyCondition($settings['repository'], 'type', 'subtype', 'parentId'));
+                ->addCondition(new TypesDependencyCondition($settings['unitRepository'], $settings['typesManager'],
+                    'type', 'subtype', 'parentId'));
         }
         $this->getField('sort')
             ->addCondition(new MoreThanOrEqualsCondition(0));

@@ -14,51 +14,6 @@ class Unit implements JsonSerializable, VersionedModelInterface
     use StringTrait;
     use VersionedModelTrait;
 
-    /** @const string */
-    const TYPE_CLUB = 'c';
-
-    /** @const string */
-    const TYPE_DISTRICT = 'd';
-
-    /** @const string */
-    const TYPE_GROUP = 'g';
-
-    /** @const string */
-    const TYPE_HQ = 'h';
-
-    /** @const string */
-    const TYPE_PATROL = 'p';
-
-    /** @const string */
-    const TYPE_REGION = 'r';
-
-    /** @const string */
-    const TYPE_SECTION = 's';
-
-    /** @const string */
-    const TYPE_TROOP = 't';
-
-    /** @const string */
-    const SUBTYPE_CUBSCOUTS = 'c';
-
-    /** @const string */
-    const SUBTYPE_SCOUTS = 's';
-
-    /** @const string */
-    const SUBTYPE_SENIORS_COUTS = 'e';
-
-    /** @const string */
-    const SUBTYPE_ROVERS = 'r';
-
-    /** @const string */
-    const SUBTYPE_MULTI_LEVEL = 'm';
-
-    /** @const string */
-    const SUBTYPE_GROUP = 'g';
-
-    /** @const string */
-    const SUBTYPE_UNION_OF_GROUPS = 'u';
-
     /** @var int */
     protected $id;
 

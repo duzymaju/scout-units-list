@@ -3,8 +3,11 @@
 namespace ScoutUnitsList\Controller;
 
 use Exception;
+use ScoutUnitsList\Manager\TypesManager;
+use ScoutUnitsList\Model\Config;
+use ScoutUnitsList\Model\Unit;
+use ScoutUnitsList\Model\User;
 use ScoutUnitsList\System\Tools\JsonTrait;
-use ScoutUnitsList\System\Tools\TypesDependencyTrait;
 
 /**
  * AJAX controller
@@ -12,7 +15,6 @@ use ScoutUnitsList\System\Tools\TypesDependencyTrait;
 class AjaxController extends Controller
 {
     use JsonTrait;
-    use TypesDependencyTrait;
 
     /**
      * Users action
@@ -25,6 +27,7 @@ class AjaxController extends Controller
             ->findByName($term);
 
         $list = [];
+        /** @var User $user */
         foreach ($users as $user) {
             $list[] = [
                 'id' => $user->getId(),
@@ -44,12 +47,19 @@ class AjaxController extends Controller
     {
         $term = $this->request->query->getString('term');
         $childType = $this->request->query->getString('type');
-        $types = empty($childType) ? [] : $this->getPossibleParentTypes($childType);
+        if (empty($childType)) {
+            $types = [];
+        } else {
+            /** @var TypesManager $typesManager */
+            $typesManager = $this->get('manager.types');
+            $types = $typesManager->getPossibleParentTypes($childType);
+        }
 
         $units = $this->loader->get('repository.unit')
             ->findByNameAndTypes($term, $types);
 
         $list = [];
+        /** @var Unit $unit */
         foreach ($units as $unit) {
             $nameFull = $unit->getNameFull();
             $list[] = [
@@ -67,6 +77,7 @@ class AjaxController extends Controller
     public function ordersAction()
     {
         $list = [];
+        /** @var Config $config */
         $config = $this->get('manager.config')
             ->get();
         if ($config->areOrderCategoriesDefined()) {

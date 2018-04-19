@@ -7,6 +7,7 @@ use ScoutUnitsList\Form\Field\SelectType;
 use ScoutUnitsList\Form\Field\StringMultilineType;
 use ScoutUnitsList\Form\Field\StringType;
 use ScoutUnitsList\Form\Field\SubmitType;
+use ScoutUnitsList\Manager\TypesManager;
 use ScoutUnitsList\Validator\PositionValidator;
 
 /**
@@ -21,7 +22,8 @@ class PositionForm extends Form
      */
     protected function setFields(array $settings)
     {
-        unset($settings);
+        /** @var TypesManager $typesManager */
+        $typesManager = $settings['typesManager'];
 
         $this
             ->addField('type', SelectType::class, [
@@ -29,7 +31,7 @@ class PositionForm extends Form
                     'style' => 'width:15em',
                 ],
                 'label' => __('Type', 'scout-units-list'),
-                'options' => UnitAdminForm::getTypes(),
+                'options' => $typesManager->getTypes(),
                 'required' => true,
             ])
             ->addField('nameMale', StringType::class, [
