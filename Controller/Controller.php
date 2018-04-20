@@ -93,10 +93,14 @@ abstract class Controller
      */
     public function createForm($formClassName, ModelInterface $model, array $settings = [])
     {
-        $form = new $formClassName($this->request, $model, $this->getViewPath(), $settings);
+        $form = $this->get($formClassName);
+        if (!$form) {
+            $form = new $formClassName();
+        }
         if (!($form instanceof Form)) {
             throw new FormException(sprintf('Form class "%s" doesn\'t exist.', $formClassName));
         }
+        $form->setUp($this->loader, $this->request, $model, $this->getViewPath(), $settings);
 
         return $form;
     }

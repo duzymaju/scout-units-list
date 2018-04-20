@@ -4,6 +4,7 @@ namespace ScoutUnitsList\Form;
 
 use ScoutUnitsList\Form\Field\BasicType as Field;
 use ScoutUnitsList\Model\ModelInterface;
+use ScoutUnitsList\System\Loader;
 use ScoutUnitsList\System\ParamPack;
 use ScoutUnitsList\System\Request;
 use ScoutUnitsList\System\View\Partial;
@@ -39,14 +40,17 @@ abstract class Form extends FormElement
     protected $validator;
 
     /**
-     * Constructor
+     * Set up
      *
+     * @param Loader         $loader   loader
      * @param Request        $request  request
      * @param ModelInterface $model    model
      * @param string         $viewPath view path
      * @param array          $settings settings
+     *
+     * @return self
      */
-    public function __construct(Request $request, ModelInterface $model, $viewPath, array $settings = [])
+    public function setUp(Loader $loader, Request $request, ModelInterface $model, $viewPath, array $settings = [])
     {
         $this->setViewPath($viewPath);
 
@@ -63,8 +67,13 @@ abstract class Form extends FormElement
         $this->setFields($settings);
 
         $validatorClass = $this->getValidatorClass();
-        $this->validator = new $validatorClass($this, array_key_exists('validator', $settings) ?
-            $settings['validator'] : []);
+        $this->validator = $loader->get($validatorClass);
+        if (!$this->validator) {
+            $this->validator = new $validatorClass();
+        }
+        $this->validator->setUp($this, array_key_exists('validator', $settings) ? $settings['validator'] : []);
+
+        return $this;
     }
 
     /**
@@ -86,7 +95,9 @@ abstract class Form extends FormElement
      */
     public function setValue(ParamPack $value)
     {
-        return parent::setValue($value);
+        parent::setValue($value);
+
+        return $this;
     }
 
     /**
@@ -146,6 +157,10 @@ abstract class Form extends FormElement
 
     /**
      * Add field
+     *
+     * @param string $name     name
+     * @param string $type     type
+     * @param array  $settings settings
      *
      * @return self
      */

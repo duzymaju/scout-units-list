@@ -15,15 +15,19 @@ abstract class Validator
     private $form;
 
     /**
-     * Constructor
+     * Set up
      *
      * @param Form  $form     form
      * @param array $settings settings
+     *
+     * @return self
      */
-    public function __construct(Form $form, array $settings = [])
+    public function setUp(Form $form, array $settings = [])
     {
         $this->form = $form;
         $this->setConditions($settings);
+
+        return $this;
     }
 
     /**

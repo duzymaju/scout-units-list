@@ -190,6 +190,21 @@ final class Loader
     }
 
     /**
+     * Set by class
+     *
+     * @param object $service service
+     *
+     * @return self
+     */
+    public function setByClass($service)
+    {
+        $name = get_class($service);
+        $this->set($name, $service);
+
+        return $this;
+    }
+
+    /**
      * Get service
      *
      * @param string $name name
