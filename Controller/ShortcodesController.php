@@ -145,7 +145,7 @@ class ShortcodesController extends Controller
             $unit = $this->getUnitWithDependencies($id, $levels, $types, $isExternal);
             $data = isset($unit) ? $dataForCache($unit, $withCurrent, $cssClass, $levels, $types) : '';
             $cacheManager->set($data);
-        }   
+        }
         $data = $cacheManager->get();
 
         return $data;
