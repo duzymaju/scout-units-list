@@ -21,6 +21,19 @@ class SelectType extends BasicType
      */
     protected function setup(array $settings)
     {
+        $this->setupSelect($settings);
+        if (is_array($this->options)) {
+            $this->addCondition(new InSetCondition(array_keys($this->options), $settings['required']));
+        }
+    }
+
+    /**
+     * Setup select
+     *
+     * @param array $settings settings
+     */
+    protected function setupSelect(array $settings)
+    {
         if (array_key_exists('options', $settings)) {
             $this->options = $settings['options'];
             if (!$settings['required'] && !$this->isMultiple()) {
@@ -28,8 +41,6 @@ class SelectType extends BasicType
                     '' => '',
                 ] + $this->options;
             }
-
-            $this->addCondition(new InSetCondition(array_keys($this->options), $settings['required']));
         }
     }
 
